@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3972B44D7A1000FE86C /* .swiftlint.yml */; };
+		D26ED39A2B44D7A1000FE86C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3982B44D7A1000FE86C /* .gitignore */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* GameScene.sks */; };
 		D2FF08A42B43F65B00740390 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A32B43F65B00740390 /* GameScene.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2FF089D2B43F65B00740390 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2FF089F2B43F65B00740390 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -46,6 +50,8 @@
 		D2FF08912B43F65B00740390 = {
 			isa = PBXGroup;
 			children = (
+				D26ED3982B44D7A1000FE86C /* .gitignore */,
+				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
 				D2FF089C2B43F65B00740390 /* Mactris */,
 				D2FF089B2B43F65B00740390 /* Products */,
 			);
@@ -83,6 +89,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "Mactris" */;
 			buildPhases = (
+				D26ED39B2B44D7BE000FE86C /* Swiftlint */,
 				D2FF08962B43F65B00740390 /* Sources */,
 				D2FF08972B43F65B00740390 /* Frameworks */,
 				D2FF08982B43F65B00740390 /* Resources */,
@@ -134,14 +141,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */,
 				D2FF08A02B43F65B00740390 /* GameScene.sks in Resources */,
 				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
 				D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */,
+				D26ED39A2B44D7A1000FE86C /* .gitignore in Resources */,
 				D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D26ED39B2B44D7BE000FE86C /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.swiftlint.yml",
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D2FF08962B43F65B00740390 /* Sources */ = {
@@ -299,6 +331,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8D7C67CAFE;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -326,6 +359,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8D7C67CAFE;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;

@@ -11,9 +11,9 @@ import GameplayKit
 class GameScene: SKScene {
 
     private let framesPerCellPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+    private let baseScorePerLines = [40, 100, 300, 1200]
 
-    private var currentTetromino: Tetromino?
-    private var board: SKTileMapNode!
+    private var current: Tetromino?
     private var random: RandomNumberGenerator = SystemRandomNumberGenerator()
     private var frameCount: UInt64 = 0
     private var waitFrame: UInt64 = 0
@@ -28,44 +28,40 @@ class GameScene: SKScene {
     private var isGamePaused: Bool = false {
         didSet {
             self.childNode(withName: "//labelPaused")?.isHidden = !self.isGamePaused
+            self.childNode(withName: "//board")?.alpha = self.isGamePaused ? 0.5 : 1.0
         }
     }
 
     private var isGameOver: Bool = false {
         didSet {
             self.childNode(withName: "//labelGameOver")?.isHidden = !self.isGameOver
+            self.childNode(withName: "//board")?.alpha = self.isGameOver ? 0.5 : 1.0
         }
     }
 
     private var lines: Int = 0 {
         didSet {
-            if let label = self.childNode(withName: "//labelLines") as? SKLabelNode {
-                label.text = String(format: "%003d", self.lines)
-            }
+            (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = String(format: "%003d", self.lines)
         }
     }
 
     private var score: Int = 0 {
         didSet {
-            if let label = self.childNode(withName: "//labelScore") as? SKLabelNode {
-                label.text = String(format: "%010d", self.score)
-            }
+            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = String(format: "%010d", self.score)
         }
     }
 
     private var level: Int = 0 {
         didSet {
-            if let label = self.childNode(withName: "//labelLevel") as? SKLabelNode {
-                label.text = String(format: "%003d", self.level)
-            }
+            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = String(format: "%003d", self.level)
         }
     }
 
-    private var nextTetromino: Tetromino? {
+    private var next: Tetromino? {
         didSet {
             if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
                 preview.clear()
-                if let tetronimo = self.nextTetromino {
+                if let tetronimo = self.next {
                     preview.draw(tetronimo: tetronimo)
                 }
             }
@@ -73,19 +69,22 @@ class GameScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        self.board = self.childNode(withName: "//board") as? SKTileMapNode
         self.newGame()
     }
 
     private func newGame () {
+
+        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
+            return
+        }
+
         self.level = 0
         self.score = 0
         self.lines = 0
-        self.currentTetromino = nil
-        self.nextTetromino = Tetromino.init(using: &random)
-        self.currentTetromino = Tetromino.init(using: &random).with(position: ((self.board.numberOfColumns / 2) - 1, self.board.numberOfRows))
+        self.next = Tetromino(using: &random)
+        self.current = Tetromino(using: &random).with(position: board.startPosition)
 
-        self.board.clear()
+        board.clear()
 
         self.frameCount = self.dropSpeed - 1
         self.waitFrame = self.dropSpeed
@@ -94,40 +93,46 @@ class GameScene: SKScene {
 
     private func apply (change: ((Tetromino) -> Tetromino)) -> Bool {
 
+        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
+            return false
+        }
+
         var result = false
 
-        self.board.clear(tetronimo: self.currentTetromino)
+        board.clear(tetronimo: self.current)
 
-        if let current = self.currentTetromino {
+        if let current = self.current {
             let tetromino = change(current)
 
-            if !self.board.collides(tetronimo: tetromino) {
-                self.currentTetromino = tetromino
+            if !board.collides(tetronimo: tetromino) {
+                self.current = tetromino
                 result = true
             }
         }
 
-        self.board.draw(tetronimo: self.currentTetromino)
+        board.draw(tetronimo: self.current)
 
         return result
     }
 
-
     private func score (rows range: Range<Int>) {
-        switch range.upperBound - range.upperBound {
-        case 0: self.score += 40 * (self.level + 1)
-        case 1: self.score += 100 * (self.level + 1)
-        case 2: self.score += 300 * (self.level + 1)
-        case 3: self.score += 1200 * (self.level + 1)
-        default:
-            break
-        }
+        let score = baseScorePerLines[range.upperBound - range.lowerBound - 1] * (self.level + 1)
+        print("Scoring: \(range) - \(score)")
+
+        self.score += score
+        self.lines += range.upperBound - range.lowerBound
+        self.level = self.lines / 10
     }
 
     override func keyDown(with event: NSEvent) {
 
         if self.isGameOver {
             self.newGame()
+            return
+        }
+
+        if self.isGamePaused {
+            self.isGamePaused = false
             return
         }
 
@@ -139,7 +144,7 @@ class GameScene: SKScene {
         case 125: // down
             let changed = self.apply { $0.movedDown() }
             if !changed {
-                self.currentTetromino = nil
+                self.current = nil
             } else {
                 self.score += 1
             }
@@ -149,7 +154,7 @@ class GameScene: SKScene {
         case 1: // S
             _ = self.apply { $0.rotatedRight() }
         case 35: // P
-            self.isGamePaused = !self.isGamePaused
+            self.isGamePaused = true
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -169,23 +174,25 @@ class GameScene: SKScene {
 
         self.frameCount = 0
 
-        if self.currentTetromino == nil {
-            if let completed = self.board.lowestCompletedRows() {
-                self.board.drop(rows: completed)
-                self.score(rows: completed)
-                self.lines += completed.upperBound - completed.lowerBound
-                self.level = self.lines / 10
+        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
+            return
+        }
+
+        if self.current == nil {
+            if let rows = board.completedRows() {
+                board.drop(rows: rows)
+                self.score(rows: rows)
             }
-            self.currentTetromino = self.nextTetromino?.with(position: ((self.board.numberOfColumns / 2) - 1, self.board.numberOfRows))
-            self.nextTetromino = Tetromino.init(using: &random)
+            self.current = self.next?.with(position: board.startPosition)
+            self.next = Tetromino(using: &random)
             self.waitFrame = 0
         } else {
             let changed = self.apply { $0.movedDown() }
             if !changed {
-                if let maxRow = self.currentTetromino?.points.map({$0.1}).max(), maxRow >= self.board.numberOfRows {
+                if let maxRow = self.current?.points.map({$0.1}).max(), maxRow >= board.numberOfRows {
                     self.isGameOver = true
                 }
-                self.currentTetromino = nil
+                self.current = nil
             }
             self.waitFrame = self.dropSpeed
         }

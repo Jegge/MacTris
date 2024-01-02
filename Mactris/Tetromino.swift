@@ -15,32 +15,32 @@ public struct Tetromino {
         var points: [[(Int, Int)]] {
             switch self {
             case .o:
-                return [[(0,  0), (1, 0), (0, 1), (1, 1)]]
+                return [[(0, 0), (1, 0), (0, 1), (1, 1)]]
 
             case .s:
-                return [[(1,  0), (2, 0), (0, 1), (1, 1)],
+                return [[(1, 0), (2, 0), (0, 1), (1, 1)],
                         [(1, -1), (1, 0), (2, 0), (2, 1)]
                        ]
             case .z:
                 return [[(0, 0), (1, 0), (1, 1), (2, 1)],
-                        [(2,-1), (2, 0), (1, 0), (1, 1)]
+                        [(2, -1), (2, 0), (1, 0), (1, 1)]
                        ]
             case .i:
                 return [[(0, 0), (1, 0), (2, 0), (3, 0)],
-                        [(1,-1), (1, 0), (1, 1), (1, 2)]
+                        [(1, -1), (1, 0), (1, 1), (1, 2)]
                        ]
 
             case .j:
                 return [[(0, 0), (1, 0), (2, 0), (2, 1)],
-                        [(1,-1), (1, 0), (1, 1), (0, 1)],
-                        [(0,-1), (0, 0), (1, 0), (2, 0)],
-                        [(1,-1), (2,-1), (1, 0), (1, 1)]
+                        [(1, -1), (1, 0), (1, 1), (0, 1)],
+                        [(0, -1), (0, 0), (1, 0), (2, 0)],
+                        [(1, -1), (2, -1), (1, 0), (1, 1)]
                        ]
             case .l:
                 return [[(0, 1), (0, 0), (1, 0), (2, 0)],
-                        [(0,-1), (1,-1), (1, 0), (1, 1)],
-                        [(2,-1), (2, 0), (1, 0), (0, 0)],
-                        [(1,-1), (1, 0), (1, 1), (2, 1)]
+                        [(0, -1), (1, -1), (1, 0), (1, 1)],
+                        [(2, -1), (2, 0), (1, 0), (0, 0)],
+                        [(1, -1), (1, 0), (1, 1), (2, 1)]
                        ]
 
             case .t:
@@ -69,22 +69,18 @@ public struct Tetromino {
     let rotation: Int
     let position: (Int, Int)
 
-    var appearance: String {
-        return self.shape.appearance
-    }
-
     var points: [(Int, Int)] {
         return self.shape.points[self.rotation].map { ($0.0 + position.0, $0.1 + position.1) }
     }
 
     init (using random: inout RandomNumberGenerator) {
         self.shape = Shape.allCases.randomElement(using: &random)!
-        let r: UInt64 = random.next(upperBound: 4)
-        self.rotation = Int(truncatingIfNeeded: r) % self.shape.points.count
+        let value: UInt64 = random.next(upperBound: 4)
+        self.rotation = Int(truncatingIfNeeded: value) % self.shape.points.count
         self.position = (0, 1)
     }
 
-    init (shape: Shape, rotation: Int, position: (Int, Int)) {
+    private init (shape: Shape, rotation: Int, position: (Int, Int)) {
         self.shape = shape
         self.rotation = rotation
         self.position = position

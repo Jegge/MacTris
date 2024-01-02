@@ -10,6 +10,10 @@ import SpriteKit
 
 extension SKTileMapNode {
 
+    var startPosition: (Int, Int) {
+       return ((self.numberOfColumns / 2) - 1, self.numberOfRows)
+    }
+
     func clear () {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
@@ -53,7 +57,7 @@ extension SKTileMapNode {
             return
         }
 
-        let tileGroup = self.tileSet.tileGroups.first { $0.name == tetronimo.appearance }
+        let tileGroup = self.tileSet.tileGroups.first { $0.name == tetronimo.shape.appearance }
         for (column, row) in tetronimo.points {
             if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
                 self.setTileGroup(tileGroup, forColumn: column, row: row)
@@ -76,10 +80,9 @@ extension SKTileMapNode {
         return false
     }
 
-    func lowestCompletedRows () -> Range<Int>? {
-
+    func completedRows () -> Range<Int>? {
         var start = 0
-        while (!self.isComplete(row: start)) {
+        while !self.isComplete(row: start) {
             start += 1
             if start == self.numberOfRows {
                 return nil
@@ -87,7 +90,7 @@ extension SKTileMapNode {
         }
 
         var end = start
-        while (self.isComplete(row: end)) {
+        while self.isComplete(row: end) {
             end += 1
             if end >= self.numberOfRows {
                 return Range(uncheckedBounds: (start, self.numberOfRows - 1))
@@ -98,10 +101,8 @@ extension SKTileMapNode {
     }
 
     private func isComplete(row: Int) -> Bool {
-        for column in 0..<self.numberOfColumns {
-            if self.tileGroup(atColumn: column, row: row) == nil {
-                return false
-            }
+        for column in 0..<self.numberOfColumns where self.tileGroup(atColumn: column, row: row) == nil {
+            return false
         }
         return true
     }

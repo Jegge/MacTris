@@ -1,0 +1,26 @@
+disabled_rules:
+ - line_length
+ - type_body_length
+ - function_body_length
+ - file_length
+
+identifier_name:
+ excluded:
+    - o
+    - s
+    - z
+    - i
+    - j
+    - l
+    - t
+
+
+#excluded:
+# - FMDatabaseAdditionsVariadic.swift
+# - FMDatabaseVariadic.swift
+
+nesting:
+  type_level:
+    warning: 2
+  function_level:
+    warning: 10
