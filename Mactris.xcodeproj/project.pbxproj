@@ -9,23 +9,27 @@
 /* Begin PBXBuildFile section */
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* GameScene.sks */; };
-		D2FF08A22B43F65B00740390 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A12B43F65B00740390 /* Actions.sks */; };
 		D2FF08A42B43F65B00740390 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A32B43F65B00740390 /* GameScene.swift */; };
 		D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A52B43F65B00740390 /* ViewController.swift */; };
 		D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A72B43F65D00740390 /* Assets.xcassets */; };
 		D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A92B43F65D00740390 /* Main.storyboard */; };
+		D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B22B43F8C200740390 /* Tetromino.swift */; };
+		D2FF08B62B4402C200740390 /* Boxes.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* Boxes.sks */; };
+		D2FF08B92B440B7F00740390 /* SKTileMapExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2FF089D2B43F65B00740390 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2FF089F2B43F65B00740390 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D2FF08A12B43F65B00740390 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		D2FF08A32B43F65B00740390 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D2FF08A52B43F65B00740390 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D2FF08A72B43F65D00740390 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2FF08AA2B43F65D00740390 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2FF08AC2B43F65D00740390 /* Mactris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mactris.entitlements; sourceTree = "<group>"; };
+		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
+		D2FF08B42B4402C200740390 /* Boxes.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Boxes.sks; sourceTree = "<group>"; };
+		D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTileMapExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,14 +62,16 @@
 		D2FF089C2B43F65B00740390 /* Mactris */ = {
 			isa = PBXGroup;
 			children = (
+				D2FF08B42B4402C200740390 /* Boxes.sks */,
 				D2FF089D2B43F65B00740390 /* AppDelegate.swift */,
 				D2FF089F2B43F65B00740390 /* GameScene.sks */,
-				D2FF08A12B43F65B00740390 /* Actions.sks */,
 				D2FF08A32B43F65B00740390 /* GameScene.swift */,
 				D2FF08A52B43F65B00740390 /* ViewController.swift */,
 				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
 				D2FF08A92B43F65D00740390 /* Main.storyboard */,
 				D2FF08AC2B43F65D00740390 /* Mactris.entitlements */,
+				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
+				D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */,
 			);
 			path = Mactris;
 			sourceTree = "<group>";
@@ -129,8 +135,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2FF08A02B43F65B00740390 /* GameScene.sks in Resources */,
+				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
 				D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */,
-				D2FF08A22B43F65B00740390 /* Actions.sks in Resources */,
 				D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +151,8 @@
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* GameScene.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
+				D2FF08B92B440B7F00740390 /* SKTileMapExtensions.swift in Sources */,
+				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
