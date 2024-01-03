@@ -13,6 +13,9 @@
 		D22900F12B454E8C00A9F88E /* Scores.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900F02B454E8C00A9F88E /* Scores.sks */; };
 		D22900F32B454FDD00A9F88E /* KeyBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900F22B454FDD00A9F88E /* KeyBindings.swift */; };
 		D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900F42B45534F00A9F88E /* Hiscore.swift */; };
+		D22900F92B45871300A9F88E /* Settings.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900F82B45871300A9F88E /* Settings.sks */; };
+		D22900FB2B45876300A9F88E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900FA2B45876300A9F88E /* Settings.swift */; };
+		D22900FD2B45A3EE00A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */; };
 		D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3972B44D7A1000FE86C /* .swiftlint.yml */; };
 		D26ED39A2B44D7A1000FE86C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3982B44D7A1000FE86C /* .gitignore */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
@@ -33,6 +36,9 @@
 		D22900F02B454E8C00A9F88E /* Scores.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Scores.sks; sourceTree = "<group>"; };
 		D22900F22B454FDD00A9F88E /* KeyBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBindings.swift; sourceTree = "<group>"; };
 		D22900F42B45534F00A9F88E /* Hiscore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hiscore.swift; sourceTree = "<group>"; };
+		D22900F82B45871300A9F88E /* Settings.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Settings.sks; sourceTree = "<group>"; };
+		D22900FA2B45876300A9F88E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +78,8 @@
 		D26ED3A22B4538BE000FE86C /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				D22900F82B45871300A9F88E /* Settings.sks */,
+				D22900FA2B45876300A9F88E /* Settings.swift */,
 				D22900EA2B45418600A9F88E /* Menu.sks */,
 				D22900EC2B4543CD00A9F88E /* Menu.swift */,
 				D2FF089F2B43F65B00740390 /* Game.sks */,
@@ -86,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */,
+				D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 			files = (
 				D22900F12B454E8C00A9F88E /* Scores.sks in Resources */,
 				D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */,
+				D22900F92B45871300A9F88E /* Settings.sks in Resources */,
 				D2FF08A02B43F65B00740390 /* Game.sks in Resources */,
 				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
 				D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */,
@@ -232,10 +242,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22900FD2B45A3EE00A9F88E /* UserDefaults+Settings.swift in Sources */,
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* Game.swift in Sources */,
+				D22900FB2B45876300A9F88E /* Settings.swift in Sources */,
 				D22900F32B454FDD00A9F88E /* KeyBindings.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,

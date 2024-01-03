@@ -1,5 +1,5 @@
 //
-//  MenuScene.swift
+//  Menu.swift
 //  Mactris
 //
 //  Created by Sebastian Boettcher on 03.01.24.
@@ -42,7 +42,10 @@ class Menu: SKScene {
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
         case "Settings":
-            break
+            if let newScene = SKScene(fileNamed: "Settings") {
+                newScene.scaleMode = .aspectFit
+                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+            }
         case "Hiscores":
             if let newScene = SKScene(fileNamed: "Scores") {
                 newScene.scaleMode = .aspectFit
@@ -67,6 +70,8 @@ class Menu: SKScene {
         case KeyBindings.down:
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
         case KeyBindings.select:
+            self.select(item: self.menuItems[self.selection])
+        case KeyBindings.enter:
             self.select(item: self.menuItems[self.selection])
         case KeyBindings.quit:
             NSApplication.shared.terminate(nil)

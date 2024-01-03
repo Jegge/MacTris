@@ -11,7 +11,7 @@ import GameplayKit
 
 class Scores: SKScene {
 
-    public var score: Int?
+    public var score: Int? = 234566
     private var index: Int?
 
     private var hiscores: Hiscore = Hiscore()
@@ -26,18 +26,34 @@ class Scores: SKScene {
             }
 
             name.text = score.name
-            name.fontColor = self.index == index ? NSColor(named: "MenuHilite") :  NSColor(named: "MenuDefault")
-
             value.text = String(format: "%10d", score.value)
-            value.fontColor = self.index == index ? NSColor(named: "MenuHilite") :  NSColor(named: "MenuDefault")
 
-            number.fontColor = self.index == index ? NSColor(named: "MenuHilite") :  NSColor(named: "MenuDefault")
+            if self.index == index {
+                name.fontColor = NSColor(named: "MenuHilite")
+                value.fontColor = NSColor(named: "MenuHilite")
+                number.fontColor = NSColor(named: "MenuHilite")
+
+                if let cursor = self.childNode(withName: "cursor") {
+                    cursor.position = CGPoint(x: name.frame.maxX + 2, y: name.position.y)
+                }
+
+            } else {
+                name.fontColor = NSColor(named: "MenuDefault")
+                value.fontColor = NSColor(named: "MenuDefault")
+                number.fontColor = NSColor(named: "MenuDefault")
+            }
         }
     }
 
     override func didMove(to view: SKView) {
+        guard let cursor = self.childNode(withName: "cursor") else {
+            return
+        }
+
         do {
             self.hiscores = try Hiscore(contentsOfUrl: Hiscore.url)
+//            self.hiscores = Hiscore() // resets hiscores
+//            try self.hiscores.write(to: Hiscore.url)
         } catch {
             print("Failed to load hiscores: \(error)")
             self.hiscores = Hiscore()
@@ -45,6 +61,12 @@ class Scores: SKScene {
 
         if let score = self.score {
             self.index = self.hiscores.insert(score: Hiscore.Score(name: "", value: score))
+            cursor.run(SKAction.repeatForever(SKAction.sequence([
+                SKAction.fadeAlpha(to: 1.0, duration: 0.25),
+                SKAction.fadeAlpha(to: 0.25, duration: 0.25)
+            ])))
+        } else {
+            cursor.removeFromParent()
         }
 
         self.update()
@@ -54,12 +76,17 @@ class Scores: SKScene {
         if let index = self.index {
             switch event.keyCode {
             case KeyBindings.enter:
-                self.index = nil
 
-                do {
-                    try self.hiscores.write(to: Hiscore.url)
-                } catch {
-                    print("Failed to save hiscores: \(error)")
+                if !self.hiscores.name(at: index).isEmpty {
+                    self.index = nil
+
+                    self.childNode(withName: "cursor")?.removeFromParent()
+
+                    do {
+                        try self.hiscores.write(to: Hiscore.url)
+                    } catch {
+                        print("Failed to save hiscores: \(error)")
+                    }
                 }
 
             case KeyBindings.backspace:
@@ -67,8 +94,8 @@ class Scores: SKScene {
                 self.update()
 
             default:
-                if let characters = event.characters {
-                    self.hiscores.rename(at: index, to: self.hiscores.name(at: index) + characters)
+                if let character = event.characters?.first, character.isLetter || character.isNumber || character == " " {
+                    self.hiscores.rename(at: index, to: self.hiscores.name(at: index).appending("\(character)"))
                     self.update()
                 }
             }
