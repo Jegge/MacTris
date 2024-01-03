@@ -45,6 +45,23 @@ extension SKTileMapNode {
         }
     }
 
+    func dissolve (rows: Range<Int>) -> Bool {
+        var done = true
+        for row in rows {
+            for column in (0..<self.numberOfColumns / 2).reversed() where self.tileGroup(atColumn: column, row: row) != nil {
+                self.setTileGroup(nil, forColumn: column, row: row)
+                done = false
+                break
+            }
+            for column in self.numberOfColumns / 2..<self.numberOfColumns where self.tileGroup(atColumn: column, row: row) != nil {
+                self.setTileGroup(nil, forColumn: column, row: row)
+                done = false
+                break
+            }
+        }
+        return done
+    }
+
     private func copy (row source: Int, to target: Int) {
         // print("Copy \(source) to \(target)")
         for column in 0..<self.numberOfColumns {

@@ -16,18 +16,19 @@ class Game: SKScene {
     private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
     private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
 
-    private let framesPerCellPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+    private let framesToDropPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
     private let baseScorePerLines = [40, 100, 300, 1200]
 
     private var current: Tetromino?
     private var random: RandomNumberGenerator = SystemRandomNumberGenerator()
     private var completed: Range<Int>?
-    private var frameCount: UInt64 = 0
-    private var waitFrame: UInt64 = 0
 
-    private var dropSpeed: UInt64 {
-        if self.level < self.framesPerCellPerLevel.count {
-            return self.framesPerCellPerLevel[self.level]
+    private var framesToWait: UInt64 = 0
+    private var framesToDissolve: UInt64 = 5
+
+    private var framesToDrop: UInt64 {
+        if self.level < self.framesToDropPerLevel.count {
+            return self.framesToDropPerLevel[self.level]
         }
         return 1
     }
@@ -92,8 +93,7 @@ class Game: SKScene {
 
         board.clear()
 
-        self.frameCount = self.dropSpeed - 1
-        self.waitFrame = self.dropSpeed
+        self.framesToWait = self.framesToDrop
         self.isGameOver = false
     }
 
@@ -138,11 +138,13 @@ class Game: SKScene {
     override func keyDown(with event: NSEvent) {
 
         if self.isGameOver {
-            self.run(self.soundPositive)
-            if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                newScene.scaleMode = .aspectFit
-                newScene.score = self.score
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+            if event.keyCode == KeyBindings.quit {
+                self.run(self.soundPositive)
+                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+                    newScene.scaleMode = .aspectFit
+                    newScene.score = self.score
+                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+                }
             }
             return
         }
@@ -201,30 +203,34 @@ class Game: SKScene {
             return
         }
 
-        self.frameCount += 1
-
-        if self.frameCount < self.waitFrame {
+        if self.framesToWait > 0 {
+            self.framesToWait -= 1
             return
         }
-
-        self.frameCount = 0
 
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
 
         if let completed = self.completed {
-            board.drop(rows: completed)
-            self.score(rows: completed)
-            self.completed = nil
+            if board.dissolve(rows: completed) {
+                board.drop(rows: completed)
+                self.completed = nil
+                self.framesToWait = 0
+            } else {
+                self.framesToWait = self.framesToDissolve
+            }
             return
         }
 
         if self.current == nil {
             self.completed = board.completedRows()
+            if let completed = self.completed {
+                self.score(rows: completed)
+            }
             self.current = self.next?.with(position: board.startPosition)
             self.next = Tetromino(using: &random)
-            self.waitFrame = 0
+            self.framesToWait = 0
             return
         }
 
@@ -235,6 +241,6 @@ class Game: SKScene {
             }
             self.current = nil
         }
-        self.waitFrame = self.dropSpeed
+        self.framesToWait = self.framesToDrop
     }
 }
