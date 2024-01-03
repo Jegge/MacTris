@@ -21,6 +21,7 @@ class Game: SKScene {
 
     private var current: Tetromino?
     private var random: RandomNumberGenerator = SystemRandomNumberGenerator()
+    private var completed: Range<Int>?
     private var frameCount: UInt64 = 0
     private var waitFrame: UInt64 = 0
 
@@ -212,23 +213,28 @@ class Game: SKScene {
             return
         }
 
+        if let completed = self.completed {
+            board.drop(rows: completed)
+            self.score(rows: completed)
+            self.completed = nil
+            return
+        }
+
         if self.current == nil {
-            if let rows = board.completedRows() {
-                board.drop(rows: rows)
-                self.score(rows: rows)
-            }
+            self.completed = board.completedRows()
             self.current = self.next?.with(position: board.startPosition)
             self.next = Tetromino(using: &random)
             self.waitFrame = 0
-        } else {
-            let changed = self.apply { $0.movedDown() }
-            if !changed {
-                if let maxRow = self.current?.points.map({$0.1}).max(), maxRow >= board.numberOfRows {
-                    self.isGameOver = true
-                }
-                self.current = nil
-            }
-            self.waitFrame = self.dropSpeed
+            return
         }
+
+        let changed = self.apply { $0.movedDown() }
+        if !changed {
+            if let maxRow = self.current?.points.map({$0.1}).max(), maxRow >= board.numberOfRows {
+                self.isGameOver = true
+            }
+            self.current = nil
+        }
+        self.waitFrame = self.dropSpeed
     }
 }

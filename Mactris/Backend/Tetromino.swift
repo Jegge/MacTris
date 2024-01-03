@@ -75,8 +75,7 @@ public struct Tetromino {
 
     init (using random: inout RandomNumberGenerator) {
         self.shape = Shape.allCases.randomElement(using: &random)!
-        let value: UInt64 = random.next(upperBound: 4)
-        self.rotation = Int(truncatingIfNeeded: value) % self.shape.points.count
+        self.rotation = Int(truncatingIfNeeded: random.next(upperBound: UInt64(4))) % self.shape.points.count
         self.position = (0, 1)
     }
 
