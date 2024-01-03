@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class Game: SKScene {
 
     private let framesPerCellPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
     private let baseScorePerLines = [40, 100, 300, 1200]
@@ -41,19 +41,19 @@ class GameScene: SKScene {
 
     private var lines: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = String(format: "%003d", self.lines)
+            (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = String(format: "%3d", self.lines)
         }
     }
 
     private var score: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = String(format: "%010d", self.score)
+            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = String(format: "%10d", self.score)
         }
     }
 
     private var level: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = String(format: "%003d", self.level)
+            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = String(format: "%3d", self.level)
         }
     }
 
@@ -69,11 +69,6 @@ class GameScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        self.newGame()
-    }
-
-    private func newGame () {
-
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
@@ -124,10 +119,15 @@ class GameScene: SKScene {
         self.level = self.lines / 10
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     override func keyDown(with event: NSEvent) {
 
         if self.isGameOver {
-            self.newGame()
+            if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+                newScene.scaleMode = .aspectFit
+                newScene.score = self.score
+                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+            }
             return
         }
 
@@ -137,24 +137,28 @@ class GameScene: SKScene {
         }
 
         switch event.keyCode {
-        case 123: // left
+        case KeyBindings.moveLeft:
             _ = self.apply { $0.movedLeft() }
-        case 124: // right
+        case KeyBindings.moveRight:
             _ = self.apply { $0.movedRight() }
-        case 125: // down
+        case KeyBindings.softDrop:
             let changed = self.apply { $0.movedDown() }
             if !changed {
                 self.current = nil
             } else {
                 self.score += 1
             }
-//        case 126: // up
-        case 0: // A
+        case KeyBindings.rotateLeft:
             _ = self.apply { $0.rotatedLeft() }
-        case 1: // S
+        case KeyBindings.rotateRight:
             _ = self.apply { $0.rotatedRight() }
-        case 35: // P
+        case KeyBindings.pause:
             self.isGamePaused = true
+        case KeyBindings.quit:
+            if let newScene = SKScene(fileNamed: "Menu") {
+                newScene.scaleMode = .aspectFit
+                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+            }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }

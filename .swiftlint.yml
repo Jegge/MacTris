@@ -13,11 +13,7 @@ identifier_name:
     - j
     - l
     - t
-
-
-#excluded:
-# - FMDatabaseAdditionsVariadic.swift
-# - FMDatabaseVariadic.swift
+    - up
 
 nesting:
   type_level:

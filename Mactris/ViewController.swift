@@ -16,7 +16,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         if let view = self.skView {
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scene = SKScene(fileNamed: "Menu") {
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
             }
