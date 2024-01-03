@@ -64,6 +64,10 @@ class Menu: SKScene {
     override func didMove(to view: SKView) {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
+
+        let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0.0"
+        let build = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "0"
+        (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
     }
 
     override func keyDown(with event: NSEvent) {

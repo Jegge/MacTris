@@ -1,5 +1,5 @@
 //
-//  Hiscores.swift
+//  Scores.swift
 //  Mactris
 //
 //  Created by Sebastian Boettcher on 03.01.24.
