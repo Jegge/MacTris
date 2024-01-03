@@ -11,8 +11,15 @@ import GameplayKit
 
 class Settings: SKScene {
 
+    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
+    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+
     private var menuItems: [String] = []
-    private var selection: Int = 0
+    private var selection: Int = -1 {
+        didSet {
+            self.update()
+        }
+    }
 
     private func update () {
         for (index, item) in menuItems.enumerated() {
@@ -42,25 +49,11 @@ class Settings: SKScene {
     }
 
     private func value (for item: String) -> String? {
-        switch item {
-        case "DisplayMode":
-            return (self.view?.isInFullScreenMode ?? false) ? "fullscreen" : "windowed"
-        default:
-            return nil
-        }
+       return nil
     }
 
     private func select (item: String) {
         switch item {
-        case "DisplayMode":
-            if self.view?.isInFullScreenMode ?? false {
-                self.view?.exitFullScreenMode()
-                UserDefaults.standard.isFullscreen = false
-            } else {
-                self.view?.enterFullScreenMode(NSScreen.main!)
-                UserDefaults.standard.isFullscreen = true
-            }
-            self.update()
 
 //            if let newScene = SKScene(fileNamed: "Game") {
 //                newScene.scaleMode = .aspectFit
@@ -82,26 +75,36 @@ class Settings: SKScene {
 
     override func didMove(to view: SKView) {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
-        self.update()
+        self.selection = 0
     }
 
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
         case KeyBindings.up:
+            self.run(self.soundSelect)
             self.selection = self.selection > 0 ? self.selection - 1 : self.selection
             self.update()
+
         case KeyBindings.down:
+            self.run(self.soundSelect)
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
             self.update()
+
         case KeyBindings.select:
+            self.run(self.soundPositive)
             self.select(item: self.menuItems[self.selection])
+
         case KeyBindings.enter:
+            self.run(self.soundPositive)
             self.select(item: self.menuItems[self.selection])
+
         case KeyBindings.quit:
+            self.run(self.soundPositive)
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
+
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }

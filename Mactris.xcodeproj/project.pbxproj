@@ -15,9 +15,12 @@
 		D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900F42B45534F00A9F88E /* Hiscore.swift */; };
 		D22900F92B45871300A9F88E /* Settings.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900F82B45871300A9F88E /* Settings.sks */; };
 		D22900FB2B45876300A9F88E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900FA2B45876300A9F88E /* Settings.swift */; };
-		D22900FD2B45A3EE00A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */; };
-		D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3972B44D7A1000FE86C /* .swiftlint.yml */; };
-		D26ED39A2B44D7A1000FE86C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = D26ED3982B44D7A1000FE86C /* .gitignore */; };
+		D22900FF2B45CD4300A9F88E /* Positive.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22900FE2B45CD4300A9F88E /* Positive.aiff */; };
+		D22901012B45CF0600A9F88E /* Select.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901002B45CF0600A9F88E /* Select.aiff */; };
+		D22901032B45D00000A9F88E /* GameOver.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901022B45D00000A9F88E /* GameOver.aiff */; };
+		D22901052B45D19000A9F88E /* Negative.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901042B45D19000A9F88E /* Negative.aiff */; };
+		D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */; };
+		D229010E2B45FC9A00A9F88E /* Success.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010C2B45FC9A00A9F88E /* Success.aiff */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* Game.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* Game.sks */; };
 		D2FF08A42B43F65B00740390 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A32B43F65B00740390 /* Game.swift */; };
@@ -38,7 +41,14 @@
 		D22900F42B45534F00A9F88E /* Hiscore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hiscore.swift; sourceTree = "<group>"; };
 		D22900F82B45871300A9F88E /* Settings.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Settings.sks; sourceTree = "<group>"; };
 		D22900FA2B45876300A9F88E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
+		D22900FE2B45CD4300A9F88E /* Positive.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Positive.aiff; sourceTree = "<group>"; };
+		D22901002B45CF0600A9F88E /* Select.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Select.aiff; sourceTree = "<group>"; };
+		D22901022B45D00000A9F88E /* GameOver.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = GameOver.aiff; sourceTree = "<group>"; };
+		D22901042B45D19000A9F88E /* Negative.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Negative.aiff; sourceTree = "<group>"; };
+		D22901072B45E7AE00A9F88E /* AppIcon.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AppIcon.svg; sourceTree = "<group>"; };
+		D22901092B45F7C000A9F88E /* Box.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Box.svg; sourceTree = "<group>"; };
+		D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = QuadSuccess.aiff; sourceTree = "<group>"; };
+		D229010C2B45FC9A00A9F88E /* Success.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Success.aiff; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,9 +75,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D22901062B45E7A300A9F88E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				D22901092B45F7C000A9F88E /* Box.svg */,
+				D22901072B45E7AE00A9F88E /* AppIcon.svg */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		D26ED3A02B45389A000FE86C /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */,
+				D229010C2B45FC9A00A9F88E /* Success.aiff */,
+				D22901042B45D19000A9F88E /* Negative.aiff */,
+				D22900FE2B45CD4300A9F88E /* Positive.aiff */,
+				D22901002B45CF0600A9F88E /* Select.aiff */,
+				D22901022B45D00000A9F88E /* GameOver.aiff */,
 				D2FF08B42B4402C200740390 /* Boxes.sks */,
 				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
 				D2FF08A92B43F65D00740390 /* Main.storyboard */,
@@ -94,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */,
-				D22900FC2B45A3EE00A9F88E /* UserDefaults+Settings.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -112,6 +136,7 @@
 		D2FF08912B43F65B00740390 = {
 			isa = PBXGroup;
 			children = (
+				D22901062B45E7A300A9F88E /* Assets */,
 				D26ED3982B44D7A1000FE86C /* .gitignore */,
 				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
 				D2FF089C2B43F65B00740390 /* Mactris */,
@@ -201,12 +226,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D22900F12B454E8C00A9F88E /* Scores.sks in Resources */,
-				D26ED3992B44D7A1000FE86C /* .swiftlint.yml in Resources */,
+				D22900FF2B45CD4300A9F88E /* Positive.aiff in Resources */,
+				D22901052B45D19000A9F88E /* Negative.aiff in Resources */,
 				D22900F92B45871300A9F88E /* Settings.sks in Resources */,
 				D2FF08A02B43F65B00740390 /* Game.sks in Resources */,
+				D22901012B45CF0600A9F88E /* Select.aiff in Resources */,
 				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
+				D22901032B45D00000A9F88E /* GameOver.aiff in Resources */,
+				D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */,
+				D229010E2B45FC9A00A9F88E /* Success.aiff in Resources */,
 				D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */,
-				D26ED39A2B44D7A1000FE86C /* .gitignore in Resources */,
 				D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */,
 				D22900EB2B45418600A9F88E /* Menu.sks in Resources */,
 			);
@@ -242,7 +271,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D22900FD2B45A3EE00A9F88E /* UserDefaults+Settings.swift in Sources */,
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
@@ -393,6 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Mactris/Mactris.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -401,6 +430,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MacTris;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -421,6 +452,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Mactris/Mactris.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -429,6 +461,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MacTris;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

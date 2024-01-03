@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 1518 198" width="1518px" height="198px" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="33" height="33"/>
+  </defs>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="33" y="132">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="132" x="231">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="33">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="66" x="165">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="33">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="132" y="66">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="66" x="66">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="132">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="132" x="264">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="99" x="164.99999">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="66">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="165" y="33">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="33" x="66">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="132" x="165">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="165" x="165">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="33" y="165">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="165">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="33" y="33">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="33" y="66">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="99">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" x="33" y="99">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="99" x="99">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="66" x="99">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="132" y="33">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="165">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="66" x="396">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="99" x="396">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="132" x="396">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="165" x="396">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="99" x="264">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="165" x="264">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="99" x="297">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="99" x="330">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="99" x="363">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="66" x="363">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="297" y="165">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="330" y="165">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="363" y="132">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="363" y="165">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="33" x="363">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="561">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="33" x="297">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="33" x="264">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="495" y="67">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="67" x="462">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="495" y="100">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="100" x="462">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="462" y="133">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="495" y="133">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="495" y="166">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="528" y="166">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="594">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="33" x="329.99998">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="528">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="495">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="627">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="561" y="166">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="594" y="166">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="627" y="133">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="34" x="759">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="1" x="759">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="1" x="693">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="1" x="726">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="792" y="34">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="792" y="1">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="825" y="1">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="858" y="1">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="792" y="66.99999">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="66.99999" x="759">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="792" y="100">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="100" x="759">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="792" y="132.99998">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="132.99998" x="759">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="792" y="166">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="166" x="759">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="1023" y="34">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="34" x="990">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="1023" y="67">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" y="67" x="990">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="100" x="924">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="957">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="34" x="924">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="924">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="924" y="166">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="957" y="133">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="924" y="133">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165);" width="32" height="32" rx="3" ry="3" x="957" y="100">
+    <title>Pink</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="67" x="1056">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="34" x="1056">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="100" x="1089">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3" y="67" x="1089">
+    <title>Sky</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" y="166" x="1155">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" x="1188" y="133">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" x="1188" y="166">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="1221" y="100">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="1221" y="132.99998">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="1221" y="166">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14);" width="32" height="32" rx="3" ry="3" x="1188" y="100">
+    <title>Orange</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="166" x="957">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3" x="1254" y="166">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="1188">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="1221">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="1155">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="1" x="1188">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="1" x="1221">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="166" x="1353">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="166" x="1320">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="166" x="1386">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="166" x="1419">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="166" x="1452">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="133" x="1452">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="100" x="1452">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="133" x="1485">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="1419" y="100">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49);" width="32" height="32" rx="3" ry="3" x="1386" y="100">
+    <title>Red</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="100" x="1353">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="1352.99999">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="67" x="1320">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31);" width="32" height="32" rx="3" ry="3" y="34" x="1353">
+    <title>Yellow</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="1419">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="1386">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="1452">
+    <title>Green</title>
+  </rect>
+  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65);" width="32" height="32" rx="3" ry="3" y="34" x="1485">
+    <title>Green</title>
+  </rect>
+</svg>

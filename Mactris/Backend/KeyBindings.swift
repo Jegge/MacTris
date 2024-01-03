@@ -8,9 +8,11 @@
 import Foundation
 
 public struct KeyBindings {
-    static let quit: UInt16 = 53 // ESC
+    static let quit: UInt16 = 53 // ESCf
     static let pause: UInt16 = 35 // P
     static let select: UInt16 = 49 // enter
+
+    static let fullscreen: UInt16 = 3 // F
 
     static let enter: UInt16 = 36 // enter
     static let backspace: UInt16 = 51 // backspace

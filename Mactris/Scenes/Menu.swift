@@ -11,6 +11,9 @@ import GameplayKit
 
 class Menu: SKScene {
 
+    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
+    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+
     private var menuItems: [String] = []
     private var selection: Int = -1 {
         didSet {
@@ -66,15 +69,31 @@ class Menu: SKScene {
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
         case KeyBindings.up:
+            self.run(self.soundSelect)
             self.selection = self.selection > 0 ? self.selection - 1 : self.selection
+
         case KeyBindings.down:
+            self.run(self.soundSelect)
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
+
         case KeyBindings.select:
+            self.run(self.soundPositive)
             self.select(item: self.menuItems[self.selection])
+
         case KeyBindings.enter:
+            self.run(self.soundPositive)
             self.select(item: self.menuItems[self.selection])
+
+        case KeyBindings.fullscreen:
+            if self.view?.isInFullScreenMode ?? false {
+                self.view?.exitFullScreenMode()
+            } else {
+                self.view?.enterFullScreenMode(NSScreen.main!)
+            }
+
         case KeyBindings.quit:
             NSApplication.shared.terminate(nil)
+
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }

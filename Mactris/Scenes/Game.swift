@@ -10,6 +10,12 @@ import GameplayKit
 
 class Game: SKScene {
 
+    private var soundSuccess = SKAction.playSoundFileNamed("Success.aiff", waitForCompletion: false)
+    private var soundQuadSuccess = SKAction.playSoundFileNamed("QuadSuccess.aiff", waitForCompletion: false)
+    private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
+    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
+    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+
     private let framesPerCellPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
     private let baseScorePerLines = [40, 100, 300, 1200]
 
@@ -29,6 +35,7 @@ class Game: SKScene {
         didSet {
             self.childNode(withName: "//labelPaused")?.isHidden = !self.isGamePaused
             self.childNode(withName: "//board")?.alpha = self.isGamePaused ? 0.5 : 1.0
+            self.run(self.soundSelect)
         }
     }
 
@@ -36,6 +43,9 @@ class Game: SKScene {
         didSet {
             self.childNode(withName: "//labelGameOver")?.isHidden = !self.isGameOver
             self.childNode(withName: "//board")?.alpha = self.isGameOver ? 0.5 : 1.0
+            if self.isGameOver {
+                self.run(self.soundGameOver)
+            }
         }
     }
 
@@ -111,18 +121,23 @@ class Game: SKScene {
     }
 
     private func score (rows range: Range<Int>) {
-        let score = baseScorePerLines[range.upperBound - range.lowerBound - 1] * (self.level + 1)
-        print("Scoring: \(range) - \(score)")
-
+        let score = baseScorePerLines[range.count - 1] * (self.level + 1)
         self.score += score
-        self.lines += range.upperBound - range.lowerBound
+        self.lines += range.count
         self.level = self.lines / 10
+
+        if range.count > 3 {
+            self.run(self.soundQuadSuccess)
+        } else {
+            self.run(self.soundSuccess)
+        }
     }
 
     // swiftlint:disable:next cyclomatic_complexity
     override func keyDown(with event: NSEvent) {
 
         if self.isGameOver {
+            self.run(self.soundPositive)
             if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                 newScene.scaleMode = .aspectFit
                 newScene.score = self.score
@@ -139,8 +154,10 @@ class Game: SKScene {
         switch event.keyCode {
         case KeyBindings.moveLeft:
             _ = self.apply { $0.movedLeft() }
+
         case KeyBindings.moveRight:
             _ = self.apply { $0.movedRight() }
+
         case KeyBindings.softDrop:
             let changed = self.apply { $0.movedDown() }
             if !changed {
@@ -148,17 +165,30 @@ class Game: SKScene {
             } else {
                 self.score += 1
             }
+
         case KeyBindings.rotateLeft:
             _ = self.apply { $0.rotatedLeft() }
+
         case KeyBindings.rotateRight:
             _ = self.apply { $0.rotatedRight() }
+
         case KeyBindings.pause:
             self.isGamePaused = true
+
         case KeyBindings.quit:
+            self.run(self.soundPositive)
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
+
+        case KeyBindings.fullscreen:
+            if self.view?.isInFullScreenMode ?? false {
+                self.view?.exitFullScreenMode()
+            } else {
+                self.view?.enterFullScreenMode(NSScreen.main!)
+            }
+
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }

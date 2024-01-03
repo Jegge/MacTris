@@ -11,7 +11,11 @@ import GameplayKit
 
 class Scores: SKScene {
 
-    public var score: Int? = 234566
+    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
+    private var soundNegative = SKAction.playSoundFileNamed("Negative.aiff", waitForCompletion: false)
+    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+
+    public var score: Int? // = 234566
     private var index: Int?
 
     private var hiscores: Hiscore = Hiscore()
@@ -61,6 +65,9 @@ class Scores: SKScene {
 
         if let score = self.score {
             self.index = self.hiscores.insert(score: Hiscore.Score(name: "", value: score))
+        }
+
+        if self.index != nil {
             cursor.run(SKAction.repeatForever(SKAction.sequence([
                 SKAction.fadeAlpha(to: 1.0, duration: 0.25),
                 SKAction.fadeAlpha(to: 0.25, duration: 0.25)
@@ -76,8 +83,8 @@ class Scores: SKScene {
         if let index = self.index {
             switch event.keyCode {
             case KeyBindings.enter:
-
                 if !self.hiscores.name(at: index).isEmpty {
+                    self.run(self.soundPositive)
                     self.index = nil
 
                     self.childNode(withName: "cursor")?.removeFromParent()
@@ -87,19 +94,30 @@ class Scores: SKScene {
                     } catch {
                         print("Failed to save hiscores: \(error)")
                     }
+                } else {
+                    self.run(self.soundNegative)
                 }
 
             case KeyBindings.backspace:
-                self.hiscores.rename(at: index, to: String(self.hiscores.name(at: index).dropLast()))
-                self.update()
+                if !self.hiscores.name(at: index).isEmpty {
+                    self.run(self.soundSelect)
+                    self.hiscores.rename(at: index, to: String(self.hiscores.name(at: index).dropLast()))
+                    self.update()
+                } else {
+                    self.run(self.soundNegative)
+                }
 
             default:
                 if let character = event.characters?.first, character.isLetter || character.isNumber || character == " " {
+                    self.run(self.soundSelect)
                     self.hiscores.rename(at: index, to: self.hiscores.name(at: index).appending("\(character)"))
                     self.update()
+                } else {
+                    self.run(self.soundNegative)
                 }
             }
-        } else {
+        } else if event.keyCode == KeyBindings.quit {
+            self.run(self.soundPositive)
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
