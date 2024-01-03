@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CryptoKit
 
 public class Hiscore {
 
@@ -17,6 +18,10 @@ public class Hiscore {
             return lhs.value < rhs.value
         }
 
+    }
+
+    static var key: SymmetricKey {
+        return SymmetricKey(data: "!deadbeefc0ffee@".data(using: .utf8)!)
     }
 
     static var url: URL {
@@ -34,8 +39,9 @@ public class Hiscore {
     }
 
     convenience init (contentsOfUrl url: URL) throws {
-        let data = try Data(contentsOf: url)
-        let scores = try JSONDecoder().decode([Score].self, from: data)
+        let encrypted = try AES.GCM.SealedBox(combined: try Data(contentsOf: url))
+        let decrypted = try AES.GCM.open(encrypted, using: Hiscore.key)
+        let scores = try JSONDecoder().decode([Score].self, from: decrypted)
         self.init(list: scores)
     }
 
@@ -55,8 +61,9 @@ public class Hiscore {
     }
 
     public func write (to url: URL) throws {
-        let data = try JSONEncoder().encode(self.list)
-        try data.write(to: url)
+        let decrypted = try JSONEncoder().encode(self.list)
+        let encrypted = try AES.GCM.seal(decrypted, using: Hiscore.key).combined
+        try encrypted?.write(to: url)
     }
 
     func insert (score: Score) -> Int? {
