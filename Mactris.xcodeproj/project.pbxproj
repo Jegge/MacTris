@@ -47,6 +47,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D26ED3A02B45389A000FE86C /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF08B42B4402C200740390 /* Boxes.sks */,
+				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
+				D2FF08A92B43F65D00740390 /* Main.storyboard */,
+			);
+			name = Ressources;
+			sourceTree = "<group>";
+		};
+		D26ED3A22B4538BE000FE86C /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF089F2B43F65B00740390 /* GameScene.sks */,
+				D2FF08A32B43F65B00740390 /* GameScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		D26ED3A32B4538CC000FE86C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D26ED3A42B4538DC000FE86C /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
 		D2FF08912B43F65B00740390 = {
 			isa = PBXGroup;
 			children = (
@@ -68,16 +103,13 @@
 		D2FF089C2B43F65B00740390 /* Mactris */ = {
 			isa = PBXGroup;
 			children = (
-				D2FF08B42B4402C200740390 /* Boxes.sks */,
+				D26ED3A42B4538DC000FE86C /* Backend */,
+				D26ED3A22B4538BE000FE86C /* Scenes */,
+				D26ED3A32B4538CC000FE86C /* Extensions */,
 				D2FF089D2B43F65B00740390 /* AppDelegate.swift */,
-				D2FF089F2B43F65B00740390 /* GameScene.sks */,
-				D2FF08A32B43F65B00740390 /* GameScene.swift */,
 				D2FF08A52B43F65B00740390 /* ViewController.swift */,
-				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
-				D2FF08A92B43F65D00740390 /* Main.storyboard */,
+				D26ED3A02B45389A000FE86C /* Ressources */,
 				D2FF08AC2B43F65D00740390 /* Mactris.entitlements */,
-				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
-				D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */,
 			);
 			path = Mactris;
 			sourceTree = "<group>";
