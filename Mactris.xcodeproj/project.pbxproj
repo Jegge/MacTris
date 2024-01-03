@@ -23,7 +23,7 @@
 		D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A92B43F65D00740390 /* Main.storyboard */; };
 		D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B22B43F8C200740390 /* Tetromino.swift */; };
 		D2FF08B62B4402C200740390 /* Boxes.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* Boxes.sks */; };
-		D2FF08B92B440B7F00740390 /* SKTileMapExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */; };
+		D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 		D2FF08AC2B43F65D00740390 /* Mactris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mactris.entitlements; sourceTree = "<group>"; };
 		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
 		D2FF08B42B4402C200740390 /* Boxes.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Boxes.sks; sourceTree = "<group>"; };
-		D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTileMapExtensions.swift; sourceTree = "<group>"; };
+		D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Tetromino.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,7 @@
 		D26ED3A32B4538CC000FE86C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D2FF08B82B440B7F00740390 /* SKTileMapExtensions.swift */,
+				D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -239,7 +239,7 @@
 				D22900F32B454FDD00A9F88E /* KeyBindings.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
-				D2FF08B92B440B7F00740390 /* SKTileMapExtensions.swift in Sources */,
+				D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
