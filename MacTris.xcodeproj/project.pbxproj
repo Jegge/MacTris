@@ -63,6 +63,8 @@
 		D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioPlayer+Fx.swift"; sourceTree = "<group>"; };
 		D229011D2B46EA9500A9F88E /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
 		D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
+		D22901212B47346500A9F88E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D22901222B47346500A9F88E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* MacTris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTris.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,9 +159,11 @@
 		D2FF08912B43F65B00740390 = {
 			isa = PBXGroup;
 			children = (
-				D22901062B45E7A300A9F88E /* Assets */,
+				D22901222B47346500A9F88E /* LICENSE */,
+				D22901212B47346500A9F88E /* README.md */,
 				D26ED3982B44D7A1000FE86C /* .gitignore */,
 				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
+				D22901062B45E7A300A9F88E /* Assets */,
 				D2FF089C2B43F65B00740390 /* MacTris */,
 				D2FF089B2B43F65B00740390 /* Products */,
 			);
