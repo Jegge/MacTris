@@ -54,13 +54,13 @@ public struct Tetromino {
 
         var appearance: String {
             switch self {
-            case .o: return "Red"
-            case .s: return "Pink"
-            case .z: return "Lightblue"
-            case .i: return "Green"
-            case .j: return "Orange"
-            case .l: return "Blue"
-            case .t: return "Yellow"
+            case .o: return "Yellow"
+            case .s: return "Green"
+            case .z: return "Red"
+            case .i: return "Cyan"
+            case .j: return "Blue"
+            case .l: return "Orange"
+            case .t: return "Purple"
             }
         }
     }

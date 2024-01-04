@@ -3,25 +3,25 @@
   <defs>
     <bx:grid x="0" y="0" width="2" height="2"/>
   </defs>
-  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49); visibility: hidden;" width="32" height="32" rx="3" ry="3">
+  <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 2px;" width="30" height="30" rx="3" ry="3" x="1" y="1">
     <title>Red</title>
   </rect>
-  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31); visibility: hidden;" width="32" height="32" rx="3" ry="3">
+  <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 2px;" width="30" height="30" rx="3" ry="3" x="1" y="1">
     <title>Yellow</title>
   </rect>
-  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219); visibility: hidden;" width="32" height="32" rx="3" ry="3">
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 2px; visibility: hidden;" width="30" height="30" rx="3" ry="3" x="1" y="1">
     <title>Blue</title>
   </rect>
-  <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65); visibility: hidden;" width="32" height="32" rx="3" ry="3">
+  <rect style="stroke-width: 2px; fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); visibility: hidden;" width="30" height="30" rx="3" ry="3" x="1" y="1">
     <title>Green</title>
   </rect>
-  <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14); visibility: hidden;" width="32" height="32" rx="3" ry="3">
+  <rect style="stroke-width: 2px; fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); visibility: hidden;" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
     <title>Orange</title>
   </rect>
-  <rect style="fill: rgb(230, 4, 191); stroke: rgb(163, 0, 165); visibility: hidden;" width="32" height="32" rx="3" ry="3">
-    <title>Pink</title>
+  <rect style="stroke-width: 2px; fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136); visibility: hidden;" width="30" height="30" rx="3" ry="3" x="1" y="1">
+    <title>Purple</title>
   </rect>
-  <rect style="fill: rgb(117, 174, 239); stroke: rgb(89, 64, 255);" width="32" height="32" rx="3" ry="3">
-    <title>Sky</title>
+  <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 2px; visibility: hidden;" width="30" height="29.9921" rx="3" ry="3" x="1" y="1">
+    <title>Cyan</title>
   </rect>
 </svg>

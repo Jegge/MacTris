@@ -3,8 +3,7 @@
   <defs>
     <bx:grid x="0" y="0" width="2" height="2"/>
   </defs>
-  <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49); visibility: hidden;" width="32" height="32" rx="3" ry="3"/>
-  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31); visibility: hidden;" width="32" height="32" rx="3" ry="3"/>
-  <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31); visibility: hidden;" width="32" height="32" rx="3" ry="3"/>
-  <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219);" width="32" height="32" rx="3" ry="3"/>
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 2px;" width="30" height="30" rx="3" ry="3" x="1" y="1">
+    <title>Blue</title>
+  </rect>
 </svg>
