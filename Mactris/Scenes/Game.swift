@@ -10,6 +10,16 @@ import GameplayKit
 
 class Game: SKScene {
 
+    private struct FrameCount {
+        private static let framesToDropPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+
+        public static func drop(level: Int) -> Int {
+            return level < FrameCount.framesToDropPerLevel.count ? FrameCount.framesToDropPerLevel[level] : 1
+        }
+        public static let dissolve: Int = 4
+        public static let spawn: Int = 16
+    }
+
     private var soundSuccess = SKAction.playSoundFileNamed("Success.aiff", waitForCompletion: false)
     private var soundQuadSuccess = SKAction.playSoundFileNamed("QuadSuccess.aiff", waitForCompletion: false)
     private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
@@ -17,22 +27,14 @@ class Game: SKScene {
     private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
     private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
 
-    private let framesToDropPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
     private let baseScorePerLines = [40, 100, 300, 1200]
 
-    private var current: Tetromino?
     private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
+    private var current: Tetromino?
     private var completed: Range<Int>?
 
-    private var framesToWait: UInt64 = 0
-    private var framesToDissolve: UInt64 = 5
-
-    private var framesToDrop: UInt64 {
-        if self.level < self.framesToDropPerLevel.count {
-            return self.framesToDropPerLevel[self.level]
-        }
-        return 1
-    }
+    private var framesToWait: Int = 0
+    private var keysDown: Set<UInt16> = Set()
 
     private var isGamePaused: Bool = false {
         didSet {
@@ -94,7 +96,7 @@ class Game: SKScene {
 
         board.clear()
 
-        self.framesToWait = self.framesToDrop
+        self.framesToWait = FrameCount.drop(level: self.level)
         self.isGameOver = false
     }
 
@@ -135,7 +137,6 @@ class Game: SKScene {
         }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     override func keyDown(with event: NSEvent) {
 
         if self.isGameOver {
@@ -155,38 +156,21 @@ class Game: SKScene {
             return
         }
 
-        if self.current == nil || self.completed != nil {
-            return
-        }
-
         switch event.keyCode {
         case KeyBindings.moveLeft:
-            if self.apply(change: { $0.movedLeft() }) {
-                self.run(self.soundMovement)
-            }
+            self.keysDown.insert(event.keyCode)
 
         case KeyBindings.moveRight:
-            if self.apply(change: { $0.movedRight() }) {
-                self.run(self.soundMovement)
-            }
+            self.keysDown.insert(event.keyCode)
 
         case KeyBindings.softDrop:
-            if self.apply(change: { $0.movedDown() }) {
-                // self.run(self.soundMovement)
-                self.score += 1
-            } else {
-                self.current = nil
-            }
+            self.keysDown.insert(event.keyCode)
 
         case KeyBindings.rotateLeft:
-            if self.apply(change: { $0.rotatedLeft() }) {
-                self.run(self.soundMovement)
-            }
+            self.keysDown.insert(event.keyCode)
 
         case KeyBindings.rotateRight:
-            if self.apply(change: { $0.rotatedRight() }) {
-                self.run(self.soundMovement)
-            }
+            self.keysDown.insert(event.keyCode)
 
         case KeyBindings.pause:
             self.isGamePaused = true
@@ -210,10 +194,51 @@ class Game: SKScene {
         }
     }
 
+    override func keyUp(with event: NSEvent) {
+        self.keysDown.remove(event.keyCode)
+    }
+
     override func update(_ currentTime: TimeInterval) {
 
         if self.isGamePaused || self.isGameOver {
             return
+        }
+
+        if self.completed == nil {
+            for keyCode in self.keysDown {
+                switch keyCode {
+                case KeyBindings.moveLeft:
+                    if self.apply(change: { $0.movedLeft() }) {
+                        self.run(self.soundMovement)
+                    }
+
+                case KeyBindings.moveRight:
+                    if self.apply(change: { $0.movedRight() }) {
+                        self.run(self.soundMovement)
+                    }
+
+                case KeyBindings.softDrop:
+                    if self.apply(change: { $0.movedDown() }) {
+                        // self.run(self.soundMovement)
+                        self.score += 1
+                    } else {
+                        self.current = nil
+                    }
+
+                case KeyBindings.rotateLeft:
+                    if self.apply(change: { $0.rotatedLeft() }) {
+                        self.run(self.soundMovement)
+                    }
+
+                case KeyBindings.rotateRight:
+                    if self.apply(change: { $0.rotatedRight() }) {
+                        self.run(self.soundMovement)
+                    }
+                default:
+                    break
+                }
+            }
+            self.keysDown.removeAll()
         }
 
         if self.framesToWait > 0 {
@@ -229,9 +254,9 @@ class Game: SKScene {
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
                 self.completed = nil
-                self.framesToWait = 0
+                self.framesToWait = FrameCount.spawn
             } else {
-                self.framesToWait = self.framesToDissolve
+                self.framesToWait = FrameCount.dissolve
             }
             return
         }
@@ -243,7 +268,7 @@ class Game: SKScene {
             }
             self.current = self.next?.with(position: board.startPosition)
             self.next = random.next().with(position: (2, 2))
-            self.framesToWait = 0
+            self.framesToWait = FrameCount.spawn
             return
         }
 
@@ -254,6 +279,7 @@ class Game: SKScene {
             }
             self.current = nil
         }
-        self.framesToWait = self.framesToDrop
+
+        self.framesToWait = FrameCount.drop(level: self.level)
     }
 }

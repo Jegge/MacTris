@@ -10,7 +10,7 @@ import Foundation
 public struct Tetromino {
 
     public enum Shape: CaseIterable {
-        case o, s, z, i, j, l, t
+        case t, j, z, o, s, l, i
 
         var points: [[(Int, Int)]] {
             switch self {
