@@ -103,6 +103,10 @@ extension SKTileMapNode {
         }
     }
 
+    func stackedTooHigh (tetromino: Tetromino) -> Bool {
+        return tetromino.points.map({$0.1}).max() ?? -1 >= self.numberOfRows
+    }
+
     private func clear (row: Int) {
         for column in 0..<self.numberOfColumns {
             self.setTileGroup(nil, forColumn: column, row: row)

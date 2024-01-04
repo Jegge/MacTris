@@ -193,7 +193,7 @@ class Game: SKScene {
         }
 
         if self.completed == nil, let current = self.current {
-            for keyCode in self.keysDown {
+            if let keyCode = self.keysDown.popFirst() {
                 switch keyCode {
                 case KeyBindings.moveLeft:
                     if let changed = board.apply(tetromino: current, change: { $0.movedLeft() }) {
@@ -213,6 +213,10 @@ class Game: SKScene {
                         self.score += 1
                     } else {
                         self.current = nil
+                        if board.stackedTooHigh(tetromino: current) {
+                            self.isGameOver = true
+                            return
+                        }
                     }
 
                 case KeyBindings.rotateLeft:
@@ -231,7 +235,6 @@ class Game: SKScene {
                     break
                 }
             }
-            self.keysDown.removeAll()
         }
 
         if self.framesToWait > 0 {
@@ -256,7 +259,7 @@ class Game: SKScene {
             self.current = changed
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
-            if let maxRow = self.current?.points.map({$0.1}).max(), maxRow >= board.numberOfRows {
+            if let current = self.current, board.stackedTooHigh(tetromino: current) {
                 self.isGameOver = true
             }
             self.current = nil
