@@ -89,7 +89,7 @@ class Game: SKScene {
         self.level = 0
         self.score = 0
         self.lines = 0
-        self.next = random.next().with(position: (2, 1))
+        self.next = random.next().with(position: (2, 2))
         self.current = random.next().with(position: board.startPosition)
 
         board.clear()
@@ -242,7 +242,7 @@ class Game: SKScene {
                 self.score(rows: completed)
             }
             self.current = self.next?.with(position: board.startPosition)
-            self.next = random.next().with(position: (2, 1))
+            self.next = random.next().with(position: (2, 2))
             self.framesToWait = 0
             return
         }

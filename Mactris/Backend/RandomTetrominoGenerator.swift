@@ -23,9 +23,8 @@ public class RandomTetrominoGenerator {
         if self.bag.isEmpty {
             self.bag = Tetromino.Shape.allCases.shuffled(using: &self.random)
         }
-
-        // let rotation = Int(truncatingIfNeeded: random.next(upperBound: UInt64(4))) % shape.points.count
-
-        return Tetromino(shape: self.bag.popLast()!)
+        let shape = self.bag.popLast()!
+        let rotation = Int(truncatingIfNeeded: random.next(upperBound: UInt64(4))) % shape.points.count
+        return Tetromino(shape: shape, rotation: rotation)
     }
 }

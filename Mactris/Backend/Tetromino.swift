@@ -45,11 +45,10 @@ public struct Tetromino {
 
             case .t:
                 return [[(-1, 0), (0, 0), (1, 0), (0, 1)],
+                        [(0, -1), (-1, 0), (0, 0), (0, 1)],
                         [(-1, 0), (0, 0), (1, 0), (0, -1)],
-                        [(0, -1), (0, 0), (1, 0), (0, 1)],
-                        [(0, -1), (-1, 0), (0, 0), (0, 1)]
+                        [(0, -1), (0, 0), (1, 0), (0, 1)]
                        ]
-
             }
         }
 
@@ -74,9 +73,9 @@ public struct Tetromino {
         return self.shape.points[self.rotation].map { ($0.0 + position.0, $0.1 + position.1) }
     }
 
-    init (shape: Shape) {
+    init (shape: Shape, rotation: Int) {
         self.shape = shape
-        self.rotation = 0
+        self.rotation = rotation
         self.position = (0, 0)
     }
 
