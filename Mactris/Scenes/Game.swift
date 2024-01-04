@@ -20,7 +20,7 @@ class Game: SKScene {
     private let baseScorePerLines = [40, 100, 300, 1200]
 
     private var current: Tetromino?
-    private var random: RandomNumberGenerator = SystemRandomNumberGenerator()
+    private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
     private var completed: Range<Int>?
 
     private var framesToWait: UInt64 = 0
@@ -88,8 +88,8 @@ class Game: SKScene {
         self.level = 0
         self.score = 0
         self.lines = 0
-        self.next = Tetromino(using: &random)
-        self.current = Tetromino(using: &random).with(position: board.startPosition)
+        self.next = random.next()
+        self.current = random.next().with(position: board.startPosition)
 
         board.clear()
 
@@ -151,6 +151,10 @@ class Game: SKScene {
 
         if self.isGamePaused {
             self.isGamePaused = false
+            return
+        }
+
+        if self.current == nil || self.completed != nil {
             return
         }
 
@@ -229,7 +233,7 @@ class Game: SKScene {
                 self.score(rows: completed)
             }
             self.current = self.next?.with(position: board.startPosition)
-            self.next = Tetromino(using: &random)
+            self.next = random.next()
             self.framesToWait = 0
             return
         }

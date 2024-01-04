@@ -73,13 +73,7 @@ public struct Tetromino {
         return self.shape.points[self.rotation].map { ($0.0 + position.0, $0.1 + position.1) }
     }
 
-    init (using random: inout RandomNumberGenerator) {
-        self.shape = Shape.allCases.randomElement(using: &random)!
-        self.rotation = Int(truncatingIfNeeded: random.next(upperBound: UInt64(4))) % self.shape.points.count
-        self.position = (0, 1)
-    }
-
-    private init (shape: Shape, rotation: Int, position: (Int, Int)) {
+    init (shape: Shape, rotation: Int, position: (Int, Int)) {
         self.shape = shape
         self.rotation = rotation
         self.position = position
