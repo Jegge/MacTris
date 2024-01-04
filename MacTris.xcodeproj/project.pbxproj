@@ -65,7 +65,7 @@
 		D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2FF089A2B43F65B00740390 /* MacTris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2FF089D2B43F65B00740390 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2FF089F2B43F65B00740390 /* Game.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Game.sks; sourceTree = "<group>"; };
 		D2FF08A32B43F65B00740390 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				D22901062B45E7A300A9F88E /* Assets */,
 				D26ED3982B44D7A1000FE86C /* .gitignore */,
 				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
-				D2FF089C2B43F65B00740390 /* Mactris */,
+				D2FF089C2B43F65B00740390 /* MacTris */,
 				D2FF089B2B43F65B00740390 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -168,12 +168,12 @@
 		D2FF089B2B43F65B00740390 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2FF089A2B43F65B00740390 /* Mactris.app */,
+				D2FF089A2B43F65B00740390 /* MacTris.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D2FF089C2B43F65B00740390 /* Mactris */ = {
+		D2FF089C2B43F65B00740390 /* MacTris */ = {
 			isa = PBXGroup;
 			children = (
 				D26ED3A42B4538DC000FE86C /* Backend */,
@@ -184,15 +184,15 @@
 				D26ED3A02B45389A000FE86C /* Ressources */,
 				D2FF08AC2B43F65D00740390 /* Mactris.entitlements */,
 			);
-			path = Mactris;
+			path = MacTris;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D2FF08992B43F65B00740390 /* Mactris */ = {
+		D2FF08992B43F65B00740390 /* MacTris */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "Mactris" */;
+			buildConfigurationList = D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "MacTris" */;
 			buildPhases = (
 				D26ED39B2B44D7BE000FE86C /* Swiftlint */,
 				D2FF08962B43F65B00740390 /* Sources */,
@@ -203,9 +203,9 @@
 			);
 			dependencies = (
 			);
-			name = Mactris;
+			name = MacTris;
 			productName = Mactris;
-			productReference = D2FF089A2B43F65B00740390 /* Mactris.app */;
+			productReference = D2FF089A2B43F65B00740390 /* MacTris.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -223,7 +223,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D2FF08952B43F65B00740390 /* Build configuration list for PBXProject "Mactris" */;
+			buildConfigurationList = D2FF08952B43F65B00740390 /* Build configuration list for PBXProject "MacTris" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -236,7 +236,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2FF08992B43F65B00740390 /* Mactris */,
+				D2FF08992B43F65B00740390 /* MacTris */,
 			);
 		};
 /* End PBXProject section */
@@ -509,7 +509,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D2FF08952B43F65B00740390 /* Build configuration list for PBXProject "Mactris" */ = {
+		D2FF08952B43F65B00740390 /* Build configuration list for PBXProject "MacTris" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2FF08AD2B43F65D00740390 /* Debug */,
@@ -518,7 +518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "Mactris" */ = {
+		D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "MacTris" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2FF08B02B43F65D00740390 /* Debug */,
