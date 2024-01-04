@@ -58,7 +58,7 @@ class Game: SKScene {
         }
     }
 
-    private var level: Int = 0 {
+    public var level: Int = 0 {
         didSet {
             (self.childNode(withName: "labelLevel") as? SKLabelNode)?.text = String(format: "%3d", self.level)
         }
@@ -99,7 +99,6 @@ class Game: SKScene {
             return
         }
 
-        self.level = 0
         self.score = 0
         self.lines = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
