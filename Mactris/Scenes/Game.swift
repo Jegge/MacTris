@@ -15,6 +15,7 @@ class Game: SKScene {
     private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
     private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
     private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+    private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
 
     private let framesToDropPerLevel: [UInt64] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
     private let baseScorePerLines = [40, 100, 300, 1200]
@@ -88,7 +89,7 @@ class Game: SKScene {
         self.level = 0
         self.score = 0
         self.lines = 0
-        self.next = random.next()
+        self.next = random.next().with(position: (2, 1))
         self.current = random.next().with(position: board.startPosition)
 
         board.clear()
@@ -160,24 +161,32 @@ class Game: SKScene {
 
         switch event.keyCode {
         case KeyBindings.moveLeft:
-            _ = self.apply { $0.movedLeft() }
+            if self.apply(change: { $0.movedLeft() }) {
+                self.run(self.soundMovement)
+            }
 
         case KeyBindings.moveRight:
-            _ = self.apply { $0.movedRight() }
+            if self.apply(change: { $0.movedRight() }) {
+                self.run(self.soundMovement)
+            }
 
         case KeyBindings.softDrop:
-            let changed = self.apply { $0.movedDown() }
-            if !changed {
-                self.current = nil
-            } else {
+            if self.apply(change: { $0.movedDown() }) {
+                // self.run(self.soundMovement)
                 self.score += 1
+            } else {
+                self.current = nil
             }
 
         case KeyBindings.rotateLeft:
-            _ = self.apply { $0.rotatedLeft() }
+            if self.apply(change: { $0.rotatedLeft() }) {
+                self.run(self.soundMovement)
+            }
 
         case KeyBindings.rotateRight:
-            _ = self.apply { $0.rotatedRight() }
+            if self.apply(change: { $0.rotatedRight() }) {
+                self.run(self.soundMovement)
+            }
 
         case KeyBindings.pause:
             self.isGamePaused = true
@@ -233,7 +242,7 @@ class Game: SKScene {
                 self.score(rows: completed)
             }
             self.current = self.next?.with(position: board.startPosition)
-            self.next = random.next()
+            self.next = random.next().with(position: (2, 1))
             self.framesToWait = 0
             return
         }
