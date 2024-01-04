@@ -6,11 +6,14 @@
 //
 
 import Cocoa
+import AVFoundation
 
 @main class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        AudioPlayer.shared.playMusic(mp3: "Korobeiniki")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
+        AudioPlayer.shared.stopMusic()
     }
 }

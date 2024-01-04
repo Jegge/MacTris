@@ -20,12 +20,12 @@ class Game: SKScene {
         public static let spawn: Int = 16
     }
 
-    private var soundSuccess = SKAction.playSoundFileNamed("Success.aiff", waitForCompletion: false)
-    private var soundQuadSuccess = SKAction.playSoundFileNamed("QuadSuccess.aiff", waitForCompletion: false)
-    private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
-    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
-    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
-    private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
+//    private var soundSuccess = SKAction.playSoundFileNamed("Success.aiff", waitForCompletion: false)
+//    private var soundQuadSuccess = SKAction.playSoundFileNamed("QuadSuccess.aiff", waitForCompletion: false)
+//    private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
+//    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
+//    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
+//    private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
 
     private static let baseScorePerLines = [40, 100, 300, 1200]
 
@@ -41,7 +41,7 @@ class Game: SKScene {
         didSet {
             self.childNode(withName: "//labelPaused")?.isHidden = !self.isGamePaused
             self.childNode(withName: "//board")?.alpha = self.isGamePaused ? 0.5 : 1.0
-            self.run(self.soundSelect)
+            AudioPlayer.playFxSelect()
         }
     }
 
@@ -50,7 +50,7 @@ class Game: SKScene {
             self.childNode(withName: "//labelGameOver")?.isHidden = !self.isGameOver
             self.childNode(withName: "//board")?.alpha = self.isGameOver ? 0.5 : 1.0
             if self.isGameOver {
-                self.run(self.soundGameOver)
+                AudioPlayer.playFxGameOver()
             }
         }
     }
@@ -84,6 +84,25 @@ class Game: SKScene {
         }
     }
 
+    private func score (rows range: Range<Int>) {
+        let score = Game.baseScorePerLines[range.count - 1] * (self.level + 1)
+        self.score += score
+        self.lines += range.count
+
+        self.linesToNextLevel -= range.count
+
+        if self.linesToNextLevel <= 0 {
+            self.level += 1
+            self.linesToNextLevel += min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+        }
+
+        if range.count > 3 {
+            AudioPlayer.playFxQuadSuccess()
+        } else {
+            AudioPlayer.playFxSuccess()
+        }
+    }
+
     override func didMove (to view: SKView) {
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
@@ -102,54 +121,11 @@ class Game: SKScene {
         self.isGameOver = false
     }
 
-    private func apply (change: ((Tetromino) -> Tetromino)) -> Bool {
-
-        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
-            return false
-        }
-
-        var result = false
-
-        board.clear(tetronimo: self.current)
-
-        if let current = self.current {
-            let tetromino = change(current)
-
-            if !board.collides(tetronimo: tetromino) {
-                self.current = tetromino
-                result = true
-            }
-        }
-
-        board.draw(tetronimo: self.current)
-
-        return result
-    }
-
-    private func score (rows range: Range<Int>) {
-        let score = Game.baseScorePerLines[range.count - 1] * (self.level + 1)
-        self.score += score
-        self.lines += range.count
-
-        self.linesToNextLevel -= range.count
-
-        if self.linesToNextLevel <= 0 {
-            self.level += 1
-            self.linesToNextLevel += min(self.level * 10 + 10, max(100, self.level * 10 - 50))
-        }
-
-        if range.count > 3 {
-            self.run(self.soundQuadSuccess)
-        } else {
-            self.run(self.soundSuccess)
-        }
-    }
-
     override func keyDown (with event: NSEvent) {
 
         if self.isGameOver {
             if event.keyCode == KeyBindings.quit {
-                self.run(self.soundPositive)
+                AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                     newScene.scaleMode = .aspectFit
                     newScene.score = self.score
@@ -184,7 +160,7 @@ class Game: SKScene {
             self.isGamePaused = true
 
         case KeyBindings.quit:
-            self.run(self.soundPositive)
+            AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
@@ -212,36 +188,45 @@ class Game: SKScene {
             return
         }
 
-        if self.completed == nil {
+        guard let board = self.childNode(withName: "board") as? SKTileMapNode else {
+            return
+        }
+
+        if self.completed == nil, let current = self.current {
             for keyCode in self.keysDown {
                 switch keyCode {
                 case KeyBindings.moveLeft:
-                    if self.apply(change: { $0.movedLeft() }) {
-                        self.run(self.soundMovement)
+                    if let changed = board.apply(tetromino: current, change: { $0.movedLeft() }) {
+                        self.current = changed
+                        AudioPlayer.playFxTranslation()
                     }
 
                 case KeyBindings.moveRight:
-                    if self.apply(change: { $0.movedRight() }) {
-                        self.run(self.soundMovement)
+                    if let changed = board.apply(tetromino: current, change: { $0.movedRight() }) {
+                        self.current = changed
+                        AudioPlayer.playFxTranslation()
                     }
 
                 case KeyBindings.softDrop:
-                    if self.apply(change: { $0.movedDown() }) {
-                        // self.run(self.soundMovement)
+                    if let changed = board.apply(tetromino: current, change: { $0.movedDown() }) {
+                        self.current = changed
                         self.score += 1
                     } else {
                         self.current = nil
                     }
 
                 case KeyBindings.rotateLeft:
-                    if self.apply(change: { $0.rotatedLeft() }) {
-                        self.run(self.soundMovement)
+                    if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
+                        self.current = changed
+                        AudioPlayer.playFxRotation()
                     }
 
                 case KeyBindings.rotateRight:
-                    if self.apply(change: { $0.rotatedRight() }) {
-                        self.run(self.soundMovement)
+                    if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
+                        self.current = changed
+                        AudioPlayer.playFxRotation()
                     }
+
                 default:
                     break
                 }
@@ -251,14 +236,7 @@ class Game: SKScene {
 
         if self.framesToWait > 0 {
             self.framesToWait -= 1
-            return
-        }
-
-        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
-            return
-        }
-
-        if let completed = self.completed {
+        } else if let completed = self.completed {
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
                 self.completed = nil
@@ -266,10 +244,7 @@ class Game: SKScene {
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
-            return
-        }
-
-        if self.current == nil {
+        } else if self.current == nil {
             self.completed = board.completedRows()
             if let completed = self.completed {
                 self.score(rows: completed)
@@ -277,17 +252,15 @@ class Game: SKScene {
             self.current = self.next?.with(position: board.startPosition)
             self.next = random.next().with(position: (2, 2))
             self.framesToWait = FrameCount.spawn
-            return
-        }
-
-        let changed = self.apply { $0.movedDown() }
-        if !changed {
+        } else if let changed = board.apply(tetromino: self.current!, change: { $0.movedDown() }) {
+            self.current = changed
+            self.framesToWait = FrameCount.gravity(level: self.level)
+        } else {
             if let maxRow = self.current?.points.map({$0.1}).max(), maxRow >= board.numberOfRows {
                 self.isGameOver = true
             }
             self.current = nil
+            self.framesToWait = FrameCount.gravity(level: self.level)
         }
-
-        self.framesToWait = FrameCount.gravity(level: self.level)
     }
 }

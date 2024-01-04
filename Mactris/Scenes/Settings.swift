@@ -11,9 +11,6 @@ import GameplayKit
 
 class Settings: SKScene {
 
-    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
-    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
-
     private var menuItems: [String] = []
     private var selection: Int = -1 {
         didSet {
@@ -81,25 +78,25 @@ class Settings: SKScene {
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
         case KeyBindings.up:
-            self.run(self.soundSelect)
+            AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.selection
             self.update()
 
         case KeyBindings.down:
-            self.run(self.soundSelect)
+            AudioPlayer.playFxSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
             self.update()
 
         case KeyBindings.select:
-            self.run(self.soundPositive)
+            AudioPlayer.playFxPositive()
             self.select(item: self.menuItems[self.selection])
 
         case KeyBindings.enter:
-            self.run(self.soundPositive)
+            AudioPlayer.playFxPositive()
             self.select(item: self.menuItems[self.selection])
 
         case KeyBindings.quit:
-            self.run(self.soundPositive)
+            AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))

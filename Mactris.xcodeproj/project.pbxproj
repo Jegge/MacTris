@@ -22,8 +22,10 @@
 		D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */; };
 		D229010E2B45FC9A00A9F88E /* Success.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010C2B45FC9A00A9F88E /* Success.aiff */; };
 		D22901102B462FAE00A9F88E /* RandomTetrominoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229010F2B462FAE00A9F88E /* RandomTetrominoGenerator.swift */; };
-		D22901122B46354C00A9F88E /* Korobeiniki.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D22901112B46354C00A9F88E /* Korobeiniki.mp3 */; };
 		D22901142B46379600A9F88E /* Movement.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901132B46379600A9F88E /* Movement.aiff */; };
+		D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */; };
+		D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901192B46BB3B00A9F88E /* AudioPlayer.swift */; };
+		D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* Game.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* Game.sks */; };
 		D2FF08A42B43F65B00740390 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A32B43F65B00740390 /* Game.swift */; };
@@ -53,8 +55,10 @@
 		D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = QuadSuccess.aiff; sourceTree = "<group>"; };
 		D229010C2B45FC9A00A9F88E /* Success.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Success.aiff; sourceTree = "<group>"; };
 		D229010F2B462FAE00A9F88E /* RandomTetrominoGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTetrominoGenerator.swift; sourceTree = "<group>"; };
-		D22901112B46354C00A9F88E /* Korobeiniki.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Korobeiniki.mp3; sourceTree = "<group>"; };
 		D22901132B46379600A9F88E /* Movement.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Movement.aiff; sourceTree = "<group>"; };
+		D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Korobeiniki.mp3; sourceTree = "<group>"; };
+		D22901192B46BB3B00A9F88E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioPlayer+Fx.swift"; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* Mactris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mactris.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,7 +97,7 @@
 		D26ED3A02B45389A000FE86C /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				D22901112B46354C00A9F88E /* Korobeiniki.mp3 */,
+				D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */,
 				D22901132B46379600A9F88E /* Movement.aiff */,
 				D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */,
 				D229010C2B45FC9A00A9F88E /* Success.aiff */,
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */,
+				D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -138,6 +143,7 @@
 				D22900F22B454FDD00A9F88E /* KeyBindings.swift */,
 				D22900F42B45534F00A9F88E /* Hiscore.swift */,
 				D229010F2B462FAE00A9F88E /* RandomTetrominoGenerator.swift */,
+				D22901192B46BB3B00A9F88E /* AudioPlayer.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -240,9 +246,9 @@
 				D22901142B46379600A9F88E /* Movement.aiff in Resources */,
 				D22900F92B45871300A9F88E /* Settings.sks in Resources */,
 				D2FF08A02B43F65B00740390 /* Game.sks in Resources */,
+				D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */,
 				D22901012B45CF0600A9F88E /* Select.aiff in Resources */,
 				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
-				D22901122B46354C00A9F88E /* Korobeiniki.mp3 in Resources */,
 				D22901032B45D00000A9F88E /* GameOver.aiff in Resources */,
 				D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */,
 				D229010E2B45FC9A00A9F88E /* Success.aiff in Resources */,
@@ -286,6 +292,7 @@
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoGenerator.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
+				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* Game.swift in Sources */,
 				D22900FB2B45876300A9F88E /* Settings.swift in Sources */,
 				D22900F32B454FDD00A9F88E /* KeyBindings.swift in Sources */,
@@ -293,6 +300,7 @@
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
+				D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  TileMapExtensions.swift
+//  SKTileMapNode+Tetromino.swift
 //  Mactris
 //
 //  Created by Sebastian Boettcher on 02.01.24.
@@ -31,12 +31,6 @@ extension SKTileMapNode {
         }
     }
 
-    private func clear (row: Int) {
-        for column in 0..<self.numberOfColumns {
-            self.setTileGroup(nil, forColumn: column, row: row)
-        }
-    }
-
     func drop (rows: Range<Int>) {
         for row in rows.upperBound..<self.numberOfRows {
             let target = row - (rows.upperBound - rows.lowerBound)
@@ -62,13 +56,6 @@ extension SKTileMapNode {
         return done
     }
 
-    private func copy (row source: Int, to target: Int) {
-        // print("Copy \(source) to \(target)")
-        for column in 0..<self.numberOfColumns {
-            self.setTileGroup(self.tileGroup(atColumn: column, row: source), forColumn: column, row: target)
-        }
-    }
-
     func draw (tetronimo: Tetromino?) {
         guard let tetronimo = tetronimo else {
             return
@@ -80,21 +67,6 @@ extension SKTileMapNode {
                 self.setTileGroup(tileGroup, forColumn: column, row: row)
             }
         }
-    }
-
-    func collides (tetronimo: Tetromino) -> Bool {
-        for (column, row) in tetronimo.points {
-            if row >= self.numberOfRows {
-                continue
-            }
-            if row < 0 || column < 0 || column >= self.numberOfColumns {
-                return true
-            }
-            if self.tileGroup(atColumn: column, row: row) != nil {
-                return true
-            }
-        }
-        return false
     }
 
     func completedRows () -> Range<Int>? {
@@ -115,6 +87,47 @@ extension SKTileMapNode {
         }
 
         return Range(uncheckedBounds: (start, end))
+    }
+
+    func apply (tetromino: Tetromino, change: ((Tetromino) -> Tetromino)) -> Tetromino? {
+        self.clear(tetronimo: tetromino)
+
+        let changed = change(tetromino)
+
+        if !self.collides(tetronimo: changed) {
+            self.draw(tetronimo: changed)
+            return changed
+        } else {
+            self.draw(tetronimo: tetromino)
+            return nil
+        }
+    }
+
+    private func clear (row: Int) {
+        for column in 0..<self.numberOfColumns {
+            self.setTileGroup(nil, forColumn: column, row: row)
+        }
+    }
+
+    private func copy (row source: Int, to target: Int) {
+        for column in 0..<self.numberOfColumns {
+            self.setTileGroup(self.tileGroup(atColumn: column, row: source), forColumn: column, row: target)
+        }
+    }
+
+    private func collides (tetronimo: Tetromino) -> Bool {
+        for (column, row) in tetronimo.points {
+            if row > self.numberOfRows {
+                continue
+            }
+            if row < 0 || column < 0 || column >= self.numberOfColumns {
+                return true
+            }
+            if self.tileGroup(atColumn: column, row: row) != nil {
+                return true
+            }
+        }
+        return false
     }
 
     private func isComplete(row: Int) -> Bool {
