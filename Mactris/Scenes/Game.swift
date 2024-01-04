@@ -39,8 +39,7 @@ class Game: SKScene {
 
     private var isGameOver: Bool = false {
         didSet {
-            self.childNode(withName: "labelGameOver")?.isHidden = !self.isGameOver
-            self.childNode(withName: "board")?.alpha = self.isGameOver ? 0.5 : 1.0
+            self.childNode(withName: "gameOver")?.isHidden = !self.isGameOver
             if self.isGameOver {
                 AudioPlayer.playFxGameOver()
             }
