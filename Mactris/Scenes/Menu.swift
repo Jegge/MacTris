@@ -85,13 +85,6 @@ class Menu: SKScene {
             AudioPlayer.playFxPositive()
             self.select(item: self.menuItems[self.selection])
 
-        case KeyBindings.fullscreen:
-            if self.view?.isInFullScreenMode ?? false {
-                self.view?.exitFullScreenMode()
-            } else {
-                self.view?.enterFullScreenMode(NSScreen.main!)
-            }
-
         case KeyBindings.quit:
             NSApplication.shared.terminate(nil)
 

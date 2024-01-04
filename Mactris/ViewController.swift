@@ -16,6 +16,11 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         if let view = self.skView {
+
+            if UserDefaults.standard.fullscreen {
+               // view.enterFullScreenMode(NSScreen.main!)
+            }
+
             if let scene = SKScene(fileNamed: "Menu") {
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)

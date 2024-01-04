@@ -5,25 +5,20 @@
 //  Created by Sebastian Boettcher on 03.01.24.
 //
 
-import Foundation
-
 public struct KeyBindings {
-    static let pause: UInt16 = 35 // P
-    static let fullscreen: UInt16 = 3 // F
+    static let quit = KeyCode.escape.rawValue
+    static let select = KeyCode.space.rawValue
+    static let enter = KeyCode.return.rawValue
+    static let backspace = KeyCode.delete.rawValue
 
-    static let quit: UInt16 = 53 // ESC
-    static let select: UInt16 = 49 // enter
-    static let enter: UInt16 = 36 // enter
-    static let backspace: UInt16 = 51 // backspace
+    static let down = KeyCode.arrowDown.rawValue
+    static let up = KeyCode.arrowUp.rawValue
+    static let left = KeyCode.arrowLeft.rawValue
+    static let right = KeyCode.arrowRight.rawValue
 
-    static let down: UInt16 = 125 // arrow down
-    static let up: UInt16 = 126 // arrow up
-    static let left: UInt16 = 123 // arrow left
-    static let right: UInt16 = 124 // arrow right
-
-    static let moveLeft: UInt16 = 123 // arrow left
-    static let moveRight: UInt16 = 124 // arrow right
-    static let softDrop: UInt16 = 125 // arrow down
-    static let rotateLeft: UInt16 = 0 // A
-    static let rotateRight: UInt16 = 1 // S
+    static var moveLeft = KeyCode.arrowLeft.rawValue
+    static var moveRight = KeyCode.arrowRight.rawValue
+    static var softDrop = KeyCode.arrowDown.rawValue
+    static var rotateLeft = KeyCode.a.rawValue
+    static var rotateRight = KeyCode.s.rawValue
 }

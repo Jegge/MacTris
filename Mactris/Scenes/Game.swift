@@ -20,13 +20,6 @@ class Game: SKScene {
         public static let spawn: Int = 16
     }
 
-//    private var soundSuccess = SKAction.playSoundFileNamed("Success.aiff", waitForCompletion: false)
-//    private var soundQuadSuccess = SKAction.playSoundFileNamed("QuadSuccess.aiff", waitForCompletion: false)
-//    private var soundGameOver = SKAction.playSoundFileNamed("GameOver.aiff", waitForCompletion: false)
-//    private var soundPositive = SKAction.playSoundFileNamed("Positive.aiff", waitForCompletion: false)
-//    private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
-//    private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
-
     private static let baseScorePerLines = [40, 100, 300, 1200]
 
     private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
@@ -39,16 +32,15 @@ class Game: SKScene {
 
     private var isGamePaused: Bool = false {
         didSet {
-            self.childNode(withName: "//labelPaused")?.isHidden = !self.isGamePaused
-            self.childNode(withName: "//board")?.alpha = self.isGamePaused ? 0.5 : 1.0
+            self.childNode(withName: "pause")?.isHidden = !self.isGamePaused
             AudioPlayer.playFxSelect()
         }
     }
 
     private var isGameOver: Bool = false {
         didSet {
-            self.childNode(withName: "//labelGameOver")?.isHidden = !self.isGameOver
-            self.childNode(withName: "//board")?.alpha = self.isGameOver ? 0.5 : 1.0
+            self.childNode(withName: "labelGameOver")?.isHidden = !self.isGameOver
+            self.childNode(withName: "board")?.alpha = self.isGameOver ? 0.5 : 1.0
             if self.isGameOver {
                 AudioPlayer.playFxGameOver()
             }
@@ -57,25 +49,25 @@ class Game: SKScene {
 
     private var lines: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = String(format: "%3d", self.lines)
+            (self.childNode(withName: "labelLines") as? SKLabelNode)?.text = String(format: "%3d", self.lines)
         }
     }
 
     private var score: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = String(format: "%10d", self.score)
+            (self.childNode(withName: "labelScore") as? SKLabelNode)?.text = String(format: "%10d", self.score)
         }
     }
 
     private var level: Int = 0 {
         didSet {
-            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = String(format: "%3d", self.level)
+            (self.childNode(withName: "labelLevel") as? SKLabelNode)?.text = String(format: "%3d", self.level)
         }
     }
 
     private var next: Tetromino? {
         didSet {
-            if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
+            if let preview = self.childNode(withName: "preview") as? SKTileMapNode {
                 preview.clear()
                 if let tetronimo = self.next {
                     preview.draw(tetronimo: tetronimo)
@@ -104,7 +96,7 @@ class Game: SKScene {
     }
 
     override func didMove (to view: SKView) {
-        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
+        guard let board = self.childNode(withName: "board") as? SKTileMapNode else {
             return
         }
 
@@ -136,7 +128,16 @@ class Game: SKScene {
         }
 
         if self.isGamePaused {
-            self.isGamePaused = false
+            if event.keyCode == KeyBindings.quit {
+                AudioPlayer.playFxPositive()
+                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+                    newScene.scaleMode = .aspectFit
+                    newScene.score = self.score
+                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+                }
+            } else {
+                self.isGamePaused = false
+            }
             return
         }
 
@@ -156,22 +157,8 @@ class Game: SKScene {
         case KeyBindings.rotateRight:
             self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.pause:
-            self.isGamePaused = true
-
         case KeyBindings.quit:
-            AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Menu") {
-                newScene.scaleMode = .aspectFit
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
-
-        case KeyBindings.fullscreen:
-            if self.view?.isInFullScreenMode ?? false {
-                self.view?.exitFullScreenMode()
-            } else {
-                self.view?.enterFullScreenMode(NSScreen.main!)
-            }
+            self.isGamePaused = true
 
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
