@@ -50,7 +50,7 @@ class Settings: SKScene {
     private func value (for item: String) -> String? {
         switch item {
         case "DisplayMode":
-            return (self.view?.isInFullScreenMode ?? false) ? "fullscreen" : "windowed"
+            return UserDefaults.standard.fullscreen ? "fullscreen" : "windowed"
 
         case "MusicVolume":
             return AudioPlayer.shared.musicVolume == 0 ? "off" : "\(AudioPlayer.shared.musicVolume)%"
@@ -115,13 +115,8 @@ class Settings: SKScene {
     private func select (item: String) {
         switch item {
         case "DisplayMode":
-            if self.view?.isInFullScreenMode ?? false {
-                self.view?.exitFullScreenMode()
-                UserDefaults.standard.fullscreen = false
-            } else {
-                self.view?.enterFullScreenMode(NSScreen.main!)
-                UserDefaults.standard.fullscreen = true
-            }
+            UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
+            self.view?.window?.toggleFullScreen(nil)
             AudioPlayer.playFxPositive()
 
         case "MusicVolume":
