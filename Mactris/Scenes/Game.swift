@@ -11,10 +11,10 @@ import GameplayKit
 class Game: SKScene {
 
     private struct FrameCount {
-        private static let framesToDropPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+        private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-        public static func drop(level: Int) -> Int {
-            return level < FrameCount.framesToDropPerLevel.count ? FrameCount.framesToDropPerLevel[level] : 1
+        public static func gravity(level: Int) -> Int {
+            return level < FrameCount.gravityPerLevel.count ? FrameCount.gravityPerLevel[level] : 1
         }
         public static let dissolve: Int = 4
         public static let spawn: Int = 16
@@ -27,11 +27,12 @@ class Game: SKScene {
     private var soundSelect = SKAction.playSoundFileNamed("Select.aiff", waitForCompletion: false)
     private var soundMovement = SKAction.playSoundFileNamed("Movement.aiff", waitForCompletion: false)
 
-    private let baseScorePerLines = [40, 100, 300, 1200]
+    private static let baseScorePerLines = [40, 100, 300, 1200]
 
     private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
+    private var linesToNextLevel: Int = 0
 
     private var framesToWait: Int = 0
     private var keysDown: Set<UInt16> = Set()
@@ -83,7 +84,7 @@ class Game: SKScene {
         }
     }
 
-    override func didMove(to view: SKView) {
+    override func didMove (to view: SKView) {
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
@@ -91,12 +92,13 @@ class Game: SKScene {
         self.level = 0
         self.score = 0
         self.lines = 0
+        self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
         self.next = random.next().with(position: (2, 2))
         self.current = random.next().with(position: board.startPosition)
 
         board.clear()
 
-        self.framesToWait = FrameCount.drop(level: self.level)
+        self.framesToWait = FrameCount.gravity(level: self.level)
         self.isGameOver = false
     }
 
@@ -125,10 +127,16 @@ class Game: SKScene {
     }
 
     private func score (rows range: Range<Int>) {
-        let score = baseScorePerLines[range.count - 1] * (self.level + 1)
+        let score = Game.baseScorePerLines[range.count - 1] * (self.level + 1)
         self.score += score
         self.lines += range.count
-        self.level = self.lines / 10
+
+        self.linesToNextLevel -= range.count
+
+        if self.linesToNextLevel <= 0 {
+            self.level += 1
+            self.linesToNextLevel += min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+        }
 
         if range.count > 3 {
             self.run(self.soundQuadSuccess)
@@ -137,7 +145,7 @@ class Game: SKScene {
         }
     }
 
-    override func keyDown(with event: NSEvent) {
+    override func keyDown (with event: NSEvent) {
 
         if self.isGameOver {
             if event.keyCode == KeyBindings.quit {
@@ -194,11 +202,11 @@ class Game: SKScene {
         }
     }
 
-    override func keyUp(with event: NSEvent) {
+    override func keyUp (with event: NSEvent) {
         self.keysDown.remove(event.keyCode)
     }
 
-    override func update(_ currentTime: TimeInterval) {
+    override func update (_ currentTime: TimeInterval) {
 
         if self.isGamePaused || self.isGameOver {
             return
@@ -280,6 +288,6 @@ class Game: SKScene {
             self.current = nil
         }
 
-        self.framesToWait = FrameCount.drop(level: self.level)
+        self.framesToWait = FrameCount.gravity(level: self.level)
     }
 }
