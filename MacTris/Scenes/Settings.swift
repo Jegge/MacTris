@@ -86,8 +86,8 @@ class Settings: SKScene {
             AudioPlayer.playFxPositive()
 
         case "FxVolume":
-            AudioPlayer.shared.fxVolume = min(100, AudioPlayer.shared.musicVolume + 2)
-            UserDefaults.standard.fxVolume = min(100, AudioPlayer.shared.musicVolume + 2)
+            AudioPlayer.shared.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
+            UserDefaults.standard.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
             AudioPlayer.playFxPositive()
 
         default:
