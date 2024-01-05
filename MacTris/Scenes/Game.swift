@@ -227,7 +227,10 @@ class Game: SKScene {
         } else if let completed = self.completed {
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
-                self.completed = nil
+                self.completed = board.completedRows()
+                if let completed = self.completed {
+                    self.score(rows: completed)
+                }
                 self.framesToWait = FrameCount.spawn
             } else {
                 self.framesToWait = FrameCount.dissolve
