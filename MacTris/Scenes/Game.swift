@@ -27,7 +27,15 @@ class Game: SKScene {
         public static let spawn: Int = 16
     }
 
-    private static let baseScorePerLines = [40, 100, 300, 1200]
+    private struct Score {
+        private static let baseScorePerLines = [40, 100, 300, 1200]
+
+        public static func lines(_ range: Range<Int>) -> Int {
+            return Score.baseScorePerLines[range.count - 1]
+        }
+
+        public static let drop: Int = 1
+    }
 
     private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
     private var current: Tetromino?
@@ -101,7 +109,7 @@ class Game: SKScene {
     }
 
     private func score (rows range: Range<Int>) {
-        let score = Game.baseScorePerLines[range.count - 1] * (self.level + 1)
+        let score = Score.lines(range) * (self.level + 1)
         self.score += score
         self.lines += range.count
 
@@ -130,7 +138,7 @@ class Game: SKScene {
         self.lines = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
         self.next = random.next().with(position: (2, 2))
-        self.current = random.next().with(position: board.startPosition)
+        self.current = board.setStartPosition(for: random.next())
 
         board.clear()
 
@@ -222,7 +230,7 @@ class Game: SKScene {
                 case KeyBindings.softDrop:
                     if let changed = board.apply(tetromino: current, change: { $0.movedDown() }) {
                         self.current = changed
-                        self.score += 1
+                        self.score += Score.drop
                     } else {
                         self.current = nil
                         if board.stackedTooHigh(tetromino: current) {
@@ -262,7 +270,7 @@ class Game: SKScene {
             }
         } else if self.current == nil {
             self.completed = board.completedRows()
-            self.current = self.next?.with(position: board.startPosition)
+            self.current =  board.setStartPosition(for: self.next)
             self.next = random.next().with(position: (2, 2))
             self.framesToWait = FrameCount.spawn
         } else if let changed = board.apply(tetromino: self.current!, change: { $0.movedDown() }) {
