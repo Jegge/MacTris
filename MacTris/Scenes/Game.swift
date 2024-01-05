@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import OSLog
 
 class Game: SKScene {
 
@@ -35,6 +36,7 @@ class Game: SKScene {
 
     private var framesToWait: Int = 0
     private var keysDown: Set<UInt16> = Set()
+    private var anyKeyEnabled = false
 
     private var state: State = .running {
         didSet {
@@ -42,11 +44,12 @@ class Game: SKScene {
             case .running:
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = true
+                self.anyKeyEnabled = false
 
             case .paused:
                 self.childNode(withName: "pause")?.isHidden = false
                 self.childNode(withName: "gameOver")?.isHidden = true
-
+                self.anyKeyEnabled = false
             case .gameover:
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = false
@@ -57,6 +60,10 @@ class Game: SKScene {
                     } else {
                         label.text = "Your score: \(self.score)"
                     }
+                }
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.anyKeyEnabled = true
                 }
 
                 AudioPlayer.playFxGameOver()
@@ -98,6 +105,8 @@ class Game: SKScene {
         self.score += score
         self.lines += range.count
 
+        Logger.game.info("Completed \(range.count) lines at level \(self.level): \(score) points")
+
         self.linesToNextLevel -= range.count
 
         if self.linesToNextLevel <= 0 {
@@ -132,7 +141,7 @@ class Game: SKScene {
     override func keyDown (with event: NSEvent) {
         switch self.state {
         case .gameover:
-            if event.keyCode == KeyBindings.quit {
+            if self.anyKeyEnabled {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                     newScene.scaleMode = .aspectFit
@@ -243,9 +252,9 @@ class Game: SKScene {
         if self.framesToWait > 0 {
             self.framesToWait -= 1
         } else if let completed = self.completed {
-            self.score(rows: completed)
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
+                self.score(rows: completed)
                 self.completed = board.completedRows()
                 self.framesToWait = FrameCount.spawn
             } else {
