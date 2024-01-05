@@ -21,6 +21,8 @@ import AVFoundation
         AudioPlayer.shared.fxVolume = UserDefaults.standard.fxVolume
         AudioPlayer.shared.musicVolume = UserDefaults.standard.musicVolume
         AudioPlayer.shared.playMusic(mp3: "Korobeiniki")
+
+        // try! Hiscore().write(to: Hiscore.url)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

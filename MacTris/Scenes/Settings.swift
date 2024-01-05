@@ -11,6 +11,18 @@ import GameplayKit
 
 class Settings: SKScene {
 
+    private struct Item {
+        public static let displayMode = "DisplayMode"
+        public static let musicVolume = "MusicVolume"
+        public static let fxVolume = "FxVolume"
+        public static let moveLeft = "MoveLeft"
+        public static let moveRight = "MoveRight"
+        public static let rotateLeft = "RotateLeft"
+        public static let rotateRight = "RotateRight"
+        public static let softDrop = "SoftDrop"
+        public static let back = "Back"
+    }
+
     private var menuItems: [String] = []
     private var selection: Int = -1 {
         didSet {
@@ -18,60 +30,53 @@ class Settings: SKScene {
         }
     }
 
-    private var rebind: String?
+    private var rebindItem: String?
 
     private func update () {
         for (index, item) in menuItems.enumerated() {
-            guard let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode,
-                  let label = self.childNode(withName: "label" + item) as? SKLabelNode,
-                  let value = self.childNode(withName: "value" + item) as? SKLabelNode
-            else {
-                continue
+            if let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode {
+                bullet.isHidden = index != self.selection
+                bullet.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
             }
 
-            if index == self.selection {
-                bullet.isHidden = false
-                bullet.fontColor = NSColor(named: "MenuHilite")
-                label.fontColor = NSColor(named: "MenuHilite")
-                value.fontColor = NSColor(named: "MenuHilite")
-            } else {
-                bullet.isHidden = true
-                bullet.fontColor = NSColor(named: "MenuDefault")
-                label.fontColor = NSColor(named: "MenuDefault")
-                value.fontColor = NSColor(named: "MenuDefault")
+            if let label = self.childNode(withName: "label" + item) as? SKLabelNode {
+                label.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
             }
 
-            if let text = self.value(for: item) {
-                value.text = text
+            if let value = self.childNode(withName: "value" + item) as? SKLabelNode {
+                value.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
+                if let text = self.value(for: item) {
+                    value.text = text
+                }
             }
         }
     }
 
     private func value (for item: String) -> String? {
         switch item {
-        case "DisplayMode":
+        case Item.displayMode:
             return UserDefaults.standard.fullscreen ? "fullscreen" : "windowed"
 
-        case "MusicVolume":
+        case Item.musicVolume:
             return AudioPlayer.shared.musicVolume == 0 ? "off" : "\(AudioPlayer.shared.musicVolume)%"
 
-        case "FxVolume":
+        case Item.fxVolume:
             return AudioPlayer.shared.fxVolume == 0 ? "off" : "\(AudioPlayer.shared.fxVolume)%"
 
-        case "MoveLeft":
-            return self.rebind == "MoveLeft" ? "" : KeyCode(rawValue: KeyBindings.moveLeft)?.description ?? "⍰"
+        case Item.moveLeft:
+            return self.rebindItem == Item.moveLeft ? "" : KeyCode(rawValue: KeyBindings.moveLeft)?.description ?? "⍰"
 
-        case "MoveRight":
-            return self.rebind == "MoveRight" ? "" : KeyCode(rawValue: KeyBindings.moveRight)?.description ?? "⍰"
+        case Item.moveRight:
+            return self.rebindItem == Item.moveRight ? "" : KeyCode(rawValue: KeyBindings.moveRight)?.description ?? "⍰"
 
-        case "RotateLeft":
-            return self.rebind == "RotateLeft" ? "" : KeyCode(rawValue: KeyBindings.rotateLeft)?.description ?? "⍰"
+        case Item.rotateLeft:
+            return self.rebindItem == Item.rotateLeft ? "": KeyCode(rawValue: KeyBindings.rotateLeft)?.description ?? "⍰"
 
-        case "RotateRight":
-            return self.rebind == "RotateRight" ? "" : KeyCode(rawValue: KeyBindings.rotateRight)?.description ?? "⍰"
+        case Item.rotateRight:
+            return self.rebindItem == Item.rotateRight ? "": KeyCode(rawValue: KeyBindings.rotateRight)?.description ?? "⍰"
 
-        case "SoftDrop":
-            return self.rebind == "SoftDrop" ? "" : KeyCode(rawValue: KeyBindings.softDrop)?.description ?? "⍰"
+        case Item.softDrop:
+            return self.rebindItem == Item.softDrop ? "" : KeyCode(rawValue: KeyBindings.softDrop)?.description ?? "⍰"
 
         default:
             return nil
@@ -80,12 +85,12 @@ class Settings: SKScene {
 
     private func increase (item: String) {
         switch item {
-        case "MusicVolume":
+        case Item.musicVolume:
             AudioPlayer.shared.musicVolume = min(100, AudioPlayer.shared.musicVolume + 2)
             UserDefaults.standard.musicVolume = min(100, AudioPlayer.shared.musicVolume + 2)
             AudioPlayer.playFxPositive()
 
-        case "FxVolume":
+        case Item.fxVolume:
             AudioPlayer.shared.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
             UserDefaults.standard.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
             AudioPlayer.playFxPositive()
@@ -97,12 +102,12 @@ class Settings: SKScene {
 
     private func decrease (item: String) {
         switch item {
-        case "MusicVolume":
+        case Item.musicVolume:
             AudioPlayer.shared.musicVolume = max(0, AudioPlayer.shared.musicVolume - 2)
             UserDefaults.standard.musicVolume = max(0, AudioPlayer.shared.musicVolume - 2)
             AudioPlayer.playFxPositive()
 
-        case "FxVolume":
+        case Item.fxVolume:
             AudioPlayer.shared.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
             UserDefaults.standard.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
             AudioPlayer.playFxPositive()
@@ -114,45 +119,88 @@ class Settings: SKScene {
 
     private func select (item: String) {
         switch item {
-        case "DisplayMode":
+        case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
             self.view?.window?.toggleFullScreen(nil)
             AudioPlayer.playFxPositive()
 
-        case "MusicVolume":
+        case Item.musicVolume:
             let volume = ((AudioPlayer.shared.musicVolume / 10) * 10) + 10
             AudioPlayer.shared.musicVolume = volume > 100 ? 0 : volume
             UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
             AudioPlayer.playFxPositive()
 
-        case "FxVolume":
+        case Item.fxVolume:
             let volume = ((AudioPlayer.shared.fxVolume / 10) * 10) + 10
             AudioPlayer.shared.fxVolume = volume > 100 ? 0 : volume
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
             AudioPlayer.playFxPositive()
 
-        case "MoveLeft":
-            self.rebind = "MoveLeft"
+        case Item.moveLeft:
+            self.rebindItem = item
             AudioPlayer.playFxPositive()
 
-        case "MoveRight":
-            self.rebind = "MoveRight"
+        case Item.moveRight:
+            self.rebindItem = item
             AudioPlayer.playFxPositive()
 
-        case "RotateLeft":
-            self.rebind = "RotateLeft"
+        case Item.rotateLeft:
+            self.rebindItem = item
             AudioPlayer.playFxPositive()
 
-        case "RotateRight":
-            self.rebind = "RotateRight"
+        case Item.rotateRight:
+            self.rebindItem = item
             AudioPlayer.playFxPositive()
 
-        case "SoftDrop":
-            self.rebind = "SoftDrop"
+        case Item.softDrop:
+            self.rebindItem = item
             AudioPlayer.playFxPositive()
+
+        case Item.back:
+            AudioPlayer.playFxPositive()
+            if let newScene = SKScene(fileNamed: "Menu") {
+                newScene.scaleMode = .aspectFit
+                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+            }
 
         default:
             print("Unknown menu option \(item)")
+        }
+    }
+
+    private func rebind(item: String, keyCode: UInt16) {
+        if keyCode == KeyBindings.quit {
+            AudioPlayer.playFxNegative()
+            return
+        }
+
+        switch item {
+        case Item.moveLeft:
+            KeyBindings.moveLeft = keyCode
+            UserDefaults.standard.keyMoveLeft = keyCode
+            AudioPlayer.playFxPositive()
+
+        case Item.moveRight:
+            KeyBindings.moveRight = keyCode
+            UserDefaults.standard.keyMoveRight = keyCode
+            AudioPlayer.playFxPositive()
+
+        case Item.rotateLeft:
+            KeyBindings.rotateLeft = keyCode
+            UserDefaults.standard.keyRotateLeft = keyCode
+            AudioPlayer.playFxPositive()
+
+        case Item.rotateRight:
+            KeyBindings.rotateRight = keyCode
+            UserDefaults.standard.keyRotateRight = keyCode
+            AudioPlayer.playFxPositive()
+
+        case Item.softDrop:
+            KeyBindings.softDrop = keyCode
+            UserDefaults.standard.keySoftDrop = keyCode
+            AudioPlayer.playFxPositive()
+
+        default:
             AudioPlayer.playFxNegative()
         }
     }
@@ -163,58 +211,23 @@ class Settings: SKScene {
     }
 
     override func keyDown(with event: NSEvent) {
-        if let rebind = self.rebind {
 
-            if event.keyCode == KeyBindings.quit {
-                AudioPlayer.playFxNegative()
-                return
-            }
-
-            switch rebind {
-            case "MoveLeft":
-                KeyBindings.moveLeft = event.keyCode
-                UserDefaults.standard.keyMoveLeft = event.keyCode
-                AudioPlayer.playFxPositive()
-
-            case "MoveRight":
-                KeyBindings.moveRight = event.keyCode
-                UserDefaults.standard.keyMoveRight = event.keyCode
-                AudioPlayer.playFxPositive()
-
-            case "RotateLeft":
-                KeyBindings.rotateLeft = event.keyCode
-                UserDefaults.standard.keyRotateLeft = event.keyCode
-                AudioPlayer.playFxPositive()
-
-            case "RotateRight":
-                KeyBindings.rotateRight = event.keyCode
-                UserDefaults.standard.keyRotateRight = event.keyCode
-                AudioPlayer.playFxPositive()
-
-            case "SoftDrop":
-                KeyBindings.softDrop = event.keyCode
-                UserDefaults.standard.keySoftDrop = event.keyCode
-                AudioPlayer.playFxPositive()
-
-            default:
-                AudioPlayer.playFxNegative()
-            }
-
-            self.rebind = nil
+        if let item = self.rebindItem {
+            self.rebind(item: item, keyCode: event.keyCode)
+            self.rebindItem = nil
             self.update()
-
             return
         }
 
         switch event.keyCode {
         case KeyBindings.up:
             AudioPlayer.playFxSelect()
-            self.selection = self.selection > 0 ? self.selection - 1 : self.selection
+            self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
             self.update()
 
         case KeyBindings.down:
             AudioPlayer.playFxSelect()
-            self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
+            self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
             self.update()
 
         case KeyBindings.select:
@@ -234,11 +247,7 @@ class Settings: SKScene {
             self.update()
 
         case KeyBindings.quit:
-            AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Menu") {
-                newScene.scaleMode = .aspectFit
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.select(item: Item.back)
 
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")

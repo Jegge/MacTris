@@ -11,6 +11,13 @@ import GameplayKit
 
 class Menu: SKScene {
 
+    private struct Item {
+        public static let play = "Play"
+        public static let settings = "Settings"
+        public static let hiscores = "Hiscores"
+        public static let quit = "Quit"
+    }
+
     private var level = 0
     private var menuItems: [String] = []
     private var selection: Int = -1 {
@@ -37,42 +44,54 @@ class Menu: SKScene {
                 label.fontColor = NSColor(named: "MenuDefault")
             }
 
-            if item == "Play" {
-                label.text = "Play — level \(self.level)"
+            if item == Item.play {
+                label.text = "Play level \(self.level)"
             }
         }
     }
 
     private func select (item: String) {
         switch item {
-        case "Play":
+        case Item.play:
+            AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Game") as? Game {
                 newScene.scaleMode = .aspectFit
                 newScene.level = self.level
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
-        case "Settings":
+
+        case Item.settings:
+            AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Settings") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
-        case "Hiscores":
+
+        case Item.hiscores:
+            AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Scores") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
-        case "Quit":
+
+        case Item.quit:
             NSApplication.shared.terminate(nil)
+
         default:
+            AudioPlayer.playFxNegative()
             print("Unknown menu option \(item)")
         }
     }
 
     private func increase (item: String) {
         switch item {
-        case "Play":
-            self.level = min(19, self.level + 1)
-            AudioPlayer.playFxPositive()
+        case Item.play:
+            if self.level < 19 {
+                self.level += 1
+                AudioPlayer.playFxPositive()
+            } else {
+                AudioPlayer.playFxNegative()
+            }
 
         default:
             AudioPlayer.playFxNegative()
@@ -81,9 +100,13 @@ class Menu: SKScene {
 
     private func decrease (item: String) {
         switch item {
-        case "Play":
-            self.level = max(0, self.level - 1)
-            AudioPlayer.playFxPositive()
+        case Item.play:
+            if self.level > 0 {
+                self.level -= 1
+                AudioPlayer.playFxPositive()
+            } else {
+                AudioPlayer.playFxNegative()
+            }
 
         default:
             AudioPlayer.playFxNegative()
@@ -103,18 +126,16 @@ class Menu: SKScene {
         switch event.keyCode {
         case KeyBindings.up:
             AudioPlayer.playFxSelect()
-            self.selection = self.selection > 0 ? self.selection - 1 : self.selection
+            self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
 
         case KeyBindings.down:
             AudioPlayer.playFxSelect()
-            self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : self.selection
+            self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
         case KeyBindings.select:
-            AudioPlayer.playFxPositive()
             self.select(item: self.menuItems[self.selection])
 
         case KeyBindings.enter:
-            AudioPlayer.playFxPositive()
             self.select(item: self.menuItems[self.selection])
 
         case KeyBindings.left:
@@ -124,9 +145,6 @@ class Menu: SKScene {
         case KeyBindings.right:
             self.increase(item: self.menuItems[self.selection])
             self.update()
-
-        case KeyBindings.quit:
-            NSApplication.shared.terminate(nil)
 
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")

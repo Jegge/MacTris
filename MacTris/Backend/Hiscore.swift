@@ -27,6 +27,8 @@ public class Hiscore {
         return URL.applicationSupportDirectory.appendingPathComponent("hiscores.json")
     }
 
+    static var nameLength: Int = 16
+
     private var list: [Score]
 
     public var scores: [Score] {
@@ -71,7 +73,7 @@ public class Hiscore {
     }
 
     func rename (at index: Int, to name: String) {
-        self.list[index] = Score(name: String(name.prefix(16)), value: self.list[index].value)
+        self.list[index] = Score(name: String(name.prefix(Hiscore.nameLength)), value: self.list[index].value)
     }
 
     func name (at index: Int) -> String {
