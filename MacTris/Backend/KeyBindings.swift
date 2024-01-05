@@ -7,6 +7,7 @@
 
 public struct KeyBindings {
     static let quit = KeyCode.escape.rawValue
+    static let pause = KeyCode.escape.rawValue
     static let select = KeyCode.space.rawValue
     static let enter = KeyCode.return.rawValue
     static let backspace = KeyCode.delete.rawValue

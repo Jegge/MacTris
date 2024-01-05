@@ -10,6 +10,12 @@ import GameplayKit
 
 class Game: SKScene {
 
+    private enum State {
+        case running
+        case paused
+        case gameover
+    }
+
     private struct FrameCount {
         private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
@@ -30,16 +36,19 @@ class Game: SKScene {
     private var framesToWait: Int = 0
     private var keysDown: Set<UInt16> = Set()
 
-    private var isGamePaused: Bool = false {
+    private var state: State = .running {
         didSet {
-            self.childNode(withName: "pause")?.isHidden = !self.isGamePaused
-            AudioPlayer.playFxSelect()
-        }
-    }
+            switch state {
+            case .running:
+                self.childNode(withName: "pause")?.isHidden = true
+                self.childNode(withName: "gameOver")?.isHidden = true
 
-    private var isGameOver: Bool = false {
-        didSet {
-            if self.isGameOver {
+            case .paused:
+                self.childNode(withName: "pause")?.isHidden = false
+                self.childNode(withName: "gameOver")?.isHidden = true
+
+            case .gameover:
+                self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = false
 
                 if let label = self.childNode(withName: "//labelFinalScore") as? SKLabelNode {
@@ -117,12 +126,12 @@ class Game: SKScene {
         board.clear()
 
         self.framesToWait = FrameCount.gravity(level: self.level)
-        self.isGameOver = false
+        self.state = .running
     }
 
     override func keyDown (with event: NSEvent) {
-
-        if self.isGameOver {
+        switch self.state {
+        case .gameover:
             if event.keyCode == KeyBindings.quit {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
@@ -131,11 +140,9 @@ class Game: SKScene {
                     self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
                 }
             }
-            return
-        }
 
-        if self.isGamePaused {
-            if event.keyCode == KeyBindings.quit {
+        case .paused:
+            if event.keyCode == KeyBindings.pause {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                     newScene.scaleMode = .aspectFit
@@ -143,32 +150,34 @@ class Game: SKScene {
                     self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
                 }
             } else {
-                self.isGamePaused = false
+                AudioPlayer.playFxSelect()
+                self.state = .running
             }
-            return
-        }
 
-        switch event.keyCode {
-        case KeyBindings.moveLeft:
-            self.keysDown.insert(event.keyCode)
+        case .running:
+            switch event.keyCode {
+            case KeyBindings.moveLeft:
+                self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.moveRight:
-            self.keysDown.insert(event.keyCode)
+            case KeyBindings.moveRight:
+                self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.softDrop:
-            self.keysDown.insert(event.keyCode)
+            case KeyBindings.softDrop:
+                self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.rotateLeft:
-            self.keysDown.insert(event.keyCode)
+            case KeyBindings.rotateLeft:
+                self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.rotateRight:
-            self.keysDown.insert(event.keyCode)
+            case KeyBindings.rotateRight:
+                self.keysDown.insert(event.keyCode)
 
-        case KeyBindings.quit:
-            self.isGamePaused = true
+            case KeyBindings.pause:
+                AudioPlayer.playFxSelect()
+                self.state = .paused
 
-        default:
-            print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+            default:
+                print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+            }
         }
     }
 
@@ -178,7 +187,7 @@ class Game: SKScene {
 
     override func update (_ currentTime: TimeInterval) {
 
-        if self.isGamePaused || self.isGameOver {
+        if self.state != .running {
             return
         }
 
@@ -208,7 +217,7 @@ class Game: SKScene {
                     } else {
                         self.current = nil
                         if board.stackedTooHigh(tetromino: current) {
-                            self.isGameOver = true
+                            self.state = .gameover
                             return
                         }
                     }
@@ -252,7 +261,7 @@ class Game: SKScene {
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
             if let current = self.current, board.stackedTooHigh(tetromino: current) {
-                self.isGameOver = true
+                self.state = .gameover
             }
             self.current = nil
             self.framesToWait = FrameCount.gravity(level: self.level)
