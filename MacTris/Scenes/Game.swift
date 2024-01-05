@@ -46,6 +46,8 @@ class Game: SKScene {
     private var keysDown: Set<UInt16> = Set()
     private var anyKeyEnabled = false
 
+    private var numberFormatter = NumberFormatter()
+
     private var state: State = .running {
         didSet {
             switch state {
@@ -81,19 +83,19 @@ class Game: SKScene {
 
     private var lines: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelLines") as? SKLabelNode)?.text = String(format: "%3d", self.lines)
+            (self.childNode(withName: "labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.lines)
         }
     }
 
     private var score: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelScore") as? SKLabelNode)?.text = String(format: "%10d", self.score)
+            (self.childNode(withName: "labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.score)
         }
     }
 
     public var level: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelLevel") as? SKLabelNode)?.text = String(format: "%3d", self.level)
+            (self.childNode(withName: "labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.level)
         }
     }
 
@@ -133,6 +135,8 @@ class Game: SKScene {
         guard let board = self.childNode(withName: "board") as? SKTileMapNode else {
             return
         }
+
+        self.numberFormatter.numberStyle = .decimal
 
         self.score = 0
         self.lines = 0

@@ -13,10 +13,13 @@ class Scores: SKScene {
 
     public var score: Int?  // = 234566
     private var index: Int?
-
     private var hiscores: Hiscore = Hiscore()
 
     private func update () {
+
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+
         for (index, score) in hiscores.scores.enumerated() {
             guard let value = self.childNode(withName: "//labelScore\(index)") as? SKLabelNode,
                   let name = self.childNode(withName: "//labelName\(index)") as? SKLabelNode,
@@ -26,7 +29,7 @@ class Scores: SKScene {
             }
 
             name.text = score.name
-            value.text = String(format: "%10d", score.value)
+            value.text =  formatter.string(for: score.value)
 
             if self.index == index {
                 name.fontColor = NSColor(named: "MenuHilite")

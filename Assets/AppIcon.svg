@@ -2,16 +2,20 @@
 <svg width="1536px" height="1536px" id="svg2" version="1.1" viewBox="0 0 1536 1536" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs id="defs4">
     <linearGradient id="linearGradient4110">
-      <stop style="stop-opacity: 1; stop-color: rgb(54, 47, 47);" offset="0" id="stop4112"/>
-      <stop style="stop-opacity: 1;" offset="1" id="stop4114"/>
+      <stop style="stop-opacity: 1; stop-color: rgb(242, 242, 242);" offset="0" id="stop4112"/>
+      <stop style="stop-opacity: 1; stop-color: rgb(201, 201, 201);" offset="1" id="stop4114"/>
     </linearGradient>
-    <linearGradient id="linearGradient4116" x1="511.68015" y1="0" x2="511.68015" y2="1461.4401" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.5, 0, 0, 1.501643, 0, 0)" xlink:href="#linearGradient4110"/>
+    <linearGradient id="linearGradient4110-1" x1="511.68015" y1="0" x2="511.68015" y2="1461.4401" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.5, 0, 0, 1.501643, 0, 0)" xlink:href="#linearGradient4110"/>
+    <linearGradient id="linearGradient4110-2" x1="511.68015" y1="0" x2="511.68015" y2="1461.4401" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.5, 0, 0, 1.501643, 0, 0)" xlink:href="#linearGradient4110"/>
   </defs>
-  <rect style="color: rgb(0, 0, 0); fill: url(#linearGradient4116); fill-opacity: 1; fill-rule: nonzero; stroke: none; stroke-width: 2; marker: none; visibility: visible; display: inline; overflow: visible;" id="rect4108" width="1536" height="1536">
+  <path d="M 0 0 H 1536 V 1536 H 0 V 0 Z" style="color: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; stroke: none; stroke-width: 2; marker: none; display: inline; overflow: visible; fill: url('#linearGradient4110-1'); visibility: hidden;" id="rect-1">
     <title>Background gradient</title>
-  </rect>
-  <g style="visibility: hidden;" transform="matrix(1.499983, 0, 0, 1.499944, 0.017593, 0.00901)">
-    <title>Guides</title>
+  </path>
+  <path d="M 0 0 L 456.25098 0 C 455.516 0.0027 454.78317 0.0057 454.05249 0.00901 L 478.63509 0.00901 C 477.86204 0.0057 477.0912 0.0027 476.32257 0 L 1536 0 L 1536 0.00901 L 1059.28689 0.00901 C 1131.99078 0.1301 1185.14112 1.75116 1226.14502 6.59104 C 1256.10796 10.1277 1279.78293 15.1297 1299.13387 20.43046 C 1341.71074 32.09344 1364.60115 46.04812 1391.66148 64.05369 C 1410.60332 76.65734 1427.38642 91.86879 1442.48395 108.129 C 1452.60539 119.02991 1462.32789 130.85353 1470.84809 142.91767 C 1474.02736 147.41936 1476.897 151.99115 1479.83749 156.71284 C 1482.59662 161.14334 1484.93076 164.99761 1487.17762 168.91583 C 1489.98339 173.80867 1492.65304 178.80124 1495.84421 185.14009 C 1506.61394 206.53279 1516.36188 233.51399 1521.78987 264.20046 C 1524.94118 282.01658 1528.60504 301.23142 1530.72197 321.4802 C 1534.44256 357.0676 1535.69987 396.34648 1535.94098 439.80785 L 1536 1.9378 L 1536 1062.83615 C 1535.95622 1112.9624 1535.4486 1148.89351 1532.7195 1191.72248 C 1529.50518 1242.16744 1521.20458 1284.76527 1508.52282 1320.45857 C 1500.78561 1342.23581 1491.4174 1361.44285 1480.57861 1378.29374 C 1464.98911 1402.53051 1446.60275 1425.04378 1425.23645 1444.98797 C 1414.93985 1454.59924 1404.28267 1462.71149 1392.35867 1471.2394 C 1376.79782 1482.36836 1362.02091 1490.83164 1344.08651 1499.19581 C 1328.05137 1506.67423 1309.33941 1513.44468 1284.22869 1519.37156 C 1266.85207 1523.473 1246.41132 1527.37766 1221.67306 1529.98171 C 1180.82429 1534.2816 1128.40728 1535.09967 1059.28689 1535.95164 L 1536 1535.95164 L 1536 1536 L 476.70125 1536 C 477.32687 1535.99972 477.9539 1535.99925 478.58235 1535.99859 L 471.99267 1535.99859 C 472.61252 1535.99925 473.23378 1535.99972 473.85646 1536 L 0 1536 L 0 1535.99859 L 471.99267 1535.99859 C 413.44406 1535.9366 367.44369 1534.2141 329.77201 1531.23566 C 286.51487 1527.81564 254.2693 1520.49831 229.7616 1513.55747 C 218.15907 1510.27155 208.20416 1506.38174 199.18841 1502.41109 C 193.68059 1499.98538 188.52029 1497.5273 183.50541 1495.0993 C 170.774 1488.93523 159.65343 1482.09927 148.02269 1474.22111 C 129.91055 1461.95274 113.58913 1448.39322 96.66588 1431.04433 C 81.5168 1415.51422 67.85409 1397.43615 56.63069 1380.35202 C 47.16502 1365.9435 38.93407 1349.85681 31.50254 1332.00724 C 29.69819 1327.67344 27.65706 1323.37986 26.18242 1318.66008 C 19.6229 1297.66545 14.33923 1277.36973 10.24555 1251.71938 C 8.23322 1239.11043 6.51221 1226.18639 5.19856 1212.85132 C 1.22871 1172.55305 0.2023 1128.30701 0 1076.13543 Z M 1535.93591 477.38529 C 1535.99628 464.52306 1536.00862 452.00086 1535.94098 439.80785 Z M 0.01759 477.71117 C 0.08417 396.31666 2.94488 323.13672 13.2147 267.68556 C 22.14975 219.44139 36.97795 185.96992 56.85136 155.07305 C 79.95357 119.15643 109.5386 87.29834 145.89155 63.05314 C 167.72227 48.49338 186.74375 37.97259 215.10222 27.09119 C 229.89508 21.41504 247.12714 17.21209 267.14785 13.31761 C 308.76028 5.22306 365.70708 0.40868 454.05249 0.00901 L 0.01759 0.00901 Z" style="color: rgb(0, 0, 0); fill-opacity: 1; fill-rule: nonzero; stroke: none; stroke-width: 2; marker: none; display: inline; overflow: visible; fill: url('#linearGradient4110-2');" id="path-5">
+    <title>Background2</title>
+  </path>
+  <g style="pointer-events: none; visibility: hidden;" transform="matrix(1.499983, 0, 0, 1.499944, 0.017593, 0.00901)">
+    <title>Guides iOS</title>
     <path d="M 352.20446 -0.00001 L 671.79554 -0.00001 C 773.21114 -0.00001 823.91893 -0.00001 878.50394 17.25958 C 938.10142 38.95131 985.04875 85.89857 1006.74048 145.49612 C 1024 200.08092 1024 250.78875 1024 352.20441 L 1024 671.79557 C 1024 773.21123 1024 823.91906 1006.74048 878.50386 C 985.04875 938.10144 938.10142 985.04863 878.50394 1006.7404 C 823.91893 1023.99999 773.21114 1023.99999 671.79554 1023.99999 L 352.20446 1023.99999 C 250.78886 1023.99999 200.08107 1023.99999 145.49606 1006.7404 C 85.89858 985.04863 38.95125 938.10144 17.25952 878.50386 C 0 823.91906 0 773.21123 0 671.79557 L 0 352.20441 C 0 250.78875 0 200.08092 17.25952 145.49616 C 38.95125 85.89861 85.89858 38.95131 145.49606 17.25958 C 200.08107 -0.00001 250.78886 -0.00001 352.20446 -0.00001 L 352.20446 -0.00001" id="path5" style="fill: none; stroke: rgb(0, 0, 0); stroke-opacity: 1;">
       <title>Outline</title>
     </path>
@@ -42,25 +46,78 @@
       <path style="color: rgb(0, 0, 0); fill: none; stroke: rgb(0, 0, 0); stroke-width: 1.42908; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 4; stroke-opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; marker: none; display: inline; overflow: visible;" id="path3129-7" d="m 600.32144,298.86218 a 138,138 0 1 1 -276,0 138,138 0 1 1 276,0 z" transform="matrix(1.4025564,0,0,1.3964479,-135.79717,96.569794)"/>
     </g>
   </g>
-  <g transform="matrix(1.251688, 0, 0, 1.271859, -340.572968, -149.924026)" style="">
-    <g transform="matrix(1, 0, 0, 1, 1.040649, 0)">
-      <rect style="fill: rgb(230, 4, 4); stroke: rgb(170, 49, 49); stroke-width: 20px;" x="756.45782" y="318.35416" width="256" height="256" rx="25" ry="25">
-        <title>Red</title>
-      </rect>
-      <rect style="fill: rgb(4, 110, 230); stroke: rgb(51, 26, 219); stroke-width: 20px;" x="480.26813" y="318.35416" width="256" height="256" rx="25" ry="25">
-        <title>Blue</title>
-      </rect>
-      <rect style="fill: rgb(230, 111, 4); stroke: rgb(215, 75, 14); stroke-width: 20px;" x="1032.97534" y="318.35416" width="256" height="256" rx="25" ry="25">
-        <title>Orange</title>
-      </rect>
-    </g>
-    <g>
-      <rect style="fill: rgb(230, 208, 4); stroke: rgb(194, 164, 31); stroke-width: 20px;" x="758.86694" y="869.08252" width="256" height="256" rx="25" ry="25">
-        <title>Yellow</title>
-      </rect>
-      <rect style="fill: rgb(16, 230, 4); stroke: rgb(48, 197, 65); stroke-width: 20px;" x="756.45782" y="593.66907" width="256" height="256" rx="25" ry="25">
-        <title>Green</title>
-      </rect>
-    </g>
+  <g transform="matrix(0.691512, 0, 0, 0.692308, 248.848251, 179.538193)" style="">
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="320" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="320.00005" y="1080.00003" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="320.00006" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="540" y="420" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1201.49719" y="640" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="1200" y="419.99997" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="1201.49719" y="200" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="979.80774" y="420" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="979.80774" y="640" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1200" y="860" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1201.49719" y="1080" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1200" y="1300" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="540" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="760.02032" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="760.02032" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="100.00002" y="1080" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="101.49731" y="1300" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="320" y="1300" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100.00002" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100" y="419.99997" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="320" y="419.99998" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="100.00003" y="200" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="320.00006" y="200" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
   </g>
 </svg>
