@@ -13,7 +13,7 @@ class Game: SKScene {
     private struct FrameCount {
         private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-        public static func gravity(level: Int) -> Int {
+        public static func gravity (level: Int) -> Int {
             return level < FrameCount.gravityPerLevel.count ? FrameCount.gravityPerLevel[level] : 1
         }
         public static let dissolve: Int = 4
@@ -39,8 +39,17 @@ class Game: SKScene {
 
     private var isGameOver: Bool = false {
         didSet {
-            self.childNode(withName: "gameOver")?.isHidden = !self.isGameOver
             if self.isGameOver {
+                self.childNode(withName: "gameOver")?.isHidden = false
+
+                if let label = self.childNode(withName: "//labelFinalScore") as? SKLabelNode {
+                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.score)) {
+                        label.text = "New hiscore: \(self.score)"
+                    } else {
+                        label.text = "Your score: \(self.score)"
+                    }
+                }
+
                 AudioPlayer.playFxGameOver()
             }
         }
@@ -225,21 +234,16 @@ class Game: SKScene {
         if self.framesToWait > 0 {
             self.framesToWait -= 1
         } else if let completed = self.completed {
+            self.score(rows: completed)
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
                 self.completed = board.completedRows()
-                if let completed = self.completed {
-                    self.score(rows: completed)
-                }
                 self.framesToWait = FrameCount.spawn
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
         } else if self.current == nil {
             self.completed = board.completedRows()
-            if let completed = self.completed {
-                self.score(rows: completed)
-            }
             self.current = self.next?.with(position: board.startPosition)
             self.next = random.next().with(position: (2, 2))
             self.framesToWait = FrameCount.spawn

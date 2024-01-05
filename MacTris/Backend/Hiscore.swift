@@ -17,7 +17,6 @@ public class Hiscore {
         public static func < (lhs: Hiscore.Score, rhs: Hiscore.Score) -> Bool {
             return lhs.value < rhs.value
         }
-
     }
 
     static var key: SymmetricKey {
@@ -77,5 +76,9 @@ public class Hiscore {
 
     func name (at index: Int) -> String {
         return self.list[index].name
+    }
+
+    func isHighscore (score: Score) -> Bool {
+        return score.value > (self.list.map { $0.value }.min() ?? 0)
     }
 }
