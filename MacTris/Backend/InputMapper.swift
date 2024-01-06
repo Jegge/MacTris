@@ -7,8 +7,9 @@
 
 import Foundation
 import GameController
+import OSLog
 
-enum Input {
+enum Input: Codable {
     case menu
     case select
 
@@ -25,52 +26,85 @@ enum Input {
 }
 
 class InputMapper {
-    // swiftlint:disable:next large_tuple
-    private var keymap: [(keyCode: UInt16, event: Input, canBind: Bool)] = [
-        (keyCode: KeyCode.arrowLeft.rawValue, event: .left, canBind: false),
-        (keyCode: KeyCode.arrowLeft.rawValue, event: .moveLeft, canBind: true),
-        (keyCode: KeyCode.arrowRight.rawValue, event: .right, canBind: false),
-        (keyCode: KeyCode.arrowRight.rawValue, event: .moveRight, canBind: true),
-        (keyCode: KeyCode.arrowDown.rawValue, event: .down, canBind: false),
-        (keyCode: KeyCode.arrowDown.rawValue, event: .softDrop, canBind: true),
-        (keyCode: KeyCode.arrowUp.rawValue, event: .up, canBind: false),
-        (keyCode: KeyCode.escape.rawValue, event: .menu, canBind: false),
-        (keyCode: KeyCode.space.rawValue, event: .select, canBind: false),
-        (keyCode: KeyCode.return.rawValue, event: .select, canBind: false),
-        (keyCode: KeyCode.a.rawValue, event: .rotateLeft, canBind: true),
-        (keyCode: KeyCode.s.rawValue, event: .rotateRight, canBind: true)
+
+    struct KeyBinding: Codable {
+        let keyCode: UInt16
+        let id: Input
+    }
+
+    private var keymap: [(binding: KeyBinding, mutable: Bool)] = [
+        (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .left), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .right), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .down), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.arrowUp.rawValue, id: .up), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.escape.rawValue, id: .menu), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.space.rawValue, id: .select), mutable: false),
+        (binding: KeyBinding(keyCode: KeyCode.return.rawValue, id: .select), mutable: false),
+
+        (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .moveLeft), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .moveRight), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .softDrop), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.a.rawValue, id: .rotateLeft), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateRight), mutable: true)
     ]
 
-    func describe (keyboardEvent: Input) -> String {
-        if let keyCode = self.keymap.first(where: { $0.event == keyboardEvent})?.keyCode {
+    var keyboardBindings: [KeyBinding] {
+        get {
+            self.keymap.filter { $0.mutable }.map { $0.binding }
+        }
+        set {
+            for binding in newValue {
+                self.bind(keyCode: binding.keyCode, id: binding.id)
+            }
+        }
+    }
+
+    func describe (id: Input) -> String {
+        if let keyCode = self.keymap.first(where: { $0.binding.id == id})?.binding.keyCode {
             return KeyCode(rawValue: keyCode)?.description ?? "⍰"
         }
         return "⍰"
     }
+    // A / Circle  ⒌/⒈
+    // B / Cross   ⒍/⒉
+    // Down         ⒣
+    // Left         ⒤
+    // Right        ⒥
 
-    func bind (keyCode: UInt16, event: Input) {
-        self.keymap.removeAll { $0.event == event && $0.canBind }
-        self.keymap.append((keyCode: keyCode, event: event, canBind: true))
+    func bind (keyCode: UInt16, id: Input) {
+        self.keymap.removeAll { $0.binding.id == id && $0.mutable }
+        self.keymap.append((binding: KeyBinding(keyCode: keyCode, id: id), mutable: true))
     }
 
-    func canBind (event: Input) -> Bool {
-        return self.keymap.first { $0.event == event && $0.canBind } != nil
+    func canBind (id: Input) -> Bool {
+        return self.keymap.first { $0.binding.id == id && $0.mutable } != nil
     }
 
-    func translate (nsEvent event: NSEvent) -> [InputEvent] {
+    func translate (event: NSEvent) -> [InputEvent] {
+        var result: [InputEvent] = []
+
         switch event.type {
         case .keyDown:
-            return self.keymap.filter { $0.keyCode == event.keyCode }.map { InputEvent(id: $0.event, isDown: true) }
+            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true) }
         case .keyUp:
-            return self.keymap.filter { $0.keyCode == event.keyCode }.map { InputEvent(id: $0.event, isDown: false) }
+            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: false) }
         default:
-            return []
+            break
         }
+
+        if !result.isEmpty {
+            Logger.input.debug("Keyboard events: \(result)")
+        }
+
+        return result
     }
 
     func translate (gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
+
+        var result: [InputEvent] = []
+
         if gamepad.dpad == element {
-            return [
+            result = [
                 InputEvent(id: .left, isDown: gamepad.dpad.left.isPressed),
                 InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed),
                 InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed),
@@ -82,25 +116,29 @@ class InputMapper {
         }
 
         if gamepad.buttonA == element {
-            return [
+            result =  [
                 InputEvent(id: .rotateLeft, isDown: gamepad.buttonA.isPressed)
             ]
         }
 
         if gamepad.buttonB == element {
-            return [
+            result =  [
                 InputEvent(id: .select, isDown: gamepad.buttonB.isPressed),
                 InputEvent(id: .rotateRight, isDown: gamepad.buttonB.isPressed)
             ]
         }
 
         if gamepad.buttonMenu == element {
-            return [
+            result =  [
                 InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed)
             ]
         }
 
-        return []
+        if !result.isEmpty {
+            Logger.input.debug("Gamepad events: \(result)")
+        }
+
+        return result
     }
 
     static let shared = InputMapper()

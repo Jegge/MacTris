@@ -13,16 +13,16 @@ struct InputEvent: Equatable {
 }
 
 protocol InputEventResponder {
-    func inputDown(event: Input)
-    func inputUp(event: Input)
+    func inputDown(id: Input)
+    func inputUp(id: Input)
 }
 
 extension InputEventResponder {
     func input(event: InputEvent) {
         if event.isDown {
-            self.inputDown(event: event.id)
+            self.inputDown(id: event.id)
         } else {
-            self.inputUp(event: event.id)
+            self.inputUp(id: event.id)
         }
     }
 }

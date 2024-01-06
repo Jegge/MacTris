@@ -13,13 +13,15 @@ extension UserDefaults {
         public static let musicVolume = "MusicVolume"
         public static let fxVolume = "FxVolume"
         public static let fullscreen = "Fullscreen"
+        public static let keyboardBindings = "KeyboardBindings"
     }
 
     func register() {
         self.register(defaults: [
             Key.musicVolume: 100,
             Key.fxVolume: 100,
-            Key.fullscreen: false
+            Key.fullscreen: false,
+            Key.keyboardBindings: []
         ])
     }
 
@@ -47,6 +49,15 @@ extension UserDefaults {
         }
         set {
             self.setValue(max(0, min(100, newValue)), forKey: Key.fxVolume)
+        }
+    }
+
+    var keyboardBindings: [InputMapper.KeyBinding] {
+        get {
+            return self.decodable(forKey: Key.keyboardBindings) ?? []
+        }
+        set {
+            self.set(encodable: newValue, forKey: Key.keyboardBindings)
         }
     }
 }

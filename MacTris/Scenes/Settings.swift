@@ -70,19 +70,19 @@ class Settings: SKScene {
             return AudioPlayer.shared.fxVolume == 0 ? "off" : "\(AudioPlayer.shared.fxVolume)%"
 
         case Item.moveLeft:
-            return self.rebindEvent == .moveLeft ? "" : InputMapper.shared.describe(keyboardEvent: .moveLeft)
+            return self.rebindEvent == .moveLeft ? "" : InputMapper.shared.describe(id: .moveLeft)
 
         case Item.moveRight:
-            return self.rebindEvent == .moveRight ? "" : InputMapper.shared.describe(keyboardEvent: .moveRight)
+            return self.rebindEvent == .moveRight ? "" : InputMapper.shared.describe(id: .moveRight)
 
         case Item.rotateLeft:
-            return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describe(keyboardEvent: .rotateLeft)
+            return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describe(id: .rotateLeft)
 
         case Item.rotateRight:
-            return self.rebindEvent == .rotateRight ? "": InputMapper.shared.describe(keyboardEvent: .rotateRight)
+            return self.rebindEvent == .rotateRight ? "": InputMapper.shared.describe(id: .rotateRight)
 
         case Item.softDrop:
-            return self.rebindEvent == .softDrop ? "" : InputMapper.shared.describe(keyboardEvent: .softDrop)
+            return self.rebindEvent == .softDrop ? "" : InputMapper.shared.describe(id: .softDrop)
 
         default:
             return nil
@@ -192,31 +192,31 @@ class Settings: SKScene {
     override func keyDown (with event: NSEvent) {
         if let rebindEvent = self.rebindEvent {
 
-            if InputMapper.shared.translate(nsEvent: event).contains(where: { $0.id == Input.menu }) {
+            if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
                 AudioPlayer.playFxNegative()
                 return
             }
 
-            if InputMapper.shared.canBind(event: rebindEvent) {
-                InputMapper.shared.bind(keyCode: event.keyCode, event: rebindEvent)
+            if InputMapper.shared.canBind(id: rebindEvent) {
+                InputMapper.shared.bind(keyCode: event.keyCode, id: rebindEvent)
+                UserDefaults.standard.keyboardBindings = InputMapper.shared.keyboardBindings
                 AudioPlayer.playFxPositive()
+                self.rebindEvent = nil
+                self.update()
             } else {
                 AudioPlayer.playFxNegative()
             }
-
-            self.rebindEvent = nil
-            self.update()
         } else {
-            for inputEvent in InputMapper.shared.translate(nsEvent: event) {
-                self.inputDown(event: inputEvent.id)
+            InputMapper.shared.translate(event: event).forEach {
+                self.inputDown(id: $0.id)
             }
         }
     }
 }
 
 extension Settings: InputEventResponder {
-    func inputDown(event: Input) {
-        switch event {
+    func inputDown(id: Input) {
+        switch id {
         case Input.up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
@@ -243,10 +243,10 @@ extension Settings: InputEventResponder {
             self.select(item: Item.back)
 
         default:
-            print("Unhandled input event: \(event)")
+            print("Unhandled input event: \(id)")
         }
     }
 
-    func inputUp(event: Input) {
+    func inputUp(id: Input) {
     }
 }

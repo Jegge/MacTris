@@ -120,16 +120,16 @@ class Scores: SKScene {
         if let index = self.index {
             self.enterText(at: index, forEvent: event)
         } else {
-            for inputEvent in InputMapper.shared.translate(nsEvent: event) {
-                self.inputDown(event: inputEvent.id)
+            InputMapper.shared.translate(event: event).forEach {
+                self.inputDown(id: $0.id)
             }
         }
     }
 }
 
 extension Scores: InputEventResponder {
-    func inputDown(event: Input) {
-         if self.index == nil && (event == Input.menu || event == Input.select) {
+    func inputDown(id: Input) {
+         if self.index == nil && (id == Input.menu || id == Input.select) {
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
@@ -138,6 +138,6 @@ extension Scores: InputEventResponder {
         }
     }
 
-    func inputUp(event: Input) {
+    func inputUp(id: Input) {
     }
 }

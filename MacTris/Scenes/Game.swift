@@ -162,14 +162,14 @@ class Game: SKScene {
         if event.isARepeat {
             return
         }
-        for inputEvent in InputMapper.shared.translate(nsEvent: event) {
-            self.inputDown(event: inputEvent.id)
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputDown(id: $0.id)
         }
     }
 
     override func keyUp (with event: NSEvent) {
-        for inputEvent in InputMapper.shared.translate(nsEvent: event) {
-            self.inputUp(event: inputEvent.id)
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputUp(id: $0.id)
         }
     }
 
@@ -256,7 +256,7 @@ class Game: SKScene {
 }
 
 extension Game: InputEventResponder {
-    func inputDown(event: Input) {
+    func inputDown(id: Input) {
         switch self.state {
         case .gameover:
             if self.anyKeyEnabled {
@@ -269,7 +269,7 @@ extension Game: InputEventResponder {
             }
 
         case .paused:
-            if event == Input.menu {
+            if id == Input.menu {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                     newScene.scaleMode = .aspectFit
@@ -282,24 +282,24 @@ extension Game: InputEventResponder {
             }
 
         case .running:
-            switch event {
+            switch id {
             case Input.moveLeft:
                 self.keyRepeatFrames = 0
-                self.events.insert(event)
+                self.events.insert(id)
 
             case Input.moveRight:
                 self.keyRepeatFrames = 0
-                self.events.insert(event)
+                self.events.insert(id)
 
             case Input.softDrop:
                 self.keyRepeatFrames = 0
-                self.events.insert(event)
+                self.events.insert(id)
 
             case Input.rotateLeft:
-                self.events.insert(event)
+                self.events.insert(id)
 
             case Input.rotateRight:
-                self.events.insert(event)
+                self.events.insert(id)
 
             case Input.menu:
                 AudioPlayer.playFxSelect()
@@ -311,7 +311,7 @@ extension Game: InputEventResponder {
         }
     }
 
-    func inputUp(event: Input) {
-        self.events.remove(event)
+    func inputUp(id: Input) {
+        self.events.remove(id)
     }
 }
