@@ -22,3 +22,10 @@ A simple Tetris clone using SpriteKit
 
 * Silver by Poppy Works - https://poppyworks.itch.io/silver
 
+## Controller Support
+
+Disable Launchpad on select button:
+ 
+    defaults write com.apple.GameController bluetoothPrefsMenuLongPressAction -integer 0
+    defaults write com.apple.GameController bluetoothPrefsShareLongPressSystemGestureMode -integer -1
+

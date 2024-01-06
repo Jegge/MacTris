@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-public class AudioPlayer: NSObject {
+class AudioPlayer: NSObject {
 
     private var musicPlayer: AVAudioPlayer?
     private var fxPlayers: Set<AVAudioPlayer> = Set()
@@ -18,7 +18,7 @@ public class AudioPlayer: NSObject {
         self.fxPlayers.removeAll()
     }
 
-    public func playMusic (mp3 name: String) {
+    func playMusic (mp3 name: String) {
         if let url = Bundle.main.url(forResource: name, withExtension: "mp3") {
             self.musicPlayer = try? AVAudioPlayer(contentsOf: url)
             self.musicPlayer?.numberOfLoops = -1
@@ -28,24 +28,24 @@ public class AudioPlayer: NSObject {
         }
     }
 
-    public func stopMusic () {
+    func stopMusic () {
         self.musicPlayer?.stop()
         self.musicPlayer = nil
     }
 
-    public var musicVolume: Int = 100 {
+    var musicVolume: Int = 100 {
         didSet {
             self.musicPlayer?.volume = self.musicMuted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.musicVolume)))
         }
     }
 
-    public var musicMuted: Bool = false {
+    var musicMuted: Bool = false {
         didSet {
             self.musicPlayer?.volume = self.musicMuted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.musicVolume)))
         }
     }
 
-    public func playFx (aiff name: String) {
+    func playFx (aiff name: String) {
 
         if let url = Bundle.main.url(forResource: name, withExtension: "aiff"),
            let player = try? AVAudioPlayer(contentsOf: url) {
@@ -59,11 +59,11 @@ public class AudioPlayer: NSObject {
         }
     }
 
-    public var fxVolume: Int = 100
+    var fxVolume: Int = 100
 
-    public var fxMuted: Bool = false
+    var fxMuted: Bool = false
 
-    public static let shared = AudioPlayer()
+    static let shared = AudioPlayer()
 }
 
 extension AudioPlayer: AVAudioPlayerDelegate {

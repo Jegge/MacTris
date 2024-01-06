@@ -8,6 +8,7 @@
 import Foundation
 import SpriteKit
 import GameplayKit
+import GameController
 
 class Menu: SKScene {
 
@@ -123,31 +124,39 @@ class Menu: SKScene {
     }
 
     override func keyDown(with event: NSEvent) {
-        switch event.keyCode {
-        case KeyBindings.up:
+        for inputEvent in InputMapper.shared.translate(nsEvent: event) {
+            self.inputDown(event: inputEvent.id)
+        }
+    }
+}
+
+extension Menu: InputEventResponder {
+    func inputDown(event: Input) {
+        switch event {
+        case Input.up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
 
-        case KeyBindings.down:
+        case Input.down:
             AudioPlayer.playFxSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
-        case KeyBindings.select:
+        case Input.select:
             self.select(item: self.menuItems[self.selection])
 
-        case KeyBindings.enter:
-            self.select(item: self.menuItems[self.selection])
-
-        case KeyBindings.left:
+        case Input.left:
             self.decrease(item: self.menuItems[self.selection])
             self.update()
 
-        case KeyBindings.right:
+        case Input.right:
             self.increase(item: self.menuItems[self.selection])
             self.update()
 
         default:
-            print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+            print("Unhandled input event: \(event)")
         }
+    }
+
+    func inputUp(event: Input) {
     }
 }

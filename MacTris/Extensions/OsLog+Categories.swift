@@ -11,4 +11,5 @@ extension Logger {
     private static var subsystem = Bundle.main.bundleIdentifier!
 
     static let game = Logger(subsystem: subsystem, category: "game")
+    static let control = Logger(subsystem: subsystem, category: "control")
 }

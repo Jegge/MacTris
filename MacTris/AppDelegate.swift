@@ -12,11 +12,11 @@ import AVFoundation
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         UserDefaults.standard.register()
 
-        KeyBindings.moveLeft = UserDefaults.standard.keyMoveLeft
-        KeyBindings.moveRight = UserDefaults.standard.keyMoveRight
-        KeyBindings.rotateLeft = UserDefaults.standard.keyRotateLeft
-        KeyBindings.rotateRight = UserDefaults.standard.keyRotateRight
-        KeyBindings.softDrop = UserDefaults.standard.keySoftDrop
+//        InputBindings.moveLeft = UserDefaults.standard.keyMoveLeft
+//        InputBindings.moveRight = UserDefaults.standard.keyMoveRight
+//        InputBindings.rotateLeft = UserDefaults.standard.keyRotateLeft
+//        InputBindings.rotateRight = UserDefaults.standard.keyRotateRight
+//        InputBindings.softDrop = UserDefaults.standard.keySoftDrop
 
         AudioPlayer.shared.fxVolume = UserDefaults.standard.fxVolume
         AudioPlayer.shared.musicVolume = UserDefaults.standard.musicVolume

@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct Tetromino {
+struct Tetromino {
 
-    public enum Shape: CaseIterable {
+    enum Shape: CaseIterable {
         case t, j, z, o, s, l, i
 
         var points: [[(Int, Int)]] {
@@ -79,27 +79,27 @@ public struct Tetromino {
         self.position = position
     }
 
-    public func with (position: (Int, Int)) -> Tetromino {
+    func with (position: (Int, Int)) -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
-    public func rotatedLeft () -> Tetromino {
+    func rotatedLeft () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + 1) % self.shape.points.count, position: self.position)
     }
 
-    public func rotatedRight () -> Tetromino {
+    func rotatedRight () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
     }
 
-    public func movedLeft () -> Tetromino {
+    func movedLeft () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 - 1, position.1))
     }
 
-    public func movedRight () -> Tetromino {
+    func movedRight () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 + 1, position.1))
     }
 
-    public func movedDown () -> Tetromino {
+    func movedDown () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0, position.1 - 1))
     }
 }

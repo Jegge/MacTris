@@ -6,7 +6,7 @@
 //
 
 // swiftlint:disable identifier_name
-public enum KeyCode: UInt16 {
+enum KeyCode: UInt16 {
     case a                   = 0x00
     case s                   = 0x01
     case d                   = 0x02
@@ -123,7 +123,7 @@ public enum KeyCode: UInt16 {
 // swiftlint:enable identifier_name
 
 extension KeyCode: CustomStringConvertible {
-    public var description: String {
+    var description: String {
         switch self {
         case .a: return "A"
         case .s: return "S"

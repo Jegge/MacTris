@@ -25,6 +25,7 @@ class Game: SKScene {
         }
         public static let dissolve: Int = 4
         public static let spawn: Int = 16
+        public static let keyRepeat: Int = 6
     }
 
     private struct Score {
@@ -43,7 +44,8 @@ class Game: SKScene {
     private var linesToNextLevel: Int = 0
 
     private var framesToWait: Int = 0
-    private var keysDown: Set<UInt16> = Set()
+    private var events: Set<Input> = Set()
+    private var keyRepeatFrames = 0
     private var anyKeyEnabled = false
 
     private var numberFormatter = NumberFormatter()
@@ -148,66 +150,30 @@ class Game: SKScene {
 
         self.framesToWait = FrameCount.gravity(level: self.level)
         self.state = .running
-    }
 
-    override func keyDown (with event: NSEvent) {
-        switch self.state {
-        case .gameover:
-            if self.anyKeyEnabled {
-                AudioPlayer.playFxPositive()
-                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = .aspectFit
-                    newScene.score = self.score
-                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-                }
-            }
-
-        case .paused:
-            if event.keyCode == KeyBindings.pause {
-                AudioPlayer.playFxPositive()
-                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = .aspectFit
-                    newScene.score = self.score
-                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-                }
-            } else {
-                AudioPlayer.playFxSelect()
-                self.state = .running
-            }
-
-        case .running:
-            switch event.keyCode {
-            case KeyBindings.moveLeft:
-                self.keysDown.insert(event.keyCode)
-
-            case KeyBindings.moveRight:
-                self.keysDown.insert(event.keyCode)
-
-            case KeyBindings.softDrop:
-                self.keysDown.insert(event.keyCode)
-
-            case KeyBindings.rotateLeft:
-                self.keysDown.insert(event.keyCode)
-
-            case KeyBindings.rotateRight:
-                self.keysDown.insert(event.keyCode)
-
-            case KeyBindings.pause:
-                AudioPlayer.playFxSelect()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { _ in
+            if self.state == .running {
                 self.state = .paused
-
-            default:
-                print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
             }
         }
     }
 
+    override func keyDown (with event: NSEvent) {
+        if event.isARepeat {
+            return
+        }
+        for inputEvent in InputMapper.shared.translate(nsEvent: event) {
+            self.inputDown(event: inputEvent.id)
+        }
+    }
+
     override func keyUp (with event: NSEvent) {
-        self.keysDown.remove(event.keyCode)
+        for inputEvent in InputMapper.shared.translate(nsEvent: event) {
+            self.inputUp(event: inputEvent.id)
+        }
     }
 
     override func update (_ currentTime: TimeInterval) {
-
         if self.state != .running {
             return
         }
@@ -217,47 +183,44 @@ class Game: SKScene {
         }
 
         if self.completed == nil, let current = self.current {
-            if let keyCode = self.keysDown.popFirst() {
-                switch keyCode {
-                case KeyBindings.moveLeft:
-                    if let changed = board.apply(tetromino: current, change: { $0.movedLeft() }) {
-                        self.current = changed
-                        AudioPlayer.playFxTranslation()
-                    }
-
-                case KeyBindings.moveRight:
-                    if let changed = board.apply(tetromino: current, change: { $0.movedRight() }) {
-                        self.current = changed
-                        AudioPlayer.playFxTranslation()
-                    }
-
-                case KeyBindings.softDrop:
-                    if let changed = board.apply(tetromino: current, change: { $0.movedDown() }) {
-                        self.current = changed
-                        self.score += Score.drop
-                    } else {
-                        self.current = nil
-                        if board.stackedTooHigh(tetromino: current) {
-                            self.state = .gameover
-                            return
-                        }
-                    }
-
-                case KeyBindings.rotateLeft:
-                    if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
-                        self.current = changed
-                        AudioPlayer.playFxRotation()
-                    }
-
-                case KeyBindings.rotateRight:
-                    if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
-                        self.current = changed
-                        AudioPlayer.playFxRotation()
-                    }
-
-                default:
-                    break
+            if self.keyRepeatFrames > 0 {
+                self.keyRepeatFrames -= 1
+            } else if self.events.contains(Input.moveLeft) {
+                if let changed = board.apply(tetromino: current, change: { $0.movedLeft() }) {
+                    self.current = changed
+                    AudioPlayer.playFxTranslation()
                 }
+                self.keyRepeatFrames = FrameCount.keyRepeat
+            } else if self.events.contains(Input.moveRight) {
+                if let changed = board.apply(tetromino: current, change: { $0.movedRight() }) {
+                    self.current = changed
+                    AudioPlayer.playFxTranslation()
+                }
+                self.keyRepeatFrames = FrameCount.keyRepeat
+            } else if self.events.contains(Input.softDrop) {
+                if let changed = board.apply(tetromino: current, change: { $0.movedDown() }) {
+                    self.current = changed
+                    self.score += Score.drop
+                } else {
+                    self.current = nil
+                    if board.stackedTooHigh(tetromino: current) {
+                        self.state = .gameover
+                        return
+                    }
+                }
+                self.keyRepeatFrames = FrameCount.keyRepeat
+            } else if self.events.contains(Input.rotateLeft) {
+                if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
+                    self.current = changed
+                    AudioPlayer.playFxRotation()
+                }
+                self.events.remove(Input.rotateLeft)
+            } else if self.events.contains(Input.rotateRight) {
+                if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
+                    self.current = changed
+                    AudioPlayer.playFxRotation()
+                }
+                self.events.remove(Input.rotateRight)
             }
         }
 
@@ -277,6 +240,8 @@ class Game: SKScene {
             self.current =  board.setStartPosition(for: self.next)
             self.next = random.next().with(position: (2, 2))
             self.framesToWait = FrameCount.spawn
+            self.events.removeAll()
+            self.keyRepeatFrames = 0
         } else if let changed = board.apply(tetromino: self.current!, change: { $0.movedDown() }) {
             self.current = changed
             self.framesToWait = FrameCount.gravity(level: self.level)
@@ -287,5 +252,66 @@ class Game: SKScene {
             self.current = nil
             self.framesToWait = FrameCount.gravity(level: self.level)
         }
+    }
+}
+
+extension Game: InputEventResponder {
+    func inputDown(event: Input) {
+        switch self.state {
+        case .gameover:
+            if self.anyKeyEnabled {
+                AudioPlayer.playFxPositive()
+                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+                    newScene.scaleMode = .aspectFit
+                    newScene.score = self.score
+                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+                }
+            }
+
+        case .paused:
+            if event == Input.menu {
+                AudioPlayer.playFxPositive()
+                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+                    newScene.scaleMode = .aspectFit
+                    newScene.score = self.score
+                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+                }
+            } else {
+                AudioPlayer.playFxSelect()
+                self.state = .running
+            }
+
+        case .running:
+            switch event {
+            case Input.moveLeft:
+                self.keyRepeatFrames = 0
+                self.events.insert(event)
+
+            case Input.moveRight:
+                self.keyRepeatFrames = 0
+                self.events.insert(event)
+
+            case Input.softDrop:
+                self.keyRepeatFrames = 0
+                self.events.insert(event)
+
+            case Input.rotateLeft:
+                self.events.insert(event)
+
+            case Input.rotateRight:
+                self.events.insert(event)
+
+            case Input.menu:
+                AudioPlayer.playFxSelect()
+                self.state = .paused
+
+            default:
+                break
+            }
+        }
+    }
+
+    func inputUp(event: Input) {
+        self.events.remove(event)
     }
 }

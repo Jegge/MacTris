@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class RandomTetrominoGenerator {
+class RandomTetrominoGenerator {
     private var random: RandomNumberGenerator
     private var bag: [Tetromino.Shape] = []
 
@@ -19,7 +19,7 @@ public class RandomTetrominoGenerator {
         self.init(random: SystemRandomNumberGenerator())
     }
 
-    public func next () -> Tetromino {
+    func next () -> Tetromino {
         if self.bag.isEmpty {
             self.bag = Tetromino.Shape.allCases.shuffled(using: &self.random)
         }

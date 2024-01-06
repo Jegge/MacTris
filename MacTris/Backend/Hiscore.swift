@@ -8,7 +8,7 @@
 import Foundation
 import CryptoKit
 
-public class Hiscore {
+class Hiscore {
 
     public struct Score: Codable, Comparable, Equatable {
         let name: String
@@ -61,7 +61,7 @@ public class Hiscore {
         ])
     }
 
-    public func write (to url: URL) throws {
+    func write (to url: URL) throws {
         let decrypted = try JSONEncoder().encode(self.list)
         let encrypted = try AES.GCM.seal(decrypted, using: Hiscore.key).combined
         try encrypted?.write(to: url)

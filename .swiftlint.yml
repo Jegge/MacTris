@@ -15,6 +15,7 @@ identifier_name:
     - l
     - t
     - up
+    - id 
 
 nesting:
   type_level:

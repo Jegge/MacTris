@@ -6,35 +6,35 @@
 //
 
 extension AudioPlayer {
-    public static func playFxPositive () {
+    static func playFxPositive () {
         AudioPlayer.shared.playFx(aiff: "Positive")
     }
 
-    public static func playFxNegative () {
+    static func playFxNegative () {
         AudioPlayer.shared.playFx(aiff: "Negative")
     }
 
-    public static func playFxSelect () {
+    static func playFxSelect () {
         AudioPlayer.shared.playFx(aiff: "Select")
     }
 
-    public static func playFxSuccess () {
+    static func playFxSuccess () {
         AudioPlayer.shared.playFx(aiff: "Success")
     }
 
-    public static func playFxQuadSuccess () {
+    static func playFxQuadSuccess () {
         AudioPlayer.shared.playFx(aiff: "QuadSuccess")
     }
 
-    public static func playFxGameOver () {
+    static func playFxGameOver () {
         AudioPlayer.shared.playFx(aiff: "GameOver")
     }
 
-    public static func playFxTranslation () {
+    static func playFxTranslation () {
         AudioPlayer.shared.playFx(aiff: "Movement")
     }
 
-    public static func playFxRotation () {
+    static func playFxRotation () {
         AudioPlayer.shared.playFx(aiff: "Movement")
     }
 }

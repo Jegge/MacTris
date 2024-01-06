@@ -48,7 +48,7 @@ class Scores: SKScene {
 
     private func enterText (at index: Int, forEvent event: NSEvent) {
         switch event.keyCode {
-        case KeyBindings.enter:
+        case KeyCode.return.rawValue:
             if !self.hiscores.name(at: index).isEmpty {
                 AudioPlayer.playFxPositive()
                 self.index = nil
@@ -66,7 +66,7 @@ class Scores: SKScene {
                 AudioPlayer.playFxNegative()
             }
 
-        case KeyBindings.backspace:
+        case KeyCode.delete.rawValue:
             if !self.hiscores.name(at: index).isEmpty {
                 AudioPlayer.playFxSelect()
                 self.hiscores.rename(at: index, to: String(self.hiscores.name(at: index).dropLast()))
@@ -119,12 +119,25 @@ class Scores: SKScene {
     override func keyDown(with event: NSEvent) {
         if let index = self.index {
             self.enterText(at: index, forEvent: event)
-        } else if event.keyCode == KeyBindings.quit || event.keyCode == KeyBindings.enter {
+        } else {
+            for inputEvent in InputMapper.shared.translate(nsEvent: event) {
+                self.inputDown(event: inputEvent.id)
+            }
+        }
+    }
+}
+
+extension Scores: InputEventResponder {
+    func inputDown(event: Input) {
+         if self.index == nil && (event == Input.menu || event == Input.select) {
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Menu") {
                 newScene.scaleMode = .aspectFit
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
         }
+    }
+
+    func inputUp(event: Input) {
     }
 }
