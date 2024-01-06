@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import GameController
 import OSLog
 
 class Game: SKScene {
@@ -151,9 +152,27 @@ class Game: SKScene {
         self.framesToWait = FrameCount.gravity(level: self.level)
         self.state = .running
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { _ in
-            if self.state == .running {
-                self.state = .paused
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
+            self?.updatePauseInstructions()
+        }
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self]  _ in
+            if self?.state == .running {
+                self?.state = .paused
+            }
+            self?.updatePauseInstructions()
+        }
+
+        self.updatePauseInstructions()
+    }
+
+    private func updatePauseInstructions () {
+        if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
+            if GCController.controllers().isEmpty {
+                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to quit —"
+
+            } else {
+                label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to quit —"
             }
         }
     }
