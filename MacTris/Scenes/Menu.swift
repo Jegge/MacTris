@@ -125,14 +125,14 @@ class Menu: SKScene {
 
     override func keyDown(with event: NSEvent) {
         InputMapper.shared.translate(event: event).forEach {
-            self.inputDown(id: $0.id)
+            self.inputDown(event: $0)
         }
     }
 }
 
 extension Menu: InputEventResponder {
-    func inputDown(id: Input) {
-        switch id {
+    func inputDown(event: InputEvent) {
+        switch event.id {
         case Input.up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
@@ -153,10 +153,10 @@ extension Menu: InputEventResponder {
             self.update()
 
         default:
-            print("Unhandled input event: \(id)")
+            print("Unhandled input event: \(event)")
         }
     }
 
-    func inputUp(id: Input) {
+    func inputUp(event: InputEvent) {
     }
 }

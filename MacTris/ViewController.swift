@@ -43,8 +43,8 @@ class ViewController: NSViewController {
                 controller.microGamepad?.valueChangedHandler = nil
                 controller.extendedGamepad?.valueChangedHandler = {  [weak self] (gamepad: GCExtendedGamepad, element: GCControllerElement) in
                     if let responder = self?.skView.scene as? InputEventResponder {
-                        for inputEvent in InputMapper.shared.translate(gamepad: gamepad, element: element) {
-                            responder.input(event: inputEvent)
+                        InputMapper.shared.translate(gamepad: gamepad, element: element).forEach {
+                            responder.input(event: $0)
                         }
                     }
                 }

@@ -54,6 +54,9 @@ class Settings: SKScene {
             if let controller = self.childNode(withName: "controller" + item) as? SKLabelNode {
                 controller.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
                 controller.isHidden = GCController.controllers().isEmpty
+                if let text = self.controllerValue(for: item) {
+                    controller.text = text
+                }
             }
         }
     }
@@ -61,28 +64,50 @@ class Settings: SKScene {
     private func value (for item: String) -> String? {
         switch item {
         case Item.displayMode:
-            return UserDefaults.standard.fullscreen ? "fullscreen" : "windowed"
+            return UserDefaults.standard.fullscreen ? "Fullscreen" : "Window"
 
         case Item.musicVolume:
-            return AudioPlayer.shared.musicVolume == 0 ? "off" : "\(AudioPlayer.shared.musicVolume)%"
+            return AudioPlayer.shared.musicVolume == 0 ? "Off" : "\(AudioPlayer.shared.musicVolume)%"
 
         case Item.fxVolume:
-            return AudioPlayer.shared.fxVolume == 0 ? "off" : "\(AudioPlayer.shared.fxVolume)%"
+            return AudioPlayer.shared.fxVolume == 0 ? "Off" : "\(AudioPlayer.shared.fxVolume)%"
 
         case Item.moveLeft:
-            return self.rebindEvent == .moveLeft ? "" : InputMapper.shared.describe(id: .moveLeft)
+            return self.rebindEvent == .moveLeft ? "" : InputMapper.shared.describeIdForKeyboard(.moveLeft)
 
         case Item.moveRight:
-            return self.rebindEvent == .moveRight ? "" : InputMapper.shared.describe(id: .moveRight)
+            return self.rebindEvent == .moveRight ? "" : InputMapper.shared.describeIdForKeyboard(.moveRight)
 
         case Item.rotateLeft:
-            return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describe(id: .rotateLeft)
+            return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describeIdForKeyboard(.rotateLeft)
 
         case Item.rotateRight:
-            return self.rebindEvent == .rotateRight ? "": InputMapper.shared.describe(id: .rotateRight)
+            return self.rebindEvent == .rotateRight ? "": InputMapper.shared.describeIdForKeyboard(.rotateRight)
 
         case Item.softDrop:
-            return self.rebindEvent == .softDrop ? "" : InputMapper.shared.describe(id: .softDrop)
+            return self.rebindEvent == .softDrop ? "" : InputMapper.shared.describeIdForKeyboard(.softDrop)
+
+        default:
+            return nil
+        }
+    }
+
+    private func controllerValue (for item: String) -> String? {
+        switch item {
+        case Item.moveLeft:
+            return /*self.rebindEvent == .moveLeft ? "" :*/ InputMapper.shared.describeIdForController(.moveLeft)
+
+        case Item.moveRight:
+            return /*self.rebindEvent == .moveRight ? "" :*/ InputMapper.shared.describeIdForController(.moveRight)
+
+        case Item.rotateLeft:
+            return /*self.rebindEvent == .rotateLeft ? "":*/ InputMapper.shared.describeIdForController(.rotateLeft)
+
+        case Item.rotateRight:
+            return /*self.rebindEvent == .rotateRight ? "":*/ InputMapper.shared.describeIdForController(.rotateRight)
+
+        case Item.softDrop:
+            return /*self.rebindEvent == .softDrop ? "" :*/ InputMapper.shared.describeIdForController(.softDrop)
 
         default:
             return nil
@@ -187,11 +212,18 @@ class Settings: SKScene {
     override func didMove(to view: SKView) {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
+            self?.update()
+        }
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
+            self?.update()
+        }
     }
 
     override func keyDown (with event: NSEvent) {
         if let rebindEvent = self.rebindEvent {
-
             if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
                 AudioPlayer.playFxNegative()
                 return
@@ -208,15 +240,15 @@ class Settings: SKScene {
             }
         } else {
             InputMapper.shared.translate(event: event).forEach {
-                self.inputDown(id: $0.id)
+                self.inputDown(event: $0)
             }
         }
     }
 }
 
 extension Settings: InputEventResponder {
-    func inputDown(id: Input) {
-        switch id {
+    func inputDown(event: InputEvent) {
+        switch event.id {
         case Input.up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
@@ -243,10 +275,10 @@ extension Settings: InputEventResponder {
             self.select(item: Item.back)
 
         default:
-            print("Unhandled input event: \(id)")
+            print("Unhandled input event: \(event)")
         }
     }
 
-    func inputUp(id: Input) {
+    func inputUp(event: InputEvent) {
     }
 }

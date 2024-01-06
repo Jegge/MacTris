@@ -59,17 +59,28 @@ class InputMapper {
         }
     }
 
-    func describe (id: Input) -> String {
+    func describeIdForKeyboard (_ id: Input) -> String {
         if let keyCode = self.keymap.first(where: { $0.binding.id == id})?.binding.keyCode {
             return KeyCode(rawValue: keyCode)?.description ?? "⍰"
         }
         return "⍰"
     }
-    // A / Circle  ⒌/⒈
-    // B / Cross   ⒍/⒉
-    // Down         ⒣
-    // Left         ⒤
-    // Right        ⒥
+
+    func describeIdForController (_ id: Input) -> String {
+        switch id {
+        case .down: return "⒣"
+        case .left: return "⒤"
+        case .up: return "⒢"
+        case .right: return "⒥"
+        case .moveLeft: return "⒤"
+        case .moveRight: return "⒥"
+        case .softDrop: return "⒣"
+        case .select: return "Select"
+        case .menu: return "Menu, Start, ⒍ or ⒉"
+        case .rotateLeft: return "⒍ or ⒉" // A / Circle
+        case .rotateRight: return "⒌ or ⒈" // B / Cross
+        }
+    }
 
     func bind (keyCode: UInt16, id: Input) {
         self.keymap.removeAll { $0.binding.id == id && $0.mutable }

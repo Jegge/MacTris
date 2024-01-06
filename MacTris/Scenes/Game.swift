@@ -163,13 +163,13 @@ class Game: SKScene {
             return
         }
         InputMapper.shared.translate(event: event).forEach {
-            self.inputDown(id: $0.id)
+            self.inputDown(event: $0)
         }
     }
 
     override func keyUp (with event: NSEvent) {
         InputMapper.shared.translate(event: event).forEach {
-            self.inputUp(id: $0.id)
+            self.inputUp(event: $0)
         }
     }
 
@@ -256,7 +256,7 @@ class Game: SKScene {
 }
 
 extension Game: InputEventResponder {
-    func inputDown(id: Input) {
+    func inputDown(event: InputEvent) {
         switch self.state {
         case .gameover:
             if self.anyKeyEnabled {
@@ -269,7 +269,7 @@ extension Game: InputEventResponder {
             }
 
         case .paused:
-            if id == Input.menu {
+            if event.id == Input.menu {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
                     newScene.scaleMode = .aspectFit
@@ -282,24 +282,24 @@ extension Game: InputEventResponder {
             }
 
         case .running:
-            switch id {
+            switch event.id {
             case Input.moveLeft:
                 self.keyRepeatFrames = 0
-                self.events.insert(id)
+                self.events.insert(event.id)
 
             case Input.moveRight:
                 self.keyRepeatFrames = 0
-                self.events.insert(id)
+                self.events.insert(event.id)
 
             case Input.softDrop:
                 self.keyRepeatFrames = 0
-                self.events.insert(id)
+                self.events.insert(event.id)
 
             case Input.rotateLeft:
-                self.events.insert(id)
+                self.events.insert(event.id)
 
             case Input.rotateRight:
-                self.events.insert(id)
+                self.events.insert(event.id)
 
             case Input.menu:
                 AudioPlayer.playFxSelect()
@@ -311,7 +311,7 @@ extension Game: InputEventResponder {
         }
     }
 
-    func inputUp(id: Input) {
-        self.events.remove(id)
+    func inputUp(event: InputEvent) {
+        self.events.remove(event.id)
     }
 }
