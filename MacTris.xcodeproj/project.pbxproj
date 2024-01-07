@@ -32,6 +32,7 @@
 		D22901272B4828A600A9F88E /* OsLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OsLog+Categories.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
+		D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* Game.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* Game.sks */; };
 		D2FF08A42B43F65B00740390 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08A32B43F65B00740390 /* Game.swift */; };
@@ -76,6 +77,7 @@
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
+		D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SkScene+Transition.swift"; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* MacTris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2FF089D2B43F65B00740390 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2FF089F2B43F65B00740390 /* Game.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Game.sks; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */,
 				D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */,
 				D22901262B4828A600A9F88E /* OsLog+Categories.swift */,
+				D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoGenerator.swift in Sources */,
+				D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,

@@ -11,7 +11,8 @@ import GameplayKit
 
 class Scores: SKScene {
 
-    public var score: Int?  // = 234566
+    var score: Int?  // = 234566
+
     private var index: Int?
     private var hiscores: Hiscore = Hiscore()
 
@@ -131,10 +132,7 @@ extension Scores: InputEventResponder {
     func inputDown (event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Menu") {
-                newScene.scaleMode = self.scaleMode
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.transitionToMenu()
         }
     }
 

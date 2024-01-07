@@ -59,25 +59,15 @@ class Menu: SKScene {
         switch item {
         case Item.play:
             AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Game") as? Game {
-                newScene.scaleMode = self.scaleMode
-                newScene.level = self.level
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.transitionToGame(level: self.level)
 
         case Item.settings:
             AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Settings") {
-                newScene.scaleMode = self.scaleMode
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.transitionToSettings()
 
         case Item.hiscores:
             AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Scores") {
-                newScene.scaleMode = self.scaleMode
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.transitionToScores()
 
         case Item.quit:
             NSApplication.shared.terminate(nil)

@@ -199,10 +199,7 @@ class Settings: SKScene {
 
         case Item.back:
             AudioPlayer.playFxPositive()
-            if let newScene = SKScene(fileNamed: "Menu") {
-                newScene.scaleMode = self.scaleMode
-                self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-            }
+            self.transitionToMenu()
 
         default:
             print("Unknown menu option \(item)")

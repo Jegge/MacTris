@@ -86,25 +86,25 @@ class Game: SKScene {
 
     private var lines: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.lines)
+            (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.lines)
         }
     }
 
     private var score: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.score)
+            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.score)
         }
     }
 
     public var level: Int = 0 {
         didSet {
-            (self.childNode(withName: "labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.level)
+            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.level)
         }
     }
 
     private var next: Tetromino? {
         didSet {
-            if let preview = self.childNode(withName: "preview") as? SKTileMapNode {
+            if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
                 preview.clear()
                 if let tetronimo = self.next {
                     preview.draw(tetronimo: tetronimo)
@@ -135,12 +135,12 @@ class Game: SKScene {
     }
 
     override func didMove (to view: SKView) {
-        guard let board = self.childNode(withName: "board") as? SKTileMapNode else {
+        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
 
-        self.children.filter { $0.name == "frame" }.compactMap { $0 as? SKSpriteNode }.forEach {
-            $0.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
+        self.enumerateChildNodes(withName: "//frame") { (node: SKNode, _) in
+            (node as? SKSpriteNode)?.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
         }
 
         self.numberFormatter.numberStyle = .decimal
@@ -157,26 +157,35 @@ class Game: SKScene {
         self.state = .running
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
-            self?.updatePauseInstructions()
+            self?.updateInstructions()
         }
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self]  _ in
             if self?.state == .running {
                 self?.state = .paused
             }
-            self?.updatePauseInstructions()
+            self?.updateInstructions()
         }
 
-        self.updatePauseInstructions()
+        self.updateInstructions()
     }
 
-    private func updatePauseInstructions () {
-        if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
+    private func updateInstructions () {
+        if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
                 label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to quit —"
 
             } else {
                 label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to quit —"
+            }
+        }
+
+        if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
+            if GCController.controllers().isEmpty {
+                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to pause —"
+
+            } else {
+                label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to pause —"
             }
         }
     }
@@ -201,7 +210,7 @@ class Game: SKScene {
             return
         }
 
-        guard let board = self.childNode(withName: "board") as? SKTileMapNode else {
+        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
 
@@ -284,21 +293,13 @@ extension Game: InputEventResponder {
         case .gameover:
             if self.anyKeyEnabled {
                 AudioPlayer.playFxPositive()
-                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = self.scaleMode
-                    newScene.score = self.score
-                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-                }
+                self.transitionToScores(score: self.score)
             }
 
         case .paused:
             if event.id == Input.menu {
                 AudioPlayer.playFxPositive()
-                if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = self.scaleMode
-                    newScene.score = self.score
-                    self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-                }
+                self.transitionToScores(score: self.score)
             } else {
                 AudioPlayer.playFxSelect()
                 self.state = .running
