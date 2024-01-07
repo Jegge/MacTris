@@ -20,11 +20,8 @@ class ViewController: NSViewController {
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
             }
-
             view.ignoresSiblingOrder = true
         }
-
-        NSCursor.hide()
     }
 
     override func viewDidAppear() {
@@ -35,8 +32,8 @@ class ViewController: NSViewController {
             }
         }
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] controller in
-            let name = (controller.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
+        NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
+            let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name) did connect.")
 
             for controller in GCController.controllers() {
@@ -51,9 +48,17 @@ class ViewController: NSViewController {
             }
         }
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { controller in
-            let name = (controller.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
+            let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name) did disconnect.")
+        }
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in
+            NSCursor.hide()
+        }
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
+            NSCursor.unhide()
         }
     }
 }
