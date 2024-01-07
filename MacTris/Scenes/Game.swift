@@ -132,7 +132,8 @@ class Game: SKScene {
 
         if self.linesToNextLevel <= 0 {
             self.level += 1
-            self.linesToNextLevel += min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+            self.linesToNextLevel += 10
+            Logger.game.info("Reached level \(self.level), lines to next level \(self.linesToNextLevel)")
         }
 
         if range.count > 3 {
@@ -155,7 +156,7 @@ class Game: SKScene {
 
         self.dateFormatter.unitsStyle = .positional
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
-        self.dateFormatter.zeroFormattingBehavior = [.pad]
+        self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
         self.score = 0
         self.lines = 0
@@ -257,6 +258,8 @@ class Game: SKScene {
                     if board.stackedTooHigh(tetromino: current) {
                         self.state = .gameover
                         return
+                    } else {
+                        AudioPlayer.playFxDrop()
                     }
                 }
                 self.keyRepeatFrames = FrameCount.keyRepeat
@@ -299,6 +302,8 @@ class Game: SKScene {
         } else {
             if let current = self.current, board.stackedTooHigh(tetromino: current) {
                 self.state = .gameover
+            } else {
+                AudioPlayer.playFxDrop()
             }
             self.current = nil
             self.framesToWait = FrameCount.gravity(level: self.level)

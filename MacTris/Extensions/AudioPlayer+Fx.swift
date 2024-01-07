@@ -37,4 +37,8 @@ extension AudioPlayer {
     static func playFxRotation () {
         AudioPlayer.shared.playFx(aiff: "Rotation")
     }
+
+    static func playFxDrop () {
+        AudioPlayer.shared.playFx(aiff: "Drop")
+    }
 }
