@@ -114,7 +114,7 @@ class Game: SKScene {
         didSet {
             if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
                 preview.clear()
-                if let tetronimo = self.next {
+                if let tetronimo = preview.setTopLeftPosition(for: self.next) {
                     preview.draw(tetronimo: tetronimo)
                 }
             }

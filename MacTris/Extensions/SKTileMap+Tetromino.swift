@@ -10,6 +10,12 @@ import SpriteKit
 
 extension SKTileMapNode {
 
+    func setTopLeftPosition(for tetromino: Tetromino?) -> Tetromino? {
+        let column = tetromino?.with(position: (0, 0)).points.map { $0.0 }.min() ?? 0
+        let row = tetromino?.with(position: (0, 0)).points.map { $0.1 }.max() ?? 0
+        return tetromino?.with(position: (column * -1, self.numberOfRows - row - 1))
+    }
+
     func setStartPosition(for tetromino: Tetromino?) -> Tetromino? {
         let column = self.numberOfColumns / 2 - 1
         let row = self.numberOfRows - (tetromino?.with(position: (0, 0)).points.map { $0.1 }.min() ?? 0)
