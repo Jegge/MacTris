@@ -87,7 +87,7 @@
 		D2FF08A52B43F65B00740390 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D2FF08A72B43F65D00740390 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2FF08AA2B43F65D00740390 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D2FF08AC2B43F65D00740390 /* Mactris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mactris.entitlements; sourceTree = "<group>"; };
+		D2FF08AC2B43F65D00740390 /* MacTris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTris.entitlements; sourceTree = "<group>"; };
 		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
 		D2FF08B42B4402C200740390 /* Boxes.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Boxes.sks; sourceTree = "<group>"; };
 		D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Tetromino.swift"; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 				D2FF089D2B43F65B00740390 /* AppDelegate.swift */,
 				D2FF08A52B43F65B00740390 /* ViewController.swift */,
 				D26ED3A02B45389A000FE86C /* Ressources */,
-				D2FF08AC2B43F65D00740390 /* Mactris.entitlements */,
+				D2FF08AC2B43F65D00740390 /* MacTris.entitlements */,
 			);
 			path = MacTris;
 			sourceTree = "<group>";
@@ -480,7 +480,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = Mactris/Mactris.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MacTris/MacTris.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -498,8 +498,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.Mactris;
+				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.MacTris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -512,7 +513,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = Mactris/Mactris.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MacTris/MacTris.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -530,8 +531,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.Mactris;
+				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.MacTris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

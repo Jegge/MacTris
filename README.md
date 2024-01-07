@@ -29,7 +29,7 @@ Disable Launchpad on select button:
     defaults write com.apple.GameController bluetoothPrefsMenuLongPressAction -integer 0
     defaults write com.apple.GameController bluetoothPrefsShareLongPressSystemGestureMode -integer -1
 
-## Todo
+# Todo
 
 * more sfx
 * more gfx

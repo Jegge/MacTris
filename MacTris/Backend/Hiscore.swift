@@ -24,7 +24,14 @@ class Hiscore {
     }
 
     static var url: URL {
-        return URL.applicationSupportDirectory.appendingPathComponent("hiscores.json")
+        let id = Bundle.main.bundleIdentifier ?? "com.realvirtuality.MacTris"
+        if #available(macOS 13.0, *) {
+            return URL.applicationSupportDirectory.appendingPathComponent("\(id)/hiscores.json")
+        } else if let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+               return directory.appendingPathComponent("\(id)/hiscores.json")
+        } else {
+            return URL(fileURLWithPath: "~/Library/Application Support", isDirectory: true).appendingPathComponent("\(id)/hiscores.json")
+        }
     }
 
     static var nameLength: Int = 16
