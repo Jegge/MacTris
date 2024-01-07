@@ -200,7 +200,7 @@ class Settings: SKScene {
         case Item.back:
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Menu") {
-                newScene.scaleMode = .aspectFit
+                newScene.scaleMode = self.scaleMode
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
 

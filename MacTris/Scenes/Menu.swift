@@ -19,7 +19,11 @@ class Menu: SKScene {
         public static let quit = "Quit"
     }
 
-    private var level = 0
+    private var level: Int = 0 {
+        didSet {
+            self.update()
+        }
+    }
     private var menuItems: [String] = []
     private var selection: Int = -1 {
         didSet {
@@ -56,7 +60,7 @@ class Menu: SKScene {
         case Item.play:
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Game") as? Game {
-                newScene.scaleMode = .aspectFit
+                newScene.scaleMode = self.scaleMode
                 newScene.level = self.level
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
@@ -64,14 +68,14 @@ class Menu: SKScene {
         case Item.settings:
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Settings") {
-                newScene.scaleMode = .aspectFit
+                newScene.scaleMode = self.scaleMode
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
 
         case Item.hiscores:
             AudioPlayer.playFxPositive()
             if let newScene = SKScene(fileNamed: "Scores") {
-                newScene.scaleMode = .aspectFit
+                newScene.scaleMode = self.scaleMode
                 self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
             }
 
@@ -89,6 +93,7 @@ class Menu: SKScene {
         case Item.play:
             if self.level < 19 {
                 self.level += 1
+                UserDefaults.standard.startLevel = self.level
                 AudioPlayer.playFxPositive()
             } else {
                 AudioPlayer.playFxNegative()
@@ -104,6 +109,7 @@ class Menu: SKScene {
         case Item.play:
             if self.level > 0 {
                 self.level -= 1
+                UserDefaults.standard.startLevel = self.level
                 AudioPlayer.playFxPositive()
             } else {
                 AudioPlayer.playFxNegative()
@@ -121,6 +127,8 @@ class Menu: SKScene {
         let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0.0"
         let build = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "0"
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
+
+        self.level = UserDefaults.standard.startLevel
     }
 
     override func keyDown(with event: NSEvent) {

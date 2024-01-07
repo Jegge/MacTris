@@ -14,6 +14,7 @@ extension UserDefaults {
         public static let fxVolume = "FxVolume"
         public static let fullscreen = "Fullscreen"
         public static let keyboardBindings = "KeyboardBindings"
+        public static let startLevel = "StartLevel"
     }
 
     func register() {
@@ -21,7 +22,8 @@ extension UserDefaults {
             Key.musicVolume: 100,
             Key.fxVolume: 100,
             Key.fullscreen: false,
-            Key.keyboardBindings: []
+            Key.keyboardBindings: [],
+            Key.startLevel: 0
         ])
     }
 
@@ -49,6 +51,15 @@ extension UserDefaults {
         }
         set {
             self.setValue(max(0, min(100, newValue)), forKey: Key.fxVolume)
+        }
+    }
+
+    var startLevel: Int {
+        get {
+            return max(0, min(19, self.integer(forKey: Key.startLevel)))
+        }
+        set {
+            self.setValue(max(0, min(19, newValue)), forKey: Key.startLevel)
         }
     }
 

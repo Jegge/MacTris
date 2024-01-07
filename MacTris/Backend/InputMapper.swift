@@ -76,7 +76,7 @@ class InputMapper {
         case .moveRight: return "⒥"
         case .softDrop: return "⒣"
         case .select: return "Select"
-        case .menu: return "Menu, Start, ⒍ or ⒉"
+        case .menu: return "Menu or Start"
         case .rotateLeft: return "⒍ or ⒉" // A / Circle
         case .rotateRight: return "⒌ or ⒈" // B / Cross
         }

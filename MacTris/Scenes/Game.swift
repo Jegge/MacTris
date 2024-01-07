@@ -139,6 +139,10 @@ class Game: SKScene {
             return
         }
 
+        self.children.filter { $0.name == "frame" }.compactMap { $0 as? SKSpriteNode }.forEach {
+            $0.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
+        }
+
         self.numberFormatter.numberStyle = .decimal
 
         self.score = 0
@@ -281,7 +285,7 @@ extension Game: InputEventResponder {
             if self.anyKeyEnabled {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = .aspectFit
+                    newScene.scaleMode = self.scaleMode
                     newScene.score = self.score
                     self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
                 }
@@ -291,7 +295,7 @@ extension Game: InputEventResponder {
             if event.id == Input.menu {
                 AudioPlayer.playFxPositive()
                 if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-                    newScene.scaleMode = .aspectFit
+                    newScene.scaleMode = self.scaleMode
                     newScene.score = self.score
                     self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
                 }
@@ -321,7 +325,6 @@ extension Game: InputEventResponder {
                 self.events.insert(event.id)
 
             case Input.menu:
-                AudioPlayer.playFxSelect()
                 self.state = .paused
 
             default:
