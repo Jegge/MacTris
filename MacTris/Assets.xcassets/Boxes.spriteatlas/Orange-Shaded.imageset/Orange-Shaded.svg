@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 32 32" width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="2" height="2"/>
+  </defs>
+  <g style="">
+    <title>Orange</title>
+    <rect style="stroke-width: 2px; fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+      <title>Background</title>
+    </rect>
+    <g>
+      <rect style="fill: rgb(136, 68, 0);" x="4" y="4" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="18" y="4" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="4" y="18" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="18" y="18" width="10" height="10" rx="2" ry="2"/>
+    </g>
+  </g>
+</svg>

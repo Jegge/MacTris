@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 32 32" width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="2" height="2"/>
+  </defs>
+  <g style="">
+    <title>Red</title>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 2px;" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+    <g style="">
+      <path d="M 10 8 L 22 8 C 22.55228 8 23.05228 8.22386 23.41421 8.58579 L 8.58578 23.41422 C 8.22385 23.05229 7.99999 22.55229 7.99999 22.00001 L 7.99999 10.00001 C 7.99999 8.89544 8.89542 8.00001 9.99999 8.00001 L 10 8 Z" style="fill: rgb(255, 128, 128);"/>
+      <path d="M 10.58579 8.58578 L 22.58579 8.58578 C 23.13807 8.58578 23.63807 8.80964 24 9.17157 L 9.17157 24 C 8.80964 23.63807 8.58578 23.13807 8.58578 22.58579 L 8.58578 10.58579 C 8.58578 9.48122 9.48121 8.58579 10.58578 8.58579 L 10.58579 8.58578 Z" style="fill: rgb(136, 8, 8); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(-1, 0, 0, -1, -0.000004, -0.000004)"/>
+      <rect style="fill: rgb(255, 0, 0);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+    </g>
+  </g>
+</svg>
