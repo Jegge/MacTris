@@ -48,8 +48,10 @@ class Game: SKScene {
     private var events: Set<Input> = Set()
     private var keyRepeatFrames = 0
     private var anyKeyEnabled = false
+    private var lastUpdate: TimeInterval = 0
 
     private var numberFormatter = NumberFormatter()
+    private var dateFormatter = DateComponentsFormatter()
 
     private var state: State = .running {
         didSet {
@@ -81,6 +83,12 @@ class Game: SKScene {
 
                 AudioPlayer.playFxGameOver()
             }
+        }
+    }
+
+    private var duration: TimeInterval = 0 {
+        didSet {
+            (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: self.duration)
         }
     }
 
@@ -145,8 +153,13 @@ class Game: SKScene {
 
         self.numberFormatter.numberStyle = .decimal
 
+        self.dateFormatter.unitsStyle = .positional
+        self.dateFormatter.allowedUnits = [.hour, .minute, .second]
+        self.dateFormatter.zeroFormattingBehavior = [.pad]
+
         self.score = 0
         self.lines = 0
+        self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
         self.next = random.next().with(position: (2, 2))
         self.current = board.setStartPosition(for: random.next())
@@ -206,9 +219,15 @@ class Game: SKScene {
     }
 
     override func update (_ currentTime: TimeInterval) {
+
+        let delta = self.lastUpdate > 0 ? currentTime - self.lastUpdate : 0
+        self.lastUpdate = currentTime
+
         if self.state != .running {
             return
         }
+
+        self.duration += delta
 
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
