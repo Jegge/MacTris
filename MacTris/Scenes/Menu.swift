@@ -131,22 +131,22 @@ class Menu: SKScene {
 extension Menu: InputEventResponder {
     func inputDown(event: InputEvent) {
         switch event.id {
-        case Input.up:
+        case .up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
 
-        case Input.down:
+        case .down:
             AudioPlayer.playFxSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
-        case Input.select:
+        case .select:
             self.select(item: self.menuItems[self.selection])
 
-        case Input.left:
+        case .left:
             self.decrease(item: self.menuItems[self.selection])
             self.update()
 
-        case Input.right:
+        case .right:
             self.increase(item: self.menuItems[self.selection])
             self.update()
 

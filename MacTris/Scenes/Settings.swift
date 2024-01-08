@@ -16,8 +16,8 @@ class Settings: SKScene {
         public static let displayMode = "DisplayMode"
         public static let musicVolume = "MusicVolume"
         public static let fxVolume = "FxVolume"
-        public static let moveLeft = "MoveLeft"
-        public static let moveRight = "MoveRight"
+        public static let shiftLeft = "ShiftLeft"
+        public static let shiftRight = "ShiftRight"
         public static let rotateLeft = "RotateLeft"
         public static let rotateRight = "RotateRight"
         public static let softDrop = "SoftDrop"
@@ -72,11 +72,11 @@ class Settings: SKScene {
         case Item.fxVolume:
             return AudioPlayer.shared.fxVolume == 0 ? "Off" : "\(AudioPlayer.shared.fxVolume)%"
 
-        case Item.moveLeft:
-            return self.rebindEvent == .moveLeft ? "" : InputMapper.shared.describeIdForKeyboard(.moveLeft)
+        case Item.shiftLeft:
+            return self.rebindEvent == .shiftLeft ? "" : InputMapper.shared.describeIdForKeyboard(.shiftLeft)
 
-        case Item.moveRight:
-            return self.rebindEvent == .moveRight ? "" : InputMapper.shared.describeIdForKeyboard(.moveRight)
+        case Item.shiftRight:
+            return self.rebindEvent == .shiftRight ? "" : InputMapper.shared.describeIdForKeyboard(.shiftRight)
 
         case Item.rotateLeft:
             return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describeIdForKeyboard(.rotateLeft)
@@ -94,11 +94,11 @@ class Settings: SKScene {
 
     private func controllerValue (for item: String) -> String? {
         switch item {
-        case Item.moveLeft:
-            return /*self.rebindEvent == .moveLeft ? "" :*/ InputMapper.shared.describeIdForController(.moveLeft)
+        case Item.shiftLeft:
+            return /*self.rebindEvent == .shfitLeft ? "" :*/ InputMapper.shared.describeIdForController(.shiftLeft)
 
-        case Item.moveRight:
-            return /*self.rebindEvent == .moveRight ? "" :*/ InputMapper.shared.describeIdForController(.moveRight)
+        case Item.shiftRight:
+            return /*self.rebindEvent == .shiftRight ? "" :*/ InputMapper.shared.describeIdForController(.shiftRight)
 
         case Item.rotateLeft:
             return /*self.rebindEvent == .rotateLeft ? "":*/ InputMapper.shared.describeIdForController(.rotateLeft)
@@ -177,12 +177,12 @@ class Settings: SKScene {
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
             AudioPlayer.playFxPositive()
 
-        case Item.moveLeft:
-            self.rebindEvent = .moveLeft
+        case Item.shiftLeft:
+            self.rebindEvent = .shiftLeft
             AudioPlayer.playFxPositive()
 
-        case Item.moveRight:
-            self.rebindEvent = .moveRight
+        case Item.shiftRight:
+            self.rebindEvent = .shiftRight
             AudioPlayer.playFxPositive()
 
         case Item.rotateLeft:
@@ -246,29 +246,29 @@ class Settings: SKScene {
 extension Settings: InputEventResponder {
     func inputDown(event: InputEvent) {
         switch event.id {
-        case Input.up:
+        case .up:
             AudioPlayer.playFxSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
             self.update()
 
-        case Input.down:
+        case .down:
             AudioPlayer.playFxSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
             self.update()
 
-        case Input.select:
+        case .select:
             self.select(item: self.menuItems[self.selection])
             self.update()
 
-        case Input.left:
+        case .left:
             self.decrease(item: self.menuItems[self.selection])
             self.update()
 
-        case Input.right:
+        case .right:
             self.increase(item: self.menuItems[self.selection])
             self.update()
 
-        case Input.menu:
+        case .menu:
             self.select(item: Item.back)
 
         default:

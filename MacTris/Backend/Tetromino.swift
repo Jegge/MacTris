@@ -93,15 +93,15 @@ struct Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
     }
 
-    func movedLeft () -> Tetromino {
+    func shiftedLeft () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 - 1, position.1))
     }
 
-    func movedRight () -> Tetromino {
+    func shiftedRight () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 + 1, position.1))
     }
 
-    func movedDown () -> Tetromino {
+    func dropped () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0, position.1 - 1))
     }
 }

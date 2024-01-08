@@ -26,7 +26,8 @@ class Game: SKScene {
         }
         public static let dissolve: Int = 4
         public static let spawn: Int = 16
-        public static let keyRepeat: Int = 6
+        public static let keyRepeatShift: Int = 6
+        public static let keyRepeatDrop: Int = 1
     }
 
     private struct Score {
@@ -46,8 +47,8 @@ class Game: SKScene {
 
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
-    private var keyRepeatFrames = 0
-    private var anyKeyEnabled = false
+    private var keyRepeatFrames: Int  = 0
+    private var anyKeyEnabled: Bool = false
     private var lastUpdate: TimeInterval = 0
 
     private var numberFormatter = NumberFormatter()
@@ -163,7 +164,7 @@ class Game: SKScene {
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
         self.next = random.next().with(position: (2, 2))
-        self.current = board.setStartPosition(for: random.next())
+        self.current = board.setSpawnPosition(for: random.next())
 
         board.clear()
 
@@ -237,20 +238,20 @@ class Game: SKScene {
         if self.completed == nil, let current = self.current {
             if self.keyRepeatFrames > 0 {
                 self.keyRepeatFrames -= 1
-            } else if self.events.contains(Input.moveLeft) {
-                if let changed = board.apply(tetromino: current, change: { $0.movedLeft() }) {
+            } else if self.events.contains(.shiftLeft) {
+                if let changed = board.apply(tetromino: current, change: { $0.shiftedLeft() }) {
                     self.current = changed
-                    AudioPlayer.playFxTranslation()
+                    AudioPlayer.playFxShift()
                 }
-                self.keyRepeatFrames = FrameCount.keyRepeat
-            } else if self.events.contains(Input.moveRight) {
-                if let changed = board.apply(tetromino: current, change: { $0.movedRight() }) {
+                self.keyRepeatFrames = FrameCount.keyRepeatShift
+            } else if self.events.contains(.shiftRight) {
+                if let changed = board.apply(tetromino: current, change: { $0.shiftedRight() }) {
                     self.current = changed
-                    AudioPlayer.playFxTranslation()
+                    AudioPlayer.playFxShift()
                 }
-                self.keyRepeatFrames = FrameCount.keyRepeat
+                self.keyRepeatFrames = FrameCount.keyRepeatShift
             } else if self.events.contains(Input.softDrop) {
-                if let changed = board.apply(tetromino: current, change: { $0.movedDown() }) {
+                if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
                     self.current = changed
                     self.score += Score.drop
                 } else {
@@ -262,19 +263,19 @@ class Game: SKScene {
                         AudioPlayer.playFxDrop()
                     }
                 }
-                self.keyRepeatFrames = FrameCount.keyRepeat
-            } else if self.events.contains(Input.rotateLeft) {
+                self.keyRepeatFrames = FrameCount.keyRepeatDrop
+            } else if self.events.contains(.rotateLeft) {
                 if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
                     self.current = changed
-                    AudioPlayer.playFxRotation()
+                    AudioPlayer.playFxRotate()
                 }
-                self.events.remove(Input.rotateLeft)
-            } else if self.events.contains(Input.rotateRight) {
+                self.events.remove(.rotateLeft)
+            } else if self.events.contains(.rotateRight) {
                 if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
                     self.current = changed
-                    AudioPlayer.playFxRotation()
+                    AudioPlayer.playFxRotate()
                 }
-                self.events.remove(Input.rotateRight)
+                self.events.remove(.rotateRight)
             }
         }
 
@@ -291,12 +292,12 @@ class Game: SKScene {
             }
         } else if self.current == nil {
             self.completed = board.completedRows()
-            self.current =  board.setStartPosition(for: self.next)
+            self.current =  board.setSpawnPosition(for: self.next)
             self.next = random.next().with(position: (2, 2))
             self.framesToWait = FrameCount.spawn
             self.events.removeAll()
             self.keyRepeatFrames = 0
-        } else if let changed = board.apply(tetromino: self.current!, change: { $0.movedDown() }) {
+        } else if let changed = board.apply(tetromino: self.current!, change: { $0.dropped() }) {
             self.current = changed
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
@@ -321,7 +322,7 @@ extension Game: InputEventResponder {
             }
 
         case .paused:
-            if event.id == Input.menu {
+            if event.id == .menu {
                 AudioPlayer.playFxPositive()
                 self.transitionToScores(score: self.score)
             } else {
@@ -331,11 +332,11 @@ extension Game: InputEventResponder {
 
         case .running:
             switch event.id {
-            case Input.moveLeft:
+            case Input.shiftLeft:
                 self.keyRepeatFrames = 0
                 self.events.insert(event.id)
 
-            case Input.moveRight:
+            case Input.shiftRight:
                 self.keyRepeatFrames = 0
                 self.events.insert(event.id)
 

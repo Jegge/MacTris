@@ -30,12 +30,12 @@ extension AudioPlayer {
         AudioPlayer.shared.playFx(aiff: "GameOver")
     }
 
-    static func playFxTranslation () {
-        AudioPlayer.shared.playFx(aiff: "Movement")
+    static func playFxShift () {
+        AudioPlayer.shared.playFx(aiff: "Shift")
     }
 
-    static func playFxRotation () {
-        AudioPlayer.shared.playFx(aiff: "Rotation")
+    static func playFxRotate () {
+        AudioPlayer.shared.playFx(aiff: "Rotate")
     }
 
     static func playFxDrop () {

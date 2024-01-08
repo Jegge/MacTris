@@ -18,8 +18,8 @@ enum Input: Codable {
     case left
     case right
 
-    case moveLeft
-    case moveRight
+    case shiftLeft
+    case shiftRight
     case rotateLeft
     case rotateRight
     case softDrop
@@ -41,8 +41,8 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.space.rawValue, id: .select), mutable: false),
         (binding: KeyBinding(keyCode: KeyCode.return.rawValue, id: .select), mutable: false),
 
-        (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .moveLeft), mutable: true),
-        (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .moveRight), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .shiftLeft), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .shiftRight), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .softDrop), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.a.rawValue, id: .rotateLeft), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateRight), mutable: true)
@@ -72,8 +72,8 @@ class InputMapper {
         case .left: return "⒤"
         case .up: return "⒢"
         case .right: return "⒥"
-        case .moveLeft: return "⒤"
-        case .moveRight: return "⒥"
+        case .shiftLeft: return "⒤"
+        case .shiftRight: return "⒥"
         case .softDrop: return "⒣"
         case .select: return "Select"
         case .menu: return "Menu or Start"
@@ -120,8 +120,8 @@ class InputMapper {
                 InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed),
                 InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed),
                 InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed),
-                InputEvent(id: .moveLeft, isDown: gamepad.dpad.left.isPressed),
-                InputEvent(id: .moveRight, isDown: gamepad.dpad.right.isPressed),
+                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed),
+                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed),
                 InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed)
             ]
         }

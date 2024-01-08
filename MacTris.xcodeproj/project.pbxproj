@@ -22,7 +22,7 @@
 		D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */; };
 		D229010E2B45FC9A00A9F88E /* Success.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D229010C2B45FC9A00A9F88E /* Success.aiff */; };
 		D22901102B462FAE00A9F88E /* RandomTetrominoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229010F2B462FAE00A9F88E /* RandomTetrominoGenerator.swift */; };
-		D22901142B46379600A9F88E /* Movement.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901132B46379600A9F88E /* Movement.aiff */; };
+		D22901142B46379600A9F88E /* Shift.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901132B46379600A9F88E /* Shift.aiff */; };
 		D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */; };
 		D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901192B46BB3B00A9F88E /* AudioPlayer.swift */; };
 		D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */; };
@@ -33,7 +33,7 @@
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */; };
-		D2D6EEE52B4A9A12008143D9 /* Rotation.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotation.aiff */; };
+		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
 		D2D6EEE72B4AD8F3008143D9 /* Drop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE62B4AD8F3008143D9 /* Drop.aiff */; };
 		D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF089D2B43F65B00740390 /* AppDelegate.swift */; };
 		D2FF08A02B43F65B00740390 /* Game.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF089F2B43F65B00740390 /* Game.sks */; };
@@ -64,7 +64,7 @@
 		D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = QuadSuccess.aiff; sourceTree = "<group>"; };
 		D229010C2B45FC9A00A9F88E /* Success.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Success.aiff; sourceTree = "<group>"; };
 		D229010F2B462FAE00A9F88E /* RandomTetrominoGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTetrominoGenerator.swift; sourceTree = "<group>"; };
-		D22901132B46379600A9F88E /* Movement.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Movement.aiff; sourceTree = "<group>"; };
+		D22901132B46379600A9F88E /* Shift.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Shift.aiff; sourceTree = "<group>"; };
 		D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Korobeiniki.mp3; sourceTree = "<group>"; };
 		D22901192B46BB3B00A9F88E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioPlayer+Fx.swift"; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SkScene+Transition.swift"; sourceTree = "<group>"; };
-		D2D6EEE42B4A9A12008143D9 /* Rotation.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotation.aiff; sourceTree = "<group>"; };
+		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
 		D2D6EEE62B4AD8F3008143D9 /* Drop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Drop.aiff; sourceTree = "<group>"; };
 		D2FF089A2B43F65B00740390 /* MacTris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2FF089D2B43F65B00740390 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,9 +120,9 @@
 			children = (
 				D22901232B47D28400A9F88E /* Silver.ttf */,
 				D2D6EEE62B4AD8F3008143D9 /* Drop.aiff */,
-				D2D6EEE42B4A9A12008143D9 /* Rotation.aiff */,
+				D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */,
 				D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */,
-				D22901132B46379600A9F88E /* Movement.aiff */,
+				D22901132B46379600A9F88E /* Shift.aiff */,
 				D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */,
 				D229010C2B45FC9A00A9F88E /* Success.aiff */,
 				D22901042B45D19000A9F88E /* Negative.aiff */,
@@ -276,11 +276,11 @@
 				D22900F12B454E8C00A9F88E /* Scores.sks in Resources */,
 				D22900FF2B45CD4300A9F88E /* Positive.aiff in Resources */,
 				D22901052B45D19000A9F88E /* Negative.aiff in Resources */,
-				D22901142B46379600A9F88E /* Movement.aiff in Resources */,
+				D22901142B46379600A9F88E /* Shift.aiff in Resources */,
 				D22900F92B45871300A9F88E /* Settings.sks in Resources */,
 				D2FF08A02B43F65B00740390 /* Game.sks in Resources */,
 				D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */,
-				D2D6EEE52B4A9A12008143D9 /* Rotation.aiff in Resources */,
+				D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */,
 				D22901012B45CF0600A9F88E /* Select.aiff in Resources */,
 				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
 				D22901032B45D00000A9F88E /* GameOver.aiff in Resources */,
