@@ -260,6 +260,7 @@ class Game: SKScene {
                     self.dropSteps = 0
                     self.current = nil
                     if board.stackedTooHigh(tetromino: current) {
+                        Logger.game.info("Stacked too high: \(current.description)")
                         self.state = .gameover
                         return
                     } else {
@@ -305,6 +306,7 @@ class Game: SKScene {
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
             if let current = self.current, board.stackedTooHigh(tetromino: current) {
+                Logger.game.info("Stacked too high: \(current.description)")
                 self.state = .gameover
             } else {
                 AudioPlayer.playFxDrop()
