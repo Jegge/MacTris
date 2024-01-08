@@ -25,6 +25,24 @@ enum Input: Codable {
     case softDrop
 }
 
+extension Input: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .menu: "menu"
+        case .select: "select"
+        case .up: "up"
+        case .down: "down"
+        case .left: "left"
+        case .right: "right"
+        case .shiftLeft: "shift left"
+        case .shiftRight: "shift right"
+        case .rotateLeft: "rotate left"
+        case .rotateRight: "rotate right"
+        case .softDrop: "soft drop"
+        }
+    }
+}
+
 class InputMapper {
 
     struct KeyBinding: Codable {

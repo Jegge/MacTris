@@ -18,3 +18,9 @@ struct InputEvent: Equatable {
         NotificationCenter.default.post(Notification(name: self.isDown ? InputEvent.inputDownNotification : InputEvent.inputUpNotification, object: self, userInfo: nil))
     }
 }
+
+extension InputEvent: CustomStringConvertible {
+    var description: String {
+        return "\(isDown ? "↓" : "↑")\(id)"
+    }
+}

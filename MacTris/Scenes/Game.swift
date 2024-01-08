@@ -272,13 +272,16 @@ class Game: SceneBase {
                     if board.stackedTooHigh(tetromino: current) {
                         Logger.game.info("Stacked too high: \(current.description)")
                         self.state = .gameover
-                        return
                     } else {
                         AudioPlayer.playFxDrop()
                     }
                 }
                 self.keyRepeatFrames = FrameCount.keyRepeatDrop
-            } else if self.events.contains(.rotateLeft) {
+            }
+        }
+
+        if self.completed == nil, let current = self.current {
+            if self.events.contains(.rotateLeft) {
                 if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
                     self.current = changed
                     AudioPlayer.playFxRotate()
