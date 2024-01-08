@@ -42,7 +42,7 @@
 		D2FF08A82B43F65D00740390 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A72B43F65D00740390 /* Assets.xcassets */; };
 		D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A92B43F65D00740390 /* Main.storyboard */; };
 		D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B22B43F8C200740390 /* Tetromino.swift */; };
-		D2FF08B62B4402C200740390 /* Boxes.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* Boxes.sks */; };
+		D2FF08B62B4402C200740390 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* TileSet.sks */; };
 		D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +91,7 @@
 		D2FF08AA2B43F65D00740390 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2FF08AC2B43F65D00740390 /* MacTris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTris.entitlements; sourceTree = "<group>"; };
 		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
-		D2FF08B42B4402C200740390 /* Boxes.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Boxes.sks; sourceTree = "<group>"; };
+		D2FF08B42B4402C200740390 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
 		D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Tetromino.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,27 +113,6 @@
 				D22901072B45E7AE00A9F88E /* AppIcon.svg */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		D26ED3A02B45389A000FE86C /* Ressources */ = {
-			isa = PBXGroup;
-			children = (
-				D22901232B47D28400A9F88E /* Silver.ttf */,
-				D2D6EEE62B4AD8F3008143D9 /* Drop.aiff */,
-				D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */,
-				D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */,
-				D22901132B46379600A9F88E /* Shift.aiff */,
-				D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */,
-				D229010C2B45FC9A00A9F88E /* Success.aiff */,
-				D22901042B45D19000A9F88E /* Negative.aiff */,
-				D22900FE2B45CD4300A9F88E /* Positive.aiff */,
-				D22901002B45CF0600A9F88E /* Select.aiff */,
-				D22901022B45D00000A9F88E /* GameOver.aiff */,
-				D2FF08B42B4402C200740390 /* Boxes.sks */,
-				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
-				D2FF08A92B43F65D00740390 /* Main.storyboard */,
-			);
-			name = Ressources;
 			sourceTree = "<group>";
 		};
 		D26ED3A22B4538BE000FE86C /* Scenes */ = {
@@ -178,6 +157,27 @@
 			path = Backend;
 			sourceTree = "<group>";
 		};
+		D2D6EEE82B4BD82E008143D9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF08A72B43F65D00740390 /* Assets.xcassets */,
+				D22901232B47D28400A9F88E /* Silver.ttf */,
+				D2D6EEE62B4AD8F3008143D9 /* Drop.aiff */,
+				D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */,
+				D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */,
+				D22901132B46379600A9F88E /* Shift.aiff */,
+				D229010B2B45FC9A00A9F88E /* QuadSuccess.aiff */,
+				D229010C2B45FC9A00A9F88E /* Success.aiff */,
+				D22901042B45D19000A9F88E /* Negative.aiff */,
+				D22900FE2B45CD4300A9F88E /* Positive.aiff */,
+				D22901002B45CF0600A9F88E /* Select.aiff */,
+				D22901022B45D00000A9F88E /* GameOver.aiff */,
+				D2FF08B42B4402C200740390 /* TileSet.sks */,
+				D2FF08A92B43F65D00740390 /* Main.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D2FF08912B43F65B00740390 = {
 			isa = PBXGroup;
 			children = (
@@ -208,7 +208,7 @@
 				D26ED3A32B4538CC000FE86C /* Extensions */,
 				D2FF089D2B43F65B00740390 /* AppDelegate.swift */,
 				D2FF08A52B43F65B00740390 /* ViewController.swift */,
-				D26ED3A02B45389A000FE86C /* Ressources */,
+				D2D6EEE82B4BD82E008143D9 /* Resources */,
 				D2FF08AC2B43F65D00740390 /* MacTris.entitlements */,
 			);
 			path = MacTris;
@@ -282,7 +282,7 @@
 				D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */,
 				D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */,
 				D22901012B45CF0600A9F88E /* Select.aiff in Resources */,
-				D2FF08B62B4402C200740390 /* Boxes.sks in Resources */,
+				D2FF08B62B4402C200740390 /* TileSet.sks in Resources */,
 				D22901032B45D00000A9F88E /* GameOver.aiff in Resources */,
 				D229010D2B45FC9A00A9F88E /* QuadSuccess.aiff in Resources */,
 				D22901242B47D28400A9F88E /* Silver.ttf in Resources */,
