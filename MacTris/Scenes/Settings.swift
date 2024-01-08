@@ -31,7 +31,8 @@ class Settings: SKScene {
         }
     }
 
-    private var rebindEvent: Input?
+    private var rebindId: Input?
+    private var rebindItem: String?
 
     private func update () {
         for (index, item) in menuItems.enumerated() {
@@ -73,19 +74,19 @@ class Settings: SKScene {
             return AudioPlayer.shared.fxVolume == 0 ? "Off" : "\(AudioPlayer.shared.fxVolume)%"
 
         case Item.shiftLeft:
-            return self.rebindEvent == .shiftLeft ? "" : InputMapper.shared.describeIdForKeyboard(.shiftLeft)
+            return InputMapper.shared.describeIdForKeyboard(.shiftLeft)
 
         case Item.shiftRight:
-            return self.rebindEvent == .shiftRight ? "" : InputMapper.shared.describeIdForKeyboard(.shiftRight)
+            return InputMapper.shared.describeIdForKeyboard(.shiftRight)
 
         case Item.rotateLeft:
-            return self.rebindEvent == .rotateLeft ? "": InputMapper.shared.describeIdForKeyboard(.rotateLeft)
+            return InputMapper.shared.describeIdForKeyboard(.rotateLeft)
 
         case Item.rotateRight:
-            return self.rebindEvent == .rotateRight ? "": InputMapper.shared.describeIdForKeyboard(.rotateRight)
+            return InputMapper.shared.describeIdForKeyboard(.rotateRight)
 
         case Item.softDrop:
-            return self.rebindEvent == .softDrop ? "" : InputMapper.shared.describeIdForKeyboard(.softDrop)
+            return InputMapper.shared.describeIdForKeyboard(.softDrop)
 
         default:
             return nil
@@ -95,19 +96,19 @@ class Settings: SKScene {
     private func controllerValue (for item: String) -> String? {
         switch item {
         case Item.shiftLeft:
-            return /*self.rebindEvent == .shfitLeft ? "" :*/ InputMapper.shared.describeIdForController(.shiftLeft)
+            return InputMapper.shared.describeIdForController(.shiftLeft)
 
         case Item.shiftRight:
-            return /*self.rebindEvent == .shiftRight ? "" :*/ InputMapper.shared.describeIdForController(.shiftRight)
+            return InputMapper.shared.describeIdForController(.shiftRight)
 
         case Item.rotateLeft:
-            return /*self.rebindEvent == .rotateLeft ? "":*/ InputMapper.shared.describeIdForController(.rotateLeft)
+            return InputMapper.shared.describeIdForController(.rotateLeft)
 
         case Item.rotateRight:
-            return /*self.rebindEvent == .rotateRight ? "":*/ InputMapper.shared.describeIdForController(.rotateRight)
+            return InputMapper.shared.describeIdForController(.rotateRight)
 
         case Item.softDrop:
-            return /*self.rebindEvent == .softDrop ? "" :*/ InputMapper.shared.describeIdForController(.softDrop)
+            return InputMapper.shared.describeIdForController(.softDrop)
 
         default:
             return nil
@@ -158,6 +159,39 @@ class Settings: SKScene {
         }
     }
 
+    private func beginRebind (id: Input, for item: String) {
+        self.childNode(withName: "value\(item)")?.run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.fadeAlpha(to: 1.0, duration: 0.25),
+            SKAction.fadeAlpha(to: 0.25, duration: 0.25)
+        ])))
+        self.rebindId = id
+        self.rebindItem = item
+        AudioPlayer.playFxPositive()
+    }
+
+    private func endRebind (id: Input, for item: String, with event: NSEvent) -> Bool {
+        if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
+            AudioPlayer.playFxNegative()
+            return false
+        }
+
+        if !InputMapper.shared.canBind(id: id) {
+            AudioPlayer.playFxNegative()
+            return false
+        }
+
+        InputMapper.shared.bind(keyCode: event.keyCode, id: id)
+        UserDefaults.standard.keyboardBindings = InputMapper.shared.keyboardBindings
+        AudioPlayer.playFxPositive()
+
+        if let node = self.childNode(withName: "value\(item)") {
+            node.removeAllActions()
+            node.run(SKAction.fadeAlpha(to: 1.0, duration: 0.25))
+        }
+
+        return true
+    }
+
     private func select (item: String) {
         switch item {
         case Item.displayMode:
@@ -178,24 +212,19 @@ class Settings: SKScene {
             AudioPlayer.playFxPositive()
 
         case Item.shiftLeft:
-            self.rebindEvent = .shiftLeft
-            AudioPlayer.playFxPositive()
+            self.beginRebind(id: .shiftLeft, for: item)
 
         case Item.shiftRight:
-            self.rebindEvent = .shiftRight
-            AudioPlayer.playFxPositive()
+            self.beginRebind(id: .shiftRight, for: item)
 
         case Item.rotateLeft:
-            self.rebindEvent = .rotateLeft
-            AudioPlayer.playFxPositive()
+            self.beginRebind(id: .rotateLeft, for: item)
 
         case Item.rotateRight:
-            self.rebindEvent = .rotateRight
-            AudioPlayer.playFxPositive()
+            self.beginRebind(id: .rotateRight, for: item)
 
         case Item.softDrop:
-            self.rebindEvent = .softDrop
-            AudioPlayer.playFxPositive()
+            self.beginRebind(id: .softDrop, for: item)
 
         case Item.back:
             AudioPlayer.playFxPositive()
@@ -230,20 +259,11 @@ class Settings: SKScene {
     }
 
     override func keyDown (with event: NSEvent) {
-        if let rebindEvent = self.rebindEvent {
-            if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
-                AudioPlayer.playFxNegative()
-                return
-            }
-
-            if InputMapper.shared.canBind(id: rebindEvent) {
-                InputMapper.shared.bind(keyCode: event.keyCode, id: rebindEvent)
-                UserDefaults.standard.keyboardBindings = InputMapper.shared.keyboardBindings
-                AudioPlayer.playFxPositive()
-                self.rebindEvent = nil
+        if let id = self.rebindId, let item = self.rebindItem {
+            if self.endRebind(id: id, for: item, with: event) {
+                self.rebindId = nil
+                self.rebindItem = nil
                 self.update()
-            } else {
-                AudioPlayer.playFxNegative()
             }
         } else {
             InputMapper.shared.translate(event: event).forEach {
