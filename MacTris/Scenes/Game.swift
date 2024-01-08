@@ -206,6 +206,14 @@ class Game: SceneBase {
                 label.text = "— \(InputMapper.shared.describeIdForController(.select)) to continue —"
             }
         }
+
+        if let label = self.childNode(withName: "//labelResumeInstructions") as? SKLabelNode {
+            if GCController.controllers().isEmpty {
+                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.select)) to resume —"
+            } else {
+                label.text = "— \(InputMapper.shared.describeIdForController(.select)) to resume —"
+            }
+        }
     }
 
     override func keyDown (with event: NSEvent) {
@@ -329,13 +337,18 @@ class Game: SceneBase {
             }
 
         case .paused:
-            if event.id == .menu {
+            switch event.id {
+            case .menu:
                 AudioPlayer.playFxPositive()
                 self.transitionToScores(score: self.score)
-            } else {
+
+            case .select:
                 AudioPlayer.playFxSelect()
                 self.state = .running
                 self.events.removeAll()
+
+            default:
+                break
             }
 
         case .running:
