@@ -50,6 +50,7 @@ class Game: SKScene {
     private var keyRepeatFrames: Int  = 0
     private var anyKeyEnabled: Bool = false
     private var lastUpdate: TimeInterval = 0
+    private var dropSteps: Int = 0
 
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
@@ -253,8 +254,10 @@ class Game: SKScene {
             } else if self.events.contains(Input.softDrop) {
                 if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
                     self.current = changed
-                    self.score += Score.drop
+                    self.dropSteps += 1
                 } else {
+                    self.score += self.dropSteps * Score.drop
+                    self.dropSteps = 0
                     self.current = nil
                     if board.stackedTooHigh(tetromino: current) {
                         self.state = .gameover
@@ -306,6 +309,8 @@ class Game: SKScene {
             } else {
                 AudioPlayer.playFxDrop()
             }
+            self.score += self.dropSteps * Score.drop
+            self.dropSteps = 0
             self.current = nil
             self.framesToWait = FrameCount.gravity(level: self.level)
         }
