@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import GameController
 
-class Menu: SKScene {
+class Menu: SceneBase {
 
     private struct Item {
         public static let play = "Play"
@@ -30,8 +30,6 @@ class Menu: SKScene {
             self.update()
         }
     }
-
-    private var inputDownObserver: Any?
 
     private func update () {
         for (index, item) in menuItems.enumerated() {
@@ -112,7 +110,9 @@ class Menu: SKScene {
         }
     }
 
-    override func didMove(to view: SKView) {
+    override func didMove (to view: SKView) {
+        super.didMove(to: view)
+
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
 
@@ -121,27 +121,15 @@ class Menu: SKScene {
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
 
         self.level = UserDefaults.standard.startLevel
-
-        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
-            if let event = notification.object as? InputEvent {
-                self?.inputDown(event: event)
-            }
-        }
     }
 
-    override func willMove (from view: SKView) {
-        if let observer = self.inputDownObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-    }
-
-    override func keyDown(with event: NSEvent) {
+    override func keyDown (with event: NSEvent) {
         InputMapper.shared.translate(event: event).forEach {
             self.inputDown(event: $0)
         }
     }
 
-    func inputDown(event: InputEvent) {
+    override func inputDown (event: InputEvent) {
         switch event.id {
         case .up:
             AudioPlayer.playFxSelect()

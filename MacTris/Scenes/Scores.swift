@@ -9,14 +9,12 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Scores: SKScene {
+class Scores: SceneBase {
 
     var score: Int?  // = 234566
 
     private var index: Int?
     private var hiscores: Hiscore = Hiscore()
-
-    private var inputDownObserver: Any?
 
     private func update () {
 
@@ -90,6 +88,8 @@ class Scores: SKScene {
     }
 
     override func didMove(to view: SKView) {
+        super.didMove(to: view)
+
         guard let cursor = self.childNode(withName: "cursor") else {
             return
         }
@@ -117,18 +117,6 @@ class Scores: SKScene {
         }
 
         self.update()
-
-        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
-            if let event = notification.object as? InputEvent {
-                self?.inputDown(event: event)
-            }
-        }
-    }
-
-    override func willMove (from view: SKView) {
-        if let observer = self.inputDownObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
     }
 
     override func keyDown(with event: NSEvent) {
@@ -141,7 +129,7 @@ class Scores: SKScene {
         }
     }
 
-    func inputDown (event: InputEvent) {
+    override func inputDown (event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             AudioPlayer.playFxPositive()
             self.transitionToMenu()

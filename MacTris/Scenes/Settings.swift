@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import GameController
 
-class Settings: SKScene {
+class Settings: SceneBase {
 
     private struct Item {
         public static let displayMode = "DisplayMode"
@@ -33,12 +33,6 @@ class Settings: SKScene {
 
     private var rebindId: Input?
     private var rebindItem: String?
-
-    private var inputDownObserver: Any?
-    private var controllerDidConnectObserver: Any?
-    private var controllerDidDisconnectObserver: Any?
-    private var didEnterFullScreenObserver: Any?
-    private var didExitFullScreenObserver: Any?
 
     private func update () {
         for (index, item) in menuItems.enumerated() {
@@ -242,50 +236,28 @@ class Settings: SKScene {
     }
 
     override func didMove(to view: SKView) {
+        super.didMove(to: view)
+
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
-
-        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
-            self?.update()
-        }
-
-        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
-            self?.update()
-        }
-
-        self.didEnterFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
-            UserDefaults.standard.fullscreen = true
-            self?.update()
-        }
-
-        self.didExitFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
-            UserDefaults.standard.fullscreen = false
-            self?.update()
-        }
-
-        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
-            if let event = notification.object as? InputEvent {
-                self?.inputDown(event: event)
-            }
-        }
     }
 
-    override func willMove (from view: SKView) {
-        if let observer = self.inputDownObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.controllerDidConnectObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.controllerDidDisconnectObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.didEnterFullScreenObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.didExitFullScreenObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
+    override func controllerDidConnect() {
+        self.update()
+    }
+
+    override func controllerDidDisconnect() {
+        self.update()
+    }
+
+    override func didEnterFullScreen() {
+        UserDefaults.standard.fullscreen = true
+        self.update()
+    }
+
+    override func didExitFullScreen() {
+        UserDefaults.standard.fullscreen = false
+        self.update()
     }
 
     override func keyDown (with event: NSEvent) {
@@ -302,7 +274,7 @@ class Settings: SKScene {
         }
     }
 
-    func inputDown(event: InputEvent) {
+    override func inputDown (event: InputEvent) {
         switch event.id {
         case .up:
             AudioPlayer.playFxSelect()

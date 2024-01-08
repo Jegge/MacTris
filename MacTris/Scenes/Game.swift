@@ -10,7 +10,7 @@ import GameplayKit
 import GameController
 import OSLog
 
-class Game: SKScene {
+class Game: SceneBase {
 
     private enum State {
         case running
@@ -54,11 +54,6 @@ class Game: SKScene {
 
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
-
-    private var inputUpObserver: Any?
-    private var inputDownObserver: Any?
-    private var controllerDidConnectObserver: Any?
-    private var controllerDidDisconnectObserver: Any?
 
     private var state: State = .running {
         didSet {
@@ -151,6 +146,8 @@ class Game: SKScene {
     }
 
     override func didMove (to view: SKView) {
+        super.didMove(to: view)
+
         guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
             return
         }
@@ -177,44 +174,17 @@ class Game: SKScene {
         self.framesToWait = FrameCount.gravity(level: self.level)
         self.state = .running
 
-        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
-            self?.updateInstructions()
-        }
-
-        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self]  _ in
-            if self?.state == .running {
-                self?.state = .paused
-            }
-            self?.updateInstructions()
-        }
-
-        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
-            if let event = notification.object as? InputEvent {
-                self?.inputDown(event: event)
-            }
-        }
-
-        self.inputUpObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
-            if let event = notification.object as? InputEvent {
-                self?.inputUp(event: event)
-            }
-        }
-
         self.updateInstructions()
     }
 
-    override func willMove (from view: SKView) {
-        if let observer = self.inputDownObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.inputUpObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.controllerDidConnectObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
-        if let observer = self.controllerDidDisconnectObserver {
-            NotificationCenter.default.removeObserver(observer)
+    override func controllerDidConnect() {
+        self.updateInstructions()
+    }
+
+    override func controllerDidDisconnect() {
+        self.updateInstructions()
+        if self.state == .running {
+            self.state = .paused
         }
     }
 
@@ -350,10 +320,10 @@ class Game: SKScene {
         }
     }
 
-    func inputDown(event: InputEvent) {
+    override func inputDown (event: InputEvent) {
         switch self.state {
         case .gameover:
-            if self.anyKeyEnabled {
+            if event.id == .select {
                 AudioPlayer.playFxPositive()
                 self.transitionToScores(score: self.score)
             }
@@ -397,7 +367,7 @@ class Game: SKScene {
         }
     }
 
-    func inputUp(event: InputEvent) {
+    override func inputUp (event: InputEvent) {
         self.events.remove(event.id)
     }
 }
