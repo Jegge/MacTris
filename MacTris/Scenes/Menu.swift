@@ -31,6 +31,8 @@ class Menu: SKScene {
         }
     }
 
+    private var inputDownObserver: Any?
+
     private func update () {
         for (index, item) in menuItems.enumerated() {
             guard let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode,
@@ -120,10 +122,16 @@ class Menu: SKScene {
 
         self.level = UserDefaults.standard.startLevel
 
-        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
             if let event = notification.object as? InputEvent {
                 self?.inputDown(event: event)
             }
+        }
+    }
+
+    override func willMove (from view: SKView) {
+        if let observer = self.inputDownObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
 

@@ -16,6 +16,8 @@ class Scores: SKScene {
     private var index: Int?
     private var hiscores: Hiscore = Hiscore()
 
+    private var inputDownObserver: Any?
+
     private func update () {
 
         let formatter = NumberFormatter()
@@ -116,10 +118,16 @@ class Scores: SKScene {
 
         self.update()
 
-        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
             if let event = notification.object as? InputEvent {
                 self?.inputDown(event: event)
             }
+        }
+    }
+
+    override func willMove (from view: SKView) {
+        if let observer = self.inputDownObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
 

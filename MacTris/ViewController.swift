@@ -12,6 +12,11 @@ import OSLog
 class ViewController: NSViewController {
     @IBOutlet var skView: SKView!
 
+    private var controllerDidConnectObserver: Any?
+    private var controllerDidDisconnectObserver: Any?
+    private var didEnterFullScreenObserver: Any?
+    private var didExitFullScreenObserver: Any?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,13 +31,14 @@ class ViewController: NSViewController {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+
         if let view = self.skView {
             if UserDefaults.standard.fullscreen != view.isInFullScreenMode {
                 view.window?.toggleFullScreen(nil)
             }
         }
 
-        NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name) did connect.")
 
@@ -46,17 +52,32 @@ class ViewController: NSViewController {
             }
         }
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
+        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name) did disconnect.")
         }
 
-        NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in
+        self.didEnterFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in
             NSCursor.hide()
         }
 
-        NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
+        self.didExitFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
             NSCursor.unhide()
+        }
+    }
+
+    deinit {
+        if let observer = self.controllerDidConnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.controllerDidDisconnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.didEnterFullScreenObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.didExitFullScreenObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
 }

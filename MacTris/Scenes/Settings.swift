@@ -34,6 +34,12 @@ class Settings: SKScene {
     private var rebindId: Input?
     private var rebindItem: String?
 
+    private var inputDownObserver: Any?
+    private var controllerDidConnectObserver: Any?
+    private var controllerDidDisconnectObserver: Any?
+    private var didEnterFullScreenObserver: Any?
+    private var didExitFullScreenObserver: Any?
+
     private func update () {
         for (index, item) in menuItems.enumerated() {
             if let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode {
@@ -239,28 +245,46 @@ class Settings: SKScene {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
             self?.update()
         }
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
+        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
             self?.update()
         }
 
-        NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
+        self.didEnterFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
             UserDefaults.standard.fullscreen = true
             self?.update()
         }
 
-        NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
+        self.didExitFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
             UserDefaults.standard.fullscreen = false
             self?.update()
         }
 
-        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
             if let event = notification.object as? InputEvent {
                 self?.inputDown(event: event)
             }
+        }
+    }
+
+    override func willMove (from view: SKView) {
+        if let observer = self.inputDownObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.controllerDidConnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.controllerDidDisconnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.didEnterFullScreenObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.didExitFullScreenObserver {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
 

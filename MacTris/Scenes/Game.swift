@@ -55,6 +55,11 @@ class Game: SKScene {
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
 
+    private var inputUpObserver: Any?
+    private var inputDownObserver: Any?
+    private var controllerDidConnectObserver: Any?
+    private var controllerDidDisconnectObserver: Any?
+
     private var state: State = .running {
         didSet {
             switch state {
@@ -172,30 +177,45 @@ class Game: SKScene {
         self.framesToWait = FrameCount.gravity(level: self.level)
         self.state = .running
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
             self?.updateInstructions()
         }
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self]  _ in
+        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self]  _ in
             if self?.state == .running {
                 self?.state = .paused
             }
             self?.updateInstructions()
         }
 
-        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+        self.inputDownObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
             if let event = notification.object as? InputEvent {
                 self?.inputDown(event: event)
             }
         }
 
-        NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
+        self.inputUpObserver = NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
             if let event = notification.object as? InputEvent {
                 self?.inputUp(event: event)
             }
         }
 
         self.updateInstructions()
+    }
+
+    override func willMove (from view: SKView) {
+        if let observer = self.inputDownObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.inputUpObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.controllerDidConnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = self.controllerDidDisconnectObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     private func updateInstructions () {
