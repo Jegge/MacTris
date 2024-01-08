@@ -251,7 +251,7 @@ class Game: SKScene {
                     AudioPlayer.playFxShift()
                 }
                 self.keyRepeatFrames = FrameCount.keyRepeatShift
-            } else if self.events.contains(Input.softDrop) {
+            } else if self.events.contains(.softDrop) {
                 if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
                     self.current = changed
                     self.dropSteps += 1
@@ -333,6 +333,7 @@ extension Game: InputEventResponder {
             } else {
                 AudioPlayer.playFxSelect()
                 self.state = .running
+                self.events.removeAll()
             }
 
         case .running:

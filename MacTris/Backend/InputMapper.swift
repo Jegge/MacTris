@@ -116,13 +116,14 @@ class InputMapper {
 
         if gamepad.dpad == element {
             result = [
+                // the order is important: game events before menu events
+                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed),
+                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed),
+                InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed),
                 InputEvent(id: .left, isDown: gamepad.dpad.left.isPressed),
                 InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed),
                 InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed),
-                InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed),
-                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed),
-                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed),
-                InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed)
+                InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed)
             ]
         }
 
@@ -134,8 +135,9 @@ class InputMapper {
 
         if gamepad.buttonB == element {
             result =  [
-                InputEvent(id: .select, isDown: gamepad.buttonB.isPressed),
-                InputEvent(id: .rotateRight, isDown: gamepad.buttonB.isPressed)
+                // the order is important: game events before menu events
+                InputEvent(id: .rotateRight, isDown: gamepad.buttonB.isPressed),
+                InputEvent(id: .select, isDown: gamepad.buttonB.isPressed)
             ]
         }
 
