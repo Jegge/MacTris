@@ -40,7 +40,7 @@ class Game: SKScene {
         public static let drop: Int = 1
     }
 
-    private var random: RandomTetrominoGenerator = RandomTetrominoGenerator()
+    private var random: RandomTetrominoGenerator = SevenBagTetrominoGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
     private var linesToNextLevel: Int = 0

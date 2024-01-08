@@ -7,7 +7,11 @@
 
 import Foundation
 
-class RandomTetrominoGenerator {
+protocol RandomTetrominoGenerator {
+    func next () -> Tetromino
+}
+
+class SevenBagTetrominoGenerator: RandomTetrominoGenerator {
     private var random: RandomNumberGenerator
     private var bag: [Tetromino.Shape] = []
 
