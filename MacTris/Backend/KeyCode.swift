@@ -77,6 +77,7 @@ enum KeyCode: UInt16 {
     case space               = 0x31
     case delete              = 0x33
     case escape              = 0x35
+    case rightcommand        = 0x36
     case command             = 0x37
     case shift               = 0x38
     case capslock            = 0x39
@@ -193,16 +194,17 @@ extension KeyCode: CustomStringConvertible {
         case .return: return "Return"
         case .tab: return "Tab"
         case .space: return "Space"
-        case .delete: return "Backspace"
+        case .delete: return "Delete"
         case .escape: return "Escape"
-        case .command: return "Left Command"
-        case .shift: return "Left Shift"
-        case .capslock: return "Caps Lock"
-        case .option: return "Left Option"
-        case .control: return "Left Control"
-        case .rightshift: return "Right Shift"
-        case .rightoption: return "Right Option"
-        case .rightcontrol: return "Right Control"
+        case .rightcommand: return "Command R"
+        case .command: return "Command L"
+        case .shift: return "Shift L"
+        case .capslock: return "Caps lock"
+        case .option: return "Option L"
+        case .control: return "Control L"
+        case .rightshift: return "Shift R"
+        case .rightoption: return "Option R"
+        case .rightcontrol: return "Control R"
         case .function: return "fn"
         case .f17: return "F17"
         case .volumeup: return "Volume up"
