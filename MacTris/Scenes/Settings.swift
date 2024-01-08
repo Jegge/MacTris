@@ -217,6 +217,16 @@ class Settings: SKScene {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
             self?.update()
         }
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
+            UserDefaults.standard.fullscreen = true
+            self?.update()
+        }
+
+        NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
+            UserDefaults.standard.fullscreen = false
+            self?.update()
+        }
     }
 
     override func keyDown (with event: NSEvent) {
