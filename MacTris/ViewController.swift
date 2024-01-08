@@ -32,17 +32,15 @@ class ViewController: NSViewController {
             }
         }
 
-        NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
+        NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name) did connect.")
 
             for controller in GCController.controllers() {
                 controller.microGamepad?.valueChangedHandler = nil
-                controller.extendedGamepad?.valueChangedHandler = {  [weak self] (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-                    if let responder = self?.skView.scene as? InputEventResponder {
-                        InputMapper.shared.translate(gamepad: gamepad, element: element).forEach {
-                            responder.input(event: $0)
-                        }
+                controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+                    InputMapper.shared.translate(gamepad: gamepad, element: element).forEach {
+                        $0.postNotification()
                     }
                 }
             }

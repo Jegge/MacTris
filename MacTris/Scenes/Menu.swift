@@ -119,6 +119,12 @@ class Menu: SKScene {
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
 
         self.level = UserDefaults.standard.startLevel
+
+        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+            if let event = notification.object as? InputEvent {
+                self?.inputDown(event: event)
+            }
+        }
     }
 
     override func keyDown(with event: NSEvent) {
@@ -126,9 +132,7 @@ class Menu: SKScene {
             self.inputDown(event: $0)
         }
     }
-}
 
-extension Menu: InputEventResponder {
     func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
@@ -153,8 +157,5 @@ extension Menu: InputEventResponder {
         default:
             print("Unhandled input event: \(event)")
         }
-    }
-
-    func inputUp(event: InputEvent) {
     }
 }

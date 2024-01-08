@@ -183,6 +183,18 @@ class Game: SKScene {
             self?.updateInstructions()
         }
 
+        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+            if let event = notification.object as? InputEvent {
+                self?.inputDown(event: event)
+            }
+        }
+
+        NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
+            if let event = notification.object as? InputEvent {
+                self?.inputUp(event: event)
+            }
+        }
+
         self.updateInstructions()
     }
 
@@ -317,9 +329,7 @@ class Game: SKScene {
             self.framesToWait = FrameCount.gravity(level: self.level)
         }
     }
-}
 
-extension Game: InputEventResponder {
     func inputDown(event: InputEvent) {
         switch self.state {
         case .gameover:

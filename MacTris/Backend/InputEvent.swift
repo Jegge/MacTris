@@ -10,19 +10,11 @@ import GameController
 struct InputEvent: Equatable {
     let id: Input
     let isDown: Bool
-}
 
-protocol InputEventResponder {
-    func inputDown(event: InputEvent)
-    func inputUp(event: InputEvent)
-}
+    static let inputDownNotification: NSNotification.Name = NSNotification.Name("InputEventInputDown")
+    static let inputUpNotification: NSNotification.Name = NSNotification.Name("InputEventInputUp")
 
-extension InputEventResponder {
-    func input(event: InputEvent) {
-        if event.isDown {
-            self.inputDown(event: event)
-        } else {
-            self.inputUp(event: event)
-        }
+    func postNotification () {
+        NotificationCenter.default.post(Notification(name: self.isDown ? InputEvent.inputDownNotification : InputEvent.inputUpNotification, object: self, userInfo: nil))
     }
 }

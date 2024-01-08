@@ -115,6 +115,12 @@ class Scores: SKScene {
         }
 
         self.update()
+
+        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+            if let event = notification.object as? InputEvent {
+                self?.inputDown(event: event)
+            }
+        }
     }
 
     override func keyDown(with event: NSEvent) {
@@ -126,16 +132,11 @@ class Scores: SKScene {
             }
         }
     }
-}
 
-extension Scores: InputEventResponder {
     func inputDown (event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             AudioPlayer.playFxPositive()
             self.transitionToMenu()
         }
-    }
-
-    func inputUp (event: InputEvent) {
     }
 }

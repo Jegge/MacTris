@@ -256,6 +256,12 @@ class Settings: SKScene {
             UserDefaults.standard.fullscreen = false
             self?.update()
         }
+
+        NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
+            if let event = notification.object as? InputEvent {
+                self?.inputDown(event: event)
+            }
+        }
     }
 
     override func keyDown (with event: NSEvent) {
@@ -271,9 +277,7 @@ class Settings: SKScene {
             }
         }
     }
-}
 
-extension Settings: InputEventResponder {
     func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
@@ -304,8 +308,5 @@ extension Settings: InputEventResponder {
         default:
             print("Unhandled input event: \(event)")
         }
-    }
-
-    func inputUp(event: InputEvent) {
     }
 }
