@@ -48,7 +48,6 @@ class Game: SceneBase {
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
     private var keyRepeatFrames: Int  = 0
-    private var anyKeyEnabled: Bool = false
     private var lastUpdate: TimeInterval = 0
     private var dropSteps: Int = 0
 
@@ -61,12 +60,11 @@ class Game: SceneBase {
             case .running:
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = true
-                self.anyKeyEnabled = false
 
             case .paused:
                 self.childNode(withName: "pause")?.isHidden = false
                 self.childNode(withName: "gameOver")?.isHidden = true
-                self.anyKeyEnabled = false
+
             case .gameover:
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = false
@@ -77,10 +75,6 @@ class Game: SceneBase {
                     } else {
                         label.text = "Your score: \(self.score)"
                     }
-                }
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.anyKeyEnabled = true
                 }
 
                 AudioPlayer.playFxGameOver()
@@ -192,7 +186,6 @@ class Game: SceneBase {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
                 label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to quit —"
-
             } else {
                 label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to quit —"
             }
@@ -201,9 +194,16 @@ class Game: SceneBase {
         if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
                 label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to pause —"
-
             } else {
                 label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to pause —"
+            }
+        }
+
+        if let label = self.childNode(withName: "//labelGameOverInstructions") as? SKLabelNode {
+            if GCController.controllers().isEmpty {
+                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.select)) to continue —"
+            } else {
+                label.text = "— \(InputMapper.shared.describeIdForController(.select)) to continue —"
             }
         }
     }
