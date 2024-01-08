@@ -179,6 +179,7 @@ class Game: SceneBase {
         self.updateInstructions()
         if self.state == .running {
             self.state = .paused
+            AudioPlayer.playFxPositive()
         }
     }
 
@@ -346,7 +347,7 @@ class Game: SceneBase {
                 self.transitionToScores(score: self.score)
 
             case .select:
-                AudioPlayer.playFxSelect()
+                AudioPlayer.playFxPositive()
                 self.state = .running
                 self.events.removeAll()
 
@@ -376,6 +377,7 @@ class Game: SceneBase {
 
             case Input.menu:
                 self.state = .paused
+                AudioPlayer.playFxPositive()
 
             default:
                 break

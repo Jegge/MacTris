@@ -11,7 +11,7 @@ import AVFoundation
 class AudioPlayer: NSObject {
 
     private var musicPlayer: AVAudioPlayer?
-    private var fxPlayers: Set<AVAudioPlayer> = Set()
+    private var fxPlayers: [String: AVAudioPlayer] = [:]
 
     deinit {
         self.stopMusic()
@@ -46,15 +46,16 @@ class AudioPlayer: NSObject {
     }
 
     func playFx (aiff name: String) {
-
-        if let url = Bundle.main.url(forResource: name, withExtension: "aiff"),
+        if self.fxPlayers[name] == nil,
+           let url = Bundle.main.url(forResource: name, withExtension: "aiff"),
            let player = try? AVAudioPlayer(contentsOf: url) {
-
-            player.numberOfLoops = 0
-            player.volume = self.fxMuted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.fxVolume)))
             player.prepareToPlay()
-            player.delegate = self
-            self.fxPlayers.insert(player)
+            player.numberOfLoops = 0
+            self.fxPlayers[name] = player
+        }
+
+        if let player = self.fxPlayers[name] {
+            player.volume = self.fxMuted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.fxVolume)))
             player.play()
         }
     }
@@ -64,10 +65,4 @@ class AudioPlayer: NSObject {
     var fxMuted: Bool = false
 
     static let shared = AudioPlayer()
-}
-
-extension AudioPlayer: AVAudioPlayerDelegate {
-    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        self.fxPlayers.remove(player)
-    }
 }
