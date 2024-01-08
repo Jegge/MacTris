@@ -2,7 +2,6 @@
 
 A simple Tetris clone using SpriteKit
 
-
 # Acknowledgements
 
 ## Tetriminos
@@ -28,4 +27,9 @@ Disable Launchpad on select button:
  
     defaults write com.apple.GameController bluetoothPrefsMenuLongPressAction -integer 0
     defaults write com.apple.GameController bluetoothPrefsShareLongPressSystemGestureMode -integer -1
+
+# Todo
+
+1. Make RNG selectable (NES / 7BAG)
+2. Make keyRepeatShiftInitial configurable (NES: 16, Default: 6)
 

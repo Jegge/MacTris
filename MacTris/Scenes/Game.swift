@@ -26,6 +26,7 @@ class Game: SceneBase {
         }
         public static let dissolve: Int = 4
         public static let spawn: Int = 16
+        public static let keyRepeatShiftInitial: Int = 6 // 16
         public static let keyRepeatShift: Int = 6
         public static let keyRepeatDrop: Int = 1
     }
@@ -48,6 +49,7 @@ class Game: SceneBase {
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
     private var keyRepeatFrames: Int  = 0
+    private var keyRepeatIsInitial: Bool = false
     private var lastUpdate: TimeInterval = 0
     private var dropSteps: Int = 0
 
@@ -247,53 +249,57 @@ class Game: SceneBase {
             return
         }
 
-        if self.completed == nil, let current = self.current {
-            if self.keyRepeatFrames > 0 {
-                self.keyRepeatFrames -= 1
-            } else if self.events.contains(.shiftLeft) {
-                if let changed = board.apply(tetromino: current, change: { $0.shiftedLeft() }) {
-                    self.current = changed
-                    AudioPlayer.playFxShift()
-                }
-                self.keyRepeatFrames = FrameCount.keyRepeatShift
-            } else if self.events.contains(.shiftRight) {
-                if let changed = board.apply(tetromino: current, change: { $0.shiftedRight() }) {
-                    self.current = changed
-                    AudioPlayer.playFxShift()
-                }
-                self.keyRepeatFrames = FrameCount.keyRepeatShift
-            } else if self.events.contains(.softDrop) {
-                if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
-                    self.current = changed
-                    self.dropSteps += 1
-                } else {
-                    self.score += self.dropSteps * Score.drop
-                    self.dropSteps = 0
-                    self.current = nil
-                    if board.stackedTooHigh(tetromino: current) {
-                        Logger.game.info("Stacked too high: \(current.description)")
-                        self.state = .gameover
-                    } else {
-                        AudioPlayer.playFxDrop()
+        if self.keyRepeatFrames > 0 {
+            self.keyRepeatFrames -= 1
+        } else {
+            if self.completed == nil, let current = self.current {
+                if self.events.contains(.shiftLeft) {
+                    if let changed = board.apply(tetromino: current, change: { $0.shiftedLeft() }) {
+                        self.current = changed
+                        AudioPlayer.playFxShift()
                     }
+                    self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                    self.keyRepeatIsInitial = false
+                } else if self.events.contains(.shiftRight) {
+                    if let changed = board.apply(tetromino: current, change: { $0.shiftedRight() }) {
+                        self.current = changed
+                        AudioPlayer.playFxShift()
+                    }
+                    self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                    self.keyRepeatIsInitial = false
+                } else if self.events.contains(.softDrop) {
+                    if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
+                        self.current = changed
+                        self.dropSteps += 1
+                    } else {
+                        self.score += self.dropSteps * Score.drop
+                        self.dropSteps = 0
+                        self.current = nil
+                        if board.stackedTooHigh(tetromino: current) {
+                            Logger.game.info("Stacked too high: \(current.description)")
+                            self.state = .gameover
+                        } else {
+                            AudioPlayer.playFxDrop()
+                        }
+                    }
+                    self.keyRepeatFrames = FrameCount.keyRepeatDrop
                 }
-                self.keyRepeatFrames = FrameCount.keyRepeatDrop
             }
-        }
 
-        if self.completed == nil, let current = self.current {
-            if self.events.contains(.rotateLeft) {
-                if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
-                    self.current = changed
-                    AudioPlayer.playFxRotate()
+            if self.completed == nil, let current = self.current {
+                if self.events.contains(.rotateLeft) {
+                    if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
+                        self.current = changed
+                        AudioPlayer.playFxRotate()
+                    }
+                    self.events.remove(.rotateLeft)
+                } else if self.events.contains(.rotateRight) {
+                    if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
+                        self.current = changed
+                        AudioPlayer.playFxRotate()
+                    }
+                    self.events.remove(.rotateRight)
                 }
-                self.events.remove(.rotateLeft)
-            } else if self.events.contains(.rotateRight) {
-                if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
-                    self.current = changed
-                    AudioPlayer.playFxRotate()
-                }
-                self.events.remove(.rotateRight)
             }
         }
 
@@ -359,14 +365,17 @@ class Game: SceneBase {
             switch event.id {
             case Input.shiftLeft:
                 self.keyRepeatFrames = 0
+                self.keyRepeatIsInitial = true
                 self.events.insert(event.id)
 
             case Input.shiftRight:
                 self.keyRepeatFrames = 0
+                self.keyRepeatIsInitial = true
                 self.events.insert(event.id)
 
             case Input.softDrop:
                 self.keyRepeatFrames = 0
+                self.keyRepeatIsInitial = true
                 self.events.insert(event.id)
 
             case Input.rotateLeft:
