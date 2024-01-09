@@ -72,7 +72,7 @@ class Game: SceneBase {
                 self.childNode(withName: "gameOver")?.isHidden = false
 
                 if let label = self.childNode(withName: "//labelFinalScore") as? SKLabelNode {
-                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.score)) {
+                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.score)) {
                         label.text = "New hiscore: \(self.score)"
                     } else {
                         label.text = "Your score: \(self.score)"

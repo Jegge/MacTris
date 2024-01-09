@@ -14,7 +14,7 @@ class Scores: SceneBase {
     var score: Int?  // = 234566
 
     private var index: Int?
-    private var hiscores: Hiscore = Hiscore()
+    private var hiscores: Hiscore = Hiscore(key: Secrets.hiscoreKey)
 
     private func update () {
 
@@ -95,10 +95,10 @@ class Scores: SceneBase {
         }
 
         do {
-            self.hiscores = try Hiscore(contentsOfUrl: Hiscore.url)
+            self.hiscores = try Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey)
         } catch {
             print("Failed to load hiscores: \(error)")
-            self.hiscores = Hiscore()
+            self.hiscores = Hiscore(key: Secrets.hiscoreKey)
         }
 
         if let score = self.score {

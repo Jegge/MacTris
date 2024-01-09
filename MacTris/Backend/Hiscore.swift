@@ -19,10 +19,6 @@ class Hiscore {
         }
     }
 
-    static var key: SymmetricKey {
-        return SymmetricKey(data: "!deadbeefc0ffee@".data(using: .utf8)!)
-    }
-
     static var url: URL {
         let id = Bundle.main.bundleIdentifier ?? "com.realvirtuality.MacTris"
         if #available(macOS 13.0, *) {
@@ -37,23 +33,26 @@ class Hiscore {
     static var nameLength: Int = 16
 
     private var list: [Score]
+    private var key: SymmetricKey
 
     public var scores: [Score] {
         return self.list
     }
 
-    private init (list: [Score]) {
+    private init (list: [Score], key: SymmetricKey) {
         self.list = list
+        self.key = key
     }
 
-    convenience init (contentsOfUrl url: URL) throws {
+    convenience init (contentsOfUrl url: URL, key: String) throws {
+        let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
         let encrypted = try AES.GCM.SealedBox(combined: try Data(contentsOf: url))
-        let decrypted = try AES.GCM.open(encrypted, using: Hiscore.key)
+        let decrypted = try AES.GCM.open(encrypted, using: symmetricKey)
         let scores = try JSONDecoder().decode([Score].self, from: decrypted)
-        self.init(list: scores)
+        self.init(list: scores, key: symmetricKey)
     }
 
-    convenience init () {
+    convenience init (key: String) {
         self.init(list: [
             Score(name: "Johnnie", value: 100000),
             Score(name: "Jacky", value: 90000),
@@ -65,12 +64,12 @@ class Hiscore {
             Score(name: "Hinz", value: 30000),
             Score(name: "Und", value: 20000),
             Score(name: "Kunz", value: 10000)
-        ])
+        ], key: SymmetricKey(data: key.data(using: .utf8)!))
     }
 
     func write (to url: URL) throws {
         let decrypted = try JSONEncoder().encode(self.list)
-        let encrypted = try AES.GCM.seal(decrypted, using: Hiscore.key).combined
+        let encrypted = try AES.GCM.seal(decrypted, using: self.key).combined
         try encrypted?.write(to: url)
     }
 

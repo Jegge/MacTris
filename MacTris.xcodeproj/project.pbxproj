@@ -30,6 +30,7 @@
 		D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */; };
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
+		D282A7022B4D45D9001E83A7 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282A7012B4D45D9001E83A7 /* Secrets.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */; };
@@ -78,6 +79,7 @@
 		D22901262B4828A600A9F88E /* OSLog+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Categories.swift"; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D282A7012B4D45D9001E83A7 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SkScene+Transition.swift"; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		D26ED3A42B4538DC000FE86C /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				D282A7012B4D45D9001E83A7 /* Secrets.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
 				D22900F42B45534F00A9F88E /* Hiscore.swift */,
@@ -343,6 +346,7 @@
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,
+				D282A7022B4D45D9001E83A7 /* Secrets.swift in Sources */,
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
 				D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
