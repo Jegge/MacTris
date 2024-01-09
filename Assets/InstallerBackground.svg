@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(0.092202, 0, 0, 0.092308, 319.437714, 101.014656)" style="">
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="979.18811" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="320" y="639.99998" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="320.00006" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="979.18808" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="100" y="199.99997" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="979.18803" y="420" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="979.18803" y="199.99986" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="760.02032" y="420" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 0); stroke: rgb(136, 0, 0); stroke-width: 20px;" x="1198.90198" y="200" width="200.00002" height="200" rx="20" ry="20">
+      <title>Red</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="319.99994" y="200" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="540" y="199.99994" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="760.02032" y="199.99988" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="540" y="859.99998" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="760.02032" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="760.02032" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="540" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="540" y="419.99994" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="320" y="419.99994" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100.00002" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100" y="640" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0); stroke-width: 20px;" x="100" y="419.99997" width="199.99998" height="200" rx="20" ry="20">
+      <title>Orange</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136); stroke-width: 19.9989px;" width="199.56183" height="200.41602" rx="3" ry="3" x="1419.53412" y="1071.92162">
+      <title>Purple</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="1198.90198" y="860" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="1198.90204" y="1072.33762" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 20px;" x="1198.9021" y="1281.98701" width="199.99998" height="200" rx="20" ry="20">
+      <title>Blue</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="1198.90198" y="-20.24919" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="1198.90198" y="-237.81208" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="1419.09592" y="-20.24919" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0); stroke-width: 20px;" x="1419.09595" y="200" width="199.99998" height="200" rx="20" ry="20">
+      <title>Green</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136); stroke-width: 19.9989px;" width="199.56183" height="200.41602" rx="3" ry="3" x="1419.53418" y="859.58398">
+      <title>Purple</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136); stroke-width: 19.9989px;" width="199.56183" height="200.41602" rx="3" ry="3" x="1638.10892" y="859.58398">
+      <title>Purple</title>
+    </rect>
+    <rect style="fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136); stroke-width: 19.9989px;" width="199.56183" height="200.41602" rx="3" ry="3" x="1419.53418" y="639.584">
+      <title>Purple</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="1854.59325" y="639.58398" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="1854.59326" y="419.99994" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="1637.67073" y="419.99994" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(255, 255, 0); stroke: rgb(136, 136, 0); stroke-width: 20px;" x="1637.67073" y="639.584" width="199.99998" height="200" rx="20" ry="20">
+      <title>Yellow</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1638.10889" y="200.00002" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1198.9021" y="420.00002" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1198.90195" y="639.58398" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 20px;" x="1419.53418" y="420.00002" width="200.00002" height="199.99998" rx="20" ry="20">
+      <title>Cyan</title>
+    </rect>
+  </g>
+</svg>

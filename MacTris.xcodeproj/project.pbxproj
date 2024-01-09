@@ -80,6 +80,7 @@
 		D262DFC52B4DC66600FDC801 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
 		D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
+		D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InstallerBackground.svg; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
@@ -115,6 +116,7 @@
 		D22901062B45E7A300A9F88E /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */,
 				D22901092B45F7C000A9F88E /* Box.svg */,
 				D22901072B45E7AE00A9F88E /* AppIcon.svg */,
 			);
