@@ -33,3 +33,9 @@ Disable Launchpad on select button:
 1. Make RNG selectable (NES / 7BAG)
 2. Make keyRepeatShiftInitial configurable (NES: 16, Default: 6)
 
+
+# Build
+
+1. The first build might fail due to generation of the file Secrets.generated.swift.
+2. To supply a secret for archive builds, copy the file Secrets.xcconfig to Secrets.install.xcconfig and change it's content.
+

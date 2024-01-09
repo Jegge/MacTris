@@ -11,5 +11,5 @@ xcuserdata/
 *.xcsmblueprint
 .DS_Store
 xcshareddata/
-
-
+Secrets.install.xcconfig
+Secrets.generated.swift

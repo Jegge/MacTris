@@ -30,7 +30,7 @@
 		D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */; };
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
-		D282A7022B4D45D9001E83A7 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282A7012B4D45D9001E83A7 /* Secrets.swift */; };
+		D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */; };
@@ -77,9 +77,11 @@
 		D22901232B47D28400A9F88E /* Silver.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silver.ttf; sourceTree = "<group>"; };
 		D22901252B47D30800A9F88E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D22901262B4828A600A9F88E /* OSLog+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Categories.swift"; sourceTree = "<group>"; };
+		D262DFC52B4DC66600FDC801 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
+		D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D282A7012B4D45D9001E83A7 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SkScene+Transition.swift"; sourceTree = "<group>"; };
@@ -151,7 +153,7 @@
 		D26ED3A42B4538DC000FE86C /* Backend */ = {
 			isa = PBXGroup;
 			children = (
-				D282A7012B4D45D9001E83A7 /* Secrets.swift */,
+				D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
 				D22900F42B45534F00A9F88E /* Hiscore.swift */,
@@ -208,14 +210,16 @@
 		D2FF089C2B43F65B00740390 /* MacTris */ = {
 			isa = PBXGroup;
 			children = (
-				D22901252B47D30800A9F88E /* Info.plist */,
 				D26ED3A42B4538DC000FE86C /* Backend */,
 				D26ED3A22B4538BE000FE86C /* Scenes */,
 				D26ED3A32B4538CC000FE86C /* Extensions */,
+				D2D6EEE82B4BD82E008143D9 /* Resources */,
+				D22901252B47D30800A9F88E /* Info.plist */,
 				D2FF089D2B43F65B00740390 /* AppDelegate.swift */,
 				D2FF08A52B43F65B00740390 /* ViewController.swift */,
-				D2D6EEE82B4BD82E008143D9 /* Resources */,
 				D2FF08AC2B43F65D00740390 /* MacTris.entitlements */,
+				D262DFC52B4DC66600FDC801 /* Secrets.xcconfig */,
+				D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */,
 			);
 			path = MacTris;
 			sourceTree = "<group>";
@@ -228,6 +232,7 @@
 			buildConfigurationList = D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "MacTris" */;
 			buildPhases = (
 				D26ED39B2B44D7BE000FE86C /* Swiftlint */,
+				D262DFC42B4DC5F200FDC801 /* Embed Secrets */,
 				D2FF08962B43F65B00740390 /* Sources */,
 				D2FF08972B43F65B00740390 /* Frameworks */,
 				D2FF08982B43F65B00740390 /* Resources */,
@@ -303,6 +308,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		D262DFC42B4DC5F200FDC801 /* Embed Secrets */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/MacTris/secret.xcconfig",
+			);
+			name = "Embed Secrets";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${SRCROOT}/MacTris/Backend/Secret.generated.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\nxcconfig_file=\"${SRCROOT}/MacTris/Secrets.$ACTION.xcconfig\"\nswift_file=\"${SRCROOT}/MacTris/Backend/Secrets.generated.swift\"\n\nif ! [ -f \"$xcconfig_file\" ]; then\n    echo \"The file '$xcconfig_file' does not exist, trying fallback.\"\n    xcconfig_file=\"${SRCROOT}/MacTris/Secrets.xcconfig\"    \n    if ! [ -f \"$xcconfig_file\" ]; then\n        echo \"The file '$xcconfig_file' does not exist, bailing out.\"\n        exit  1;\n    fi\nfi\n\necho \"struct Secrets {\" > \"$swift_file\"\n\nwhile IFS= read -r line; do\n\n    if [[ \"$line\" =~ ^\\s*// ]] || [[ -z \"$line\" ]]; then\n        continue\n    fi\n\n    var_name=\"$(echo \"$line\" | cut -d'=' -f1 | sed 's/ //g')\"\n    var_value=\"$(echo \"$line\" | cut -d'=' -f2- | sed 's/^ *//;s/ *$//')\"\n   \n    echo \"    static let $var_name: String = \\\"$var_value\\\"\" >> \"$swift_file\"\n\ndone < \"$xcconfig_file\"\n\necho \"}\" >> \"$swift_file\"\n\necho \"Successfully generated $swift_file\" \n";
+		};
 		D26ED39B2B44D7BE000FE86C /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -336,6 +362,7 @@
 				D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
+				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,
 				D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */,
@@ -346,7 +373,6 @@
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,
-				D282A7022B4D45D9001E83A7 /* Secrets.swift in Sources */,
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
 				D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
