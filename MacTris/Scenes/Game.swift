@@ -72,13 +72,15 @@ class Game: SceneBase {
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = false
 
-                if let label = self.childNode(withName: "//labelFinalScore") as? SKLabelNode {
+                if let label = self.childNode(withName: "//labelFinalScoreTitle") as? SKLabelNode {
                     if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.score)) {
-                        label.text = "New hiscore: \(self.score)"
+                        label.text = "New hiscore!"
                     } else {
-                        label.text = "Your score: \(self.score)"
+                        label.text = "Your score:"
                     }
                 }
+
+                (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.score)
 
                 AudioPlayer.playFxGameOver()
             }
