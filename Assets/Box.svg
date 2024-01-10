@@ -24,7 +24,7 @@
       <rect style="fill: rgb(255, 255, 0);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
     </g>
   </g>
-  <g>
+  <g style="visibility: hidden;">
     <title>Blue</title>
     <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 2px; visibility: hidden;" width="30" height="30" rx="3" ry="3" x="1" y="1">
       <title>Background</title>
@@ -35,7 +35,7 @@
     <rect style="stroke-width: 2px; fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0);" width="30" height="30" rx="3" ry="3" x="1" y="1">
       <title>Background</title>
     </rect>
-    <g>
+    <g style="">
       <rect style="fill: rgb(0, 128, 0);" x="6" y="6" width="4" height="4" rx="1" ry="1"/>
       <rect style="fill: rgb(0, 128, 0);" x="16" y="4" width="4" height="4" rx="1" ry="1"/>
       <rect style="fill: rgb(0, 128, 0);" x="18" y="12" width="4" height="4" rx="1" ry="1"/>
@@ -58,7 +58,7 @@
       <rect style="fill: rgb(136, 68, 0);" x="18" y="18" width="10" height="10" rx="2" ry="2"/>
     </g>
   </g>
-  <g style="">
+  <g style="visibility: hidden;">
     <title>Purple</title>
     <rect style="stroke-width: 2px; fill: rgb(255, 0, 255); stroke: rgb(136, 0, 136);" width="30" height="30" rx="3" ry="3" x="1" y="1">
       <title>Background</title>
@@ -76,6 +76,59 @@
     </rect>
     <g>
       <rect style="fill: rgb(0, 128, 128);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+    </g>
+  </g>
+  <g style="visibility: hidden;">
+    <title>Monochrome-1</title>
+    <rect style="stroke-width: 2px; stroke: rgb(238, 238, 238); fill: rgb(85, 85, 85);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+  </g>
+  <g style="visibility: hidden;">
+    <title>Monochrome-2</title>
+    <rect style="stroke-width: 2px; stroke: rgb(238, 238, 238); fill: rgb(85, 85, 85);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+    <rect style="fill: rgb(238, 238, 238);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+  </g>
+  <g style="visibility: hidden;">
+    <title>Monochrome-3</title>
+    <rect style="stroke-width: 2px; stroke: rgb(238, 238, 238); fill: rgb(17, 17, 17);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+    <rect style="fill: rgb(238, 238, 238);" x="6" y="6" width="20" height="20" rx="2" ry="2"/>
+  </g>
+  <g style="visibility: hidden;">
+    <title>Monochrome-4</title>
+    <rect style="stroke-width: 2px; stroke: rgb(238, 238, 238); fill: rgb(85, 85, 85);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+    <path d="M 9.99998 8 L 21.99998 8 C 22.55226 8 23.05226 8.22386 23.41419 8.58579 L 8.58576 23.41422 C 8.22383 23.05229 7.99997 22.55229 7.99997 22.00001 L 7.99997 10.00001 C 7.99997 8.89544 8.8954 8.00001 9.99997 8.00001 L 9.99998 8 Z" style="fill: rgb(238, 238, 238);"/>
+    <path d="M 10.58577 8.58578 L 22.58577 8.58578 C 23.13805 8.58578 23.63805 8.80964 23.99998 9.17157 L 9.17155 24 C 8.80962 23.63807 8.58576 23.13807 8.58576 22.58579 L 8.58576 10.58579 C 8.58576 9.48122 9.48119 8.58579 10.58576 8.58579 L 10.58577 8.58578 Z" style="transform-origin: 16.2929px 16.2929px; fill: rgb(17, 17, 17);" transform="matrix(-1, 0, 0, -1, -0.000002, 0)"/>
+    <rect style="fill: rgb(85, 85, 85);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+  </g>
+  <g style="visibility: hidden;">
+    <title>Monochrome-5</title>
+    <rect style="stroke-width: 2px; stroke: rgb(238, 238, 238); fill: rgb(85, 85, 85);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+      <title>Background</title>
+    </rect>
+    <rect style="fill: rgb(238, 238, 238);" x="6" y="6" width="20" height="20" rx="2" ry="2"/>
+    <rect style="fill: rgb(17, 17, 17);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+  </g>
+  <g style="">
+    <title>Monochrome-6</title>
+    <rect style="stroke-width: 2px; fill: rgb(85, 85, 85); stroke: rgb(238, 238, 238);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+      <title>Background</title>
+    </rect>
+    <g style="">
+      <rect style="fill: rgb(136, 136, 136);" x="6" y="6" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="16" y="4" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="18" y="12" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="24" y="6" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="10" y="16" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="6" y="22" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="18" y="24" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(136, 136, 136);" x="24" y="18" width="4" height="4" rx="1" ry="1"/>
     </g>
   </g>
 </svg>
