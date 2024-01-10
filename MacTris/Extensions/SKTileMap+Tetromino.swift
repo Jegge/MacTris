@@ -10,12 +10,6 @@ import SpriteKit
 
 extension SKTileMapNode {
 
-    func setTopLeftPosition(for tetromino: Tetromino?) -> Tetromino? {
-        let column = tetromino?.with(position: (0, 0)).points.map { $0.0 }.min() ?? 0
-        let row = tetromino?.with(position: (0, 0)).points.map { $0.1 }.max() ?? 0
-        return tetromino?.with(position: (column * -1, self.numberOfRows - row - 1))
-    }
-
     func setSpawnPosition(for tetromino: Tetromino?) -> Tetromino? {
         return tetromino?.with(position: (self.numberOfColumns / 2, self.numberOfRows))
     }
@@ -109,10 +103,6 @@ extension SKTileMapNode {
         }
     }
 
-    func stackedTooHigh (tetromino: Tetromino) -> Bool {
-        return tetromino.points.map({$0.1}).max() ?? -1 >= self.numberOfRows
-    }
-
     private func clear (row: Int) {
         for column in 0..<self.numberOfColumns {
             self.setTileGroup(nil, forColumn: column, row: row)
@@ -125,7 +115,7 @@ extension SKTileMapNode {
         }
     }
 
-    private func collides (tetronimo: Tetromino) -> Bool {
+    func collides (tetronimo: Tetromino) -> Bool {
         for (column, row) in tetronimo.points {
             if row > self.numberOfRows {
                 continue

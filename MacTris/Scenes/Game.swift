@@ -112,8 +112,8 @@ class Game: SceneBase {
         didSet {
             if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
                 preview.clear()
-                if let tetronimo = preview.setTopLeftPosition(for: self.next) {
-                    preview.draw(tetronimo: tetronimo)
+                if let tetromino = self.next {
+                    preview.draw(tetronimo: tetromino.with(position: (2, 1)))
                 }
             }
         }
@@ -162,7 +162,7 @@ class Game: SceneBase {
         self.lines = 0
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
-        self.next = random.next().with(position: (2, 2))
+        self.next = random.next()
         self.current = board.setSpawnPosition(for: random.next())
 
         board.clear()
@@ -272,15 +272,10 @@ class Game: SceneBase {
                         self.current = changed
                         self.dropSteps += 1
                     } else {
+                        AudioPlayer.playFxDrop()
                         self.score += self.dropSteps * Score.drop
                         self.dropSteps = 0
                         self.current = nil
-                        if board.stackedTooHigh(tetromino: current) {
-                            Logger.game.info("Stacked too high: \(current.description)")
-                            self.state = .gameover
-                        } else {
-                            AudioPlayer.playFxDrop()
-                        }
                     }
                     self.keyRepeatFrames = FrameCount.keyRepeatDrop
                 }
@@ -316,21 +311,23 @@ class Game: SceneBase {
             }
         } else if self.current == nil {
             self.completed = board.completedRows()
-            self.current =  board.setSpawnPosition(for: self.next)
-            self.next = random.next().with(position: (2, 2))
-            self.framesToWait = FrameCount.spawn
-            self.events.removeAll()
-            self.keyRepeatFrames = 0
+            if self.completed == nil {
+                self.current = board.setSpawnPosition(for: self.next)
+                self.next = random.next()
+                self.framesToWait = FrameCount.spawn
+                self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
+
+                if let current = self.current, board.collides(tetronimo: current) {
+                    Logger.game.info("Stacked out: \(current.description)")
+                    self.state = .gameover
+                }
+            }
+
         } else if let changed = board.apply(tetromino: self.current!, change: { $0.dropped() }) {
             self.current = changed
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
-            if let current = self.current, board.stackedTooHigh(tetromino: current) {
-                Logger.game.info("Stacked too high: \(current.description)")
-                self.state = .gameover
-            } else {
-                AudioPlayer.playFxDrop()
-            }
+            AudioPlayer.playFxDrop()
             self.score += self.dropSteps * Score.drop
             self.dropSteps = 0
             self.current = nil
