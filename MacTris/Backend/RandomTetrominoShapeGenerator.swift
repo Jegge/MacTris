@@ -46,7 +46,7 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     func next () -> Tetromino.Shape {
         var shape: Tetromino.Shape?
 
-        while shape == last {
+        while shape == nil || shape == last {
             let number: Int = Int(truncatingIfNeeded: self.random.next(upperBound: UInt(10000)))
             if number < 1473 {
                 shape = .t // 14.73%

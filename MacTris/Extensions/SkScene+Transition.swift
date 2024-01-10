@@ -13,6 +13,9 @@ extension SKScene {
         if let newScene = SKScene(fileNamed: "Game") as? Game {
             newScene.scaleMode = self.scaleMode
             newScene.level = level
+            newScene.appearance = UserDefaults.standard.appearance
+            newScene.autoShift = UserDefaults.standard.autoShift
+            newScene.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         }
     }

@@ -26,8 +26,8 @@ class Game: SceneBase {
         }
         public static let dissolve: Int = 4
         public static let spawn: Int = 16
-        public static let keyRepeatShiftInitial: Int = 6 // 16
-        public static let keyRepeatShift: Int = 6
+        public static var keyRepeatShiftInitial: Int = 6 // 16
+        public static var keyRepeatShift: Int = 6
         public static let keyRepeatDrop: Int = 1
     }
 
@@ -41,7 +41,6 @@ class Game: SceneBase {
         public static let drop: Int = 1
     }
 
-    private var appearance: Appearance = .plain
     private var random: RandomTetrominoShapeGenerator = SevenBagTetrominoShapeGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
@@ -105,12 +104,6 @@ class Game: SceneBase {
         }
     }
 
-    public var level: Int = 0 {
-        didSet {
-            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.level)
-        }
-    }
-
     private var next: Tetromino? {
         didSet {
             if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
@@ -119,6 +112,27 @@ class Game: SceneBase {
                     preview.draw(tetronimo: tetromino.with(position: (2, 1)), appearance: self.appearance)
                 }
             }
+        }
+    }
+
+    var level: Int = 0 {
+        didSet {
+            (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.level)
+        }
+    }
+
+    var randomGeneratorMode: RandomGeneratorMode = .sevenBag {
+        didSet {
+            self.random = self.randomGeneratorMode.createGenerator()
+        }
+    }
+
+    var appearance: Appearance = .plain
+
+    var autoShift: AutoShift = .modern {
+        didSet {
+            FrameCount.keyRepeatShiftInitial = self.autoShift.delays.initial
+            FrameCount.keyRepeatShift = self.autoShift.delays.repeating
         }
     }
 
@@ -165,13 +179,6 @@ class Game: SceneBase {
         self.lines = 0
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
-
-        switch UserDefaults.standard.randomGeneratorMode {
-        case .nes:
-            self.random = NesTetrominoShapeGenerator()
-        case .sevenBag:
-            self.random = SevenBagTetrominoShapeGenerator()
-        }
 
         self.next = Tetromino(shape: random.next())
         self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())

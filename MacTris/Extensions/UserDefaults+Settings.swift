@@ -16,6 +16,8 @@ extension UserDefaults {
         public static let keyboardBindings = "KeyboardBindings"
         public static let startLevel = "StartLevel"
         public static let randomGeneratorMode = "RandomGeneratorMode"
+        public static let appearance = "Appearance"
+        public static let autoShift = "AutoShift"
     }
 
     func register() {
@@ -25,7 +27,9 @@ extension UserDefaults {
             Key.fullscreen: false,
             Key.keyboardBindings: [],
             Key.startLevel: 0,
-            Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue
+            Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue,
+            Key.appearance: Appearance.plain.rawValue,
+            Key.autoShift: AutoShift.modern.rawValue
         ])
     }
 
@@ -80,6 +84,24 @@ extension UserDefaults {
         }
         set {
             self.set(newValue.rawValue, forKey: Key.randomGeneratorMode)
+        }
+    }
+
+    var appearance: Appearance {
+        get {
+            return Appearance(rawValue: self.integer(forKey: Key.appearance)) ?? .plain
+        }
+        set {
+            self.set(newValue.rawValue, forKey: Key.appearance)
+        }
+    }
+
+    var autoShift: AutoShift {
+        get {
+            return AutoShift(rawValue: self.integer(forKey: Key.autoShift)) ?? .modern
+        }
+        set {
+            self.set(newValue.rawValue, forKey: Key.autoShift)
         }
     }
 }
