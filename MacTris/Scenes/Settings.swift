@@ -22,6 +22,7 @@ class Settings: SceneBase {
         public static let rotateRight = "RotateRight"
         public static let softDrop = "SoftDrop"
         public static let rngMode = "RngMode"
+        public static let autoShift = "AutoShift"
         public static let back = "Back"
     }
 
@@ -92,6 +93,9 @@ class Settings: SceneBase {
         case Item.rngMode:
             return UserDefaults.standard.randomGeneratorMode.description
 
+        case Item.autoShift:
+            return UserDefaults.standard.autoShift.description
+
         default:
             return nil
         }
@@ -140,6 +144,10 @@ class Settings: SceneBase {
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
             AudioPlayer.playFxPositive()
 
+        case Item.autoShift:
+            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
+            AudioPlayer.playFxPositive()
+
         default:
             AudioPlayer.playFxNegative()
         }
@@ -164,6 +172,10 @@ class Settings: SceneBase {
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.decrease()
+            AudioPlayer.playFxPositive()
+
+        case Item.autoShift:
+            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.decrease()
             AudioPlayer.playFxPositive()
 
         default:
@@ -240,6 +252,10 @@ class Settings: SceneBase {
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
+            AudioPlayer.playFxPositive()
+
+        case Item.autoShift:
+            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
             AudioPlayer.playFxPositive()
 
         case Item.back:

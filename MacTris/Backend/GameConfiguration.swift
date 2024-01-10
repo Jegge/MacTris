@@ -12,11 +12,11 @@ enum RandomGeneratorMode: Int {
     case sevenBag = 2
 
     func increase () -> RandomGeneratorMode {
-        return self == .sevenBag ? .nes : .sevenBag
+        return RandomGeneratorMode(rawValue: self.rawValue + 1) ?? .nes
     }
 
     func decrease () -> RandomGeneratorMode {
-        return self == .sevenBag ? .nes : .sevenBag
+        return RandomGeneratorMode(rawValue: self.rawValue - 1) ?? .sevenBag
     }
 
     func createGenerator () -> RandomTetrominoShapeGenerator {
@@ -70,8 +70,16 @@ extension AutoShift: CustomStringConvertible {
     var delays: (initial: Int, repeating: Int) {
         switch self {
         case .nes: return (16, 6)
-        case .modern: return (6, 6)
-        case .fast: return (3, 3)
+        case .modern: return (8, 6)
+        case .fast: return (6, 3)
         }
+    }
+
+    func increase () -> AutoShift {
+        return AutoShift(rawValue: self.rawValue + 1) ?? .nes
+    }
+
+    func decrease () -> AutoShift {
+        return AutoShift(rawValue: self.rawValue - 1) ?? .fast
     }
 }
