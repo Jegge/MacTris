@@ -41,7 +41,7 @@ class Game: SceneBase {
         public static let drop: Int = 1
     }
 
-    private var random: RandomTetrominoGenerator = SevenBagTetrominoGenerator()
+    private var random: RandomTetrominoGenerator = NesTetrominoGenerator() // SevenBagTetrominoGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
     private var linesToNextLevel: Int = 0

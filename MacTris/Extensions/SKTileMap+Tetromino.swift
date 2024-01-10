@@ -17,9 +17,7 @@ extension SKTileMapNode {
     }
 
     func setSpawnPosition(for tetromino: Tetromino?) -> Tetromino? {
-        let column = self.numberOfColumns / 2 - 1
-        let row = self.numberOfRows - (tetromino?.with(position: (0, 0)).points.map { $0.1 }.min() ?? 0)
-        return tetromino?.with(position: (column, row))
+        return tetromino?.with(position: (self.numberOfColumns / 2, self.numberOfRows))
     }
 
     func clear () {

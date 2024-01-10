@@ -72,7 +72,6 @@ class NesTetrominoGenerator: RandomTetrominoGenerator {
         }
         self.last = shape
 
-        let rotation = Int(truncatingIfNeeded: random.next(upperBound: UInt64(4))) % shape.points.count
-        return Tetromino(shape: shape, rotation: rotation)
+        return Tetromino(shape: shape, rotation: 0)
     }
 }
