@@ -15,6 +15,7 @@ extension UserDefaults {
         public static let fullscreen = "Fullscreen"
         public static let keyboardBindings = "KeyboardBindings"
         public static let startLevel = "StartLevel"
+        public static let randomGeneratorMode = "RandomGeneratorMode"
     }
 
     func register() {
@@ -23,7 +24,8 @@ extension UserDefaults {
             Key.fxVolume: 100,
             Key.fullscreen: false,
             Key.keyboardBindings: [],
-            Key.startLevel: 0
+            Key.startLevel: 0,
+            Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue
         ])
     }
 
@@ -69,6 +71,15 @@ extension UserDefaults {
         }
         set {
             self.set(encodable: newValue, forKey: Key.keyboardBindings)
+        }
+    }
+
+    var randomGeneratorMode: RandomGeneratorMode {
+        get {
+            return RandomGeneratorMode(rawValue: self.integer(forKey: Key.randomGeneratorMode)) ?? .sevenBag
+        }
+        set {
+            self.set(newValue.rawValue, forKey: Key.randomGeneratorMode)
         }
     }
 }

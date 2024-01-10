@@ -31,6 +31,7 @@
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
 		D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */; };
+		D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SkScene+Transition.swift */; };
@@ -81,6 +82,7 @@
 		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
 		D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
 		D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InstallerBackground.svg; sourceTree = "<group>"; };
+		D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConfiguration.swift; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				D22901192B46BB3B00A9F88E /* AudioPlayer.swift */,
 				D229011D2B46EA9500A9F88E /* KeyCode.swift */,
 				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
+				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				D22900FB2B45876300A9F88E /* Settings.swift in Sources */,
 				D22900F32B454FDD00A9F88E /* InputEvent.swift in Sources */,
 				D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */,
+				D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,

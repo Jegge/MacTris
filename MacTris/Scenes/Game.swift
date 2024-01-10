@@ -41,7 +41,8 @@ class Game: SceneBase {
         public static let drop: Int = 1
     }
 
-    private var random: RandomTetrominoShapeGenerator = NesTetrominoShapeGenerator() // SevenBagTetrominoShapeGenerator()
+    private var appearance: Appearance = .plain
+    private var random: RandomTetrominoShapeGenerator = SevenBagTetrominoShapeGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
     private var linesToNextLevel: Int = 0
@@ -113,7 +114,7 @@ class Game: SceneBase {
             if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
                 preview.clear()
                 if let tetromino = self.next {
-                    preview.draw(tetronimo: tetromino.with(position: (2, 1)))
+                    preview.draw(tetronimo: tetromino.with(position: (2, 1)), appearance: self.appearance)
                 }
             }
         }
@@ -162,6 +163,14 @@ class Game: SceneBase {
         self.lines = 0
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+
+        switch UserDefaults.standard.randomGeneratorMode {
+        case .nes:
+            self.random = NesTetrominoShapeGenerator()
+        case .sevenBag:
+            self.random = SevenBagTetrominoShapeGenerator()
+        }
+
         self.next = Tetromino(shape: random.next())
         self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())
 
@@ -254,21 +263,21 @@ class Game: SceneBase {
         } else {
             if self.completed == nil, let current = self.current {
                 if self.events.contains(.shiftLeft) {
-                    if let changed = board.apply(tetromino: current, change: { $0.shiftedLeft() }) {
+                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.shiftedLeft() }) {
                         self.current = changed
                         AudioPlayer.playFxShift()
                     }
                     self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
                     self.keyRepeatIsInitial = false
                 } else if self.events.contains(.shiftRight) {
-                    if let changed = board.apply(tetromino: current, change: { $0.shiftedRight() }) {
+                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.shiftedRight() }) {
                         self.current = changed
                         AudioPlayer.playFxShift()
                     }
                     self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
                     self.keyRepeatIsInitial = false
                 } else if self.events.contains(.softDrop) {
-                    if let changed = board.apply(tetromino: current, change: { $0.dropped() }) {
+                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.dropped() }) {
                         self.current = changed
                         self.dropSteps += 1
                     } else {
@@ -283,13 +292,13 @@ class Game: SceneBase {
 
             if self.completed == nil, let current = self.current {
                 if self.events.contains(.rotateLeft) {
-                    if let changed = board.apply(tetromino: current, change: { $0.rotatedLeft() }) {
+                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.rotatedLeft() }) {
                         self.current = changed
                         AudioPlayer.playFxRotate()
                     }
                     self.events.remove(.rotateLeft)
                 } else if self.events.contains(.rotateRight) {
-                    if let changed = board.apply(tetromino: current, change: { $0.rotatedRight() }) {
+                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.rotatedRight() }) {
                         self.current = changed
                         AudioPlayer.playFxRotate()
                     }
@@ -322,8 +331,7 @@ class Game: SceneBase {
                     self.state = .gameover
                 }
             }
-
-        } else if let changed = board.apply(tetromino: self.current!, change: { $0.dropped() }) {
+        } else if let changed = board.apply(tetromino: self.current!, appearance: self.appearance, change: { $0.dropped() }) {
             self.current = changed
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {

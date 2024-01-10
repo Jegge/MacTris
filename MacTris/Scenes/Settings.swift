@@ -21,6 +21,7 @@ class Settings: SceneBase {
         public static let rotateLeft = "RotateLeft"
         public static let rotateRight = "RotateRight"
         public static let softDrop = "SoftDrop"
+        public static let rngMode = "RngMode"
         public static let back = "Back"
     }
 
@@ -88,6 +89,9 @@ class Settings: SceneBase {
         case Item.softDrop:
             return InputMapper.shared.describeIdForKeyboard(.softDrop)
 
+        case Item.rngMode:
+            return UserDefaults.standard.randomGeneratorMode.description
+
         default:
             return nil
         }
@@ -132,6 +136,10 @@ class Settings: SceneBase {
             UserDefaults.standard.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
             AudioPlayer.playFxPositive()
 
+        case Item.rngMode:
+            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
+            AudioPlayer.playFxPositive()
+
         default:
             AudioPlayer.playFxNegative()
         }
@@ -152,6 +160,10 @@ class Settings: SceneBase {
         case Item.fxVolume:
             AudioPlayer.shared.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
             UserDefaults.standard.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
+            AudioPlayer.playFxPositive()
+
+        case Item.rngMode:
+            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.decrease()
             AudioPlayer.playFxPositive()
 
         default:
@@ -225,6 +237,10 @@ class Settings: SceneBase {
 
         case Item.softDrop:
             self.beginRebind(id: .softDrop, for: item)
+
+        case Item.rngMode:
+            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
+            AudioPlayer.playFxPositive()
 
         case Item.back:
             AudioPlayer.playFxPositive()

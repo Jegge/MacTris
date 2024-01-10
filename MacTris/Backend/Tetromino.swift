@@ -8,9 +8,6 @@
 import Foundation
 
 struct Tetromino {
-
-    static let variant: String = "-Plain"
-
     enum Shape: CaseIterable {
         case t, j, z, o, s, l, i
 
@@ -56,13 +53,13 @@ struct Tetromino {
 
         var appearance: String {
             switch self {
-            case .o: return "Yellow" + Tetromino.variant
-            case .s: return "Green" + Tetromino.variant
-            case .z: return "Red" + Tetromino.variant
-            case .i: return "Cyan" + Tetromino.variant
-            case .j: return "Blue" + Tetromino.variant
-            case .l: return "Orange" + Tetromino.variant
-            case .t: return "Purple" + Tetromino.variant
+            case .o: return "Yellow"
+            case .s: return "Green"
+            case .z: return "Red"
+            case .i: return "Cyan"
+            case .j: return "Blue"
+            case .l: return "Orange"
+            case .t: return "Purple"
             }
         }
     }

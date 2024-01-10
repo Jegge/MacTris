@@ -56,12 +56,12 @@ extension SKTileMapNode {
         return done
     }
 
-    func draw (tetronimo: Tetromino?) {
+    func draw (tetronimo: Tetromino?, appearance: Appearance) {
         guard let tetronimo = tetronimo else {
             return
         }
 
-        let tileGroup = self.tileSet.tileGroups.first { $0.name == tetronimo.shape.appearance }
+        let tileGroup = self.tileSet.tileGroups.first { $0.name == "\(tetronimo.shape.appearance)-\(appearance.rawValue)" }
         for (column, row) in tetronimo.points {
             if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
                 self.setTileGroup(tileGroup, forColumn: column, row: row)
@@ -89,16 +89,16 @@ extension SKTileMapNode {
         return Range(uncheckedBounds: (start, end))
     }
 
-    func apply (tetromino: Tetromino, change: ((Tetromino) -> Tetromino)) -> Tetromino? {
+    func apply (tetromino: Tetromino, appearance: Appearance, change: ((Tetromino) -> Tetromino)) -> Tetromino? {
         self.clear(tetronimo: tetromino)
 
         let changed = change(tetromino)
 
         if !self.collides(tetronimo: changed) {
-            self.draw(tetronimo: changed)
+            self.draw(tetronimo: changed, appearance: appearance)
             return changed
         } else {
-            self.draw(tetronimo: tetromino)
+            self.draw(tetronimo: tetromino, appearance: appearance)
             return nil
         }
     }
