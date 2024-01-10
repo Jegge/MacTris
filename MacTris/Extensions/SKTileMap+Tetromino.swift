@@ -10,8 +10,8 @@ import SpriteKit
 
 extension SKTileMapNode {
 
-    func setSpawnPosition(for tetromino: Tetromino?) -> Tetromino? {
-        return tetromino?.with(position: (self.numberOfColumns / 2, self.numberOfRows))
+    func spawnPosition () -> (Int, Int) {
+        return (self.numberOfColumns / 2, self.numberOfRows)
     }
 
     func clear () {

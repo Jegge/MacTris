@@ -41,7 +41,7 @@ class Game: SceneBase {
         public static let drop: Int = 1
     }
 
-    private var random: RandomTetrominoGenerator = NesTetrominoGenerator() // SevenBagTetrominoGenerator()
+    private var random: RandomTetrominoShapeGenerator = NesTetrominoShapeGenerator() // SevenBagTetrominoShapeGenerator()
     private var current: Tetromino?
     private var completed: Range<Int>?
     private var linesToNextLevel: Int = 0
@@ -162,8 +162,8 @@ class Game: SceneBase {
         self.lines = 0
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
-        self.next = random.next()
-        self.current = board.setSpawnPosition(for: random.next())
+        self.next = Tetromino(shape: random.next())
+        self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())
 
         board.clear()
 
@@ -312,8 +312,8 @@ class Game: SceneBase {
         } else if self.current == nil {
             self.completed = board.completedRows()
             if self.completed == nil {
-                self.current = board.setSpawnPosition(for: self.next)
-                self.next = random.next()
+                self.current = self.next?.with(position: board.spawnPosition())
+                self.next = Tetromino(shape: random.next())
                 self.framesToWait = FrameCount.spawn
                 self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
 
