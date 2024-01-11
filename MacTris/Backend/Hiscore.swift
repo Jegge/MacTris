@@ -22,11 +22,11 @@ class Hiscore {
     static var url: URL {
         let id = Bundle.main.bundleIdentifier ?? "com.realvirtuality.MacTris"
         if #available(macOS 13.0, *) {
-            return URL.applicationSupportDirectory.appendingPathComponent("\(id)/hiscores.json")
+            return URL.applicationSupportDirectory.appendingPathComponent(id).appendingPathComponent("hiscores.json")
         } else if let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-               return directory.appendingPathComponent("\(id)/hiscores.json")
+            return directory.appendingPathComponent(id).appendingPathComponent("hiscores.json")
         } else {
-            return URL(fileURLWithPath: "~/Library/Application Support", isDirectory: true).appendingPathComponent("\(id)/hiscores.json")
+            return URL(fileURLWithPath: "~/Library/Application Support", isDirectory: true).appendingPathComponent(id).appendingPathComponent("hiscores.json")
         }
     }
 

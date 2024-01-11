@@ -102,13 +102,3 @@ struct Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0, position.1 - 1))
     }
 }
-
-extension Tetromino: CustomStringConvertible {
-    var description: String {
-        let minColumn = self.points.map { $0.0 }.min()!
-        let minRow = self.points.map { $0.1 }.min()!
-        let maxColumn = self.points.map { $0.0 }.max()!
-        let maxRow = self.points.map { $0.1 }.max()!
-        return "Tetromino \(self.shape), position: \(self.position), rotation: \(self.rotation), rect: (\(minColumn), \(minRow)) - (\(maxColumn), \(maxRow))"
-    }
-}

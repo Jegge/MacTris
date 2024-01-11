@@ -189,6 +189,8 @@ class Game: SceneBase {
         self.state = .running
 
         self.updateInstructions()
+
+        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
     }
 
     override func controllerDidConnect() {
@@ -336,7 +338,7 @@ class Game: SceneBase {
                 self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
 
                 if let current = self.current, board.collides(tetronimo: current) {
-                    Logger.game.info("Stacked out: \(current.description)")
+                    Logger.game.info("Stacked out!")
                     self.state = .gameover
                 }
             }

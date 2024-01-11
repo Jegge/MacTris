@@ -12,4 +12,5 @@ extension Logger {
 
     static let game = Logger(subsystem: subsystem, category: "game")
     static let input = Logger(subsystem: subsystem, category: "input")
+    static let hiscore = Logger(subsystem: subsystem, category: "hiscore")
 }

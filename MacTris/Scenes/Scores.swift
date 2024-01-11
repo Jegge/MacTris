@@ -8,6 +8,7 @@
 import Foundation
 import SpriteKit
 import GameplayKit
+import OSLog
 
 class Scores: SceneBase {
 
@@ -61,7 +62,7 @@ class Scores: SceneBase {
                 do {
                     try self.hiscores.write(to: Hiscore.url)
                 } catch {
-                    print("Failed to save hiscores: \(error)")
+                    Logger.hiscore.error("Failed to save hiscores: \(error)")
                 }
             } else {
                 AudioPlayer.playFxNegative()
@@ -97,7 +98,7 @@ class Scores: SceneBase {
         do {
             self.hiscores = try Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey)
         } catch {
-            print("Failed to load hiscores: \(error)")
+            Logger.hiscore.warning("Failed to load hiscores, using defaults: \(error)")
             self.hiscores = Hiscore(key: Secrets.hiscoreKey)
         }
 
