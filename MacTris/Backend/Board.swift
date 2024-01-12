@@ -18,6 +18,10 @@ class Board {
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
     }
 
+    private init (data: [[Tetromino.Shape?]]) {
+        self.data = data
+    }
+
     private (set) subscript (column: Int, row: Int) -> Tetromino.Shape? {
         get {
             if column >= 0 && column < self.numberOfColumns && row >= 0 && row < self.numberOfRows {
@@ -36,28 +40,16 @@ class Board {
         return (self.numberOfColumns / 2, self.numberOfRows - 1)
     }
 
-    func clear () {
-        for column in 0..<self.numberOfColumns {
-            for row in 0..<self.numberOfRows {
-                self[column, row] = nil
-            }
-        }
-    }
-
-    func clear (tetronimo: Tetromino?) {
-        guard let tetronimo = tetronimo else {
-            return
-        }
-        for (column, row) in tetronimo.points {
-            self[column, row] = nil
-        }
-    }
-
     func drop (rows: Range<Int>) {
         for row in rows.upperBound..<self.numberOfRows {
             let target = row - (rows.upperBound - rows.lowerBound)
-            self.copy(row: row, to: target)
-            self.clear(row: row)
+            for column in 0..<self.numberOfColumns {
+                self[column, target] = self[column, row]
+            }
+
+            for column in 0..<self.numberOfColumns {
+                self[column, row] = nil
+            }
         }
     }
 
@@ -78,7 +70,7 @@ class Board {
         return done
     }
 
-    func draw (tetronimo: Tetromino?) {
+    func lock (tetronimo: Tetromino?) {
         guard let tetronimo = tetronimo else {
             return
         }
@@ -90,7 +82,7 @@ class Board {
         }
     }
 
-    func completedRows () -> Range<Int>? {
+    func lowestCompletedRows () -> Range<Int>? {
         var start = 0
         while !self.isComplete(row: start) {
             start += 1
@@ -110,16 +102,11 @@ class Board {
         return Range(uncheckedBounds: (start, end))
     }
 
-    private func clear (row: Int) {
-        for column in 0..<self.numberOfColumns {
-            self[column, row] = nil
+    private func isComplete(row: Int) -> Bool {
+        for column in 0..<self.numberOfColumns where self[column, row] == nil {
+            return false
         }
-    }
-
-    private func copy (row source: Int, to target: Int) {
-        for column in 0..<self.numberOfColumns {
-            self[column, target] = self[column, source]
-        }
+        return true
     }
 
     func collides (tetronimo: Tetromino) -> Bool {
@@ -137,10 +124,9 @@ class Board {
         return false
     }
 
-    private func isComplete(row: Int) -> Bool {
-        for column in 0..<self.numberOfColumns where self[column, row] == nil {
-            return false
-        }
-        return true
+    func with (tetronimo: Tetromino?) -> Board {
+        let board = Board(data: self.data)
+        board.lock(tetronimo: tetronimo)
+        return board
     }
 }

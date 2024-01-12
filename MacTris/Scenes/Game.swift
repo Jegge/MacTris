@@ -211,10 +211,9 @@ class Game: SceneBase {
         self.duration = 0
         self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
 
+        self.board = Board()
         self.next = Tetromino(shape: random.next())
         self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())
-
-        self.board.clear()
 
         self.framesToWait = FrameCount.gravity(level: self.level)
         self.state = .running
@@ -222,6 +221,7 @@ class Game: SceneBase {
         self.updateInstructions()
 
         Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
+        Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
 
     override func controllerDidConnect() {
@@ -270,7 +270,7 @@ class Game: SceneBase {
                         self.current = current.dropped()
                         self.dropSteps += 1
                     } else {
-                        self.board.draw(tetronimo: self.current)
+                        self.board.lock(tetronimo: self.current)
                         AudioPlayer.playFxDrop()
                         self.score += self.dropSteps * Score.drop
                         self.dropSteps = 0
@@ -303,13 +303,13 @@ class Game: SceneBase {
             if board.dissolve(rows: completed) {
                 board.drop(rows: completed)
                 self.score(rows: completed)
-                self.completed = board.completedRows()
+                self.completed = board.lowestCompletedRows()
                 self.framesToWait = FrameCount.spawn
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
         } else if self.current == nil {
-            self.completed = board.completedRows()
+            self.completed = board.lowestCompletedRows()
             if self.completed == nil {
                 self.current = self.next?.with(position: board.spawnPosition())
                 self.next = Tetromino(shape: random.next())
@@ -325,7 +325,7 @@ class Game: SceneBase {
             self.current = self.current?.dropped()
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
-            self.board.draw(tetronimo: self.current)
+            self.board.lock(tetronimo: self.current)
             AudioPlayer.playFxDrop()
             self.score += self.dropSteps * Score.drop
             self.dropSteps = 0
@@ -333,9 +333,7 @@ class Game: SceneBase {
             self.framesToWait = FrameCount.gravity(level: self.level)
         }
 
-        self.board.draw(tetronimo: self.current)
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: self.board, appearance: self.appearance)
-        self.board.clear(tetronimo: self.current)
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: self.board.with(tetronimo: self.current), appearance: self.appearance)
     }
 
     override func keyDown (with event: NSEvent) {
