@@ -31,18 +31,7 @@ class Game: SceneBase {
         public static let keyRepeatDrop: Int = 1
     }
 
-    private struct Score {
-        private static let baseScorePerLines = [40, 100, 300, 1200]
-
-        public static func lines(_ range: Range<Int>) -> Int {
-            return Score.baseScorePerLines[range.count - 1]
-        }
-
-        public static let drop: Int = 1
-    }
-
-    private var tetris: Tetris!
-
+    private var tetris: Tetris?
     private var completed: Range<Int>?
 
     private var framesToWait: Int = 0
@@ -50,7 +39,6 @@ class Game: SceneBase {
     private var keyRepeatFrames: Int  = 0
     private var keyRepeatIsInitial: Bool = false
     private var lastUpdate: TimeInterval = 0
-    private var dropSteps: Int = 0
 
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
@@ -70,52 +58,32 @@ class Game: SceneBase {
                 self.childNode(withName: "pause")?.isHidden = true
                 self.childNode(withName: "gameOver")?.isHidden = false
 
+                guard let tetris = self.tetris else {
+                    return
+                }
+
                 if let label = self.childNode(withName: "//labelFinalScoreTitle") as? SKLabelNode {
-                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.tetris.score)) {
+                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: tetris.score)) {
                         label.text = "New hiscore!"
                     } else {
                         label.text = "Your score:"
                     }
                 }
 
-                (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.tetris.score)
+                (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
 
                 AudioPlayer.playFxGameOver()
             }
         }
     }
 
-    private var duration: TimeInterval = 0
-
-    var level: Int = 0
+    var startingLevel: Int = 0
     var randomGeneratorMode: RandomGeneratorMode = .sevenBag
     var appearance: Appearance = .plain
     var autoShift: AutoShift = .modern {
         didSet {
             FrameCount.keyRepeatShiftInitial = self.autoShift.delays.initial
             FrameCount.keyRepeatShift = self.autoShift.delays.repeating
-        }
-    }
-
-    private func score (rows range: Range<Int>) {
-        let score = Score.lines(range) * (self.level + 1)
-        self.tetris.score += score
-        self.tetris.lines += range.count
-
-        Logger.game.info("Completed \(range.count) lines at level \(self.tetris.level): \(score) points")
-
-        self.tetris.linesToNextLevel -= range.count
-
-        if self.tetris.linesToNextLevel <= 0 {
-            self.tetris.level += 1
-            self.tetris.linesToNextLevel += 10
-            Logger.game.info("Reached level \(self.tetris.level), lines to next level \(self.tetris.linesToNextLevel)")
-        }
-
-        if range.count > 3 {
-            AudioPlayer.playFxQuadSuccess()
-        } else {
-            AudioPlayer.playFxSuccess()
         }
     }
 
@@ -166,17 +134,13 @@ class Game: SceneBase {
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
         self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
-        self.duration = 0
+        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
 
-        self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), level: self.level)
-
-        self.framesToWait = FrameCount.gravity(level: self.level)
+        self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), startingLevel: self.startingLevel)
+        self.framesToWait = FrameCount.gravity(level: self.startingLevel)
         self.state = .running
 
         self.updateInstructions()
-
-        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
-        Logger.game.info("Starting level \(self.tetris.level), lines to next level \(self.tetris.linesToNextLevel)")
     }
 
     override func controllerDidConnect() {
@@ -200,130 +164,83 @@ class Game: SceneBase {
             return
         }
 
-        self.duration += delta
+        guard let tetris = self.tetris else {
+            return
+        }
+
+        tetris.addDuration(delta)
 
         if self.keyRepeatFrames > 0 {
             self.keyRepeatFrames -= 1
-        } else {
-            if self.completed == nil, let current = self.tetris.current {
-                if self.events.contains(.shiftLeft) {
-                    if !self.tetris.board.collides(tetronimo: current.shiftedLeft()) {
-                        self.tetris.current = current.shiftedLeft()
-                        AudioPlayer.playFxShift()
-                    }
-                    self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
-                    self.keyRepeatIsInitial = false
-                } else if self.events.contains(.shiftRight) {
-                    if !self.tetris.board.collides(tetronimo: current.shiftedRight()) {
-                        self.tetris.current = current.shiftedRight()
-                        AudioPlayer.playFxShift()
-                    }
-                    self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
-                    self.keyRepeatIsInitial = false
-                } else if self.events.contains(.softDrop) {
-                    if !self.tetris.board.collides(tetronimo: current.dropped()) {
-                        self.tetris.current = current.dropped()
-                        self.dropSteps += 1
-                    } else {
-                        self.tetris.board.lock(tetronimo: self.tetris.current)
-                        AudioPlayer.playFxDrop()
-                        self.tetris.score += self.dropSteps * Score.drop
-                        self.dropSteps = 0
-                        self.tetris.current = nil
-                    }
-                    self.keyRepeatFrames = FrameCount.keyRepeatDrop
+        } else if self.completed == nil, tetris.current != nil {
+            if self.events.contains(.shiftLeft) {
+                if tetris.shiftLeft() {
+                    AudioPlayer.playFxShift()
                 }
+                self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                self.keyRepeatIsInitial = false
+            } else if self.events.contains(.shiftRight) {
+                if tetris.shiftRight() {
+                    AudioPlayer.playFxShift()
+                }
+                self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                self.keyRepeatIsInitial = false
+            } else if self.events.contains(.softDrop) {
+                if !tetris.softDrop(manual: true) {
+                    AudioPlayer.playFxLock()
+                }
+                self.keyRepeatFrames = FrameCount.keyRepeatDrop
             }
 
-            if self.completed == nil, let current = self.tetris.current {
-                if self.events.contains(.rotateLeft) {
-                    if !self.tetris.board.collides(tetronimo: current.rotatedLeft()) {
-                        self.tetris.current = current.rotatedLeft()
-                        AudioPlayer.playFxRotate()
-                    }
-                    self.events.remove(.rotateLeft)
-                } else if self.events.contains(.rotateRight) {
-                    if !self.tetris.board.collides(tetronimo: current.rotatedRight()) {
-                        self.tetris.current = current.rotatedRight()
-                        AudioPlayer.playFxRotate()
-                    }
-                    self.events.remove(.rotateRight)
+            if self.events.contains(.rotateLeft) {
+                if tetris.rotateLeft() {
+                    AudioPlayer.playFxRotate()
                 }
+                self.events.remove(.rotateLeft)
+            } else if self.events.contains(.rotateRight) {
+                if tetris.rotateRight() {
+                    AudioPlayer.playFxRotate()
+                }
+                self.events.remove(.rotateRight)
             }
         }
 
         if self.framesToWait > 0 {
             self.framesToWait -= 1
         } else if let completed = self.completed {
-            if tetris.board.dissolve(rows: completed) {
-                tetris.board.drop(rows: completed)
-                self.score(rows: completed)
-                self.completed = tetris.board.lowestCompletedRows()
+            if tetris.dissolve(completed: completed) {
+                if completed.count > 3 {
+                    AudioPlayer.playFxQuadSuccess()
+                } else {
+                    AudioPlayer.playFxSuccess()
+                }
+                self.completed = tetris.lowestCompletedLines
                 self.framesToWait = FrameCount.spawn
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
-        } else if self.tetris.current == nil {
-            self.completed = self.tetris.board.lowestCompletedRows()
+        } else if tetris.current == nil {
+            self.completed = tetris.lowestCompletedLines
             if self.completed == nil {
-                self.tetris.current = self.tetris.next.with(position: self.tetris.board.spawnPosition())
-                self.tetris.next = Tetromino(shape: tetris.random.next())
-                self.framesToWait = FrameCount.spawn
-                self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
-
-                if let current = self.tetris.current, self.tetris.board.collides(tetronimo: current) {
-                    Logger.game.info("Stacked out!")
+                if !tetris.spawn() {
                     self.state = .gameover
                 }
+                self.framesToWait = FrameCount.gravity(level: tetris.level)
+                self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
             }
-        } else if !self.tetris.board.collides(tetronimo: self.tetris.current!.dropped()) { // let changed = self.board.apply(tetromino: self.current!, change: { $0.dropped() }) {
-            self.tetris.current = self.tetris.current?.dropped()
-            self.framesToWait = FrameCount.gravity(level: self.tetris.level)
+        } else if tetris.softDrop(manual: false) {
+            self.framesToWait = FrameCount.gravity(level: tetris.level)
         } else {
-            self.tetris.board.lock(tetronimo: self.tetris.current)
-            AudioPlayer.playFxDrop()
-            self.tetris.score += self.dropSteps * Score.drop
-            self.dropSteps = 0
-            self.tetris.current = nil
-            self.framesToWait = FrameCount.gravity(level: self.tetris.level)
+            AudioPlayer.playFxLock()
+            self.framesToWait = FrameCount.gravity(level: tetris.level)
         }
 
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: self.tetris.board.with(tetronimo: self.tetris.current), appearance: self.appearance)
-
-        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.tetris.level)
-        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.tetris.lines)
-        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.tetris.score)
-        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: self.duration)
-
-        if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
-            preview.clear()
-            preview.draw(tetronimo: self.tetris.next.with(position: (2, 1)), appearance: self.appearance)
-        }
-
-        //    private var lines: Int = 0 {
-        //        didSet {
-        //
-        //        }
-        //    }
-        //
-        //    private var score: Int = 0 {
-        //        didSet {
-        //            (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.score)
-        //        }
-        //    }
-        //
-        //    private var next: Tetromino? {
-        //        didSet {
-        //            if let preview = self.childNode(withName: "//preview") as? SKTileMapNode {
-        //                preview.clear()
-        //                if let tetromino = self.next {
-        //                    preview.draw(tetronimo: tetromino.with(position: (2, 1)), appearance: self.appearance)
-        //                }
-        //            }
-        //        }
-        //    }
-        //
-
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: tetris.boardWithCurrent, appearance: self.appearance)
+        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.level)
+        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.lines)
+        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
+        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
+        (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.appearance)
     }
 
     override func keyDown (with event: NSEvent) {
@@ -346,14 +263,14 @@ class Game: SceneBase {
         case .gameover:
             if event.id == .select {
                 AudioPlayer.playFxPositive()
-                self.transitionToScores(score: self.tetris.score)
+                self.transitionToScores(score: self.tetris?.score ?? 0)
             }
 
         case .paused:
             switch event.id {
             case .menu:
                 AudioPlayer.playFxPositive()
-                self.transitionToScores(score: self.tetris.score)
+                self.transitionToScores(score: self.tetris?.score ?? 0)
 
             case .select:
                 AudioPlayer.playFxPositive()

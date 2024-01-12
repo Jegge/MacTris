@@ -12,7 +12,7 @@ extension SKScene {
     func transitionToGame (level: Int) {
         if let newScene = SKScene(fileNamed: "Game") as? Game {
             newScene.scaleMode = self.scaleMode
-            newScene.level = level
+            newScene.startingLevel = level
             newScene.appearance = UserDefaults.standard.appearance
             newScene.autoShift = UserDefaults.standard.autoShift
             newScene.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode

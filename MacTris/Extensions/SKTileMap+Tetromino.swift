@@ -23,15 +23,14 @@ extension SKTileMapNode {
         }
     }
 
-    func clear () {
+    func draw (tetronimo: Tetromino?, appearance: Appearance) {
+
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
                 self.setTileGroup(nil, forColumn: column, row: row)
             }
         }
-    }
 
-    func draw (tetronimo: Tetromino?, appearance: Appearance) {
         guard let tetronimo = tetronimo else {
             return
         }

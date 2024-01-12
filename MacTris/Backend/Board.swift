@@ -82,7 +82,7 @@ class Board {
         }
     }
 
-    func lowestCompletedRows () -> Range<Int>? {
+    func lowestCompletedLines () -> Range<Int>? {
         var start = 0
         while !self.isComplete(row: start) {
             start += 1
@@ -102,7 +102,7 @@ class Board {
         return Range(uncheckedBounds: (start, end))
     }
 
-    private func isComplete(row: Int) -> Bool {
+    private func isComplete (row: Int) -> Bool {
         for column in 0..<self.numberOfColumns where self[column, row] == nil {
             return false
         }
