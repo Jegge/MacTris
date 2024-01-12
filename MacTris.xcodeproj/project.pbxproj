@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D21AA3812B5109E700362226 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3802B5109E700362226 /* Board.swift */; };
+		D21AA3872B513A7300362226 /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* Tetris.swift */; };
 		D22900EB2B45418600A9F88E /* Menu.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900EA2B45418600A9F88E /* Menu.sks */; };
 		D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900EC2B4543CD00A9F88E /* Menu.swift */; };
 		D22900EF2B454D3000A9F88E /* Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900EE2B454D3000A9F88E /* Scores.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		D21AA3802B5109E700362226 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
 		D22900EA2B45418600A9F88E /* Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Menu.sks; sourceTree = "<group>"; };
 		D22900EC2B4543CD00A9F88E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		D22900EE2B454D3000A9F88E /* Scores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scores.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
 				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
 				D21AA3802B5109E700362226 /* Board.swift */,
+				D21AA3862B513A7300362226 /* Tetris.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 			files = (
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
+				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
 				D21AA3812B5109E700362226 /* Board.swift in Sources */,
 				D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */,
