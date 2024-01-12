@@ -45,6 +45,7 @@ class Game: SceneBase {
     private var current: Tetromino?
     private var completed: Range<Int>?
     private var linesToNextLevel: Int = 0
+    private var board: Board = Board()
 
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
@@ -158,53 +159,6 @@ class Game: SceneBase {
         }
     }
 
-    override func didMove (to view: SKView) {
-        super.didMove(to: view)
-
-        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
-            return
-        }
-
-        self.enumerateChildNodes(withName: "//frame") { (node: SKNode, _) in
-            (node as? SKSpriteNode)?.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
-        }
-
-        self.numberFormatter.numberStyle = .decimal
-
-        self.dateFormatter.unitsStyle = .positional
-        self.dateFormatter.allowedUnits = [.hour, .minute, .second]
-        self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
-
-        self.score = 0
-        self.lines = 0
-        self.duration = 0
-        self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
-
-        self.next = Tetromino(shape: random.next())
-        self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())
-
-        board.clear()
-
-        self.framesToWait = FrameCount.gravity(level: self.level)
-        self.state = .running
-
-        self.updateInstructions()
-
-        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
-    }
-
-    override func controllerDidConnect() {
-        self.updateInstructions()
-    }
-
-    override func controllerDidDisconnect() {
-        self.updateInstructions()
-        if self.state == .running {
-            self.state = .paused
-            AudioPlayer.playFxPositive()
-        }
-    }
-
     private func updateInstructions () {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
@@ -239,18 +193,46 @@ class Game: SceneBase {
         }
     }
 
-    override func keyDown (with event: NSEvent) {
-        if event.isARepeat {
-            return
+    override func didMove (to view: SKView) {
+        super.didMove(to: view)
+
+        self.enumerateChildNodes(withName: "//frame") { (node: SKNode, _) in
+            (node as? SKSpriteNode)?.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
         }
-        InputMapper.shared.translate(event: event).forEach {
-            self.inputDown(event: $0)
-        }
+
+        self.numberFormatter.numberStyle = .decimal
+
+        self.dateFormatter.unitsStyle = .positional
+        self.dateFormatter.allowedUnits = [.hour, .minute, .second]
+        self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
+
+        self.score = 0
+        self.lines = 0
+        self.duration = 0
+        self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+
+        self.next = Tetromino(shape: random.next())
+        self.current = Tetromino(shape: random.next(), rotation: 0, position: board.spawnPosition())
+
+        self.board.clear()
+
+        self.framesToWait = FrameCount.gravity(level: self.level)
+        self.state = .running
+
+        self.updateInstructions()
+
+        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
     }
 
-    override func keyUp (with event: NSEvent) {
-        InputMapper.shared.translate(event: event).forEach {
-            self.inputUp(event: $0)
+    override func controllerDidConnect() {
+        self.updateInstructions()
+    }
+
+    override func controllerDidDisconnect() {
+        self.updateInstructions()
+        if self.state == .running {
+            self.state = .paused
+            AudioPlayer.playFxPositive()
         }
     }
 
@@ -265,33 +247,30 @@ class Game: SceneBase {
 
         self.duration += delta
 
-        guard let board = self.childNode(withName: "//board") as? SKTileMapNode else {
-            return
-        }
-
         if self.keyRepeatFrames > 0 {
             self.keyRepeatFrames -= 1
         } else {
             if self.completed == nil, let current = self.current {
                 if self.events.contains(.shiftLeft) {
-                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.shiftedLeft() }) {
-                        self.current = changed
+                    if !self.board.collides(tetronimo: current.shiftedLeft()) {
+                        self.current = current.shiftedLeft()
                         AudioPlayer.playFxShift()
                     }
                     self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
                     self.keyRepeatIsInitial = false
                 } else if self.events.contains(.shiftRight) {
-                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.shiftedRight() }) {
-                        self.current = changed
+                    if !self.board.collides(tetronimo: current.shiftedRight()) {
+                        self.current = current.shiftedRight()
                         AudioPlayer.playFxShift()
                     }
                     self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
                     self.keyRepeatIsInitial = false
                 } else if self.events.contains(.softDrop) {
-                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.dropped() }) {
-                        self.current = changed
+                    if !self.board.collides(tetronimo: current.dropped()) {
+                        self.current = current.dropped()
                         self.dropSteps += 1
                     } else {
+                        self.board.draw(tetronimo: self.current)
                         AudioPlayer.playFxDrop()
                         self.score += self.dropSteps * Score.drop
                         self.dropSteps = 0
@@ -303,14 +282,14 @@ class Game: SceneBase {
 
             if self.completed == nil, let current = self.current {
                 if self.events.contains(.rotateLeft) {
-                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.rotatedLeft() }) {
-                        self.current = changed
+                    if !self.board.collides(tetronimo: current.rotatedLeft()) {
+                        self.current = current.rotatedLeft()
                         AudioPlayer.playFxRotate()
                     }
                     self.events.remove(.rotateLeft)
                 } else if self.events.contains(.rotateRight) {
-                    if let changed = board.apply(tetromino: current, appearance: self.appearance, change: { $0.rotatedRight() }) {
-                        self.current = changed
+                    if !self.board.collides(tetronimo: current.rotatedRight()) {
+                        self.current = current.rotatedRight()
                         AudioPlayer.playFxRotate()
                     }
                     self.events.remove(.rotateRight)
@@ -342,15 +321,35 @@ class Game: SceneBase {
                     self.state = .gameover
                 }
             }
-        } else if let changed = board.apply(tetromino: self.current!, appearance: self.appearance, change: { $0.dropped() }) {
-            self.current = changed
+        } else if !self.board.collides(tetronimo: current!.dropped()) { // let changed = self.board.apply(tetromino: self.current!, change: { $0.dropped() }) {
+            self.current = self.current?.dropped()
             self.framesToWait = FrameCount.gravity(level: self.level)
         } else {
+            self.board.draw(tetronimo: self.current)
             AudioPlayer.playFxDrop()
             self.score += self.dropSteps * Score.drop
             self.dropSteps = 0
             self.current = nil
             self.framesToWait = FrameCount.gravity(level: self.level)
+        }
+
+        self.board.draw(tetronimo: self.current)
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: self.board, appearance: self.appearance)
+        self.board.clear(tetronimo: self.current)
+    }
+
+    override func keyDown (with event: NSEvent) {
+        if event.isARepeat {
+            return
+        }
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputDown(event: $0)
+        }
+    }
+
+    override func keyUp (with event: NSEvent) {
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputUp(event: $0)
         }
     }
 
