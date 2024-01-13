@@ -82,10 +82,10 @@ class Settings: SceneBase {
             return InputMapper.shared.describeIdForKeyboard(.shiftRight)
 
         case Item.rotateLeft:
-            return InputMapper.shared.describeIdForKeyboard(.rotateLeft)
+            return InputMapper.shared.describeIdForKeyboard(.rotateCounterClockwise)
 
         case Item.rotateRight:
-            return InputMapper.shared.describeIdForKeyboard(.rotateRight)
+            return InputMapper.shared.describeIdForKeyboard(.rotateClockwise)
 
         case Item.softDrop:
             return InputMapper.shared.describeIdForKeyboard(.softDrop)
@@ -110,10 +110,10 @@ class Settings: SceneBase {
             return InputMapper.shared.describeIdForController(.shiftRight)
 
         case Item.rotateLeft:
-            return InputMapper.shared.describeIdForController(.rotateLeft)
+            return InputMapper.shared.describeIdForController(.rotateCounterClockwise)
 
         case Item.rotateRight:
-            return InputMapper.shared.describeIdForController(.rotateRight)
+            return InputMapper.shared.describeIdForController(.rotateClockwise)
 
         case Item.softDrop:
             return InputMapper.shared.describeIdForController(.softDrop)
@@ -242,10 +242,10 @@ class Settings: SceneBase {
             self.beginRebind(id: .shiftRight, for: item)
 
         case Item.rotateLeft:
-            self.beginRebind(id: .rotateLeft, for: item)
+            self.beginRebind(id: .rotateCounterClockwise, for: item)
 
         case Item.rotateRight:
-            self.beginRebind(id: .rotateRight, for: item)
+            self.beginRebind(id: .rotateClockwise, for: item)
 
         case Item.softDrop:
             self.beginRebind(id: .softDrop, for: item)

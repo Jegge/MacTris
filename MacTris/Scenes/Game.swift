@@ -192,16 +192,16 @@ class Game: SceneBase {
                 self.keyRepeatFrames = FrameCount.keyRepeatDrop
             }
 
-            if self.events.contains(.rotateLeft) {
-                if tetris.rotateLeft() {
+            if self.events.contains(.rotateCounterClockwise) {
+                if tetris.rotateCounterClockwise() {
                     AudioPlayer.playFxRotate()
                 }
-                self.events.remove(.rotateLeft)
-            } else if self.events.contains(.rotateRight) {
-                if tetris.rotateRight() {
+                self.events.remove(.rotateCounterClockwise)
+            } else if self.events.contains(.rotateClockwise) {
+                if tetris.rotateClockwise() {
                     AudioPlayer.playFxRotate()
                 }
-                self.events.remove(.rotateRight)
+                self.events.remove(.rotateClockwise)
             }
         }
 
@@ -235,7 +235,7 @@ class Game: SceneBase {
             self.framesToWait = FrameCount.gravity(level: tetris.level)
         }
 
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.update(board: tetris.boardWithCurrent, appearance: self.appearance)
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.appearance)
         (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.level)
         (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.lines)
         (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
@@ -298,10 +298,10 @@ class Game: SceneBase {
                 self.keyRepeatIsInitial = true
                 self.events.insert(event.id)
 
-            case Input.rotateLeft:
+            case Input.rotateCounterClockwise:
                 self.events.insert(event.id)
 
-            case Input.rotateRight:
+            case Input.rotateClockwise:
                 self.events.insert(event.id)
 
             case Input.menu:

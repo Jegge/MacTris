@@ -10,10 +10,10 @@ import SpriteKit
 
 extension SKTileMapNode {
 
-    func update (board: Board, appearance: Appearance) {
+    func draw (board: [[Tetromino.Shape?]], appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
-                if let shape = board[column, row] {
+                if let shape = board[column][row] {
                     let tileGroup = self.tileSet.tileGroups.first { $0.name == "\(shape.appearance)-\(appearance.rawValue)" }
                     self.setTileGroup(tileGroup, forColumn: column, row: row)
                 } else {

@@ -82,11 +82,11 @@ struct Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
-    func rotatedLeft () -> Tetromino {
+    func rotatedCounterClockwise () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + 1) % self.shape.points.count, position: self.position)
     }
 
-    func rotatedRight () -> Tetromino {
+    func rotatedClockwise () -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
     }
 

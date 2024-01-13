@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D21AA3812B5109E700362226 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3802B5109E700362226 /* Board.swift */; };
 		D21AA3872B513A7300362226 /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* Tetris.swift */; };
 		D22900EB2B45418600A9F88E /* Menu.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900EA2B45418600A9F88E /* Menu.sks */; };
 		D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900EC2B4543CD00A9F88E /* Menu.swift */; };
@@ -48,11 +47,10 @@
 		D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A92B43F65D00740390 /* Main.storyboard */; };
 		D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B22B43F8C200740390 /* Tetromino.swift */; };
 		D2FF08B62B4402C200740390 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* TileSet.sks */; };
-		D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */; };
+		D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D21AA3802B5109E700362226 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
 		D22900EA2B45418600A9F88E /* Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Menu.sks; sourceTree = "<group>"; };
 		D22900EC2B4543CD00A9F88E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -105,7 +103,7 @@
 		D2FF08AC2B43F65D00740390 /* MacTris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTris.entitlements; sourceTree = "<group>"; };
 		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
 		D2FF08B42B4402C200740390 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
-		D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Tetromino.swift"; sourceTree = "<group>"; };
+		D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Drawing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +146,7 @@
 		D26ED3A32B4538CC000FE86C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D2FF08B82B440B7F00740390 /* SKTileMap+Tetromino.swift */,
+				D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */,
 				D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */,
 				D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */,
 				D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */,
@@ -170,7 +168,6 @@
 				D229011D2B46EA9500A9F88E /* KeyCode.swift */,
 				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
 				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
-				D21AA3802B5109E700362226 /* Board.swift */,
 				D21AA3862B513A7300362226 /* Tetris.swift */,
 			);
 			path = Backend;
@@ -371,7 +368,6 @@
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
-				D21AA3812B5109E700362226 /* Board.swift in Sources */,
 				D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
@@ -388,7 +384,7 @@
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
-				D2FF08B92B440B7F00740390 /* SKTileMap+Tetromino.swift in Sources */,
+				D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
 				D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */,
 			);

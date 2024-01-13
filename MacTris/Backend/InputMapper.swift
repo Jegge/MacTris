@@ -20,8 +20,8 @@ enum Input: Codable {
 
     case shiftLeft
     case shiftRight
-    case rotateLeft
-    case rotateRight
+    case rotateCounterClockwise
+    case rotateClockwise
     case softDrop
 }
 
@@ -36,8 +36,8 @@ extension Input: CustomStringConvertible {
         case .right: "right"
         case .shiftLeft: "shift left"
         case .shiftRight: "shift right"
-        case .rotateLeft: "rotate left"
-        case .rotateRight: "rotate right"
+        case .rotateCounterClockwise: "rotate counterclockwise"
+        case .rotateClockwise: "rotate clockwise"
         case .softDrop: "soft drop"
         }
     }
@@ -62,8 +62,8 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .shiftLeft), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .shiftRight), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .softDrop), mutable: true),
-        (binding: KeyBinding(keyCode: KeyCode.a.rawValue, id: .rotateLeft), mutable: true),
-        (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateRight), mutable: true)
+        (binding: KeyBinding(keyCode: KeyCode.a.rawValue, id: .rotateCounterClockwise), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateClockwise), mutable: true)
     ]
 
     var keyboardBindings: [KeyBinding] {
@@ -95,8 +95,8 @@ class InputMapper {
         case .softDrop: return "⒣"
         case .select: return "⒍ or ⒉"
         case .menu: return "Menu or Start"
-        case .rotateLeft: return "⒍ or ⒉" // A / Circle
-        case .rotateRight: return "⒌ or ⒈" // B / Cross
+        case .rotateCounterClockwise: return "⒍ or ⒉" // A / Circle
+        case .rotateClockwise: return "⒌ or ⒈" // B / Cross
         }
     }
 
@@ -147,14 +147,14 @@ class InputMapper {
 
         if gamepad.buttonA == element {
             result =  [
-                InputEvent(id: .rotateLeft, isDown: gamepad.buttonA.isPressed)
+                InputEvent(id: .rotateCounterClockwise, isDown: gamepad.buttonA.isPressed)
             ]
         }
 
         if gamepad.buttonB == element {
             result =  [
                 // the order is important: game events before menu events
-                InputEvent(id: .rotateRight, isDown: gamepad.buttonB.isPressed),
+                InputEvent(id: .rotateClockwise, isDown: gamepad.buttonB.isPressed),
                 InputEvent(id: .select, isDown: gamepad.buttonB.isPressed)
             ]
         }
