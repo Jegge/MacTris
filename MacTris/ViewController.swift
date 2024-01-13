@@ -40,7 +40,7 @@ class ViewController: NSViewController {
 
         self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
-            Logger.input.info("Controller \(name) did connect.")
+            Logger.input.info("Controller \(name, privacy: .public) did connect.")
 
             for controller in GCController.controllers() {
                 controller.microGamepad?.valueChangedHandler = nil
@@ -54,7 +54,7 @@ class ViewController: NSViewController {
 
         self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
-            Logger.input.info("Controller \(name) did disconnect.")
+            Logger.input.info("Controller \(name, privacy: .public) did disconnect.")
         }
 
         self.didEnterFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in

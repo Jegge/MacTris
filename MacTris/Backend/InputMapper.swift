@@ -122,7 +122,7 @@ class InputMapper {
         }
 
         if !result.isEmpty {
-            Logger.input.debug("Keyboard events: \(result)")
+            Logger.input.debug("Keyboard events: \(result, privacy: .public)")
         }
 
         return result
@@ -166,7 +166,7 @@ class InputMapper {
         }
 
         if !result.isEmpty {
-            Logger.input.debug("Gamepad events: \(result)")
+            Logger.input.debug("Gamepad events: \(result, privacy: .public)")
         }
 
         return result

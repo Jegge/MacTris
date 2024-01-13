@@ -134,7 +134,7 @@ class Game: SceneBase {
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
         self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
-        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift)")
+        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode, privacy: .public), DAS: \(self.autoShift, privacy: .public)")
 
         self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), startingLevel: self.startingLevel)
         self.framesToWait = FrameCount.gravity(level: self.startingLevel)

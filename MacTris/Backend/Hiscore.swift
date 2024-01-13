@@ -7,6 +7,7 @@
 
 import Foundation
 import CryptoKit
+import OSLog
 
 class Hiscore {
 
@@ -22,11 +23,15 @@ class Hiscore {
     static var url: URL {
         let id = Bundle.main.bundleIdentifier ?? "com.realvirtuality.MacTris"
         if #available(macOS 13.0, *) {
-            return URL.applicationSupportDirectory.appendingPathComponent(id).appendingPathComponent("hiscores.json")
-        } else if let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-            return directory.appendingPathComponent(id).appendingPathComponent("hiscores.json")
+            return URL.applicationSupportDirectory.appendingPathComponent(id).appendingPathComponent("hiscores.json", isDirectory: false)
         } else {
-            return URL(fileURLWithPath: "~/Library/Application Support", isDirectory: true).appendingPathComponent(id).appendingPathComponent("hiscores.json")
+            do {
+                let directory = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                return directory.appendingPathComponent("hiscores.json", isDirectory: false)
+            } catch {
+                Logger.hiscore.error("Failed to open application support directory: \(error, privacy: .public)")
+                return URL(fileURLWithPath: "hiscores.json", isDirectory: false)
+            }
         }
     }
 

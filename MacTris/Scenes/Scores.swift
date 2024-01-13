@@ -62,7 +62,7 @@ class Scores: SceneBase {
                 do {
                     try self.hiscores.write(to: Hiscore.url)
                 } catch {
-                    Logger.hiscore.error("Failed to save hiscores: \(error)")
+                    Logger.hiscore.error("Failed to save hiscores: \(error, privacy: .public)")
                 }
             } else {
                 AudioPlayer.playFxNegative()
@@ -98,7 +98,7 @@ class Scores: SceneBase {
         do {
             self.hiscores = try Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey)
         } catch {
-            Logger.hiscore.warning("Failed to load hiscores, using defaults: \(error)")
+            Logger.hiscore.warning("Failed to load hiscores, using defaults: \(error, privacy: .public)")
             self.hiscores = Hiscore(key: Secrets.hiscoreKey)
         }
 
