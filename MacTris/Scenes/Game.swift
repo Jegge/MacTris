@@ -188,6 +188,7 @@ class Game: SceneBase {
             } else if self.events.contains(.softDrop) {
                 if !tetris.softDrop(manual: true) {
                     AudioPlayer.playFxLock()
+                    self.events.remove(.softDrop)
                 }
                 self.keyRepeatFrames = FrameCount.keyRepeatDrop
             }
@@ -215,7 +216,7 @@ class Game: SceneBase {
                     AudioPlayer.playFxSuccess()
                 }
                 self.completed = tetris.lowestCompletedLines
-                self.framesToWait = FrameCount.spawn
+                self.framesToWait = FrameCount.spawn + (tetris.stackHeight / 4)
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
