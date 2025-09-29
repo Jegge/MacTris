@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="924px" height="924px" id="svg2" version="1.1" viewBox="0 0 924 924" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 14px;" x="7" y="7" width="140" height="140" rx="20" ry="20">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 14px;" x="160" y="7" width="140" height="140" rx="20" ry="20">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 14px;" x="160" y="160" width="140" height="140" rx="20" ry="20">
+    <title>Blue</title>
+  </rect>
+  <rect style="fill: rgb(0, 0, 255); stroke: rgb(0, 0, 136); stroke-width: 14px;" x="160" y="313" width="140" height="140" rx="20" ry="20">
+    <title>Blue</title>
+  </rect>
+  <defs>
+    <bx:grid x="7" y="7" width="154" height="154"/>
+  </defs>
+</svg>

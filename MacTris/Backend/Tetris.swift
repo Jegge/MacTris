@@ -18,12 +18,12 @@ class Tetris {
     private var dropCounter: Int = 0
     private var linesToNextLevel: Int
 
-    private (set) var lines: Int = 0
-    private (set) var level: Int = 0
-    private (set) var score: Int = 0
-    private (set) var duration: TimeInterval = 0
-    private (set) var next: Tetromino
-    private (set) var current: Tetromino?
+    private(set) var lines: Int = 0
+    private(set) var level: Int = 0
+    private(set) var score: Int = 0
+    private(set) var duration: TimeInterval = 0
+    private(set) var next: Tetromino
+    private(set) var current: Tetromino?
 
     init (random: RandomTetrominoShapeGenerator, startingLevel: Int) {
         self.random = random
