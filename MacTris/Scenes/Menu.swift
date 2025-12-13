@@ -120,6 +120,9 @@ class Menu: SceneBase {
         let build = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "0"
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
 
+        let copyright = (Bundle.main.infoDictionary?["NSHumanReadableCopyright"] as? String) ?? "© 2024-now Sebastian Boettcher"
+        (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = copyright
+
         self.level = UserDefaults.standard.startLevel
     }
 
