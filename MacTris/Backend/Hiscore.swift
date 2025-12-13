@@ -21,9 +21,8 @@ class Hiscore {
     }
 
     static var url: URL {
-        let id = Bundle.main.bundleIdentifier ?? "com.realvirtuality.MacTris"
         if #available(macOS 13.0, *) {
-            return URL.applicationSupportDirectory.appendingPathComponent(id).appendingPathComponent("hiscores.json", isDirectory: false)
+            return URL.applicationSupportDirectory.appendingPathComponent("hiscores.json", isDirectory: false)
         } else {
             do {
                 let directory = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
