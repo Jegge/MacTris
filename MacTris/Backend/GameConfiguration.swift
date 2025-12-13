@@ -50,6 +50,14 @@ extension Appearance: CustomStringConvertible {
         case .shaded: return "Shaded"
         }
     }
+
+    func increase() -> Appearance {
+        return Appearance(rawValue: self.rawValue + 1) ?? .plain
+    }
+
+    func decrease() -> Appearance {
+        return Appearance(rawValue: self.rawValue - 1) ?? .plain
+    }
 }
 
 enum AutoShift: Int {
