@@ -31,7 +31,7 @@ class Menu: SceneBase {
         }
     }
 
-    private func update () {
+    private func update() {
         for (index, item) in menuItems.enumerated() {
             guard let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode,
                   let label = self.childNode(withName: "label" + item) as? SKLabelNode
@@ -55,7 +55,7 @@ class Menu: SceneBase {
         }
     }
 
-    private func select (item: String) {
+    private func select(item: String) {
         switch item {
         case Item.play:
             AudioPlayer.playFxPositive()
@@ -78,7 +78,7 @@ class Menu: SceneBase {
         }
     }
 
-    private func increase (item: String) {
+    private func increase(item: String) {
         switch item {
         case Item.play:
             if self.level < 19 {
@@ -94,7 +94,7 @@ class Menu: SceneBase {
         }
     }
 
-    private func decrease (item: String) {
+    private func decrease(item: String) {
         switch item {
         case Item.play:
             if self.level > 0 {
@@ -110,7 +110,7 @@ class Menu: SceneBase {
         }
     }
 
-    override func didMove (to view: SKView) {
+    override func didMove(to view: SKView) {
         super.didMove(to: view)
 
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
@@ -123,13 +123,13 @@ class Menu: SceneBase {
         self.level = UserDefaults.standard.startLevel
     }
 
-    override func keyDown (with event: NSEvent) {
+    override func keyDown(with event: NSEvent) {
         InputMapper.shared.translate(event: event).forEach {
             self.inputDown(event: $0)
         }
     }
 
-    override func inputDown (event: InputEvent) {
+    override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
             AudioPlayer.playFxSelect()

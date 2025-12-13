@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 extension SKScene {
-    func transitionToGame (level: Int) {
+    func transitionToGame(level: Int) {
         if let newScene = SKScene(fileNamed: "Game") as? Game {
             newScene.scaleMode = self.scaleMode
             newScene.startingLevel = level
@@ -20,7 +20,7 @@ extension SKScene {
         }
     }
 
-    func transitionToScores (score: Int? = nil) {
+    func transitionToScores(score: Int? = nil) {
         if let newScene = SKScene(fileNamed: "Scores") as? Scores {
             newScene.scaleMode = self.scaleMode
             newScene.score = score
@@ -28,14 +28,14 @@ extension SKScene {
         }
     }
 
-    func transitionToSettings () {
+    func transitionToSettings() {
         if let newScene = SKScene(fileNamed: "Settings") {
             newScene.scaleMode = self.scaleMode
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         }
     }
 
-    func transitionToMenu () {
+    func transitionToMenu() {
         if let newScene = SKScene(fileNamed: "Menu") {
             newScene.scaleMode = self.scaleMode
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))

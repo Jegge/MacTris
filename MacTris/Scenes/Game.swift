@@ -21,7 +21,7 @@ class Game: SceneBase {
     private struct FrameCount {
         private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-        public static func gravity (level: Int) -> Int {
+        public static func gravity(level: Int) -> Int {
             return level < FrameCount.gravityPerLevel.count ? FrameCount.gravityPerLevel[level] : 1
         }
         public static let dissolve: Int = 4
@@ -87,7 +87,7 @@ class Game: SceneBase {
         }
     }
 
-    private func updateInstructions () {
+    private func updateInstructions() {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
                 label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to quit —"
@@ -121,7 +121,7 @@ class Game: SceneBase {
         }
     }
 
-    override func didMove (to view: SKView) {
+    override func didMove(to view: SKView) {
         super.didMove(to: view)
 
         self.enumerateChildNodes(withName: "//frame") { (node: SKNode, _) in
@@ -155,7 +155,7 @@ class Game: SceneBase {
         }
     }
 
-    override func update (_ currentTime: TimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
 
         let delta = self.lastUpdate > 0 ? currentTime - self.lastUpdate : 0
         self.lastUpdate = currentTime
@@ -244,7 +244,7 @@ class Game: SceneBase {
         (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.appearance)
     }
 
-    override func keyDown (with event: NSEvent) {
+    override func keyDown(with event: NSEvent) {
         if event.isARepeat {
             return
         }
@@ -253,13 +253,13 @@ class Game: SceneBase {
         }
     }
 
-    override func keyUp (with event: NSEvent) {
+    override func keyUp(with event: NSEvent) {
         InputMapper.shared.translate(event: event).forEach {
             self.inputUp(event: $0)
         }
     }
 
-    override func inputDown (event: InputEvent) {
+    override func inputDown(event: InputEvent) {
         switch self.state {
         case .gameover:
             if event.id == .select {
@@ -315,7 +315,7 @@ class Game: SceneBase {
         }
     }
 
-    override func inputUp (event: InputEvent) {
+    override func inputUp(event: InputEvent) {
         self.events.remove(event.id)
     }
 }

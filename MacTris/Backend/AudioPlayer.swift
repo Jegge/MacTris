@@ -18,7 +18,7 @@ class AudioPlayer: NSObject {
         self.fxPlayers.removeAll()
     }
 
-    func playMusic (mp3 name: String) {
+    func playMusic(mp3 name: String) {
         if let url = Bundle.main.url(forResource: name, withExtension: "mp3") {
             self.musicPlayer = try? AVAudioPlayer(contentsOf: url)
             self.musicPlayer?.numberOfLoops = -1
@@ -28,7 +28,7 @@ class AudioPlayer: NSObject {
         }
     }
 
-    func stopMusic () {
+    func stopMusic() {
         self.musicPlayer?.stop()
         self.musicPlayer = nil
     }
@@ -45,7 +45,7 @@ class AudioPlayer: NSObject {
         }
     }
 
-    func playFx (aiff name: String) {
+    func playFx(aiff name: String) {
         if let url = Bundle.main.url(forResource: name, withExtension: "aiff"),
            let player = try? AVAudioPlayer(contentsOf: url) {
             player.prepareToPlay()

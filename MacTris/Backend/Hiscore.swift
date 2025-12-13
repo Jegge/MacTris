@@ -43,12 +43,12 @@ class Hiscore {
         return self.list
     }
 
-    private init (list: [Score], key: SymmetricKey) {
+    private init(list: [Score], key: SymmetricKey) {
         self.list = list
         self.key = key
     }
 
-    convenience init (contentsOfUrl url: URL, key: String) throws {
+    convenience init(contentsOfUrl url: URL, key: String) throws {
         let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
         let encrypted = try AES.GCM.SealedBox(combined: try Data(contentsOf: url))
         let decrypted = try AES.GCM.open(encrypted, using: symmetricKey)
@@ -56,7 +56,7 @@ class Hiscore {
         self.init(list: scores, key: symmetricKey)
     }
 
-    convenience init (key: String) {
+    convenience init(key: String) {
         self.init(list: [
             Score(name: "Johnnie", value: 100000),
             Score(name: "Jacky", value: 90000),
@@ -71,26 +71,26 @@ class Hiscore {
         ], key: SymmetricKey(data: key.data(using: .utf8)!))
     }
 
-    func write (to url: URL) throws {
+    func write(to url: URL) throws {
         let decrypted = try JSONEncoder().encode(self.list)
         let encrypted = try AES.GCM.seal(decrypted, using: self.key).combined
         try encrypted?.write(to: url)
     }
 
-    func insert (score: Score) -> Int? {
+    func insert(score: Score) -> Int? {
         self.list = Array((self.list + [score]) .sorted().reversed().prefix(10))
         return self.list.firstIndex(of: score)
     }
 
-    func rename (at index: Int, to name: String) {
+    func rename(at index: Int, to name: String) {
         self.list[index] = Score(name: String(name.prefix(Hiscore.nameLength)), value: self.list[index].value)
     }
 
-    func name (at index: Int) -> String {
+    func name(at index: Int) -> String {
         return self.list[index].name
     }
 
-    func isHighscore (score: Score) -> Bool {
+    func isHighscore(score: Score) -> Bool {
         return score.value > (self.list.map { $0.value }.min() ?? 0)
     }
 }

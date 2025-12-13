@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RandomTetrominoShapeGenerator {
-    func next () -> Tetromino.Shape
+    func next() -> Tetromino.Shape
 }
 
 class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
@@ -19,11 +19,11 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
         self.random = random
     }
 
-    convenience init () {
+    convenience init() {
         self.init(random: SystemRandomNumberGenerator())
     }
 
-    func next () -> Tetromino.Shape {
+    func next() -> Tetromino.Shape {
         if self.bag.isEmpty {
             self.bag = Tetromino.Shape.allCases.shuffled(using: &self.random)
         }
@@ -35,15 +35,15 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var last: Tetromino.Shape?
 
-    init (random: RandomNumberGenerator) {
+    init(random: RandomNumberGenerator) {
         self.random = random
     }
 
-    convenience init () {
+    convenience init() {
         self.init(random: SystemRandomNumberGenerator())
     }
 
-    func next () -> Tetromino.Shape {
+    func next() -> Tetromino.Shape {
         var shape: Tetromino.Shape?
 
         while shape == nil || shape == last {

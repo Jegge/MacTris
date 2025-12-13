@@ -10,7 +10,7 @@ import SpriteKit
 
 extension SKTileMapNode {
 
-    func draw (board: [[Tetromino.Shape?]], appearance: Appearance) {
+    func draw(board: [[Tetromino.Shape?]], appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
                 if let shape = board[column][row] {
@@ -23,7 +23,7 @@ extension SKTileMapNode {
         }
     }
 
-    func draw (tetronimo: Tetromino?, appearance: Appearance) {
+    func draw(tetronimo: Tetromino?, appearance: Appearance) {
 
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {

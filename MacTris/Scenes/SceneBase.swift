@@ -65,7 +65,7 @@ class SceneBase: SKScene {
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
     }
 
-    func eventFlagsChanged (event: NSEvent) -> NSEvent {
+    func eventFlagsChanged(event: NSEvent) -> NSEvent {
         for (keyCode, flag) in self.keyCodesToModifierFlags where event.keyCode == keyCode.rawValue {
             if event.modifierFlags.contains(flag) {
                 self.keyDown(with: NSEvent.keyEvent(with: .keyDown, location: event.locationInWindow, modifierFlags: event.modifierFlags, timestamp: event.timestamp, windowNumber: event.windowNumber, context: nil, characters: "", charactersIgnoringModifiers: "", isARepeat: false, keyCode: event.keyCode)!)
@@ -77,7 +77,7 @@ class SceneBase: SKScene {
         return event
     }
 
-    override func willMove (from view: SKView) {
+    override func willMove(from view: SKView) {
         super.willMove(from: view)
 
         if let observer = self.inputDownObserver {
@@ -103,21 +103,21 @@ class SceneBase: SKScene {
         }
     }
 
-    func controllerDidConnect () {
+    func controllerDidConnect() {
     }
 
-    func controllerDidDisconnect () {
+    func controllerDidDisconnect() {
     }
 
-    func didEnterFullScreen () {
+    func didEnterFullScreen() {
     }
 
-    func didExitFullScreen () {
+    func didExitFullScreen() {
     }
 
-    func inputDown (event: InputEvent) {
+    func inputDown(event: InputEvent) {
     }
 
-    func inputUp (event: InputEvent) {
+    func inputUp(event: InputEvent) {
     }
 }

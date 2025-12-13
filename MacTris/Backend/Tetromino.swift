@@ -78,27 +78,27 @@ struct Tetromino {
         self.position = position
     }
 
-    func with (position: (Int, Int)) -> Tetromino {
+    func with(position: (Int, Int)) -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
-    func rotatedCounterClockwise () -> Tetromino {
+    func rotatedCounterClockwise() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + 1) % self.shape.points.count, position: self.position)
     }
 
-    func rotatedClockwise () -> Tetromino {
+    func rotatedClockwise() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
     }
 
-    func shiftedLeft () -> Tetromino {
+    func shiftedLeft() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 - 1, position.1))
     }
 
-    func shiftedRight () -> Tetromino {
+    func shiftedRight() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 + 1, position.1))
     }
 
-    func dropped () -> Tetromino {
+    func dropped() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0, position.1 - 1))
     }
 }

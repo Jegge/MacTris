@@ -17,7 +17,7 @@ class Scores: SceneBase {
     private var index: Int?
     private var hiscores: Hiscore = Hiscore(key: Secrets.hiscoreKey)
 
-    private func update () {
+    private func update() {
 
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -48,7 +48,7 @@ class Scores: SceneBase {
         }
     }
 
-    private func enterText (at index: Int, forEvent event: NSEvent) {
+    private func enterText(at index: Int, forEvent event: NSEvent) {
         switch event.keyCode {
         case KeyCode.return.rawValue:
             if !self.hiscores.name(at: index).isEmpty {
@@ -130,7 +130,7 @@ class Scores: SceneBase {
         }
     }
 
-    override func inputDown (event: InputEvent) {
+    override func inputDown(event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             AudioPlayer.playFxPositive()
             self.transitionToMenu()

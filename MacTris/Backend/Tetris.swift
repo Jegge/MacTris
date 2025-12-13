@@ -102,11 +102,11 @@ class Tetris {
         }
     }
 
-    func addDuration (_ elapsed: TimeInterval) {
+    func addDuration(_ elapsed: TimeInterval) {
         self.duration += elapsed
     }
 
-    func dissolve (completed: Range<Int>) -> Bool {
+    func dissolve(completed: Range<Int>) -> Bool {
         var done = true
 
         for row in completed {
@@ -130,7 +130,7 @@ class Tetris {
         return done
     }
 
-    func score (lines: Range<Int>) {
+    func score(lines: Range<Int>) {
         let baseScorePerLines = [40, 100, 300, 1200]
         let linesScore = baseScorePerLines[lines.count - 1] * (self.level + 1)
 
@@ -148,7 +148,7 @@ class Tetris {
         }
     }
 
-    func spawn () -> Bool {
+    func spawn() -> Bool {
         self.current = self.next.with(position: self.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
 
@@ -161,7 +161,7 @@ class Tetris {
         return true
     }
 
-    func shiftLeft () -> Bool {
+    func shiftLeft() -> Bool {
         if let current = self.current, !self.collides(tetronimo: current.shiftedLeft()) {
             self.current = current.shiftedLeft()
             return true
@@ -169,7 +169,7 @@ class Tetris {
         return false
     }
 
-    func shiftRight () -> Bool {
+    func shiftRight() -> Bool {
         if let current = self.current, !self.collides(tetronimo: current.shiftedRight()) {
             self.current = current.shiftedRight()
             return true
@@ -177,7 +177,7 @@ class Tetris {
         return false
     }
 
-    func softDrop (manual: Bool) -> Bool {
+    func softDrop(manual: Bool) -> Bool {
         if let current = self.current, !self.collides(tetronimo: current.dropped()) {
             self.current = current.dropped()
             if manual {
@@ -198,7 +198,7 @@ class Tetris {
         return false
     }
 
-    func rotateCounterClockwise () -> Bool {
+    func rotateCounterClockwise() -> Bool {
         if let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise()) {
             self.current = current.rotatedCounterClockwise()
             return true
@@ -206,7 +206,7 @@ class Tetris {
         return false
     }
 
-    func rotateClockwise () -> Bool {
+    func rotateClockwise() -> Bool {
         if let current = self.current, !self.collides(tetronimo: current.rotatedClockwise()) {
             self.current = current.rotatedClockwise()
             return true
@@ -214,7 +214,7 @@ class Tetris {
         return false
     }
 
-    private func drop (rows: Range<Int>) {
+    private func drop(rows: Range<Int>) {
         for row in rows.upperBound..<self.numberOfRows {
             let target = row - (rows.upperBound - rows.lowerBound)
             for column in 0..<self.numberOfColumns {
@@ -227,7 +227,7 @@ class Tetris {
         }
     }
 
-    private func lock (tetronimo: Tetromino?) {
+    private func lock(tetronimo: Tetromino?) {
         guard let tetronimo = tetronimo else {
             return
         }
@@ -239,14 +239,14 @@ class Tetris {
         }
     }
 
-    private func isComplete (row: Int) -> Bool {
+    private func isComplete(row: Int) -> Bool {
         for column in 0..<self.numberOfColumns where self[column, row] == nil {
             return false
         }
         return true
     }
 
-    private func collides (tetronimo: Tetromino) -> Bool {
+    private func collides(tetronimo: Tetromino) -> Bool {
         for (column, row) in tetronimo.points {
             if row > self.numberOfRows {
                 continue

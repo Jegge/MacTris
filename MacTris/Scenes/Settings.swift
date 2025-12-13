@@ -36,7 +36,7 @@ class Settings: SceneBase {
     private var rebindId: Input?
     private var rebindItem: String?
 
-    private func update () {
+    private func update() {
         for (index, item) in menuItems.enumerated() {
             if let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode {
                 bullet.isHidden = index != self.selection
@@ -64,7 +64,7 @@ class Settings: SceneBase {
         }
     }
 
-    private func value (for item: String) -> String? {
+    private func value(for item: String) -> String? {
         switch item {
         case Item.displayMode:
             return UserDefaults.standard.fullscreen ? "Fullscreen" : "Window"
@@ -101,7 +101,7 @@ class Settings: SceneBase {
         }
     }
 
-    private func controllerValue (for item: String) -> String? {
+    private func controllerValue(for item: String) -> String? {
         switch item {
         case Item.shiftLeft:
             return InputMapper.shared.describeIdForController(.shiftLeft)
@@ -123,7 +123,7 @@ class Settings: SceneBase {
         }
     }
 
-    private func increase (item: String) {
+    private func increase(item: String) {
         switch item {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
@@ -153,7 +153,7 @@ class Settings: SceneBase {
         }
     }
 
-    private func decrease (item: String) {
+    private func decrease(item: String) {
         switch item {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
@@ -183,7 +183,7 @@ class Settings: SceneBase {
         }
     }
 
-    private func beginRebind (id: Input, for item: String) {
+    private func beginRebind(id: Input, for item: String) {
         self.childNode(withName: "value\(item)")?.run(SKAction.repeatForever(SKAction.sequence([
             SKAction.fadeAlpha(to: 1.0, duration: 0.25),
             SKAction.fadeAlpha(to: 0.25, duration: 0.25)
@@ -193,7 +193,7 @@ class Settings: SceneBase {
         AudioPlayer.playFxPositive()
     }
 
-    private func endRebind (id: Input, for item: String, with event: NSEvent) -> Bool {
+    private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
         if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
             AudioPlayer.playFxNegative()
             return false
@@ -216,7 +216,7 @@ class Settings: SceneBase {
         return true
     }
 
-    private func select (item: String) {
+    private func select(item: String) {
         switch item {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
@@ -292,7 +292,7 @@ class Settings: SceneBase {
         self.update()
     }
 
-    override func keyDown (with event: NSEvent) {
+    override func keyDown(with event: NSEvent) {
         if let id = self.rebindId, let item = self.rebindItem {
             if self.endRebind(id: id, for: item, with: event) {
                 self.rebindId = nil
@@ -306,7 +306,7 @@ class Settings: SceneBase {
         }
     }
 
-    override func inputDown (event: InputEvent) {
+    override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
             AudioPlayer.playFxSelect()

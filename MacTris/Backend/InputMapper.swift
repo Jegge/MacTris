@@ -77,14 +77,14 @@ class InputMapper {
         }
     }
 
-    func describeIdForKeyboard (_ id: Input) -> String {
+    func describeIdForKeyboard(_ id: Input) -> String {
         if let keyCode = self.keymap.first(where: { $0.binding.id == id})?.binding.keyCode {
             return KeyCode(rawValue: keyCode)?.description ?? "⍰"
         }
         return "⍰"
     }
 
-    func describeIdForController (_ id: Input) -> String {
+    func describeIdForController(_ id: Input) -> String {
         switch id {
         case .down: return "⒣"
         case .left: return "⒤"
@@ -100,16 +100,16 @@ class InputMapper {
         }
     }
 
-    func bind (keyCode: UInt16, id: Input) {
+    func bind(keyCode: UInt16, id: Input) {
         self.keymap.removeAll { $0.binding.id == id && $0.mutable }
         self.keymap.append((binding: KeyBinding(keyCode: keyCode, id: id), mutable: true))
     }
 
-    func canBind (id: Input) -> Bool {
+    func canBind(id: Input) -> Bool {
         return self.keymap.first { $0.binding.id == id && $0.mutable } != nil
     }
 
-    func translate (event: NSEvent) -> [InputEvent] {
+    func translate(event: NSEvent) -> [InputEvent] {
         var result: [InputEvent] = []
 
         switch event.type {
@@ -128,7 +128,7 @@ class InputMapper {
         return result
     }
 
-    func translate (gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
+    func translate(gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
 
         var result: [InputEvent] = []
 

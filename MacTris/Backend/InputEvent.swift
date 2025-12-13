@@ -14,7 +14,7 @@ struct InputEvent: Equatable {
     static let inputDownNotification: NSNotification.Name = NSNotification.Name("InputEventInputDown")
     static let inputUpNotification: NSNotification.Name = NSNotification.Name("InputEventInputUp")
 
-    func postNotification () {
+    func postNotification() {
         NotificationCenter.default.post(Notification(name: self.isDown ? InputEvent.inputDownNotification : InputEvent.inputUpNotification, object: self, userInfo: nil))
     }
 }
