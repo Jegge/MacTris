@@ -121,9 +121,9 @@ class InputMapper {
             break
         }
 
-        if !result.isEmpty {
-            Logger.input.debug("Keyboard events: \(result, privacy: .public)")
-        }
+//        if !result.isEmpty {
+//            Logger.input.debug("Keyboard events: \(result, privacy: .public)")
+//        }
 
         return result
     }
