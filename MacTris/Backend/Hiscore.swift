@@ -11,6 +11,12 @@ import OSLog
 
 class Hiscore {
 
+    #if DEBUG
+    static let filename = "hiscores.debug.json"
+    #else
+    static let filename = "hiscores.json"
+    #endif
+
     public struct Score: Codable, Comparable, Equatable {
         let name: String
         let value: Int
@@ -22,14 +28,14 @@ class Hiscore {
 
     static var url: URL {
         if #available(macOS 13.0, *) {
-            return URL.applicationSupportDirectory.appendingPathComponent("hiscores.json", isDirectory: false)
+            return URL.applicationSupportDirectory.appendingPathComponent(Hiscore.filename, isDirectory: false)
         } else {
             do {
                 let directory = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-                return directory.appendingPathComponent("hiscores.json", isDirectory: false)
+                return directory.appendingPathComponent(Hiscore.filename, isDirectory: false)
             } catch {
                 Logger.hiscore.error("Failed to open application support directory: \(error, privacy: .public)")
-                return URL(fileURLWithPath: "hiscores.json", isDirectory: false)
+                return URL(fileURLWithPath: Hiscore.filename, isDirectory: false)
             }
         }
     }
@@ -62,11 +68,11 @@ class Hiscore {
             Score(name: "Jacky", value: 90000),
             Score(name: "Jim", value: 80000),
             Score(name: "Petra", value: 70000),
-            Score(name: "Mirjam", value: 60000),
-            Score(name: "Rebekka", value: 50000),
-            Score(name: "Elia", value: 40000),
-            Score(name: "Hinz", value: 30000),
-            Score(name: "Und", value: 20000),
+            Score(name: "Sebastian", value: 60000),
+            Score(name: "Mirjam", value: 50000),
+            Score(name: "Rebekka", value: 40000),
+            Score(name: "Elia", value: 30000),
+            Score(name: "Hinz", value: 20000),
             Score(name: "Kunz", value: 10000)
         ], key: SymmetricKey(data: key.data(using: .utf8)!))
     }
