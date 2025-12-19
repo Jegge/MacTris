@@ -32,8 +32,8 @@ enum RandomGeneratorMode: Int {
 extension RandomGeneratorMode: CustomStringConvertible {
     var description: String {
         switch self {
-        case .nes: return "Classic"
-        case .sevenBag: return "Modern"
+        case .nes: return "Classic (NES)"
+        case .sevenBag: return "Modern (7-Bag)"
         }
     }
 }
@@ -64,14 +64,16 @@ enum AutoShift: Int {
     case nes = 1
     case modern = 2
     case fast = 3
+    case insane = 4
 }
 
 extension AutoShift: CustomStringConvertible {
     var description: String {
         switch self {
-        case .nes: return "Classic"
-        case .modern: return "Modern"
-        case .fast: return "Fast"
+        case .nes: return "Classic (16–6)"
+        case .modern: return "Modern (8–6)"
+        case .fast: return "Fast (6–3)"
+        case .insane: return "Insane (5–1)"
         }
     }
 
@@ -80,6 +82,7 @@ extension AutoShift: CustomStringConvertible {
         case .nes: return (16, 6)
         case .modern: return (8, 6)
         case .fast: return (6, 3)
+        case .insane: return (5, 1)
         }
     }
 
