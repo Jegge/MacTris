@@ -25,6 +25,8 @@ class Tetris {
     private(set) var next: Tetromino
     private(set) var current: Tetromino?
 
+    private(set) var statistics: Statistics = Statistics()
+
     init (random: RandomTetrominoShapeGenerator, startingLevel: Int) {
         self.random = random
         self.level = startingLevel
@@ -32,13 +34,12 @@ class Tetris {
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
         self.current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
+        self.statistics.count(self.next.shape)
 
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
-
     }
 
     var board: [[Tetromino.Shape?]] {
-
         var result = self.data
 
         if let tetromino = self.current {
@@ -151,9 +152,11 @@ class Tetris {
     func spawn() -> Bool {
         self.current = self.next.with(position: self.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
+        self.statistics.count(self.next.shape)
 
         if self.collides(tetronimo: self.current!) {
             Logger.game.info("Stacked out with \(self.score) points!")
+            Logger.game.info("Statistics: \(self.statistics.description, privacy: .public)")
             self.current = nil
             return false
         }

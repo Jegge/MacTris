@@ -31,6 +31,7 @@
 		D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */; };
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
+		D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24356AD2EF6A87A004843D7 /* Statistics.swift */; };
 		D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */; };
 		D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */; };
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
@@ -82,6 +83,7 @@
 		D22901232B47D28400A9F88E /* Silver.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silver.ttf; sourceTree = "<group>"; };
 		D22901252B47D30800A9F88E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D22901262B4828A600A9F88E /* OSLog+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+Categories.swift"; sourceTree = "<group>"; };
+		D24356AD2EF6A87A004843D7 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		D262DFC52B4DC66600FDC801 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
 		D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		D26ED3A42B4538DC000FE86C /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
 				D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
@@ -394,6 +397,7 @@
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
 				D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
+				D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */,
 				D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
