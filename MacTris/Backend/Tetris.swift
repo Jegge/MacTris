@@ -34,7 +34,7 @@ class Tetris {
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
         self.current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
-        self.statistics.count(self.next.shape)
+        self.statistics.add(self.next.shape)
 
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
@@ -152,7 +152,7 @@ class Tetris {
     func spawn() -> Bool {
         self.current = self.next.with(position: self.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
-        self.statistics.count(self.next.shape)
+        self.statistics.add(self.next.shape)
 
         if self.collides(tetronimo: self.current!) {
             Logger.game.info("Stacked out with \(self.score) points!")

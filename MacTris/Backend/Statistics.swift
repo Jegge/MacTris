@@ -8,20 +8,28 @@
 struct Statistics {
     private var counts: [Tetromino.Shape: Int] = [:]
 
-    mutating func count(_ shape: Tetromino.Shape) {
-        self.counts[shape] = (self.counts[shape] ?? 0) + 1
+    mutating func add(_ shape: Tetromino.Shape) {
+        counts[shape] = (counts[shape] ?? 0) + 1
+    }
+
+    var total: Int {
+        counts.reduce(0) { $0 + $1.value }
+    }
+
+    func count(_ shape: Tetromino.Shape) -> Int {
+        counts[shape] ?? 0
+    }
+
+    func percent(_ shape: Tetromino.Shape) -> Double {
+        (Double(count(shape)) / Double(total)) * 100.0
     }
 }
 
 extension Statistics: CustomStringConvertible {
     var description: String {
-        let total = self.counts.reduce(0) { (result, entry) in return result + entry.value }
-        return Tetromino.Shape.allCases
-            .map {
-                let count = self.counts[$0] ?? 0
-                let percent = (Double(count) / Double(total)) * 100.0
-                return String(format: "%@ %.02f%% (%d/%d)", String(describing: $0).uppercased(), percent, count, total)
-            }
+        Tetromino.Shape
+            .allCases
+            .map { String(format: "%@ %.04f%% (%d/%d)", String(describing: $0).uppercased(), percent($0), count($0), total) }
             .joined(separator: ", ")
     }
 }
