@@ -7,11 +7,13 @@
 
 import Foundation
 
+typealias Point = (x: Int, y: Int)
+
 struct Tetromino {
     enum Shape: CaseIterable {
         case t, j, z, o, s, l, i
 
-        var points: [[(Int, Int)]] {
+        var points: [[Point]] {
             switch self {
             case .o:
                 return [[(-1, 0), (0, 0), (-1, -1), (0, -1)]]
@@ -66,19 +68,19 @@ struct Tetromino {
 
     let shape: Shape
     let rotation: Int
-    let position: (Int, Int)
+    let position: Point
 
-    var points: [(Int, Int)] {
-        return self.shape.points[self.rotation].map { ($0.0 + position.0, $0.1 + position.1) }
+    var points: [Point] {
+        return self.shape.points[self.rotation].map { ($0.x + position.x, $0.y + position.y) }
     }
 
-    init (shape: Shape, rotation: Int = 0, position: (Int, Int) = (0, 0)) {
+    init (shape: Shape, rotation: Int = 0, position: Point = (0, 0)) {
         self.shape = shape
         self.rotation = rotation
         self.position = position
     }
 
-    func with(position: (Int, Int)) -> Tetromino {
+    func with(position: Point) -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
@@ -91,14 +93,14 @@ struct Tetromino {
     }
 
     func shiftedLeft() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 - 1, position.1))
+        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x - 1, position.y))
     }
 
     func shiftedRight() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0 + 1, position.1))
+        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x + 1, position.y))
     }
 
     func dropped() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.0, position.1 - 1))
+        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x, position.y - 1))
     }
 }
