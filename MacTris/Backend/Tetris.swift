@@ -66,7 +66,7 @@ class Tetris {
         while self.isComplete(row: end) {
             end += 1
             if end >= self.numberOfRows {
-                return Range(uncheckedBounds: (start, self.numberOfRows - 1))
+                return Range(uncheckedBounds: (start, self.numberOfRows))
             }
         }
 
@@ -132,8 +132,8 @@ class Tetris {
     }
 
     func score(lines: Range<Int>) {
-        let baseScorePerLines = [40, 100, 300, 1200]
-        let linesScore = baseScorePerLines[lines.count - 1] * (self.level + 1)
+        let baseScorePerLines = [0, 40, 100, 300, 1200]
+        let linesScore = baseScorePerLines[lines.count] * (self.level + 1)
 
         self.score += linesScore
         self.lines += lines.count
@@ -251,7 +251,7 @@ class Tetris {
 
     private func collides(tetronimo: Tetromino) -> Bool {
         for (column, row) in tetronimo.points {
-            if row > self.numberOfRows {
+            if row >= self.numberOfRows {
                 continue
             }
             if row < 0 || column < 0 || column >= self.numberOfColumns {
