@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -53,7 +53,18 @@
 		D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D20B3E272FFD5F6F0021CAF0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2FF08922B43F65B00740390 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2FF08992B43F65B00740390;
+			remoteInfo = MacTris;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
 		D22900EA2B45418600A9F88E /* Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Menu.sks; sourceTree = "<group>"; };
 		D22900EC2B4543CD00A9F88E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -112,7 +123,18 @@
 		D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Drawing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D20B3E242FFD5F6F0021CAF0 /* MacTrisTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MacTrisTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		D20B3E202FFD5F6F0021CAF0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2FF08972B43F65B00740390 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -212,6 +234,7 @@
 				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
 				D22901062B45E7A300A9F88E /* Assets */,
 				D2FF089C2B43F65B00740390 /* MacTris */,
+				D20B3E242FFD5F6F0021CAF0 /* MacTrisTests */,
 				D2FF089B2B43F65B00740390 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -220,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				D2FF089A2B43F65B00740390 /* MacTris.app */,
+				D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,6 +268,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D20B3E222FFD5F6F0021CAF0 /* MacTrisTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D20B3E2B2FFD5F6F0021CAF0 /* Build configuration list for PBXNativeTarget "MacTrisTests" */;
+			buildPhases = (
+				D20B3E1F2FFD5F6F0021CAF0 /* Sources */,
+				D20B3E202FFD5F6F0021CAF0 /* Frameworks */,
+				D20B3E212FFD5F6F0021CAF0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D20B3E282FFD5F6F0021CAF0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D20B3E242FFD5F6F0021CAF0 /* MacTrisTests */,
+			);
+			name = MacTrisTests;
+			packageProductDependencies = (
+			);
+			productName = MacTrisTests;
+			productReference = D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D2FF08992B43F65B00740390 /* MacTris */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D2FF08AF2B43F65D00740390 /* Build configuration list for PBXNativeTarget "MacTris" */;
@@ -270,9 +317,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					D20B3E222FFD5F6F0021CAF0 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 					D2FF08992B43F65B00740390 = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -292,11 +342,19 @@
 			projectRoot = "";
 			targets = (
 				D2FF08992B43F65B00740390 /* MacTris */,
+				D20B3E222FFD5F6F0021CAF0 /* MacTrisTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D20B3E212FFD5F6F0021CAF0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2FF08982B43F65B00740390 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,6 +429,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D20B3E1F2FFD5F6F0021CAF0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2FF08962B43F65B00740390 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,6 +469,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D20B3E282FFD5F6F0021CAF0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2FF08992B43F65B00740390 /* MacTris */;
+			targetProxy = D20B3E272FFD5F6F0021CAF0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D2FF08A92B43F65D00740390 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -416,6 +489,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D20B3E292FFD5F6F0021CAF0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8D7C67CAFE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.MacTris.MacTrisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D20B3E2A2FFD5F6F0021CAF0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8D7C67CAFE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.realvirtuality.MacTris.MacTrisTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D2FF08AD2B43F65D00740390 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -613,6 +724,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D20B3E2B2FFD5F6F0021CAF0 /* Build configuration list for PBXNativeTarget "MacTrisTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D20B3E292FFD5F6F0021CAF0 /* Debug */,
+				D20B3E2A2FFD5F6F0021CAF0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D2FF08952B43F65B00740390 /* Build configuration list for PBXProject "MacTris" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
