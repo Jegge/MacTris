@@ -136,12 +136,12 @@ class Settings: SceneBase {
 
         case Item.musicVolume:
             AudioPlayer.shared.musicVolume = min(100, AudioPlayer.shared.musicVolume + 2)
-            UserDefaults.standard.musicVolume = min(100, AudioPlayer.shared.musicVolume + 2)
+            UserDefaults.standard.musicVolume = AudioPlayer.shared.musicVolume
             AudioPlayer.playFxPositive()
 
         case Item.fxVolume:
             AudioPlayer.shared.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
-            UserDefaults.standard.fxVolume = min(100, AudioPlayer.shared.fxVolume + 2)
+            UserDefaults.standard.fxVolume = AudioPlayer.shared.fxVolume
             AudioPlayer.playFxPositive()
 
         case Item.rngMode:
@@ -170,12 +170,12 @@ class Settings: SceneBase {
 
         case Item.musicVolume:
             AudioPlayer.shared.musicVolume = max(0, AudioPlayer.shared.musicVolume - 2)
-            UserDefaults.standard.musicVolume = max(0, AudioPlayer.shared.musicVolume - 2)
+            UserDefaults.standard.musicVolume = AudioPlayer.shared.musicVolume
             AudioPlayer.playFxPositive()
 
         case Item.fxVolume:
             AudioPlayer.shared.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
-            UserDefaults.standard.fxVolume = max(0, AudioPlayer.shared.fxVolume - 2)
+            UserDefaults.standard.fxVolume = AudioPlayer.shared.fxVolume
             AudioPlayer.playFxPositive()
 
         case Item.rngMode:
