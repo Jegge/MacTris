@@ -322,6 +322,7 @@
 				TargetAttributes = {
 					D20B3E222FFD5F6F0021CAF0 = {
 						CreatedOnToolsVersion = 26.6;
+						TestTargetID = D2FF08992B43F65B00740390;
 					};
 					D2FF08992B43F65B00740390 = {
 						CreatedOnToolsVersion = 15.1;
@@ -492,6 +493,7 @@
 		D20B3E292FFD5F6F0021CAF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8D7C67CAFE;
@@ -505,12 +507,14 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacTris.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacTris";
 			};
 			name = Debug;
 		};
 		D20B3E2A2FFD5F6F0021CAF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8D7C67CAFE;
@@ -524,6 +528,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacTris.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacTris";
 			};
 			name = Release;
 		};
