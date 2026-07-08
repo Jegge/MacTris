@@ -9,12 +9,24 @@ import Foundation
 import SpriteKit
 
 extension SKTileMapNode {
+    private static var tileGroupCache: [String: SKTileGroup] = [:]
+
+    private func tileGroup(named name: String) -> SKTileGroup? {
+        if Self.tileGroupCache.isEmpty {
+            for group in self.tileSet.tileGroups {
+                if let name = group.name {
+                    Self.tileGroupCache[name] = group
+                }
+            }
+        }
+        return Self.tileGroupCache[name]
+    }
 
     func draw(board: [[Tetromino.Shape?]], appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
                 if let shape = board[column][row] {
-                    let tileGroup = self.tileSet.tileGroups.first { $0.name == "\(shape.appearance)-\(appearance.rawValue)" }
+                    let tileGroup = self.tileGroup(named: "\(shape.appearance)-\(appearance.rawValue)")
                     self.setTileGroup(tileGroup, forColumn: column, row: row)
                 } else {
                     self.setTileGroup(nil, forColumn: column, row: row)
@@ -24,7 +36,6 @@ extension SKTileMapNode {
     }
 
     func draw(tetronimo: Tetromino?, appearance: Appearance) {
-
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
                 self.setTileGroup(nil, forColumn: column, row: row)
@@ -35,7 +46,7 @@ extension SKTileMapNode {
             return
         }
 
-        let tileGroup = self.tileSet.tileGroups.first { $0.name == "\(tetronimo.shape.appearance)-\(appearance.rawValue)" }
+        let tileGroup = self.tileGroup(named: "\(tetronimo.shape.appearance)-\(appearance.rawValue)")
         for (column, row) in tetronimo.points {
             if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
                 self.setTileGroup(tileGroup, forColumn: column, row: row)
