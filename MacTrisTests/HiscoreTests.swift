@@ -7,6 +7,7 @@
 
 import Testing
 import Foundation
+import CryptoKit
 @testable import MacTris
 
 struct HiscoreTests {
@@ -113,7 +114,7 @@ struct HiscoreTests {
         let original = Hiscore(key: key)
         try? original.write(to: tempURL)
 
-        #expect(throws: (any Error).self) {
+        #expect(throws: CryptoKitError.authenticationFailure) {
             _ = try Hiscore(contentsOfUrl: tempURL, key: "wrongkey")
         }
     }
