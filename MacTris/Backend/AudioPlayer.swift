@@ -54,7 +54,6 @@ class AudioPlayer: NSObject {
             player.delegate = self
             self.fxPlayers.insert(player)
             player.play()
-
         }
     }
 
