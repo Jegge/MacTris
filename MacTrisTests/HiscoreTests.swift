@@ -115,7 +115,7 @@ struct HiscoreTests {
         try? original.write(to: tempURL)
 
         #expect(throws: CryptoKitError.authenticationFailure) {
-            _ = try Hiscore(contentsOfUrl: tempURL, key: "wrongkey")
+            _ = try Hiscore(contentsOfUrl: tempURL, key: key.uppercased())
         }
     }
 

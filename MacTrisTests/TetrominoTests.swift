@@ -31,7 +31,7 @@ struct TetrominoTests {
         #expect(t.position.y == 10)
     }
 
-    func testPointsIncludePosition() async throws {
+    @Test func testPointsIncludePosition() async throws {
         let t = Tetromino(shape: .o, position: (3, 4))
         for point in t.points {
             #expect(point.x - 3 == point.x - t.position.x)
