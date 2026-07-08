@@ -31,16 +31,6 @@ class ViewController: NSViewController {
             view.showsFPS = true
             #endif
         }
-    }
-
-    override func viewDidAppear() {
-        super.viewDidAppear()
-
-        if let view = self.skView {
-            if UserDefaults.standard.fullscreen != view.isInFullScreenMode {
-                view.window?.toggleFullScreen(nil)
-            }
-        }
 
         self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
             guard let controller = notification.object as? GCController else {
@@ -68,6 +58,16 @@ class ViewController: NSViewController {
 
         self.didExitFullScreenObserver = NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
             NSCursor.unhide()
+        }
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+
+        if let view = self.skView {
+            if UserDefaults.standard.fullscreen != view.isInFullScreenMode {
+                view.window?.toggleFullScreen(nil)
+            }
         }
     }
 
