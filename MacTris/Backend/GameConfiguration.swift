@@ -56,7 +56,7 @@ extension Appearance: CustomStringConvertible {
     }
 
     func decrease() -> Appearance {
-        return Appearance(rawValue: self.rawValue - 1) ?? .plain
+        return Appearance(rawValue: self.rawValue - 1) ?? .shaded
     }
 }
 
@@ -91,6 +91,6 @@ extension AutoShift: CustomStringConvertible {
     }
 
     func decrease() -> AutoShift {
-        return AutoShift(rawValue: self.rawValue - 1) ?? .fast
+        return AutoShift(rawValue: self.rawValue - 1) ?? .insane
     }
 }
