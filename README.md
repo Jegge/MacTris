@@ -35,6 +35,12 @@ Disable Launchpad on select button:
 1. The first build might fail due to generation of the file Secrets.generated.swift.
 2. To supply a secret for archive builds, copy the file Secrets.xcconfig to Secrets.install.xcconfig and change it's content.
 
+## Ideas
+
+* Wall kick option
+* Floor kick option
+* Hard drop option
+* Hold piece mechanic
 
 ### DMG
 
