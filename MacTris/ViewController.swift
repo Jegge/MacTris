@@ -26,6 +26,7 @@ class ViewController: NSViewController {
                 view.presentScene(scene)
             }
             view.ignoresSiblingOrder = true
+            view.preferredFramesPerSecond = 60
             #if DEBUG
             view.showsFPS = true
             #endif

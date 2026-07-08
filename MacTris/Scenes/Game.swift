@@ -38,7 +38,10 @@ class Game: SceneBase {
     private var events: Set<Input> = Set()
     private var keyRepeatFrames: Int  = 0
     private var keyRepeatIsInitial: Bool = false
-    private var lastUpdate: TimeInterval = 0
+
+    private var lastUpdate: TimeInterval = 0.0
+    private let fixedFrameTime: TimeInterval = 1.0 / 60.0
+    private var frameTimeAccumulator: TimeInterval = 0.0
 
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
@@ -164,6 +167,16 @@ class Game: SceneBase {
             return
         }
 
+        frameTimeAccumulator += delta
+        frameTimeAccumulator = min(frameTimeAccumulator, fixedFrameTime * 5) // cap at 5 frames
+
+        while frameTimeAccumulator >= fixedFrameTime {
+            updateFrame(delta: fixedFrameTime)
+            frameTimeAccumulator -= fixedFrameTime
+        }
+    }
+
+    func updateFrame(delta: TimeInterval) {
         guard let tetris = self.tetris else {
             return
         }
