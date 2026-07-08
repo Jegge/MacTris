@@ -30,7 +30,7 @@ class Tetris {
     init (random: RandomTetrominoShapeGenerator, startingLevel: Int) {
         self.random = random
         self.level = startingLevel
-        self.linesToNextLevel = min(self.level * 10 + 10, max(100, self.level * 10 - 50))
+        self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50))
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
         self.current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
