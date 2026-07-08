@@ -41,15 +41,6 @@ extension RandomGeneratorMode: CustomStringConvertible {
 enum Appearance: Int {
     case plain = 1
     case shaded = 2
-}
-
-extension Appearance: CustomStringConvertible {
-    var description: String {
-        switch self {
-        case .plain: return "Plain"
-        case .shaded: return "Shaded"
-        }
-    }
 
     func increase() -> Appearance {
         return Appearance(rawValue: self.rawValue + 1) ?? .plain
@@ -60,22 +51,20 @@ extension Appearance: CustomStringConvertible {
     }
 }
 
+extension Appearance: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .plain: return "Plain"
+        case .shaded: return "Shaded"
+        }
+    }
+}
+
 enum AutoShift: Int {
     case nes = 1
     case modern = 2
     case fast = 3
     case insane = 4
-}
-
-extension AutoShift: CustomStringConvertible {
-    var description: String {
-        switch self {
-        case .nes: return "Classic (16–6)"
-        case .modern: return "Modern (8–6)"
-        case .fast: return "Fast (6–3)"
-        case .insane: return "Insane (5–1)"
-        }
-    }
 
     var delays: (initial: Int, repeating: Int) {
         switch self {
@@ -92,5 +81,16 @@ extension AutoShift: CustomStringConvertible {
 
     func decrease() -> AutoShift {
         return AutoShift(rawValue: self.rawValue - 1) ?? .insane
+    }
+}
+
+extension AutoShift: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .nes: return "Classic (16–6)"
+        case .modern: return "Modern (8–6)"
+        case .fast: return "Fast (6–3)"
+        case .insane: return "Insane (5–1)"
+        }
     }
 }
