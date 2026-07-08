@@ -18,6 +18,7 @@ extension UserDefaults {
         public static let randomGeneratorMode = "RandomGeneratorMode"
         public static let appearance = "Appearance"
         public static let autoShift = "AutoShift"
+        public static let updateURL = "UpdateURL"
     }
 
     func register() {
@@ -29,7 +30,8 @@ extension UserDefaults {
             Key.startLevel: 0,
             Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue,
             Key.appearance: Appearance.plain.rawValue,
-            Key.autoShift: AutoShift.modern.rawValue
+            Key.autoShift: AutoShift.modern.rawValue,
+            Key.updateURL: ""
         ])
     }
 

@@ -16,6 +16,7 @@ class Menu: SceneBase {
         public static let play = "Play"
         public static let settings = "Settings"
         public static let hiscores = "Hiscores"
+        public static let update = "Update"
         public static let quit = "Quit"
     }
 
@@ -25,7 +26,14 @@ class Menu: SceneBase {
         }
     }
     private var menuItems: [String] = []
+
     private var selection: Int = -1 {
+        didSet {
+            self.update()
+        }
+    }
+
+    private var updateURL: URL? {
         didSet {
             self.update()
         }
@@ -39,7 +47,11 @@ class Menu: SceneBase {
                 continue
             }
 
-            if index == self.selection {
+            if item == Item.update && self.updateURL == nil {
+                bullet.isHidden = index != self.selection
+                bullet.fontColor = NSColor(named: "MenuDisabled")
+                label.fontColor = NSColor(named: "MenuDisabled")
+            } else if index == self.selection {
                 bullet.isHidden = false
                 bullet.fontColor = NSColor(named: "MenuHilite")
                 label.fontColor = NSColor(named: "MenuHilite")
@@ -68,6 +80,14 @@ class Menu: SceneBase {
         case Item.hiscores:
             AudioPlayer.playFxPositive()
             self.transitionToScores()
+
+        case Item.update:
+            if let url = self.updateURL {
+                AudioPlayer.playFxPositive()
+                NSWorkspace.shared.open(url)
+            } else {
+                AudioPlayer.playFxNegative()
+            }
 
         case Item.quit:
             NSApplication.shared.terminate(nil)
@@ -116,14 +136,16 @@ class Menu: SceneBase {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
 
-        let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0.0"
-        let build = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "0"
-        (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "v\(version) (\(build))"
+        (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "\(UpdateCheck.version) (\(UpdateCheck.build))"
 
         let copyright = (Bundle.main.infoDictionary?["NSHumanReadableCopyright"] as? String) ?? "© 2024-now Sebastian Boettcher"
         (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = copyright
 
         self.level = UserDefaults.standard.startLevel
+
+        Task { [weak self] in
+            self?.updateURL = try? await UpdateCheck.getUpdateUrl()
+        }
     }
 
     override func keyDown(with event: NSEvent) {
