@@ -176,7 +176,7 @@ class Menu: SceneBase {
             self.update()
 
         default:
-            print("Unhandled input event: \(event)")
+            break
         }
     }
 }

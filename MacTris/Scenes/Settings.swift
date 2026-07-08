@@ -366,7 +366,8 @@ class Settings: SceneBase {
             self.select(item: Item.back)
 
         default:
-            print("Unhandled input event: \(event)")
+            break
+
         }
     }
 }
