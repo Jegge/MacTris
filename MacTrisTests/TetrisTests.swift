@@ -10,7 +10,7 @@ import Testing
 
 struct TetrisTests {
     private func makeTetris(startingLevel: Int = 0, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
-        Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel)
+        Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: true)
     }
 
     @Test func testInitialState() async throws {

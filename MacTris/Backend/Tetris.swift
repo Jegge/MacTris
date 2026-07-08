@@ -10,6 +10,15 @@ import OSLog
 
 class Tetris {
 
+    private struct CollisionFlags: OptionSet {
+        let rawValue: Int
+        static let leftWall = CollisionFlags(rawValue: 1 << 0)
+        static let rightWall = CollisionFlags(rawValue: 1 << 1)
+        static let floor = CollisionFlags(rawValue: 1 << 2)
+        static let piece = CollisionFlags(rawValue: 1 << 3)
+        static let all = CollisionFlags([.leftWall, .rightWall, .floor, .piece])
+    }
+
     let numberOfColumns: Int = 10
     let numberOfRows: Int = 20
     let random: RandomTetrominoShapeGenerator
@@ -17,6 +26,7 @@ class Tetris {
     private var data: [[Tetromino.Shape?]]
     private var dropCounter: Int = 0
     private var linesToNextLevel: Int
+    private var enableWallKick: Bool
 
     private(set) var lines: Int = 0
     private(set) var level: Int = 0
@@ -27,9 +37,10 @@ class Tetris {
 
     private(set) var statistics: Statistics = Statistics()
 
-    init (random: RandomTetrominoShapeGenerator, startingLevel: Int) {
+    init (random: RandomTetrominoShapeGenerator, startingLevel: Int, wallKick: Bool) {
         self.random = random
         self.level = startingLevel
+        self.enableWallKick = wallKick
         self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50))
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
@@ -154,7 +165,7 @@ class Tetris {
         self.next = Tetromino(shape: self.random.next())
         self.statistics.add(self.current!.shape)
 
-        if self.collides(tetronimo: self.current!) {
+        if self.collides(tetronimo: self.current!, with: .all) {
             Logger.game.info("Stacked out with \(self.score) points!")
             Logger.game.info("Statistics: \(self.statistics.description, privacy: .public)")
             self.current = nil
@@ -165,7 +176,7 @@ class Tetris {
     }
 
     func shiftLeft() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.shiftedLeft()) {
+        if let current = self.current, !self.collides(tetronimo: current.shiftedLeft(), with: .all) {
             self.current = current.shiftedLeft()
             return true
         }
@@ -173,7 +184,7 @@ class Tetris {
     }
 
     func shiftRight() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.shiftedRight()) {
+        if let current = self.current, !self.collides(tetronimo: current.shiftedRight(), with: .all) {
             self.current = current.shiftedRight()
             return true
         }
@@ -181,7 +192,7 @@ class Tetris {
     }
 
     func softDrop(manual: Bool) -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.dropped()) {
+        if let current = self.current, !self.collides(tetronimo: current.dropped(), with: .all) {
             self.current = current.dropped()
             if manual {
                 self.dropCounter += 1
@@ -202,16 +213,24 @@ class Tetris {
     }
 
     func rotateCounterClockwise() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise()) {
+        if !enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: .all) {
             self.current = current.rotatedCounterClockwise()
+            return true
+        }
+        if enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
+            self.current = self.applyWallKick(tetromino: current.rotatedCounterClockwise())
             return true
         }
         return false
     }
 
     func rotateClockwise() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.rotatedClockwise()) {
+        if !enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: .all) {
             self.current = current.rotatedClockwise()
+            return true
+        }
+        if enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: [.floor, .piece]) {
+            self.current = self.applyWallKick(tetromino: current.rotatedClockwise())
             return true
         }
         return false
@@ -249,15 +268,32 @@ class Tetris {
         return true
     }
 
-    private func collides(tetronimo: Tetromino) -> Bool {
+    private func applyWallKick(tetromino: Tetromino) -> Tetromino {
+        var current = tetromino
+        while self.collides(tetronimo: current, with: [.leftWall]) {
+            current = current.shiftedRight()
+        }
+        while self.collides(tetronimo: current, with: [.rightWall]) {
+            current = current.shiftedLeft()
+        }
+        return current
+    }
+
+    private func collides(tetronimo: Tetromino, with flags: CollisionFlags) -> Bool {
         for (column, row) in tetronimo.points {
             if row >= self.numberOfRows {
                 continue
             }
-            if row < 0 || column < 0 || column >= self.numberOfColumns {
+            if flags.contains(.floor) && row < 0 {
                 return true
             }
-            if self[column, row] != nil {
+            if flags.contains(.leftWall) && column < 0 {
+                return true
+            }
+            if flags.contains(.rightWall) && column >= self.numberOfColumns {
+                return true
+            }
+            if flags.contains(.piece) && self[column, row] != nil {
                 return true
             }
         }

@@ -89,6 +89,7 @@ class Game: SceneBase {
             FrameCount.keyRepeatShift = self.autoShift.delays.repeating
         }
     }
+    var wallKick: Bool = false
 
     private func updateInstructions() {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
@@ -137,9 +138,9 @@ class Game: SceneBase {
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
         self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
-        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode, privacy: .public), DAS: \(self.autoShift, privacy: .public)")
+        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode, privacy: .public), DAS: \(self.autoShift, privacy: .public), Wall kick \(self.wallKick ? "enabled" : "disabled", privacy: .public)")
 
-        self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), startingLevel: self.startingLevel)
+        self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), startingLevel: self.startingLevel, wallKick: self.wallKick)
         self.framesToWait = FrameCount.gravity(level: self.startingLevel)
         self.state = .running
 

@@ -23,6 +23,7 @@ class Settings: SceneBase {
         public static let softDrop = "SoftDrop"
         public static let rngMode = "RngMode"
         public static let autoShift = "AutoShift"
+        public static let wallKick = "WallKick"
         public static let appearance = "Appearance"
         public static let back = "Back"
     }
@@ -97,6 +98,9 @@ class Settings: SceneBase {
         case Item.autoShift:
             return UserDefaults.standard.autoShift.description
 
+        case Item.wallKick:
+            return UserDefaults.standard.wallKick ? "Enabled" : "Disabled"
+
         case Item.appearance:
             return UserDefaults.standard.appearance.description
 
@@ -152,6 +156,10 @@ class Settings: SceneBase {
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
             AudioPlayer.playFxPositive()
 
+        case Item.wallKick:
+            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
+            AudioPlayer.playFxPositive()
+
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
             AudioPlayer.playFxPositive()
@@ -184,6 +192,10 @@ class Settings: SceneBase {
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.decrease()
+            AudioPlayer.playFxPositive()
+
+        case Item.wallKick:
+            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
             AudioPlayer.playFxPositive()
 
         case Item.appearance:
@@ -268,6 +280,10 @@ class Settings: SceneBase {
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
+            AudioPlayer.playFxPositive()
+
+        case Item.wallKick:
+            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
             AudioPlayer.playFxPositive()
 
         case Item.appearance:

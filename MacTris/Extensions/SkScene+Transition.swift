@@ -16,6 +16,7 @@ extension SKScene {
             newScene.appearance = UserDefaults.standard.appearance
             newScene.autoShift = UserDefaults.standard.autoShift
             newScene.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode
+            newScene.wallKick = UserDefaults.standard.wallKick
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         }
     }

@@ -18,7 +18,7 @@ extension UserDefaults {
         public static let randomGeneratorMode = "RandomGeneratorMode"
         public static let appearance = "Appearance"
         public static let autoShift = "AutoShift"
-        public static let updateURL = "UpdateURL"
+        public static let wallKick = "wallKick"
     }
 
     func register() {
@@ -31,7 +31,7 @@ extension UserDefaults {
             Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue,
             Key.appearance: Appearance.plain.rawValue,
             Key.autoShift: AutoShift.modern.rawValue,
-            Key.updateURL: ""
+            Key.wallKick: false
         ])
     }
 
@@ -104,6 +104,15 @@ extension UserDefaults {
         }
         set {
             self.set(newValue.rawValue, forKey: Key.autoShift)
+        }
+    }
+
+    var wallKick: Bool {
+        get {
+            return self.bool(forKey: Key.wallKick)
+        }
+        set {
+            self.setValue(newValue, forKey: Key.wallKick)
         }
     }
 }
