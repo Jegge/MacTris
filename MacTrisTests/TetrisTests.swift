@@ -23,9 +23,8 @@ struct TetrisTests {
 
     @Test func testBoardSize() async throws {
         let tetris = makeTetris()
-        let board = tetris.board
-        #expect(board.count == 10)
-        #expect(board[0].count == 20)
+        #expect(tetris.board.count == 10)
+        #expect(tetris.board[0].count == 20)
     }
 
     @Test func testSpawnCreatesCurrentPiece() async throws {
@@ -35,17 +34,15 @@ struct TetrisTests {
 
     @Test func testSpawnPosition() async throws {
         let tetris = makeTetris()
-        #expect(tetris.spawnPosition.0 == 5)
-        #expect(tetris.spawnPosition.1 == 19)
+        #expect(tetris.spawnPosition == (5, 19))
     }
 
     @Test func testBoardShowsCurrentPiece() async throws {
         let tetris = makeTetris()
-        let board = tetris.board
         if let current = tetris.current {
             for (col, row) in current.points {
                 if row >= 0, row < 20, col >= 0, col < 10 {
-                    #expect(board[col][row] == current.shape)
+                    #expect(tetris.board[col][row] == current.shape)
                 }
             }
         }
@@ -54,24 +51,21 @@ struct TetrisTests {
     @Test func testShiftLeft() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.x
-        let result = tetris.shiftLeft()
-        #expect(result)
+        #expect(tetris.shiftLeft())
         #expect(tetris.current?.position.x == (before ?? 0) - 1)
     }
 
     @Test func testShiftRight() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.x
-        let result = tetris.shiftRight()
-        #expect(result)
+        #expect(tetris.shiftRight())
         #expect(tetris.current?.position.x == (before ?? 0) + 1)
     }
 
     @Test func testRotateClockwise() async throws {
         let tetris = makeTetris(shapes: [.t])
         let before = tetris.current?.rotation
-        let result = tetris.rotateClockwise()
-        #expect(result)
+        #expect(tetris.rotateClockwise())
         let expected = ((before ?? 0) + Tetromino.Shape.t.points.count - 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -79,8 +73,7 @@ struct TetrisTests {
     @Test func testRotateCounterClockwise() async throws {
         let tetris = makeTetris(shapes: [.t])
         let before = tetris.current?.rotation
-        let result = tetris.rotateCounterClockwise()
-        #expect(result)
+        #expect(tetris.rotateCounterClockwise())
         let expected = ((before ?? 0) + 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -88,16 +81,14 @@ struct TetrisTests {
     @Test func testSoftDropManual() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.y
-        let result = tetris.softDrop(manual: true)
-        #expect(result)
+        #expect(tetris.softDrop(manual: true))
         #expect(tetris.current?.position.y == (before ?? 0) - 1)
     }
 
     @Test func testSoftDropAuto() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.y
-        let result = tetris.softDrop(manual: false)
-        #expect(result)
+        #expect(tetris.softDrop(manual: false))
         #expect(tetris.current?.position.y == (before ?? 0) - 1)
     }
 
@@ -116,8 +107,7 @@ struct TetrisTests {
         while tetris.current != nil {
             _ = tetris.softDrop(manual: false)
         }
-        let spawned = tetris.spawn()
-        #expect(spawned)
+        #expect(tetris.spawn())
         #expect(tetris.current != nil)
     }
 
@@ -207,12 +197,12 @@ struct TetrisTests {
         while tetris.current != nil {
             _ = tetris.softDrop(manual: false)
         }
-        _ = tetris.spawn()
+        #expect(tetris.spawn())
         let secondNext = tetris.next
         #expect(firstNext.shape != secondNext.shape)
     }
 
-    @Test func testCollidesAtWall() async throws {
+    @Test func testCollidesAtLeftWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
         for _ in 0..<20 where tetris.shiftLeft() {
@@ -222,10 +212,19 @@ struct TetrisTests {
         #expect(piece.position.x != farLeft.position.x)
     }
 
+    @Test func testCollidesAtRightWall() async throws {
+        let tetris = makeTetris()
+        let piece = tetris.current!
+        for _ in 0..<20 where tetris.shiftRight() {
+            // empty
+        }
+        let farRight = tetris.current!
+        #expect(piece.position.x != farRight.position.x)
+    }
+
     @Test func testDissolveEmptyRangeDoesNotScore() async throws {
         let tetris = makeTetris()
-        let result = tetris.dissolve(completed: 0..<0)
-        #expect(result)
+        #expect(tetris.dissolve(completed: 0..<0))
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
     }
@@ -233,8 +232,7 @@ struct TetrisTests {
     @Test func testWallKickRotateNormally() async throws {
         let tetris = makeTetris(wallKick: true, shapes: [.t])
         let before = tetris.current?.rotation
-        let result = tetris.rotateClockwise()
-        #expect(result)
+        #expect(tetris.rotateClockwise())
         let expected = ((before ?? 0) + Tetromino.Shape.t.points.count - 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -242,15 +240,15 @@ struct TetrisTests {
     @Test func testWallKickRotateAtLeftWall() async throws {
         let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
 
-        let ccwResult = tetris.rotateCounterClockwise()
-        #expect(ccwResult)
+        #expect(tetris.rotateCounterClockwise())
         #expect(tetris.current?.rotation == 1)
 
-        while tetris.shiftLeft() { }
+        while tetris.shiftLeft() {
+            // empty
+        }
         let leftmostX = tetris.current!.position.x
 
-        let cwResult = tetris.rotateClockwise()
-        #expect(cwResult)
+        #expect(tetris.rotateClockwise())
         #expect(tetris.current?.rotation == 0)
         #expect(tetris.current?.position.x == leftmostX + 2)
     }
@@ -258,15 +256,15 @@ struct TetrisTests {
     @Test func testWallKickRotateAtRightWall() async throws {
         let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
 
-        let ccwResult = tetris.rotateCounterClockwise()
-        #expect(ccwResult)
+        #expect(tetris.rotateCounterClockwise())
         #expect(tetris.current?.rotation == 1)
 
-        while tetris.shiftRight() { }
+        while tetris.shiftRight() {
+            // empty
+        }
         let rightmostX = tetris.current!.position.x
 
-        let cwResult = tetris.rotateClockwise()
-        #expect(cwResult)
+        #expect(tetris.rotateClockwise())
         #expect(tetris.current?.rotation == 0)
         #expect(tetris.current?.position.x == rightmostX - 1)
     }
@@ -287,11 +285,10 @@ struct TetrisTests {
     @Test func testHardDropPlacesPieceAtBottom() async throws {
         let tetris = makeTetris(shapes: [.o])
         tetris.hardDrop()
-        let board = tetris.board
-        #expect(board[4][1] == .o)
-        #expect(board[5][1] == .o)
-        #expect(board[4][0] == .o)
-        #expect(board[5][0] == .o)
+        #expect(tetris.board[4][1] == .o)
+        #expect(tetris.board[5][1] == .o)
+        #expect(tetris.board[4][0] == .o)
+        #expect(tetris.board[5][0] == .o)
     }
 
     @Test func testHardDropOnTopOfStack() async throws {
@@ -301,11 +298,10 @@ struct TetrisTests {
         #expect(tetris.spawn())
         tetris.hardDrop()  // second O lands on top at y=3, score += 32
         #expect(tetris.score == 68)
-        let board = tetris.board
-        #expect(board[4][3] == .o)
-        #expect(board[5][3] == .o)
-        #expect(board[4][2] == .o)
-        #expect(board[5][2] == .o)
+        #expect(tetris.board[4][3] == .o)
+        #expect(tetris.board[5][3] == .o)
+        #expect(tetris.board[4][2] == .o)
+        #expect(tetris.board[5][2] == .o)
     }
 
     @Test func testHardDropWhenNoCurrentPiece() async throws {
