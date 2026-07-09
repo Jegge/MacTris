@@ -80,7 +80,7 @@ class Game: SceneBase {
         }
     }
 
-    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false) {
+    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
         didSet {
             FrameCount.keyRepeatShiftInitial = self.options.autoShift.delays.initial
             FrameCount.keyRepeatShift = self.options.autoShift.delays.repeating
@@ -183,7 +183,12 @@ class Game: SceneBase {
         if self.keyRepeatFrames > 0 {
             self.keyRepeatFrames -= 1
         } else if self.completed == nil, tetris.current != nil {
-            if self.events.contains(.shiftLeft) {
+            if options.hardDrop && self.events.contains(.hardDrop) {
+                tetris.hardDrop()
+                AudioPlayer.playFxLock()
+                self.events.remove(.hardDrop)
+                self.framesToWait = FrameCount.gravity(level: tetris.level)
+            } else if self.events.contains(.shiftLeft) {
                 if tetris.shiftLeft() {
                     AudioPlayer.playFxShift()
                 }
@@ -306,7 +311,10 @@ class Game: SceneBase {
 
             case Input.softDrop:
                 self.keyRepeatFrames = 0
-                self.keyRepeatIsInitial = true
+                self.events.insert(event.id)
+
+            case Input.hardDrop:
+                self.keyRepeatFrames = 0
                 self.events.insert(event.id)
 
             case Input.rotateCounterClockwise:

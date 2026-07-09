@@ -18,7 +18,8 @@ extension UserDefaults {
         public static let randomGeneratorMode = "RandomGeneratorMode"
         public static let appearance = "Appearance"
         public static let autoShift = "AutoShift"
-        public static let wallKick = "wallKick"
+        public static let wallKick = "WallKick"
+        public static let hardDrop = "HardDrop"
     }
 
     func register() {
@@ -31,7 +32,8 @@ extension UserDefaults {
             Key.randomGeneratorMode: RandomGeneratorMode.sevenBag.rawValue,
             Key.appearance: Appearance.plain.rawValue,
             Key.autoShift: AutoShift.modern.rawValue,
-            Key.wallKick: false
+            Key.wallKick: false,
+            Key.hardDrop: false
         ])
     }
 
@@ -116,7 +118,16 @@ extension UserDefaults {
         }
     }
 
+    var hardDrop: Bool {
+        get {
+            return self.bool(forKey: Key.hardDrop)
+        }
+        set {
+            self.setValue(newValue, forKey: Key.hardDrop)
+        }
+    }
+
     var tetrisOptions: TetrisOptions {
-        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick)
+        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
     }
 }

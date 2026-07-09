@@ -11,10 +11,11 @@ struct TetrisOptions {
     let autoShift: AutoShift
     let randomGeneratorMode: RandomGeneratorMode
     let wallKick: Bool
+    let hardDrop: Bool
 }
 
 extension TetrisOptions: CustomStringConvertible {
     var description: String {
-        "Begin game: RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift), Wall kick \(self.wallKick ? "enabled" : "disabled")"
+        "RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift), Wall kick \(self.wallKick ? "enabled" : "disabled"), Hard drop \(self.hardDrop ? "enabled" : "disabled")"
     }
 }

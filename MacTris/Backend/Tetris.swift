@@ -206,7 +206,7 @@ class Tetris {
 
         if self.dropCounter > 0 {
             self.score += self.dropCounter
-            Logger.game.info("Dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
+            Logger.game.info("Soft dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
         }
 
         self.lock(tetronimo: self.current)
@@ -214,6 +214,25 @@ class Tetris {
         self.dropCounter = 0
 
         return false
+    }
+
+    func hardDrop() {
+        if var current = self.current {
+            self.dropCounter = 0
+            while !self.collides(tetronimo: current.dropped(), with: .all) {
+                current = current.dropped()
+                self.dropCounter += 1
+            }
+
+            if self.dropCounter > 0 {
+                self.score += self.dropCounter * 2
+                Logger.game.info("Hard dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
+            }
+
+            self.lock(tetronimo: current)
+            self.current = nil
+            self.dropCounter = 0
+        }
     }
 
     func rotateCounterClockwise() -> Bool {

@@ -23,6 +23,7 @@ enum Input: Codable {
     case rotateCounterClockwise
     case rotateClockwise
     case softDrop
+    case hardDrop
 }
 
 extension Input: CustomStringConvertible {
@@ -39,6 +40,7 @@ extension Input: CustomStringConvertible {
         case .rotateCounterClockwise: "rotate counterclockwise"
         case .rotateClockwise: "rotate clockwise"
         case .softDrop: "soft drop"
+        case .hardDrop: "hard drop"
         }
     }
 }
@@ -49,7 +51,7 @@ class InputMapper {
         let keyCode: UInt16
         let id: Input
     }
-    
+
     static let unknownCharacterDescription: String = "???"
 
     private var keymap: [(binding: KeyBinding, mutable: Bool)] = [
@@ -64,6 +66,7 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .shiftLeft), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .shiftRight), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .softDrop), mutable: true),
+        (binding: KeyBinding(keyCode: KeyCode.space.rawValue, id: .hardDrop), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.a.rawValue, id: .rotateCounterClockwise), mutable: true),
         (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateClockwise), mutable: true)
     ]
@@ -95,10 +98,11 @@ class InputMapper {
         case .shiftLeft: return "⒤"
         case .shiftRight: return "⒥"
         case .softDrop: return "⒣"
-        case .select: return "⒍ or ⒉"
+        case .hardDrop: return "⒏ or ⒋" // Y / Triangle
+        case .select: return "⒍ or ⒉" // B / Circle
         case .menu: return "Menu or Start"
-        case .rotateCounterClockwise: return "⒍ or ⒉" // A / Circle
-        case .rotateClockwise: return "⒌ or ⒈" // B / Cross
+        case .rotateCounterClockwise: return "⒍ or ⒉" // B / Circle
+        case .rotateClockwise: return "⒌ or ⒈" // A / Cross
         }
     }
 
@@ -122,7 +126,7 @@ class InputMapper {
         default:
             break
         }
-
+//
 //        if !result.isEmpty {
 //            Logger.input.debug("Keyboard events: \(result, privacy: .public)")
 //        }
@@ -161,15 +165,21 @@ class InputMapper {
             ]
         }
 
+        if gamepad.buttonY == element {
+            result =  [
+                InputEvent(id: .hardDrop, isDown: gamepad.buttonY.isPressed)
+            ]
+        }
+
         if gamepad.buttonMenu == element {
             result =  [
                 InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed)
             ]
         }
 
-        if !result.isEmpty {
-            Logger.input.debug("Gamepad events: \(result, privacy: .public)")
-        }
+//        if !result.isEmpty {
+//            Logger.input.debug("Gamepad events: \(result, privacy: .public)")
+//        }
 
         return result
     }

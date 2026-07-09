@@ -13,18 +13,21 @@ import GameController
 class Settings: SceneBase {
 
     private struct Item {
-        public static let displayMode = "DisplayMode"
         public static let musicVolume = "MusicVolume"
         public static let fxVolume = "FxVolume"
-        public static let shiftLeft = "ShiftLeft"
-        public static let shiftRight = "ShiftRight"
-        public static let rotateLeft = "RotateLeft"
-        public static let rotateRight = "RotateRight"
-        public static let softDrop = "SoftDrop"
+        public static let displayMode = "DisplayMode"
+        public static let appearance = "Appearance"
+        public static let keyShiftLeft = "KeyShiftLeft"
+        public static let keyShiftRight = "KeyShiftRight"
+        public static let keyRotateLeft = "KeyRotateLeft"
+        public static let keyRotateRight = "KeyRotateRight"
+        public static let keySoftDrop = "KeySoftDrop"
+        public static let keyHardDrop = "KeyHardDrop"
         public static let rngMode = "RngMode"
         public static let autoShift = "AutoShift"
         public static let wallKick = "WallKick"
-        public static let appearance = "Appearance"
+        public static let hardDrop = "HardDrop"
+
         public static let back = "Back"
     }
 
@@ -77,20 +80,23 @@ class Settings: SceneBase {
         case Item.fxVolume:
             return AudioPlayer.shared.fxVolume == 0 ? "Off" : "\(AudioPlayer.shared.fxVolume)%"
 
-        case Item.shiftLeft:
+        case Item.keyShiftLeft:
             return InputMapper.shared.describeIdForKeyboard(.shiftLeft)
 
-        case Item.shiftRight:
+        case Item.keyShiftRight:
             return InputMapper.shared.describeIdForKeyboard(.shiftRight)
 
-        case Item.rotateLeft:
+        case Item.keyRotateLeft:
             return InputMapper.shared.describeIdForKeyboard(.rotateCounterClockwise)
 
-        case Item.rotateRight:
+        case Item.keyRotateRight:
             return InputMapper.shared.describeIdForKeyboard(.rotateClockwise)
 
-        case Item.softDrop:
+        case Item.keySoftDrop:
             return InputMapper.shared.describeIdForKeyboard(.softDrop)
+
+        case Item.keyHardDrop:
+            return InputMapper.shared.describeIdForKeyboard(.hardDrop)
 
         case Item.rngMode:
             return UserDefaults.standard.randomGeneratorMode.description
@@ -100,6 +106,9 @@ class Settings: SceneBase {
 
         case Item.wallKick:
             return UserDefaults.standard.wallKick ? "Enabled" : "Disabled"
+
+        case Item.hardDrop:
+            return UserDefaults.standard.hardDrop ? "Enabled" : "Disabled"
 
         case Item.appearance:
             return UserDefaults.standard.appearance.description
@@ -111,20 +120,23 @@ class Settings: SceneBase {
 
     private func controllerValue(for item: String) -> String? {
         switch item {
-        case Item.shiftLeft:
+        case Item.keyShiftLeft:
             return InputMapper.shared.describeIdForController(.shiftLeft)
 
-        case Item.shiftRight:
+        case Item.keyShiftRight:
             return InputMapper.shared.describeIdForController(.shiftRight)
 
-        case Item.rotateLeft:
+        case Item.keyRotateLeft:
             return InputMapper.shared.describeIdForController(.rotateCounterClockwise)
 
-        case Item.rotateRight:
+        case Item.keyRotateRight:
             return InputMapper.shared.describeIdForController(.rotateClockwise)
 
-        case Item.softDrop:
+        case Item.keySoftDrop:
             return InputMapper.shared.describeIdForController(.softDrop)
+
+        case Item.keyHardDrop:
+            return InputMapper.shared.describeIdForController(.hardDrop)
 
         default:
             return nil
@@ -158,6 +170,10 @@ class Settings: SceneBase {
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
+            AudioPlayer.playFxPositive()
+
+        case Item.hardDrop:
+            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
             AudioPlayer.playFxPositive()
 
         case Item.appearance:
@@ -196,6 +212,10 @@ class Settings: SceneBase {
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
+            AudioPlayer.playFxPositive()
+
+        case Item.hardDrop:
+            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
             AudioPlayer.playFxPositive()
 
         case Item.appearance:
@@ -259,20 +279,23 @@ class Settings: SceneBase {
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
             AudioPlayer.playFxPositive()
 
-        case Item.shiftLeft:
+        case Item.keyShiftLeft:
             self.beginRebind(id: .shiftLeft, for: item)
 
-        case Item.shiftRight:
+        case Item.keyShiftRight:
             self.beginRebind(id: .shiftRight, for: item)
 
-        case Item.rotateLeft:
+        case Item.keyRotateLeft:
             self.beginRebind(id: .rotateCounterClockwise, for: item)
 
-        case Item.rotateRight:
+        case Item.keyRotateRight:
             self.beginRebind(id: .rotateClockwise, for: item)
 
-        case Item.softDrop:
+        case Item.keySoftDrop:
             self.beginRebind(id: .softDrop, for: item)
+
+        case Item.keyHardDrop:
+            self.beginRebind(id: .hardDrop, for: item)
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
@@ -284,6 +307,10 @@ class Settings: SceneBase {
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
+            AudioPlayer.playFxPositive()
+
+        case Item.hardDrop:
+            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
             AudioPlayer.playFxPositive()
 
         case Item.appearance:

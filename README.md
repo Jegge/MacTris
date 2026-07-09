@@ -38,7 +38,6 @@ Disable Launchpad on select button:
 ## Ideas
 
 * Floor kick option
-* Hard drop option
 * Hold piece mechanic
 
 ### DMG
