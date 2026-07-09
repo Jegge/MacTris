@@ -12,11 +12,7 @@ extension SKScene {
     func transitionToGame(level: Int) {
         if let newScene = SKScene(fileNamed: "Game") as? Game {
             newScene.scaleMode = self.scaleMode
-            newScene.startingLevel = level
-            newScene.appearance = UserDefaults.standard.appearance
-            newScene.autoShift = UserDefaults.standard.autoShift
-            newScene.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode
-            newScene.wallKick = UserDefaults.standard.wallKick
+            newScene.options = UserDefaults.standard.tetrisOptions
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         }
     }

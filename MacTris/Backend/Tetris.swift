@@ -50,6 +50,10 @@ class Tetris {
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
 
+    convenience init (options: TetrisOptions) {
+        self.init(random: options.randomGeneratorMode.createGenerator(), startingLevel: options.startingLevel, wallKick: options.wallKick)
+    }
+
     var board: [[Tetromino.Shape?]] {
         var result = self.data
 

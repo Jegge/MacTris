@@ -115,4 +115,8 @@ extension UserDefaults {
             self.setValue(newValue, forKey: Key.wallKick)
         }
     }
+
+    var tetrisOptions: TetrisOptions {
+        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick)
+    }
 }

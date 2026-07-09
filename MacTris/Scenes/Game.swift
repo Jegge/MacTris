@@ -80,16 +80,12 @@ class Game: SceneBase {
         }
     }
 
-    var startingLevel: Int = 0
-    var randomGeneratorMode: RandomGeneratorMode = .sevenBag
-    var appearance: Appearance = .plain
-    var autoShift: AutoShift = .modern {
+    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false) {
         didSet {
-            FrameCount.keyRepeatShiftInitial = self.autoShift.delays.initial
-            FrameCount.keyRepeatShift = self.autoShift.delays.repeating
+            FrameCount.keyRepeatShiftInitial = self.options.autoShift.delays.initial
+            FrameCount.keyRepeatShift = self.options.autoShift.delays.repeating
         }
     }
-    var wallKick: Bool = false
 
     private func updateInstructions() {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
@@ -138,10 +134,10 @@ class Game: SceneBase {
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
         self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
-        Logger.game.info("Begin game: RNG: \(self.randomGeneratorMode, privacy: .public), DAS: \(self.autoShift, privacy: .public), Wall kick \(self.wallKick ? "enabled" : "disabled", privacy: .public)")
+        Logger.game.info("Begin game: \(self.options, privacy: .public)")
 
-        self.tetris = Tetris(random: self.randomGeneratorMode.createGenerator(), startingLevel: self.startingLevel, wallKick: self.wallKick)
-        self.framesToWait = FrameCount.gravity(level: self.startingLevel)
+        self.tetris = Tetris(options: options)
+        self.framesToWait = FrameCount.gravity(level: self.options.startingLevel)
         self.state = .running
 
         self.updateInstructions()
@@ -250,12 +246,12 @@ class Game: SceneBase {
             self.framesToWait = FrameCount.gravity(level: tetris.level)
         }
 
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.appearance)
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
         (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.level)
         (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.lines)
         (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
         (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
-        (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.appearance)
+        (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 
     override func keyDown(with event: NSEvent) {

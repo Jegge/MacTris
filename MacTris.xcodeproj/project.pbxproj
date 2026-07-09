@@ -36,6 +36,7 @@
 		D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */; };
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
 		D2728E1F2FFE40570071BAD9 /* UpdateCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* UpdateCheck.swift */; };
+		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
@@ -105,6 +106,7 @@
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2728E1E2FFE40520071BAD9 /* UpdateCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheck.swift; sourceTree = "<group>"; };
+		D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisOptions.swift; sourceTree = "<group>"; };
 		D29FF1332E8A56CA005915E4 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
 				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
 				D21AA3862B513A7300362226 /* Tetris.swift */,
+				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
+				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
 				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,
 				D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* Game.swift in Sources */,
