@@ -270,4 +270,50 @@ struct TetrisTests {
         #expect(tetris.current?.rotation == 0)
         #expect(tetris.current?.position.x == rightmostX - 1)
     }
+
+    @Test func testHardDropLocksPiece() async throws {
+        let tetris = makeTetris(shapes: [.o])
+        tetris.hardDrop()
+        #expect(tetris.current == nil)
+    }
+
+    @Test func testHardDropScoresPoints() async throws {
+        let tetris = makeTetris(shapes: [.o])
+        tetris.hardDrop()
+        // O piece spawns at y=19, lands at y=1 = 18 rows, 2 pts/row
+        #expect(tetris.score == 36)
+    }
+
+    @Test func testHardDropPlacesPieceAtBottom() async throws {
+        let tetris = makeTetris(shapes: [.o])
+        tetris.hardDrop()
+        let board = tetris.board
+        #expect(board[4][1] == .o)
+        #expect(board[5][1] == .o)
+        #expect(board[4][0] == .o)
+        #expect(board[5][0] == .o)
+    }
+
+    @Test func testHardDropOnTopOfStack() async throws {
+        let tetris = makeTetris(shapes: [.o, .o])
+        tetris.hardDrop()  // first O lands at y=1, score = 36
+        #expect(tetris.score == 36)
+        #expect(tetris.spawn())
+        tetris.hardDrop()  // second O lands on top at y=3, score += 32
+        #expect(tetris.score == 68)
+        let board = tetris.board
+        #expect(board[4][3] == .o)
+        #expect(board[5][3] == .o)
+        #expect(board[4][2] == .o)
+        #expect(board[5][2] == .o)
+    }
+
+    @Test func testHardDropWhenNoCurrentPiece() async throws {
+        let tetris = makeTetris(shapes: [.o])
+        tetris.hardDrop()
+        let score = tetris.score
+        tetris.hardDrop()
+        #expect(tetris.current == nil)
+        #expect(tetris.score == score)
+    }
 }
