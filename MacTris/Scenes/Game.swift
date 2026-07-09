@@ -80,7 +80,7 @@ class Game: SceneBase {
         }
     }
 
-    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animateScore: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
+    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animations: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
         didSet {
             FrameCount.keyRepeatShiftInitial = self.options.autoShift.delays.initial
             FrameCount.keyRepeatShift = self.options.autoShift.delays.repeating
@@ -197,6 +197,17 @@ class Game: SceneBase {
             )
         }
     }
+    
+    private func animateDropImpact () {
+        (self.childNode(withName: "//board") as? SKTileMapNode)?.run(
+            SKAction.sequence([
+                SKAction.moveBy(x: 30, y: 0, duration: 0.02),
+                SKAction.moveBy(x: -60, y: 0, duration: 0.02),
+                SKAction.moveBy(x: 40, y: 0, duration: 0.02),
+                SKAction.moveBy(x: -10, y: 0, duration: 0.02)
+            ])
+        )
+    }
 
     func updateFrame(delta: TimeInterval) {
         guard let tetris = self.tetris else {
@@ -210,6 +221,9 @@ class Game: SceneBase {
         } else if self.completed == nil, tetris.current != nil {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
+                if options.animations {
+                    self.animateDropImpact()
+                }
                 AudioPlayer.playFxLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
                 self.framesToWait = FrameCount.gravity(level: tetris.level)
@@ -277,9 +291,9 @@ class Game: SceneBase {
         }
 
         (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
-        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animateScore)
-        self.updateLabel("//labelLines", text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animateScore)
-        self.updateLabel("//labelScore", text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animateScore)
+        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
+        self.updateLabel("//labelLines", text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
+        self.updateLabel("//labelScore", text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
         self.updateLabel("//labelTime", text: self.dateFormatter.string(from: tetris.duration) ?? "", animated: false)
         (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }

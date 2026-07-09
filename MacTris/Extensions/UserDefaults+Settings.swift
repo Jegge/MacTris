@@ -20,7 +20,7 @@ extension UserDefaults {
         public static let autoShift = "AutoShift"
         public static let wallKick = "WallKick"
         public static let hardDrop = "HardDrop"
-        public static let animateScore = "AnimateScore"
+        public static let animations = "Animations"
     }
 
     func register() {
@@ -35,7 +35,7 @@ extension UserDefaults {
             Key.autoShift: AutoShift.modern.rawValue,
             Key.wallKick: false,
             Key.hardDrop: false,
-            Key.animateScore: true
+            Key.animations: true
         ])
     }
 
@@ -129,16 +129,16 @@ extension UserDefaults {
         }
     }
 
-    var animateScore: Bool {
+    var animations: Bool {
         get {
-            return self.bool(forKey: Key.animateScore)
+            return self.bool(forKey: Key.animations)
         }
         set {
-            self.setValue(newValue, forKey: Key.animateScore)
+            self.setValue(newValue, forKey: Key.animations)
         }
     }
 
     var tetrisOptions: TetrisOptions {
-        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, animateScore: self.animateScore, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
+        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, animations: self.animations, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
     }
 }
