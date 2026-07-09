@@ -226,7 +226,7 @@ class Tetris {
 
             if self.dropCounter > 0 {
                 self.score += self.dropCounter * 2
-                Logger.game.info("Hard dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
+                Logger.game.info("Hard dropping tetromino gives \(self.dropCounter * 2) points: total \(self.score) points.")
             }
 
             self.lock(tetronimo: current)

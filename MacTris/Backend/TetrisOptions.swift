@@ -16,6 +16,6 @@ struct TetrisOptions {
 
 extension TetrisOptions: CustomStringConvertible {
     var description: String {
-        "RNG: \(self.randomGeneratorMode), DAS: \(self.autoShift), Wall kick \(self.wallKick ? "enabled" : "disabled"), Hard drop \(self.hardDrop ? "enabled" : "disabled")"
+        "Level \(startingLevel), RNG \(self.randomGeneratorMode), DAS \(self.autoShift), \(self.wallKick ? "Wall kick" : ""), \(self.hardDrop ? "Hard drop" : "")"
     }
 }

@@ -134,7 +134,7 @@ class Game: SceneBase {
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
         self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
 
-        Logger.game.info("Begin game: \(self.options, privacy: .public)")
+        Logger.game.info("Begin game with \(self.options, privacy: .public)")
 
         self.tetris = Tetris(options: options)
         self.framesToWait = FrameCount.gravity(level: self.options.startingLevel)
@@ -186,7 +186,7 @@ class Game: SceneBase {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
                 AudioPlayer.playFxLock()
-                self.events.remove(.hardDrop)
+                self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
                 self.framesToWait = FrameCount.gravity(level: tetris.level)
             } else if self.events.contains(.shiftLeft) {
                 if tetris.shiftLeft() {
@@ -203,7 +203,7 @@ class Game: SceneBase {
             } else if self.events.contains(.softDrop) {
                 if !tetris.softDrop(manual: true) {
                     AudioPlayer.playFxLock()
-                    self.events.remove(.softDrop)
+                    self.events.remove(.softDrop) // user need to press the key intentionally again for the next piece
                 }
                 self.keyRepeatFrames = FrameCount.keyRepeatDrop
             }
