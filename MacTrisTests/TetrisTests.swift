@@ -9,8 +9,8 @@ import Testing
 @testable import MacTris
 
 struct TetrisTests {
-    private func makeTetris(startingLevel: Int = 0, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
-        return Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: false)
+    private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
+        Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: wallKick)
     }
 
     @Test func testInitialState() async throws {
@@ -228,5 +228,46 @@ struct TetrisTests {
         #expect(result)
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
+    }
+
+    @Test func testWallKickRotateNormally() async throws {
+        let tetris = makeTetris(wallKick: true, shapes: [.t])
+        let before = tetris.current?.rotation
+        let result = tetris.rotateClockwise()
+        #expect(result)
+        let expected = ((before ?? 0) + Tetromino.Shape.t.points.count - 1) % Tetromino.Shape.t.points.count
+        #expect(tetris.current?.rotation == expected)
+    }
+
+    @Test func testWallKickRotateAtLeftWall() async throws {
+        let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
+
+        let ccwResult = tetris.rotateCounterClockwise()
+        #expect(ccwResult)
+        #expect(tetris.current?.rotation == 1)
+
+        while tetris.shiftLeft() { }
+        let leftmostX = tetris.current!.position.x
+
+        let cwResult = tetris.rotateClockwise()
+        #expect(cwResult)
+        #expect(tetris.current?.rotation == 0)
+        #expect(tetris.current?.position.x == leftmostX + 2)
+    }
+
+    @Test func testWallKickRotateAtRightWall() async throws {
+        let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
+
+        let ccwResult = tetris.rotateCounterClockwise()
+        #expect(ccwResult)
+        #expect(tetris.current?.rotation == 1)
+
+        while tetris.shiftRight() { }
+        let rightmostX = tetris.current!.position.x
+
+        let cwResult = tetris.rotateClockwise()
+        #expect(cwResult)
+        #expect(tetris.current?.rotation == 0)
+        #expect(tetris.current?.position.x == rightmostX - 1)
     }
 }
