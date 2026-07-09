@@ -16,6 +16,7 @@ class SceneBase: SKScene {
     private var controllerDidDisconnectObserver: NSObjectProtocol?
     private var didEnterFullScreenObserver: NSObjectProtocol?
     private var didExitFullScreenObserver: NSObjectProtocol?
+    private var didResignKeyObserver: NSObjectProtocol?
 
     private var eventMonitor: Any?
 
@@ -62,6 +63,10 @@ class SceneBase: SKScene {
             self?.didExitFullScreen()
         }
 
+        self.didResignKeyObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignKeyNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.didResignKey()
+        }
+
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
     }
 
@@ -99,6 +104,9 @@ class SceneBase: SKScene {
         if let observer = self.didExitFullScreenObserver {
             NotificationCenter.default.removeObserver(observer)
         }
+        if let observer = self.didResignKeyObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
         if let monitor = self.eventMonitor {
             NSEvent.removeMonitor(monitor)
         }
@@ -114,6 +122,9 @@ class SceneBase: SKScene {
     }
 
     func didExitFullScreen() {
+    }
+
+    func didResignKey() {
     }
 
     func inputDown(event: InputEvent) {

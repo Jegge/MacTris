@@ -155,6 +155,13 @@ class Game: SceneBase {
         }
     }
 
+    override func didResignKey() {
+        if self.state == .running {
+            self.state = .paused
+            AudioPlayer.playFxPositive()
+        }
+    }
+
     override func update(_ currentTime: TimeInterval) {
 
         let delta = self.lastUpdate > 0 ? currentTime - self.lastUpdate : 0
