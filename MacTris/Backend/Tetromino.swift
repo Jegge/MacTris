@@ -1,5 +1,5 @@
 //
-//  Tetronimo.swift
+//  Tetromino.swift
 //  Mactris
 //
 //  Created by Sebastian Boettcher on 02.01.24.
