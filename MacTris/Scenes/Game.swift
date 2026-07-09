@@ -80,7 +80,7 @@ class Game: SceneBase {
         }
     }
 
-    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
+    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animateScore: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
         didSet {
             FrameCount.keyRepeatShiftInitial = self.options.autoShift.delays.initial
             FrameCount.keyRepeatShift = self.options.autoShift.delays.repeating
@@ -132,15 +132,16 @@ class Game: SceneBase {
 
         self.dateFormatter.unitsStyle = .positional
         self.dateFormatter.allowedUnits = [.hour, .minute, .second]
-        self.dateFormatter.zeroFormattingBehavior = [.pad, .dropLeading]
+        self.dateFormatter.zeroFormattingBehavior = [.pad]
 
         Logger.game.info("Begin game with \(self.options, privacy: .public)")
 
-        self.tetris = Tetris(options: options)
+        self.tetris = Tetris(options: self.options)
         self.framesToWait = FrameCount.gravity(level: self.options.startingLevel)
         self.state = .running
 
         self.updateInstructions()
+        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: self.options.startingLevel) ?? "", animated: false)
     }
 
     override func controllerDidConnect() {
@@ -177,6 +178,23 @@ class Game: SceneBase {
         while frameTimeAccumulator >= fixedFrameTime {
             updateFrame(delta: fixedFrameTime)
             frameTimeAccumulator -= fixedFrameTime
+        }
+    }
+
+    private func updateLabel(_ name: String, text: String, animated: Bool) {
+        guard let label = self.childNode(withName: name) as? SKLabelNode, label.text != text else {
+            return
+        }
+        label.text = text
+        if animated {
+            label.removeAction(forKey: "flashLabel")
+            label.run(
+                SKAction.sequence([
+                    SKAction.scale(to: 1.5, duration: 0.15),
+                    SKAction.scale(to: 1.0, duration: 0.15)
+                ]),
+                withKey: "flashLabel"
+            )
         }
     }
 
@@ -259,10 +277,10 @@ class Game: SceneBase {
         }
 
         (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
-        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.level)
-        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.lines)
-        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
-        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
+        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animateScore)
+        self.updateLabel("//labelLines", text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animateScore)
+        self.updateLabel("//labelScore", text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animateScore)
+        self.updateLabel("//labelTime", text: self.dateFormatter.string(from: tetris.duration) ?? "", animated: false)
         (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 
