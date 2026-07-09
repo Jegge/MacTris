@@ -49,6 +49,8 @@ class InputMapper {
         let keyCode: UInt16
         let id: Input
     }
+    
+    static let unknownCharacterDescription: String = "???"
 
     private var keymap: [(binding: KeyBinding, mutable: Bool)] = [
         (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .left), mutable: false),
@@ -79,9 +81,9 @@ class InputMapper {
 
     func describeIdForKeyboard(_ id: Input) -> String {
         if let keyCode = self.keymap.first(where: { $0.binding.id == id})?.binding.keyCode {
-            return KeyCode(rawValue: keyCode)?.description ?? "⍰"
+            return KeyCode(rawValue: keyCode)?.description ?? InputMapper.unknownCharacterDescription
         }
-        return "⍰"
+        return InputMapper.unknownCharacterDescription
     }
 
     func describeIdForController(_ id: Input) -> String {
