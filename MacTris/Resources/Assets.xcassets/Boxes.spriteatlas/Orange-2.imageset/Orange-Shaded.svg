@@ -5,14 +5,14 @@
   </defs>
   <g style="">
     <title>Orange</title>
-    <rect style="stroke-width: 2px; fill: rgb(255, 200, 46); stroke: rgb(220, 125, 10);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+    <rect style="stroke-width: 2px; fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
       <title>Background</title>
     </rect>
     <g>
-      <rect style="fill: rgb(255, 145, 12);" x="4" y="4" width="10" height="10" rx="2" ry="2"/>
-      <rect style="fill: rgb(255, 145, 12);" x="18" y="4" width="10" height="10" rx="2" ry="2"/>
-      <rect style="fill: rgb(255, 145, 12);" x="4" y="18" width="10" height="10" rx="2" ry="2"/>
-      <rect style="fill: rgb(255, 145, 12);" x="18" y="18" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="4" y="4" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="18" y="4" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="4" y="18" width="10" height="10" rx="2" ry="2"/>
+      <rect style="fill: rgb(136, 68, 0);" x="18" y="18" width="10" height="10" rx="2" ry="2"/>
     </g>
   </g>
 </svg>

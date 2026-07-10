@@ -5,18 +5,18 @@
   </defs>
   <g style="">
     <title>Green</title>
-    <rect style="stroke-width: 2px; fill: rgb(83, 218, 63); stroke: rgb(57, 137, 47);" width="30" height="30" rx="3" ry="3" x="1" y="1">
+    <rect style="stroke-width: 2px; fill: rgb(0, 255, 0); stroke: rgb(0, 128, 0);" width="30" height="30" rx="3" ry="3" x="1" y="1">
       <title>Background</title>
     </rect>
-    <g style="">
-      <rect style="fill: rgb(57, 137, 47);" x="6" y="6" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="16" y="4" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="18" y="12" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="24" y="6" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="10" y="16" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="6" y="22" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="18" y="24" width="4" height="4" rx="1" ry="1"/>
-      <rect style="fill: rgb(57, 137, 47);" x="24" y="18" width="4" height="4" rx="1" ry="1"/>
+    <g>
+      <rect style="fill: rgb(0, 128, 0);" x="6" y="6" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="16" y="4" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="18" y="12" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="24" y="6" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="10" y="16" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="6" y="22" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="18" y="24" width="4" height="4" rx="1" ry="1"/>
+      <rect style="fill: rgb(0, 128, 0);" x="24" y="18" width="4" height="4" rx="1" ry="1"/>
     </g>
   </g>
 </svg>
