@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 32 32" width="32px" height="32px" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <bx:grid x="0" y="0" width="2" height="2"/>
+  </defs>
+  <g style="">
+    <title>Orange</title>
+    <rect style="stroke-width: 2px; fill: rgb(255, 200, 46); stroke: rgb(220, 125, 10);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+      <title>Background</title>
+    </rect>
+  </g>
+</svg>
