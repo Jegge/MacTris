@@ -5,11 +5,11 @@
   </defs>
   <g style="">
     <title>Cyan</title>
-    <rect style="fill: rgb(0, 255, 255); stroke: rgb(0, 128, 128); paint-order: fill; stroke-width: 2px;" width="30" height="29.9921" rx="3" ry="3" x="1" y="1">
+    <rect style="paint-order: fill; stroke-width: 2px; fill: rgb(1, 237, 250); stroke: rgb(0, 119, 211);" width="30" height="29.9921" rx="3" ry="3" x="1" y="1">
       <title>Background</title>
     </rect>
     <g>
-      <rect style="fill: rgb(0, 128, 128);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
+      <rect style="fill: rgb(0, 119, 211);" x="10" y="10" width="12" height="12" rx="2" ry="2"/>
     </g>
   </g>
 </svg>

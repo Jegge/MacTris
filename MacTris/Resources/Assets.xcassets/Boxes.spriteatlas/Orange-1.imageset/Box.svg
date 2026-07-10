@@ -3,7 +3,10 @@
   <defs>
     <bx:grid x="0" y="0" width="2" height="2"/>
   </defs>
-  <rect style="stroke-width: 2px; fill: rgb(255, 136, 0); stroke: rgb(136, 68, 0);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+  <g style="">
     <title>Orange</title>
-  </rect>
+    <rect style="stroke-width: 2px; fill: rgb(255, 200, 46); stroke: rgb(220, 125, 10);" width="30" height="30" rx="3" ry="3" y="0.96426" x="1">
+      <title>Background</title>
+    </rect>
+  </g>
 </svg>
