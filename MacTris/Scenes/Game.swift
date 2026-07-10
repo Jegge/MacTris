@@ -263,10 +263,10 @@ class Game: SceneBase {
         }
 
         (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
-        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
+        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
         (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 

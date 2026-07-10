@@ -8,13 +8,13 @@
 import SpriteKit
 
 extension SKLabelNode {
-    func setText(_ text: String, animated: Bool) {
+    func set(text: String, animated: Bool) {
         if self.text == text {
             return
         }
         self.text = text
         if animated {
-            self.bounce()
+            self.bounce(center: .horizontal)
         }
     }
 }
