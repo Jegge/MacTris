@@ -240,8 +240,12 @@ class Tetris {
             self.current = current.rotatedCounterClockwise()
             return true
         }
-        if enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
-            self.current = self.applyWallKick(tetromino: current.rotatedCounterClockwise())
+        if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
+            current = self.applyWallKick(tetromino: current.rotatedCounterClockwise())
+            if self.collides(tetronimo: current, with: .all) {
+                return  false
+            }
+            self.current = current
             return true
         }
         return false
@@ -252,8 +256,12 @@ class Tetris {
             self.current = current.rotatedClockwise()
             return true
         }
-        if enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: [.floor, .piece]) {
-            self.current = self.applyWallKick(tetromino: current.rotatedClockwise())
+        if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: [.floor, .piece]) {
+            current = self.applyWallKick(tetromino: current.rotatedClockwise())
+            if self.collides(tetronimo: current, with: .all) {
+                return  false
+            }
+            self.current = current
             return true
         }
         return false
