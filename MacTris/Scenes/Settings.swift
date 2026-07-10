@@ -17,6 +17,7 @@ class Settings: SceneBase {
         public static let fxVolume = "FxVolume"
         public static let displayMode = "DisplayMode"
         public static let appearance = "Appearance"
+        public static let animations = "Animations"
         public static let keyShiftLeft = "KeyShiftLeft"
         public static let keyShiftRight = "KeyShiftRight"
         public static let keyRotateLeft = "KeyRotateLeft"
@@ -113,6 +114,9 @@ class Settings: SceneBase {
         case Item.appearance:
             return UserDefaults.standard.appearance.description
 
+        case Item.animations:
+            return UserDefaults.standard.animations ? "Enabled" : "Disabled"
+
         default:
             return nil
         }
@@ -180,6 +184,10 @@ class Settings: SceneBase {
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
             AudioPlayer.playFxPositive()
 
+        case Item.animations:
+            UserDefaults.standard.animations = !UserDefaults.standard.animations
+            AudioPlayer.playFxPositive()
+
         default:
             AudioPlayer.playFxNegative()
         }
@@ -220,6 +228,10 @@ class Settings: SceneBase {
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.decrease()
+            AudioPlayer.playFxPositive()
+
+        case Item.animations:
+            UserDefaults.standard.animations = !UserDefaults.standard.animations
             AudioPlayer.playFxPositive()
 
         default:
@@ -315,6 +327,10 @@ class Settings: SceneBase {
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
+            AudioPlayer.playFxPositive()
+
+        case Item.animations:
+            UserDefaults.standard.animations = !UserDefaults.standard.animations
             AudioPlayer.playFxPositive()
 
         case Item.back:
