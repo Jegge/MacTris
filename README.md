@@ -45,3 +45,11 @@ Disable Launchpad on select button:
 1. brew install create-dmg
 2. copy MacTris.app into a source directory
 3. create-dmg --volname "MacTris Installer" --volicon source/MacTris.app/Contents/Resources/AppIcon.icns --background InstallerBackground.svg --window-pos 200 120 --window-size 840 400 --icon-size 100 --icon MacTris.app 200 160 --hide-extension MacTris.app --app-drop-link 640 155 "MacTris-Installer.dmg" source/
+
+## Resources
+
+The following sites proved to be invaluable resources:
+
+* https://meatfighter.com/nintendotetrisai/
+* https://tetrissuomi.wordpress.com/wp-content/uploads/2020/04/nes_tetris_rng.pdf
+
