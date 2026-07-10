@@ -222,6 +222,34 @@ struct TetrisTests {
         #expect(piece.position.x != farRight.position.x)
     }
 
+    @Test func testRotationCannotSlideThroughLeftWall() async throws {
+        let tetris = makeTetris(shapes: [.l])
+
+        #expect(tetris.rotateClockwise())
+        #expect(tetris.current?.rotation == 3)
+
+        while tetris.shiftLeft() {
+            // empty
+        }
+
+        #expect(tetris.current?.position.x == 1)
+        #expect(tetris.current?.position.y == 19)
+    }
+
+    @Test func testRotationCannotSlideThroughRightWall() async throws {
+        let tetris = makeTetris(shapes: [.l])
+
+        #expect(tetris.rotateCounterClockwise())
+        #expect(tetris.current?.rotation == 1)
+
+        while tetris.shiftRight() {
+            // empty
+        }
+
+        #expect(tetris.current?.position.x == 8)
+        #expect(tetris.current?.position.y == 19)
+    }
+
     @Test func testDissolveEmptyRangeDoesNotScore() async throws {
         let tetris = makeTetris()
         #expect(tetris.dissolve(completed: 0..<0))
