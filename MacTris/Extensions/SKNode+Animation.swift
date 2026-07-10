@@ -19,7 +19,7 @@ struct AnimationDirection: OptionSet {
 extension SKNode {
     private static let shakeAnimationName = "shakeAnimation"
 
-    func shake(direction: AnimationDirection = .both) {
+    func shake(direction: AnimationDirection = .both, intensity: CGFloat = 1.0) {
         if self.action(forKey: SKNode.shakeAnimationName) != nil {
             return
         }
@@ -35,10 +35,10 @@ extension SKNode {
 
         self.run(
             SKAction.sequence([
-                SKAction.moveBy(x: 30 * offset.x, y: 30 * offset.y, duration: 0.02),
-                SKAction.moveBy(x: -60 * offset.x, y: -60 * offset.y, duration: 0.02),
-                SKAction.moveBy(x: 40 * offset.x, y: 40 * offset.y, duration: 0.02),
-                SKAction.moveBy(x: -10 * offset.x, y: -10 * offset.y, duration: 0.02)
+                SKAction.moveBy(x: 30 * offset.x * intensity, y: 30 * offset.y * intensity, duration: 0.02),
+                SKAction.moveBy(x: -60 * offset.x * intensity, y: -60 * offset.y * intensity, duration: 0.02),
+                SKAction.moveBy(x: 40 * offset.x * intensity, y: 40 * offset.y * intensity, duration: 0.02),
+                SKAction.moveBy(x: -10 * offset.x * intensity, y: -10 * offset.y * intensity, duration: 0.02)
             ]),
             withKey: SKNode.shakeAnimationName
         )

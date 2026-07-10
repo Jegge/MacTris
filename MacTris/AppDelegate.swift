@@ -22,8 +22,4 @@ import AVFoundation
     func applicationWillTerminate(_ aNotification: Notification) {
         AudioPlayer.shared.stopMusic()
     }
-
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
-    }
 }
