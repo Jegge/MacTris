@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D21AA3872B513A7300362226 /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* Tetris.swift */; };
+		D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */; };
+		D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */; };
+		D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */; };
 		D22900EB2B45418600A9F88E /* Menu.sks in Resources */ = {isa = PBXBuildFile; fileRef = D22900EA2B45418600A9F88E /* Menu.sks */; };
 		D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900EC2B4543CD00A9F88E /* Menu.swift */; };
 		D22900EF2B454D3000A9F88E /* Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22900EE2B454D3000A9F88E /* Scores.swift */; };
@@ -52,7 +55,6 @@
 		D2FF08AB2B43F65D00740390 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08A92B43F65D00740390 /* Main.storyboard */; };
 		D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B22B43F8C200740390 /* Tetromino.swift */; };
 		D2FF08B62B4402C200740390 /* TileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = D2FF08B42B4402C200740390 /* TileSet.sks */; };
-		D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,9 @@
 /* Begin PBXFileReference section */
 		D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
+		D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKLabelNode+Animation.swift"; sourceTree = "<group>"; };
+		D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+Animation.swift"; sourceTree = "<group>"; };
+		D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMapNode+Drawing.swift"; sourceTree = "<group>"; };
 		D22900EA2B45418600A9F88E /* Menu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Menu.sks; sourceTree = "<group>"; };
 		D22900EC2B4543CD00A9F88E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		D22900EE2B454D3000A9F88E /* Scores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scores.swift; sourceTree = "<group>"; };
@@ -124,7 +129,6 @@
 		D2FF08AC2B43F65D00740390 /* MacTris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTris.entitlements; sourceTree = "<group>"; };
 		D2FF08B22B43F8C200740390 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
 		D2FF08B42B4402C200740390 /* TileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileSet.sks; sourceTree = "<group>"; };
-		D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMap+Drawing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -178,7 +182,9 @@
 		D26ED3A32B4538CC000FE86C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D2FF08B82B440B7F00740390 /* SKTileMap+Drawing.swift */,
+				D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */,
+				D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */,
+				D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */,
 				D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */,
 				D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */,
 				D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */,
@@ -452,11 +458,13 @@
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
 				D2D6EEE32B4A9323008143D9 /* SkScene+Transition.swift in Sources */,
+				D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
+				D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */,
 				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,
 				D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* Game.swift in Sources */,
@@ -469,7 +477,7 @@
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
-				D2FF08B92B440B7F00740390 /* SKTileMap+Drawing.swift in Sources */,
+				D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
 				D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */,
 				D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */,

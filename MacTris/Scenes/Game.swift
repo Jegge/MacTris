@@ -141,7 +141,7 @@ class Game: SceneBase {
         self.state = .running
 
         self.updateInstructions()
-        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: self.options.startingLevel) ?? "", animated: false)
+        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.options.startingLevel) ?? ""
     }
 
     override func controllerDidConnect() {
@@ -181,34 +181,6 @@ class Game: SceneBase {
         }
     }
 
-    private func updateLabel(_ name: String, text: String, animated: Bool) {
-        guard let label = self.childNode(withName: name) as? SKLabelNode, label.text != text else {
-            return
-        }
-        label.text = text
-        if animated {
-            label.removeAction(forKey: "flashLabel")
-            label.run(
-                SKAction.sequence([
-                    SKAction.scale(to: 1.5, duration: 0.15),
-                    SKAction.scale(to: 1.0, duration: 0.15)
-                ]),
-                withKey: "flashLabel"
-            )
-        }
-    }
-    
-    private func animateDropImpact () {
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.run(
-            SKAction.sequence([
-                SKAction.moveBy(x: 30, y: 0, duration: 0.02),
-                SKAction.moveBy(x: -60, y: 0, duration: 0.02),
-                SKAction.moveBy(x: 40, y: 0, duration: 0.02),
-                SKAction.moveBy(x: -10, y: 0, duration: 0.02)
-            ])
-        )
-    }
-
     func updateFrame(delta: TimeInterval) {
         guard let tetris = self.tetris else {
             return
@@ -222,7 +194,7 @@ class Game: SceneBase {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
                 if options.animations {
-                    self.animateDropImpact()
+                    self.childNode(withName: "//board")?.shake()
                 }
                 AudioPlayer.playFxLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
@@ -291,10 +263,10 @@ class Game: SceneBase {
         }
 
         (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
-        self.updateLabel("//labelLevel", text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
-        self.updateLabel("//labelLines", text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
-        self.updateLabel("//labelScore", text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
-        self.updateLabel("//labelTime", text: self.dateFormatter.string(from: tetris.duration) ?? "", animated: false)
+        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.setText(self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
+        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
         (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetronimo: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 
