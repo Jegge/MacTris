@@ -101,8 +101,8 @@ class InputMapper {
         case .hardDrop: return "⒏ or ⒋" // Y / Triangle
         case .select: return "⒍ or ⒉" // B / Circle
         case .menu: return "Menu or Start"
-        case .rotateCounterClockwise: return "⒍ or ⒉" // B / Circle
-        case .rotateClockwise: return "⒌ or ⒈" // A / Cross
+        case .rotateCounterClockwise: return "⒌ or ⒈" // A / Cross
+        case .rotateClockwise:  return "⒍ or ⒉" // B / Circle
         }
     }
 
