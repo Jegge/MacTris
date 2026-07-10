@@ -194,7 +194,7 @@ class Game: SceneBase {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
                 if options.animations {
-                    self.childNode(withName: "//board")?.shake()
+                    self.childNode(withName: "//board")?.shake(direction: .both)
                 }
                 AudioPlayer.playFxLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece

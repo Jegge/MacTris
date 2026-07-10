@@ -14,7 +14,7 @@ extension SKLabelNode {
         }
         self.text = text
         if animated {
-            self.bounce(center: .horizontal)
+            self.bounce(direction: .horizontal)
         }
     }
 }

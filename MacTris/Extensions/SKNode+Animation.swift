@@ -7,42 +7,57 @@
 
 import SpriteKit
 
-struct BounceCenter: OptionSet {
+struct AnimationDirection: OptionSet {
     let rawValue: Int
 
-    static let horizontal = BounceCenter(rawValue: (1 << 0))
-    static let vertical = BounceCenter(rawValue: (1 << 1))
-    static let none: BounceCenter = []
-    static let both: BounceCenter = [.horizontal, .vertical]
+    static let horizontal = AnimationDirection(rawValue: (1 << 0))
+    static let vertical = AnimationDirection(rawValue: (1 << 1))
+    static let none: AnimationDirection = []
+    static let both: AnimationDirection = [.horizontal, .vertical]
 }
 
 extension SKNode {
     private static let shakeAnimationName = "shakeAnimation"
 
-    func shake() {
-        self.removeAction(forKey: SKNode.shakeAnimationName)
+    func shake(direction: AnimationDirection = .both) {
+        if self.action(forKey: SKNode.shakeAnimationName) != nil {
+            return
+        }
+
+        var offset: CGPoint = .zero
+        if direction.contains(.horizontal) {
+            offset.x = CGFloat.random(in: -1.2...1.2)
+        }
+
+        if direction.contains(.vertical) {
+            offset.y = CGFloat.random(in: -1.2...1.2)
+        }
+
         self.run(
             SKAction.sequence([
-                SKAction.moveBy(x: 30, y: 0, duration: 0.02),
-                SKAction.moveBy(x: -60, y: 0, duration: 0.02),
-                SKAction.moveBy(x: 40, y: 0, duration: 0.02),
-                SKAction.moveBy(x: -10, y: 0, duration: 0.02)
+                SKAction.moveBy(x: 30 * offset.x, y: 30 * offset.y, duration: 0.02),
+                SKAction.moveBy(x: -60 * offset.x, y: -60 * offset.y, duration: 0.02),
+                SKAction.moveBy(x: 40 * offset.x, y: 40 * offset.y, duration: 0.02),
+                SKAction.moveBy(x: -10 * offset.x, y: -10 * offset.y, duration: 0.02)
             ]),
             withKey: SKNode.shakeAnimationName
         )
     }
 
     private static let bounceAnimationName = "bounceAnimation"
-    func bounce(center: BounceCenter = .both) {
-        self.removeAction(forKey: SKNode.bounceAnimationName)
+
+    func bounce(direction: AnimationDirection = .both) {
+        if self.action(forKey: SKNode.bounceAnimationName) != nil {
+            return
+        }
 
         var offset: CGPoint = .zero
-        if center.contains(.horizontal) {
+        if direction.contains(.horizontal) {
             offset.x += self.frame.size.width / 2
         }
 
-        if center.contains(.vertical) {
-            offset.x += self.frame.size.height / 2
+        if direction.contains(.vertical) {
+            offset.y += self.frame.size.height / 2
         }
 
         self.run(
