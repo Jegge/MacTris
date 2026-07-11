@@ -71,6 +71,7 @@
 /* Begin PBXFileReference section */
 		D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisBoardAnimation.swift; sourceTree = "<group>"; };
+		D20F653530029BF000E432FE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
 		D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKLabelNode+Animation.swift"; sourceTree = "<group>"; };
 		D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+Animation.swift"; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				D22901222B47346500A9F88E /* LICENSE */,
+				D20F653530029BF000E432FE /* CHANGELOG.md */,
 				D22901212B47346500A9F88E /* README.md */,
 				D26ED3982B44D7A1000FE86C /* .gitignore */,
 				D26ED3972B44D7A1000FE86C /* .swiftlint.yml */,
