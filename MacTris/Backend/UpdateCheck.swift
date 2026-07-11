@@ -27,8 +27,11 @@ struct UpdateCheck {
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
         let tag = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
         let parts = Array(tag.split(separator: ".").map { Int(String($0)) ?? 0 })
-        // return (Version(major: version.major, minor: version.minor + 1), URL(string: "http://example.com/no-file"))
+        #if DEBUG
+        return (Version(major: version.major, minor: version.minor + 1), URL(string: "http://example.com/MacTris-0.0.dmg"))
+        #else
         return (Version(major: parts[0], minor: parts[1]), URL(string: release.assets.first?.browser_download_url ?? ""))
+        #endif
     }
 
     static func getUpdateUrl() async throws -> URL? {

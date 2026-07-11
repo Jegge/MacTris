@@ -126,10 +126,6 @@ class InputMapper {
         default:
             break
         }
-//
-//        if !result.isEmpty {
-//            Logger.input.debug("Keyboard events: \(result, privacy: .public)")
-//        }
 
         return result
     }
@@ -176,10 +172,6 @@ class InputMapper {
                 InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed)
             ]
         }
-
-//        if !result.isEmpty {
-//            Logger.input.debug("Gamepad events: \(result, privacy: .public)")
-//        }
 
         return result
     }

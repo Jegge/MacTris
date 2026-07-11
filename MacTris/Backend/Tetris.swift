@@ -312,9 +312,6 @@ class Tetris {
 
     private func collides(tetronimo: Tetromino, with flags: CollisionFlags) -> Bool {
         for (column, row) in tetronimo.points {
-//            if row >= self.numberOfRows {
-//                continue
-//            }
             if flags.contains(.floor) && row < 0 {
                 return true
             }
