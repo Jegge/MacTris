@@ -5,6 +5,10 @@ disabled_rules:
  - file_length
  - cyclomatic_complexity
 
+opt_in_rules:
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+
 identifier_name:
  excluded:
     - o

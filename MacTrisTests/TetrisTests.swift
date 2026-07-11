@@ -8,6 +8,8 @@
 import Testing
 @testable import MacTris
 
+// swiftlint:disable force_unwrapping
+
 struct TetrisTests {
     private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
         Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: wallKick)
@@ -366,3 +368,5 @@ struct TetrisTests {
         #expect(tetris.score == score)
     }
 }
+
+// swiftlint:enable force_unwrapping

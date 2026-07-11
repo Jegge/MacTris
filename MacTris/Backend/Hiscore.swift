@@ -55,6 +55,7 @@ class Hiscore {
     }
 
     convenience init(contentsOfUrl url: URL, key: String) throws {
+        // swiftlint:disable:next force_unwrapping
         let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
         let encrypted = try AES.GCM.SealedBox(combined: try Data(contentsOf: url))
         let decrypted = try AES.GCM.open(encrypted, using: symmetricKey)
@@ -63,6 +64,8 @@ class Hiscore {
     }
 
     convenience init(key: String) {
+        // swiftlint:disable:next force_unwrapping
+        let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
         self.init(list: [
             Score(name: "Johnnie", value: 100000),
             Score(name: "Jacky", value: 90000),
@@ -74,7 +77,7 @@ class Hiscore {
             Score(name: "Elia", value: 30000),
             Score(name: "Hinz", value: 20000),
             Score(name: "Kunz", value: 10000)
-        ], key: SymmetricKey(data: key.data(using: .utf8)!))
+        ], key: symmetricKey)
     }
 
     func write(to url: URL) throws {

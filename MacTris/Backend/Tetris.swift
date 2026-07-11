@@ -44,8 +44,10 @@ class Tetris {
         self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50))
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
-        self.current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
-        self.statistics.add(self.current!.shape)
+
+        let current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
+        self.statistics.add(current.shape)
+        self.current = current
 
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
@@ -128,17 +130,18 @@ class Tetris {
     }
 
     func spawn() -> Bool {
-        self.current = self.next.with(position: self.spawnPosition)
+        let current = self.next.with(position: self.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
-        self.statistics.add(self.current!.shape)
+        self.statistics.add(current.shape)
 
-        if self.collides(tetromino: self.current!, with: .all) {
+        if self.collides(tetromino: current, with: .all) {
             Logger.game.info("Stacked out with \(self.score) points!")
             Logger.game.info("Statistics: \(self.statistics.description, privacy: .public)")
             self.current = nil
             return false
         }
 
+        self.current = current
         return true
     }
 

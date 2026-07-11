@@ -27,6 +27,7 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
         if self.bag.isEmpty {
             self.bag = Tetromino.Shape.allCases.shuffled(using: &self.random)
         }
+        // swiftlint:disable:next force_unwrapping
         return self.bag.popLast()!
     }
 }
@@ -59,6 +60,7 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     }
 
     func next() -> Tetromino.Shape {
+        // swiftlint:disable:next force_unwrapping
         let table = probabilities[self.last]!
 
         let sum = table.reduce(0) { (result, entry) in result + entry.probability }

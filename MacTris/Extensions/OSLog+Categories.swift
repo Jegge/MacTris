@@ -8,6 +8,7 @@
 import OSLog
 
 extension Logger {
+    // swiftlint:disable:next force_unwrapping
     private static var subsystem = Bundle.main.bundleIdentifier!
 
     static let game = Logger(subsystem: subsystem, category: "game")
