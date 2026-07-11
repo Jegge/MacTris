@@ -5,7 +5,6 @@
 //  Created by Sebastian Boettcher on 07.07.26.
 //
 
-import Foundation
 @testable import MacTris
 
 struct SeededRandomNumberGenerator: RandomNumberGenerator {

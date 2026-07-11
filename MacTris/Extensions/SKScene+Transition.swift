@@ -5,7 +5,6 @@
 //  Created by Sebastian Boettcher on 07.01.24.
 //
 
-import Foundation
 import SpriteKit
 
 extension SKScene {

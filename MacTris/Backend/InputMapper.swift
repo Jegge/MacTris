@@ -5,19 +5,15 @@
 //  Created by Sebastian Boettcher on 06.01.24.
 //
 
-import Foundation
 import GameController
-import OSLog
 
 enum Input: Codable {
     case menu
     case select
-
     case up
     case down
     case left
     case right
-
     case shiftLeft
     case shiftRight
     case rotateCounterClockwise

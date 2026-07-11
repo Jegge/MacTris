@@ -5,7 +5,6 @@
 //  Created by Sebastian Boettcher on 20.12.25.
 //
 
-import Foundation
 import OSLog
 
 struct UpdateCheck {
@@ -28,6 +27,9 @@ struct UpdateCheck {
         let tag = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
         let parts = Array(tag.split(separator: ".").map { Int(String($0)) ?? 0 })
         #if DEBUG
+        if #available(macOS 13.0, *) {
+            try await Task.sleep(for: .seconds(3))
+        }
         return (Version(major: version.major, minor: version.minor + 1), URL(string: "http://example.com/MacTris-0.0.dmg"))
         #else
         return (Version(major: parts[0], minor: parts[1]), URL(string: release.assets.first?.browser_download_url ?? ""))

@@ -5,11 +5,6 @@
 //  Created by Sebastian Boettcher on 11.07.26.
 //
 
-import SpriteKit
-import GameplayKit
-import GameController
-import OSLog
-
 protocol TetrisBoardAnimation {
     var board: [[Tetromino.Shape?]] { get }
     var finished: Bool { get }
@@ -18,7 +13,7 @@ protocol TetrisBoardAnimation {
 
 class DissolveLinesAnimation: TetrisBoardAnimation {
     init (board: [[Tetromino.Shape?]], lines: Range<Int>) {
-        self.board = board
+        self.board = board.map { $0 } // deep copy outer and inner array
         self.lines = lines
     }
 

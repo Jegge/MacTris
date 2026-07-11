@@ -6,23 +6,26 @@ disabled_rules:
  - cyclomatic_complexity
 
 opt_in_rules:
-  - force_unwrapping
-  - implicitly_unwrapped_optional
+ - force_unwrapping
+ - implicitly_unwrapped_optional
+  
+analyzer_rules:
+ - unused_import
 
 identifier_name:
  excluded:
-    - o
-    - s
-    - z
-    - i
-    - j
-    - l
-    - t
-    - up
-    - id 
+  - o
+  - s
+  - z
+  - i
+  - j
+  - l
+  - t
+  - up
+  - id
 
 nesting:
-  type_level:
-    warning: 2
-  function_level:
-    warning: 10
+ type_level:
+  warning: 2
+ function_level:
+  warning: 10

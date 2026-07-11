@@ -5,7 +5,6 @@
 //  Created by Sebastian Boettcher on 03.01.24.
 //
 
-import Foundation
 import CryptoKit
 import OSLog
 

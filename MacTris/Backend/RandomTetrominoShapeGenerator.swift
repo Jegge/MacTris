@@ -5,8 +5,6 @@
 //  Created by Sebastian Boettcher on 04.01.24.
 //
 
-import Foundation
-
 protocol RandomTetrominoShapeGenerator {
     func next() -> Tetromino.Shape
 }

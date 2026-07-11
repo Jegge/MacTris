@@ -5,8 +5,6 @@
 //  Created by Sebastian Boettcher on 02.01.24.
 //
 
-import Foundation
-
 typealias Point = (x: Int, y: Int)
 
 struct Tetromino {

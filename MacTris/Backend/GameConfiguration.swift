@@ -5,8 +5,6 @@
 //  Created by Sebastian Boettcher on 10.01.24.
 //
 
-import Foundation
-
 enum RandomGeneratorMode: Int {
     case nes = 1
     case sevenBag = 2
