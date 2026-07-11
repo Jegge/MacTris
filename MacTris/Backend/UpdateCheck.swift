@@ -27,6 +27,7 @@ struct UpdateCheck {
         let tag = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
         let parts = Array(tag.split(separator: ".").map { Int(String($0)) ?? 0 })
         #if DEBUG
+        // fake an available update for development purposes
         if #available(macOS 13.0, *) {
             try await Task.sleep(for: .seconds(3))
         }
@@ -37,7 +38,6 @@ struct UpdateCheck {
     }
 
     static func getUpdateUrl() async throws -> URL? {
-
         let (onlineVersion, onlineUrl) = try await getOnlineVersion()
         if onlineVersion > version, let url = onlineUrl {
             Logger.update.info("Update \(onlineVersion, privacy: .public) available at \(url.absoluteString, privacy: .public)")
