@@ -132,7 +132,7 @@ class Tetris {
         self.next = Tetromino(shape: self.random.next())
         self.statistics.add(self.current!.shape)
 
-        if self.collides(tetronimo: self.current!, with: .all) {
+        if self.collides(tetromino: self.current!, with: .all) {
             Logger.game.info("Stacked out with \(self.score) points!")
             Logger.game.info("Statistics: \(self.statistics.description, privacy: .public)")
             self.current = nil
@@ -143,7 +143,7 @@ class Tetris {
     }
 
     func shiftLeft() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.shiftedLeft(), with: .all) {
+        if let current = self.current, !self.collides(tetromino: current.shiftedLeft(), with: .all) {
             self.current = current.shiftedLeft()
             return true
         }
@@ -151,7 +151,7 @@ class Tetris {
     }
 
     func shiftRight() -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.shiftedRight(), with: .all) {
+        if let current = self.current, !self.collides(tetromino: current.shiftedRight(), with: .all) {
             self.current = current.shiftedRight()
             return true
         }
@@ -159,7 +159,7 @@ class Tetris {
     }
 
     func softDrop(manual: Bool) -> Bool {
-        if let current = self.current, !self.collides(tetronimo: current.dropped(), with: .all) {
+        if let current = self.current, !self.collides(tetromino: current.dropped(), with: .all) {
             self.current = current.dropped()
             if manual {
                 self.dropCounter += 1
@@ -172,7 +172,7 @@ class Tetris {
             Logger.game.info("Soft dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
         }
 
-        self.lock(tetronimo: self.current)
+        self.lock(tetromino: self.current)
         self.current = nil
         self.dropCounter = 0
 
@@ -182,7 +182,7 @@ class Tetris {
     func hardDrop() {
         if var current = self.current {
             self.dropCounter = 0
-            while !self.collides(tetronimo: current.dropped(), with: .all) {
+            while !self.collides(tetromino: current.dropped(), with: .all) {
                 current = current.dropped()
                 self.dropCounter += 1
             }
@@ -192,20 +192,20 @@ class Tetris {
                 Logger.game.info("Hard dropping tetromino gives \(self.dropCounter * 2) points: total \(self.score) points.")
             }
 
-            self.lock(tetronimo: current)
+            self.lock(tetromino: current)
             self.current = nil
             self.dropCounter = 0
         }
     }
 
     func rotateCounterClockwise() -> Bool {
-        if !enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: .all) {
+        if !enableWallKick, let current = self.current, !self.collides(tetromino: current.rotatedCounterClockwise(), with: .all) {
             self.current = current.rotatedCounterClockwise()
             return true
         }
-        if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
+        if enableWallKick, var current = self.current, !self.collides(tetromino: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotatedCounterClockwise())
-            if self.collides(tetronimo: current, with: .all) {
+            if self.collides(tetromino: current, with: .all) {
                 return  false
             }
             self.current = current
@@ -215,13 +215,13 @@ class Tetris {
     }
 
     func rotateClockwise() -> Bool {
-        if !enableWallKick, let current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: .all) {
+        if !enableWallKick, let current = self.current, !self.collides(tetromino: current.rotatedClockwise(), with: .all) {
             self.current = current.rotatedClockwise()
             return true
         }
-        if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: [.floor, .piece]) {
+        if enableWallKick, var current = self.current, !self.collides(tetromino: current.rotatedClockwise(), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotatedClockwise())
-            if self.collides(tetronimo: current, with: .all) {
+            if self.collides(tetromino: current, with: .all) {
                 return  false
             }
             self.current = current
@@ -261,14 +261,14 @@ class Tetris {
         }
     }
 
-    private func lock(tetronimo: Tetromino?) {
-        guard let tetronimo = tetronimo else {
+    private func lock(tetromino: Tetromino?) {
+        guard let tetromino = tetromino else {
             return
         }
 
-        for (column, row) in tetronimo.points {
+        for (column, row) in tetromino.points {
             if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
-                self[column, row] = tetronimo.shape
+                self[column, row] = tetromino.shape
             }
         }
     }
@@ -282,17 +282,17 @@ class Tetris {
 
     private func moveUntilClearFromWall(tetromino: Tetromino) -> Tetromino {
         var current = tetromino
-        while self.collides(tetronimo: current, with: [.leftWall]) {
+        while self.collides(tetromino: current, with: [.leftWall]) {
             current = current.shiftedRight()
         }
-        while self.collides(tetronimo: current, with: [.rightWall]) {
+        while self.collides(tetromino: current, with: [.rightWall]) {
             current = current.shiftedLeft()
         }
         return current
     }
 
-    private func collides(tetronimo: Tetromino, with flags: CollisionFlags) -> Bool {
-        for (column, row) in tetronimo.points {
+    private func collides(tetromino: Tetromino, with flags: CollisionFlags) -> Bool {
+        for (column, row) in tetromino.points {
             if flags.contains(.floor) && row < 0 {
                 return true
             }

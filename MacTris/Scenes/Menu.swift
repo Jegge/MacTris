@@ -94,7 +94,6 @@ class Menu: SceneBase {
 
         default:
             AudioPlayer.playFxNegative()
-            print("Unknown menu option \(item)")
         }
     }
 

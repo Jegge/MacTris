@@ -338,7 +338,7 @@ class Settings: SceneBase {
             self.transitionToMenu()
 
         default:
-            print("Unknown menu option \(item)")
+            break
         }
     }
 

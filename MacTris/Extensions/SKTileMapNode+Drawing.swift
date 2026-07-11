@@ -35,19 +35,19 @@ extension SKTileMapNode {
         }
     }
 
-    func draw(tetronimo: Tetromino?, appearance: Appearance) {
+    func draw(tetromino: Tetromino?, appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
                 self.setTileGroup(nil, forColumn: column, row: row)
             }
         }
 
-        guard let tetronimo = tetronimo else {
+        guard let tetromino = tetromino else {
             return
         }
 
-        let tileGroup = self.tileGroup(named: "\(tetronimo.shape.appearance)-\(appearance.rawValue)")
-        for (column, row) in tetronimo.points {
+        let tileGroup = self.tileGroup(named: "\(tetromino.shape.appearance)-\(appearance.rawValue)")
+        for (column, row) in tetromino.points {
             if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
                 self.setTileGroup(tileGroup, forColumn: column, row: row)
             }
