@@ -122,46 +122,9 @@ class Tetris {
         self.duration += elapsed
     }
 
-    func dissolve(completed: Range<Int>) -> Bool {
-        var done = true
-
-        for row in completed {
-            for column in (0..<self.numberOfColumns / 2).reversed() where self[column, row] != nil {
-                self[column, row] = nil
-                done = false
-                break
-            }
-            for column in self.numberOfColumns / 2..<self.numberOfColumns where self[column, row] != nil {
-                self[column, row] = nil
-                done = false
-                break
-            }
-        }
-
-        if done {
-            self.drop(rows: completed)
-            self.score(lines: completed)
-        }
-
-        return done
-    }
-
-    func score(lines: Range<Int>) {
-        let baseScorePerLines = [0, 40, 100, 300, 1200]
-        let linesScore = baseScorePerLines[lines.count] * (self.level + 1)
-
-        self.score += linesScore
-        self.lines += lines.count
-
-        Logger.game.info("Completing \(lines.count) line(s) at level \(self.level) gives \(linesScore) points: total \(self.lines) lines, \(self.score) points. Next level in \(self.linesToNextLevel) lines.")
-
-        self.linesToNextLevel -= lines.count
-
-        if self.linesToNextLevel <= 0 {
-            self.level += 1
-            self.linesToNextLevel += 10
-            Logger.game.info("Reached level \(self.level), lines to next level \(self.linesToNextLevel)")
-        }
+    func clear(lines: Range<Int>) {
+        self.drop(lines: lines)
+        self.score(lines: lines)
     }
 
     func spawn() -> Bool {
@@ -241,7 +204,7 @@ class Tetris {
             return true
         }
         if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
-            current = self.applyWallKick(tetromino: current.rotatedCounterClockwise())
+            current = self.moveUntilClearFromWall(tetromino: current.rotatedCounterClockwise())
             if self.collides(tetronimo: current, with: .all) {
                 return  false
             }
@@ -257,7 +220,7 @@ class Tetris {
             return true
         }
         if enableWallKick, var current = self.current, !self.collides(tetronimo: current.rotatedClockwise(), with: [.floor, .piece]) {
-            current = self.applyWallKick(tetromino: current.rotatedClockwise())
+            current = self.moveUntilClearFromWall(tetromino: current.rotatedClockwise())
             if self.collides(tetronimo: current, with: .all) {
                 return  false
             }
@@ -267,9 +230,27 @@ class Tetris {
         return false
     }
 
-    private func drop(rows: Range<Int>) {
-        for row in rows.upperBound..<self.numberOfRows {
-            let target = row - (rows.upperBound - rows.lowerBound)
+    private func score(lines: Range<Int>) {
+        let baseScorePerLines = [0, 40, 100, 300, 1200]
+        let linesScore = baseScorePerLines[lines.count] * (self.level + 1)
+
+        self.score += linesScore
+        self.lines += lines.count
+
+        Logger.game.info("Completing \(lines.count) line(s) at level \(self.level) gives \(linesScore) points: total \(self.lines) lines, \(self.score) points. Next level in \(self.linesToNextLevel) lines.")
+
+        self.linesToNextLevel -= lines.count
+
+        if self.linesToNextLevel <= 0 {
+            self.level += 1
+            self.linesToNextLevel += 10
+            Logger.game.info("Reached level \(self.level), lines to next level \(self.linesToNextLevel)")
+        }
+    }
+
+    private func drop(lines: Range<Int>) {
+        for row in lines.upperBound..<self.numberOfRows {
+            let target = row - (lines.upperBound - lines.lowerBound)
             for column in 0..<self.numberOfColumns {
                 self[column, target] = self[column, row]
             }
@@ -299,7 +280,7 @@ class Tetris {
         return true
     }
 
-    private func applyWallKick(tetromino: Tetromino) -> Tetromino {
+    private func moveUntilClearFromWall(tetromino: Tetromino) -> Tetromino {
         var current = tetromino
         while self.collides(tetronimo: current, with: [.leftWall]) {
             current = current.shiftedRight()

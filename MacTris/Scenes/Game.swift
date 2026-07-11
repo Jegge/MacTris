@@ -32,7 +32,7 @@ class Game: SceneBase {
     }
 
     private var tetris: Tetris?
-    private var completed: Range<Int>?
+    private var boardAnimation: TetrisBoardAnimation?
 
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
@@ -181,16 +181,10 @@ class Game: SceneBase {
         }
     }
 
-    func updateFrame(delta: TimeInterval) {
-        guard let tetris = self.tetris else {
-            return
-        }
-
-        tetris.addDuration(delta)
-
+    private func handleInput(_ tetris: Tetris) {
         if self.keyRepeatFrames > 0 {
             self.keyRepeatFrames -= 1
-        } else if self.completed == nil, tetris.current != nil {
+        } else if self.boardAnimation == nil, tetris.current != nil {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
                 if options.animations {
@@ -231,27 +225,32 @@ class Game: SceneBase {
                 self.events.remove(.rotateClockwise)
             }
         }
+    }
 
+    private func handleAutomaticActions(_ tetris: Tetris) {
         if self.framesToWait > 0 {
             self.framesToWait -= 1
-        } else if let completed = self.completed {
-            if tetris.dissolve(completed: completed) {
-                if completed.count > 3 {
-                    AudioPlayer.playFxQuadSuccess()
-                } else {
-                    AudioPlayer.playFxSuccess()
-                }
-                self.completed = tetris.lowestCompletedLines
+        } else if let animation = self.boardAnimation {
+            animation.next()
+            if animation.finished {
+                self.boardAnimation = nil
                 self.framesToWait = FrameCount.spawn + (tetris.stackHeight / 4)
             } else {
                 self.framesToWait = FrameCount.dissolve
             }
         } else if tetris.current == nil {
-            self.completed = tetris.lowestCompletedLines
-            if self.completed == nil {
-                if !tetris.spawn() {
-                    self.state = .gameover
+            if let lines = tetris.lowestCompletedLines {
+                self.boardAnimation = DissolveLinesAnimation(board: tetris.board, lines: lines)
+                tetris.clear(lines: lines)
+                if lines.count > 3 {
+                    AudioPlayer.playFxQuadSuccess()
+                } else {
+                    AudioPlayer.playFxSuccess()
                 }
+                self.framesToWait = FrameCount.dissolve
+            } else if !tetris.spawn() {
+                self.state = .gameover
+            } else {
                 self.framesToWait = FrameCount.gravity(level: tetris.level)
                 self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
             }
@@ -261,8 +260,24 @@ class Game: SceneBase {
             AudioPlayer.playFxLock()
             self.framesToWait = FrameCount.gravity(level: tetris.level)
         }
+    }
 
-        (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
+    private func updateFrame(delta: TimeInterval) {
+        guard let tetris = self.tetris else {
+            return
+        }
+
+        tetris.addDuration(delta)
+
+        self.handleInput(tetris)
+        self.handleAutomaticActions(tetris)
+
+        if let animation = self.boardAnimation {
+            (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: animation.board, appearance: self.options.appearance)
+        } else {
+            (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
+        }
+
         (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
         (self.childNode(withName: "//labelLines") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
         (self.childNode(withName: "//labelScore") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)

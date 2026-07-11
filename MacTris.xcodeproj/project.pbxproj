@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */; };
 		D21AA3872B513A7300362226 /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* Tetris.swift */; };
 		D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */; };
 		D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisBoardAnimation.swift; sourceTree = "<group>"; };
 		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
 		D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKLabelNode+Animation.swift"; sourceTree = "<group>"; };
 		D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+Animation.swift"; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
 				D21AA3862B513A7300362226 /* Tetris.swift */,
 				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
+				D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
+				D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
 				D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */,

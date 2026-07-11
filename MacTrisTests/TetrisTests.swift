@@ -143,42 +143,42 @@ struct TetrisTests {
 
     @Test func testScoreNoLines() async throws {
         let tetris = makeTetris()
-        tetris.score(lines: 0..<0)
+        tetris.clear(lines: 0..<0)
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
     }
 
     @Test func testScoreOneLine() async throws {
         let tetris = makeTetris(startingLevel: 0)
-        tetris.score(lines: 3..<4)
+        tetris.clear(lines: 3..<4)
         #expect(tetris.score == 40)
         #expect(tetris.lines == 1)
     }
 
     @Test func testScoreTwoLines() async throws {
         let tetris = makeTetris(startingLevel: 0)
-        tetris.score(lines: 3..<5)
+        tetris.clear(lines: 3..<5)
         #expect(tetris.score == 100)
         #expect(tetris.lines == 2)
     }
 
     @Test func testScoreThreeLines() async throws {
         let tetris = makeTetris(startingLevel: 0)
-        tetris.score(lines: 2..<5)
+        tetris.clear(lines: 2..<5)
         #expect(tetris.score == 300)
         #expect(tetris.lines == 3)
     }
 
     @Test func testScoreFourLines() async throws {
         let tetris = makeTetris(startingLevel: 0)
-        tetris.score(lines: 2..<6)
+        tetris.clear(lines: 2..<6)
         #expect(tetris.score == 1200)
         #expect(tetris.lines == 4)
     }
 
     @Test func testScoreWithLevel() async throws {
         let tetris = makeTetris(startingLevel: 5)
-        tetris.score(lines: 0..<1)
+        tetris.clear(lines: 0..<1)
         #expect(tetris.score == 40 * (5 + 1))
     }
 
@@ -186,7 +186,7 @@ struct TetrisTests {
         let tetris = makeTetris(startingLevel: 0)
         #expect(tetris.level == 0)
         for _ in 0..<10 {
-            tetris.score(lines: 0..<1)
+            tetris.clear(lines: 0..<1)
         }
         #expect(tetris.level >= 1)
     }
@@ -250,11 +250,36 @@ struct TetrisTests {
         #expect(tetris.current?.position.y == 19)
     }
 
-    @Test func testDissolveEmptyRangeDoesNotScore() async throws {
+    @Test func testClearLinesEmptyRangeDoesNotScore() async throws {
         let tetris = makeTetris()
-        #expect(tetris.dissolve(completed: 0..<0))
+        tetris.clear(lines: 0..<0)
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
+    }
+
+    @Test func testClearLinesClearsRowAndScores() async throws {
+        // Played order from the stub is index1, index0, index2.
+        // Two I pieces (1 cell tall) cover cols 0..7; an O at the far right covers cols 8..9.
+        let tetris = makeTetris(shapes: [.i, .i, .o])
+        // first I: cols 0..3 at row 0
+        for _ in 0..<3 where tetris.shiftLeft() {}
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+        // second I: cols 4..7 at row 0
+        for _ in 0..<1 where tetris.shiftRight() {}
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+        // O: cols 8..9 at row 0 -> row 0 now complete
+        for _ in 0..<4 where tetris.shiftRight() {}
+        tetris.hardDrop()
+
+        #expect(tetris.lowestCompletedLines != nil)
+        let linesBefore = tetris.lines
+        let scoreBefore = tetris.score
+        tetris.clear(lines: tetris.lowestCompletedLines!)
+        #expect(tetris.lines == linesBefore + 1)
+        #expect(tetris.score == scoreBefore + 40)
+        #expect(tetris.lowestCompletedLines == nil)
     }
 
     @Test func testWallKickRotateNormally() async throws {
