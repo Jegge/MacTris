@@ -33,6 +33,15 @@ class Game: SceneBase {
     private var tetris: Tetris?
     private var boardAnimation: TetrisBoardAnimation?
 
+    private var pauseNode: SKNode?
+    private var gameOverNode: SKNode?
+    private var board: SKTileMapNode?
+    private var preview: SKTileMapNode?
+    private var labelLevel: SKLabelNode?
+    private var labelLines: SKLabelNode?
+    private var labelScore: SKLabelNode?
+    private var labelTime: SKLabelNode?
+
     private var framesToWait: Int = 0
     private var events: Set<Input> = Set()
     private var keyRepeatFrames: Int  = 0
@@ -49,16 +58,16 @@ class Game: SceneBase {
         didSet {
             switch state {
             case .running:
-                self.childNode(withName: "pause")?.isHidden = true
-                self.childNode(withName: "gameOver")?.isHidden = true
+                self.pauseNode?.isHidden = true
+                self.gameOverNode?.isHidden = true
 
             case .paused:
-                self.childNode(withName: "pause")?.isHidden = false
-                self.childNode(withName: "gameOver")?.isHidden = true
+                self.pauseNode?.isHidden = false
+                self.gameOverNode?.isHidden = true
 
             case .gameover:
-                self.childNode(withName: "pause")?.isHidden = true
-                self.childNode(withName: "gameOver")?.isHidden = false
+                self.pauseNode?.isHidden = true
+                self.gameOverNode?.isHidden = false
 
                 guard let tetris = self.tetris else {
                     return
@@ -123,6 +132,15 @@ class Game: SceneBase {
     override func didMove(to view: SKView) {
         super.didMove(to: view)
 
+        self.pauseNode = self.childNode(withName: "pause")
+        self.gameOverNode = self.childNode(withName: "gameOver")
+        self.board = self.childNode(withName: "//board") as? SKTileMapNode
+        self.preview = self.childNode(withName: "//preview") as? SKTileMapNode
+        self.labelLevel = self.childNode(withName: "//labelLevel") as? SKLabelNode
+        self.labelLines = self.childNode(withName: "//labelLines") as? SKLabelNode
+        self.labelScore = self.childNode(withName: "//labelScore") as? SKLabelNode
+        self.labelTime = self.childNode(withName: "//labelTime") as? SKLabelNode
+
         self.enumerateChildNodes(withName: "//frame") { (node: SKNode, _) in
             (node as? SKSpriteNode)?.centerRect = CGRect(x: 0.4, y: 0.4, width: 0.2, height: 0.2)
         }
@@ -140,7 +158,7 @@ class Game: SceneBase {
         self.state = .running
 
         self.updateInstructions()
-        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.options.startingLevel) ?? ""
+        self.labelLevel?.text = self.numberFormatter.string(for: self.options.startingLevel) ?? ""
     }
 
     override func controllerDidConnect() {
@@ -187,7 +205,7 @@ class Game: SceneBase {
             if options.hardDrop && self.events.contains(.hardDrop) {
                 tetris.hardDrop()
                 if options.animations {
-                    self.childNode(withName: "//board")?.shake(direction: .both)
+                    self.board?.shake(direction: .both)
                 }
                 AudioPlayer.playFxLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
@@ -272,16 +290,16 @@ class Game: SceneBase {
         self.handleAutomaticActions(tetris)
 
         if let animation = self.boardAnimation {
-            (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: animation.board, appearance: self.options.appearance)
+            self.board?.draw(board: animation.board, appearance: self.options.appearance)
         } else {
-            (self.childNode(withName: "//board") as? SKTileMapNode)?.draw(board: tetris.board, appearance: self.options.appearance)
+            self.board?.draw(board: tetris.board, appearance: self.options.appearance)
         }
 
-        (self.childNode(withName: "//labelLevel") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelLines") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelScore") as? SKLabelNode)?.set(text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
-        (self.childNode(withName: "//labelTime") as? SKLabelNode)?.text = self.dateFormatter.string(from: tetris.duration)
-        (self.childNode(withName: "//preview") as? SKTileMapNode)?.draw(tetromino: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
+        self.labelLevel?.set(text: self.numberFormatter.string(for: tetris.level) ?? "", animated: self.options.animations)
+        self.labelLines?.set(text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
+        self.labelScore?.set(text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
+        self.labelTime?.text = self.dateFormatter.string(from: tetris.duration)
+        self.preview?.draw(tetromino: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 
     override func keyDown(with event: NSEvent) {
