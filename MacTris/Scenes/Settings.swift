@@ -265,6 +265,14 @@ class Settings: SceneBase {
         return true
     }
 
+    private func canceRebind(item: String) {
+        AudioPlayer.playFxNegative()
+        if let node = self.childNode(withName: "value\(item)") {
+            node.removeAllActions()
+            node.run(SKAction.fadeAlpha(to: 1.0, duration: 0.25))
+        }
+    }
+
     private func select(item: String) {
         switch item {
         case Item.displayMode:
@@ -362,7 +370,13 @@ class Settings: SceneBase {
 
     override func keyDown(with event: NSEvent) {
         if let id = self.rebindId, let item = self.rebindItem {
-            if self.endRebind(id: id, for: item, with: event) {
+            // the menu key aborts binding the key
+            if InputMapper.shared.translate(event: event).first(where: { $0.id == .menu }) != nil {
+                self.canceRebind(item: item)
+                self.rebindId = nil
+                self.rebindItem = nil
+                self.update()
+            } else if self.endRebind(id: id, for: item, with: event) {
                 self.rebindId = nil
                 self.rebindItem = nil
                 self.update()
