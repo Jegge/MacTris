@@ -103,8 +103,6 @@ class Game: SceneBase {
                 }
 
                 (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: tetris.score)
-
-                AudioPlayer.playFxGameOver()
             }
         }
     }
@@ -262,11 +260,18 @@ class Game: SceneBase {
     private func handleAutomaticActions(_ tetris: Tetris) {
         if self.framesToWait > 0 {
             self.framesToWait -= 1
-        } else if let animation = self.boardAnimation {
+        } else if let animation = self.boardAnimation as? DissolveLinesAnimation {
             animation.next()
             if animation.finished {
                 self.boardAnimation = nil
                 self.framesToWait = self.frameCount.spawn(stackHeight: tetris.stackHeight)
+            } else {
+                self.framesToWait = self.frameCount.animation
+            }
+        } else if let animation = self.boardAnimation as? StackOutAnimation {
+            animation.next()
+            if animation.finished {
+                self.state = .gameover
             } else {
                 self.framesToWait = self.frameCount.animation
             }
@@ -281,7 +286,8 @@ class Game: SceneBase {
                 }
                 self.framesToWait = self.frameCount.animation
             } else if !tetris.spawn() {
-                self.state = .gameover
+                self.boardAnimation = StackOutAnimation(board: tetris.board, fillAmountPerStep: 15)
+                AudioPlayer.playFxGameOver()
             } else {
                 self.framesToWait = self.frameCount.gravity(level: tetris.level)
                 self.keyRepeatFrames = self.frameCount.keyRepeatShiftInitial

@@ -43,3 +43,41 @@ class DissolveLinesAnimation: TetrisBoardAnimation {
         self.step += 1
     }
 }
+
+class StackOutAnimation: TetrisBoardAnimation {
+    init(board: [[Tetromino.Shape?]], fillAmountPerStep: Int) {
+        self.board = board.map { $0 } // deep copy outer and inner array
+        self.fillAmountPerStep = fillAmountPerStep
+    }
+
+    private var step: Int = 0
+    private(set) var board: [[Tetromino.Shape?]]
+    private let fillAmountPerStep: Int
+
+    private func emptySpaces() -> [Point] {
+        var result: [Point] = []
+        for column in 0..<self.board.count {
+            for row in 0..<self.board[column].count where board[column][row] == nil {
+                result.append((column, row))
+            }
+        }
+        return result
+    }
+
+    var finished: Bool {
+        return self.emptySpaces().isEmpty
+    }
+
+    func next() {
+        var spaces = self.emptySpaces()
+
+        for _ in 0..<fillAmountPerStep {
+            if let space = spaces.randomElement() {
+                spaces.removeAll { $0 == space }
+                self.board[space.x][space.y] = .allCases.randomElement()
+            }
+        }
+
+        self.step += 1
+    }
+}
