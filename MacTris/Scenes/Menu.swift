@@ -30,13 +30,9 @@ class Menu: SceneBase {
         }
     }
 
-    private var updateURL: URL? {
-        didSet {
-            self.update()
-        }
-    }
+    private var updateURL: URL?
 
-    private func update() {
+    @MainActor private func update() {
         for (index, item) in menuItems.enumerated() {
             guard let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode,
                   let label = self.childNode(withName: "label" + item) as? SKLabelNode
@@ -141,6 +137,7 @@ class Menu: SceneBase {
 
         Task { [weak self] in
             self?.updateURL = try? await UpdateCheck.getUpdateUrl()
+            self?.update()
         }
     }
 
