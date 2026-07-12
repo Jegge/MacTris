@@ -18,20 +18,41 @@ class Game: SceneBase {
     }
 
     private struct FrameCount {
+        init() {
+            self.keyRepeatShiftInitial = 6
+            self.keyRepeatShift = 6
+        }
+
+        init(options: TetrisOptions) {
+            self.keyRepeatShiftInitial = options.autoShift.delays.initial
+            self.keyRepeatShift = options.autoShift.delays.repeating
+        }
+
         private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-        public static func gravity(level: Int) -> Int {
+        func gravity(level: Int) -> Int {
             return level < FrameCount.gravityPerLevel.count ? FrameCount.gravityPerLevel[level] : 1
         }
-        public static let dissolve: Int = 4
-        public static let spawn: Int = 16
-        public static var keyRepeatShiftInitial: Int = 6 // 16
-        public static var keyRepeatShift: Int = 6
-        public static let keyRepeatDrop: Int = 1
+
+        func keyRepeatShift(initial: Bool) -> Int {
+            return initial ? self.keyRepeatShiftInitial : self.keyRepeatShift
+        }
+        func spawn(stackHeight: Int) -> Int {
+            return self.spawn + (stackHeight / 4)
+        }
+
+        let animation: Int = 4
+        let spawn: Int = 16
+        let keyRepeatShiftInitial: Int
+        let keyRepeatShift: Int
+        let keyRepeatDrop: Int = 1
     }
+
+    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animations: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
 
     private var tetris: Tetris?
     private var boardAnimation: TetrisBoardAnimation?
+    private var frameCount: FrameCount = FrameCount()
 
     private var pauseNode: SKNode?
     private var gameOverNode: SKNode?
@@ -85,13 +106,6 @@ class Game: SceneBase {
 
                 AudioPlayer.playFxGameOver()
             }
-        }
-    }
-
-    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animations: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false) {
-        didSet {
-            FrameCount.keyRepeatShiftInitial = self.options.autoShift.delays.initial
-            FrameCount.keyRepeatShift = self.options.autoShift.delays.repeating
         }
     }
 
@@ -153,8 +167,9 @@ class Game: SceneBase {
 
         Logger.game.info("Begin game with \(self.options, privacy: .public)")
 
+        self.frameCount = FrameCount(options: self.options)
         self.tetris = Tetris(options: self.options)
-        self.framesToWait = FrameCount.gravity(level: self.options.startingLevel)
+        self.framesToWait = self.frameCount.gravity(level: self.options.startingLevel)
         self.state = .running
 
         self.updateInstructions()
@@ -209,25 +224,25 @@ class Game: SceneBase {
                 }
                 AudioPlayer.playFxLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
-                self.framesToWait = FrameCount.gravity(level: tetris.level)
+                self.framesToWait = self.frameCount.gravity(level: tetris.level)
             } else if self.events.contains(.shiftLeft) {
                 if tetris.shiftLeft() {
                     AudioPlayer.playFxShift()
                 }
-                self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                self.keyRepeatFrames = self.frameCount.keyRepeatShift(initial: self.keyRepeatIsInitial)
                 self.keyRepeatIsInitial = false
             } else if self.events.contains(.shiftRight) {
                 if tetris.shiftRight() {
                     AudioPlayer.playFxShift()
                 }
-                self.keyRepeatFrames = self.keyRepeatIsInitial ? FrameCount.keyRepeatShiftInitial : FrameCount.keyRepeatShift
+                self.keyRepeatFrames = self.frameCount.keyRepeatShift(initial: self.keyRepeatIsInitial)
                 self.keyRepeatIsInitial = false
             } else if self.events.contains(.softDrop) {
                 if !tetris.softDrop(manual: true) {
                     AudioPlayer.playFxLock()
                     self.events.remove(.softDrop) // user need to press the key intentionally again for the next piece
                 }
-                self.keyRepeatFrames = FrameCount.keyRepeatDrop
+                self.keyRepeatFrames = self.frameCount.keyRepeatDrop
             }
 
             if self.events.contains(.rotateCounterClockwise) {
@@ -251,9 +266,9 @@ class Game: SceneBase {
             animation.next()
             if animation.finished {
                 self.boardAnimation = nil
-                self.framesToWait = FrameCount.spawn + (tetris.stackHeight / 4)
+                self.framesToWait = self.frameCount.spawn(stackHeight: tetris.stackHeight)
             } else {
-                self.framesToWait = FrameCount.dissolve
+                self.framesToWait = self.frameCount.animation
             }
         } else if tetris.current == nil {
             if let lines = tetris.lowestCompletedLines {
@@ -264,18 +279,18 @@ class Game: SceneBase {
                 } else {
                     AudioPlayer.playFxSuccess()
                 }
-                self.framesToWait = FrameCount.dissolve
+                self.framesToWait = self.frameCount.animation
             } else if !tetris.spawn() {
                 self.state = .gameover
             } else {
-                self.framesToWait = FrameCount.gravity(level: tetris.level)
-                self.keyRepeatFrames = FrameCount.keyRepeatShiftInitial
+                self.framesToWait = self.frameCount.gravity(level: tetris.level)
+                self.keyRepeatFrames = self.frameCount.keyRepeatShiftInitial
             }
         } else if tetris.softDrop(manual: false) {
-            self.framesToWait = FrameCount.gravity(level: tetris.level)
+            self.framesToWait = self.frameCount.gravity(level: tetris.level)
         } else {
             AudioPlayer.playFxLock()
-            self.framesToWait = FrameCount.gravity(level: tetris.level)
+            self.framesToWait = self.frameCount.gravity(level: tetris.level)
         }
     }
 
