@@ -106,8 +106,16 @@ class InputMapper {
         self.keymap.append((binding: KeyBinding(keyCode: keyCode, id: id), mutable: true))
     }
 
-    func canBind(id: Input) -> Bool {
-        return self.keymap.first { $0.binding.id == id && $0.mutable } != nil
+    func canBind(keyCode: UInt16, id: Input) -> Bool {
+        // check if it's a mutable, bindable key
+        if self.keymap.first(where: { $0.binding.id == id && $0.mutable }) == nil {
+            return false
+        }
+        // check if it's not already bound elsewhere
+        if self.keymap.first(where: { $0.binding.keyCode == keyCode && $0.binding.id != id}) != nil {
+            return false
+        }
+        return true
     }
 
     func translate(event: NSEvent) -> [InputEvent] {

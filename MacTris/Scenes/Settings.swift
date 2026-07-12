@@ -248,12 +248,7 @@ class Settings: SceneBase {
     }
 
     private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
-        if InputMapper.shared.translate(event: event).contains(where: { $0.id == Input.menu }) {
-            AudioPlayer.playFxNegative()
-            return false
-        }
-
-        if !InputMapper.shared.canBind(id: id) {
+        if !InputMapper.shared.canBind(keyCode: event.keyCode, id: id) {
             AudioPlayer.playFxNegative()
             return false
         }
