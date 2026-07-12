@@ -56,7 +56,6 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.arrowDown.rawValue, id: .down), mutable: false),
         (binding: KeyBinding(keyCode: KeyCode.arrowUp.rawValue, id: .up), mutable: false),
         (binding: KeyBinding(keyCode: KeyCode.escape.rawValue, id: .menu), mutable: false),
-        (binding: KeyBinding(keyCode: KeyCode.space.rawValue, id: .select), mutable: false),
         (binding: KeyBinding(keyCode: KeyCode.return.rawValue, id: .select), mutable: false),
 
         (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .shiftLeft), mutable: true),
