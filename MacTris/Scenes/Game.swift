@@ -323,21 +323,6 @@ class Game: SceneBase {
         self.preview?.draw(tetromino: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 
-    override func keyDown(with event: NSEvent) {
-        if event.isARepeat {
-            return
-        }
-        InputMapper.shared.translate(event: event).forEach {
-            self.inputDown(event: $0)
-        }
-    }
-
-    override func keyUp(with event: NSEvent) {
-        InputMapper.shared.translate(event: event).forEach {
-            self.inputUp(event: $0)
-        }
-    }
-
     override func inputDown(event: InputEvent) {
         switch self.state {
         case .gameover:

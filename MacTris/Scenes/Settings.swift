@@ -373,9 +373,7 @@ class Settings: SceneBase {
                 self.update()
             }
         } else {
-            InputMapper.shared.translate(event: event).forEach {
-                self.inputDown(event: $0)
-            }
+            super.keyDown(with: event)
         }
     }
 

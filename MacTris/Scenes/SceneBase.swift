@@ -111,6 +111,21 @@ class SceneBase: SKScene {
         }
     }
 
+    override func keyDown(with event: NSEvent) {
+        if event.isARepeat {
+            return
+        }
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputDown(event: $0)
+        }
+    }
+
+    override func keyUp(with event: NSEvent) {
+        InputMapper.shared.translate(event: event).forEach {
+            self.inputUp(event: $0)
+        }
+    }
+
     func controllerDidConnect() {
     }
 

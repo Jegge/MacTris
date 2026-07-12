@@ -144,12 +144,6 @@ class Menu: SceneBase {
         }
     }
 
-    override func keyDown(with event: NSEvent) {
-        InputMapper.shared.translate(event: event).forEach {
-            self.inputDown(event: $0)
-        }
-    }
-
     override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
