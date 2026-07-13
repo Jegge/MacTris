@@ -1,6 +1,6 @@
 //
-//  AudioPlayer.swift
-//  Mactris
+//  FxPlayer.swift
+//  MacTris
 //
 //  Created by Sebastian Boettcher on 04.01.24.
 //

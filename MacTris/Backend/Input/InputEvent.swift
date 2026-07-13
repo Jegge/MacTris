@@ -1,6 +1,6 @@
 //
 //  InputEvent.swift
-//  Mactris
+//  MacTris
 //
 //  Created by Sebastian Boettcher on 03.01.24.
 //

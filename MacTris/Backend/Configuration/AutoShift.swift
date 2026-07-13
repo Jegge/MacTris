@@ -1,5 +1,5 @@
 //
-//  GameConfiguration.swift
+//  AutoShift.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 10.01.24.

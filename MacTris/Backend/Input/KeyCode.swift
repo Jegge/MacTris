@@ -1,6 +1,6 @@
 //
-//  KeyCodes.swift
-//  Mactris
+//  KeyCode.swift
+//  MacTris
 //
 //  Created by Sebastian Boettcher on 04.01.24.
 //

@@ -1,5 +1,5 @@
 //
-//  UpdateCheck.swift
+//  GitHubApiReleaseReader.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 20.12.25.

@@ -1,5 +1,5 @@
 //
-//  InputEventScene.swift
+//  SceneBase.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 08.01.24.
