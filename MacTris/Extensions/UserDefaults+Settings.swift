@@ -21,6 +21,7 @@ extension UserDefaults {
         public static let wallKick = "WallKick"
         public static let hardDrop = "HardDrop"
         public static let animations = "Animations"
+        public static let updateCheckBaseUrl = "UpdateCheckBaseUrl"
     }
 
     func register() {
@@ -35,7 +36,8 @@ extension UserDefaults {
             Key.autoShift: AutoShift.modern.rawValue,
             Key.wallKick: false,
             Key.hardDrop: false,
-            Key.animations: true
+            Key.animations: true,
+            Key.updateCheckBaseUrl: URL(string: "https://api.github.com/repos/Jegge/MacTris/")!
         ])
     }
 
@@ -140,5 +142,10 @@ extension UserDefaults {
 
     var tetrisOptions: TetrisOptions {
         TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, animations: self.animations, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
+    }
+
+    var updateCheckBaseUrl: URL {
+        // swiftlint:disable:next force_unwrapping
+        self.url(forKey: Key.updateCheckBaseUrl)!
     }
 }

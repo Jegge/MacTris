@@ -39,7 +39,9 @@
 		D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */; };
 		D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */; };
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
-		D2728E1F2FFE40570071BAD9 /* UpdateCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* UpdateCheck.swift */; };
+		D264595D3004D5F20027F35A /* MacTrisVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595C3004D5510027F35A /* MacTrisVersion.swift */; };
+		D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595E3004D60D0027F35A /* Bundle+Properties.swift */; };
+		D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */; };
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
@@ -111,9 +113,11 @@
 		D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InstallerBackground.svg; sourceTree = "<group>"; };
 		D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConfiguration.swift; sourceTree = "<group>"; };
 		D263AD482B54651900BC2B66 /* RadialGradient.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = RadialGradient.fsh; sourceTree = "<group>"; };
+		D264595C3004D5510027F35A /* MacTrisVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTrisVersion.swift; sourceTree = "<group>"; };
+		D264595E3004D60D0027F35A /* Bundle+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Properties.swift"; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D2728E1E2FFE40520071BAD9 /* UpdateCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheck.swift; sourceTree = "<group>"; };
+		D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiReleaseReader.swift; sourceTree = "<group>"; };
 		D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisOptions.swift; sourceTree = "<group>"; };
 		D29FF1332E8A56CA005915E4 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
@@ -166,6 +170,46 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		D26459603004DF910027F35A /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */,
+				D264595C3004D5510027F35A /* MacTrisVersion.swift */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
+		D26459613004DFB30027F35A /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
+				D229011D2B46EA9500A9F88E /* KeyCode.swift */,
+				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		D26459623004DFDC0027F35A /* Hiscore */ = {
+			isa = PBXGroup;
+			children = (
+				D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */,
+				D22900F42B45534F00A9F88E /* Hiscore.swift */,
+			);
+			path = Hiscore;
+			sourceTree = "<group>";
+		};
+		D26459633004DFF50027F35A /* Tetris */ = {
+			isa = PBXGroup;
+			children = (
+				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
+				D229010F2B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift */,
+				D21AA3862B513A7300362226 /* Tetris.swift */,
+				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
+				D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */,
+			);
+			path = Tetris;
+			sourceTree = "<group>";
+		};
 		D26ED3A22B4538BE000FE86C /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +229,7 @@
 		D26ED3A32B4538CC000FE86C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				D264595E3004D60D0027F35A /* Bundle+Properties.swift */,
 				D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */,
 				D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */,
 				D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */,
@@ -200,20 +245,13 @@
 		D26ED3A42B4538DC000FE86C /* Backend */ = {
 			isa = PBXGroup;
 			children = (
-				D2728E1E2FFE40520071BAD9 /* UpdateCheck.swift */,
+				D26459603004DF910027F35A /* Update */,
+				D26459623004DFDC0027F35A /* Hiscore */,
+				D26459633004DFF50027F35A /* Tetris */,
+				D26459613004DFB30027F35A /* Input */,
 				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
-				D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */,
-				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
-				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
-				D22900F42B45534F00A9F88E /* Hiscore.swift */,
-				D229010F2B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift */,
 				D22901192B46BB3B00A9F88E /* AudioPlayer.swift */,
-				D229011D2B46EA9500A9F88E /* KeyCode.swift */,
-				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
 				D262DFCA2B4EBC3E00FDC801 /* GameConfiguration.swift */,
-				D21AA3862B513A7300362226 /* Tetris.swift */,
-				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
-				D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -468,6 +506,7 @@
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */,
+				D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */,
 				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
 				D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */,
@@ -479,9 +518,10 @@
 				D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */,
 				D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
-				D2728E1F2FFE40570071BAD9 /* UpdateCheck.swift in Sources */,
+				D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,
+				D264595D3004D5F20027F35A /* MacTrisVersion.swift in Sources */,
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
 				D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,

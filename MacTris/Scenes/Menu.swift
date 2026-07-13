@@ -6,6 +6,7 @@
 //
 
 import SpriteKit
+import OSLog
 
 class Menu: SceneBase {
 
@@ -30,7 +31,7 @@ class Menu: SceneBase {
         }
     }
 
-    private var updateURL: URL?
+    private var updateUrl: URL?
 
     @MainActor private func update() {
         for (index, item) in menuItems.enumerated() {
@@ -40,7 +41,7 @@ class Menu: SceneBase {
                 continue
             }
 
-            if item == Item.update && self.updateURL == nil {
+            if item == Item.update && self.updateUrl == nil {
                 bullet.isHidden = index != self.selection
                 bullet.fontColor = NSColor(named: "MenuDisabled")
                 label.fontColor = NSColor(named: "MenuDisabled")
@@ -75,7 +76,7 @@ class Menu: SceneBase {
             self.transitionToScores()
 
         case Item.update:
-            if let url = self.updateURL {
+            if let url = self.updateUrl {
                 AudioPlayer.playFxPositive()
                 NSWorkspace.shared.open(url)
             } else {
@@ -128,16 +129,13 @@ class Menu: SceneBase {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
 
-        (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "\(UpdateCheck.version) (\(UpdateCheck.build))"
-
-        let copyright = (Bundle.main.infoDictionary?["NSHumanReadableCopyright"] as? String) ?? "© 2024-now Sebastian Boettcher"
-        (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = copyright
+        (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "\(Bundle.main.version) (\(Bundle.main.build))"
+        (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = Bundle.main.copyright
 
         self.level = UserDefaults.standard.startLevel
 
         Task { [weak self] in
-            self?.updateURL = try? await UpdateCheck.getUpdateUrl()
-            self?.update()
+            await self?.checkForUpdate()
         }
     }
 
@@ -165,5 +163,22 @@ class Menu: SceneBase {
         default:
             break
         }
+    }
+
+    private func checkForUpdate() async {
+        do {
+            let reader = GitHubApiReleaseReader(baseUrl: UserDefaults.standard.updateCheckBaseUrl)
+            let (version, url) = try await reader.readLatestRelease()
+            if version > Bundle.main.version, let url = url {
+                Logger.update.info("Update \(version, privacy: .public) available at \(url.absoluteString, privacy: .public)")
+            } else {
+                Logger.update.info("Current version \(Bundle.main.version, privacy: .public) is up to date.")
+            }
+            self.updateUrl = url
+        } catch {
+            Logger.update.warning("Update check failed: \(error, privacy: .public).")
+            self.updateUrl = nil
+        }
+        self.update()
     }
 }
