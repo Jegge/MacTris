@@ -35,7 +35,6 @@
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
 		D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24356AD2EF6A87A004843D7 /* Statistics.swift */; };
-		D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */; };
 		D262DFCB2B4EBC3E00FDC801 /* AutoShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */; };
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
 		D264595D3004D5F20027F35A /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595C3004D5510027F35A /* AppVersion.swift */; };
@@ -44,6 +43,7 @@
 		D26459AD30051AF80027F35A /* RandomGeneratorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459AC30051AF80027F35A /* RandomGeneratorMode.swift */; };
 		D26459AF30051B0B0027F35A /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459AE30051B0B0027F35A /* Appearance.swift */; };
 		D26459B3300529F10027F35A /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459B2300529F10027F35A /* MusicPlayer.swift */; };
+		D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459C6300534BF0027F35A /* Secrets.generated.swift */; };
 		D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */; };
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
@@ -110,7 +110,6 @@
 		D24356AD2EF6A87A004843D7 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		D262DFC52B4DC66600FDC801 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
-		D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
 		D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InstallerBackground.svg; sourceTree = "<group>"; };
 		D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoShift.swift; sourceTree = "<group>"; };
 		D263AD482B54651900BC2B66 /* RadialGradient.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = RadialGradient.fsh; sourceTree = "<group>"; };
@@ -120,6 +119,7 @@
 		D26459AC30051AF80027F35A /* RandomGeneratorMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGeneratorMode.swift; sourceTree = "<group>"; };
 		D26459AE30051B0B0027F35A /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		D26459B2300529F10027F35A /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		D26459C6300534BF0027F35A /* Secrets.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiReleaseReader.swift; sourceTree = "<group>"; };
@@ -197,7 +197,7 @@
 		D26459623004DFDC0027F35A /* Hiscore */ = {
 			isa = PBXGroup;
 			children = (
-				D262DFC72B4DCC4900FDC801 /* Secrets.generated.swift */,
+				D26459C6300534BF0027F35A /* Secrets.generated.swift */,
 				D22900F42B45534F00A9F88E /* Hiscore.swift */,
 			);
 			path = Hiscore;
@@ -482,7 +482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\nxcconfig_file=\"${SRCROOT}/MacTris/Secrets.$ACTION.xcconfig\"\nswift_file=\"${SRCROOT}/MacTris/Backend/Secrets.generated.swift\"\n\nif ! [ -f \"$xcconfig_file\" ]; then\n    echo \"The file '$xcconfig_file' does not exist, trying fallback.\"\n    xcconfig_file=\"${SRCROOT}/MacTris/Secrets.xcconfig\"    \n    if ! [ -f \"$xcconfig_file\" ]; then\n        echo \"The file '$xcconfig_file' does not exist, bailing out.\"\n        exit  1;\n    fi\nfi\n\necho \"struct Secrets {\" > \"$swift_file\"\n\nwhile IFS= read -r line; do\n\n    if [[ \"$line\" =~ ^\\s*// ]] || [[ -z \"$line\" ]]; then\n        continue\n    fi\n\n    var_name=\"$(echo \"$line\" | cut -d'=' -f1 | sed 's/ //g')\"\n    var_value=\"$(echo \"$line\" | cut -d'=' -f2- | sed 's/^ *//;s/ *$//')\"\n   \n    echo \"    static let $var_name: String = \\\"$var_value\\\"\" >> \"$swift_file\"\n\ndone < \"$xcconfig_file\"\n\necho \"}\" >> \"$swift_file\"\n\necho \"Successfully generated $swift_file\" \n";
+			shellScript = "if [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\nxcconfig_file=\"${SRCROOT}/MacTris/Secrets.$ACTION.xcconfig\"\nswift_file=\"${SRCROOT}/MacTris/Backend/Hiscore/Secrets.generated.swift\"\n\nif ! [ -f \"$xcconfig_file\" ]; then\n    echo \"The file '$xcconfig_file' does not exist, trying fallback.\"\n    xcconfig_file=\"${SRCROOT}/MacTris/Secrets.xcconfig\"    \n    if ! [ -f \"$xcconfig_file\" ]; then\n        echo \"The file '$xcconfig_file' does not exist, bailing out.\"\n        exit  1;\n    fi\nfi\n\necho \"struct Secrets {\" > \"$swift_file\"\n\nwhile IFS= read -r line; do\n\n    if [[ \"$line\" =~ ^\\s*// ]] || [[ -z \"$line\" ]]; then\n        continue\n    fi\n\n    var_name=\"$(echo \"$line\" | cut -d'=' -f1 | sed 's/ //g')\"\n    var_value=\"$(echo \"$line\" | cut -d'=' -f2- | sed 's/^ *//;s/ *$//')\"\n   \n    echo \"    static let $var_name: String = \\\"$var_value\\\"\" >> \"$swift_file\"\n\ndone < \"$xcconfig_file\"\n\necho \"}\" >> \"$swift_file\"\n\necho \"Successfully generated $swift_file\" \n";
 		};
 		D26ED39B2B44D7BE000FE86C /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -521,12 +521,12 @@
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
+				D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
 				D26459AF30051B0B0027F35A /* Appearance.swift in Sources */,
 				D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
-				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */,
 				D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */,
 				D26459B3300529F10027F35A /* MusicPlayer.swift in Sources */,
