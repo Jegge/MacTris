@@ -21,7 +21,7 @@ struct Statistics {
     }
 
     func percent(_ shape: Tetromino.Shape) -> Double {
-        (Double(count(shape)) / Double(total)) * 100.0
+        total > 0 ? (Double(count(shape)) / Double(total)) * 100.0 : 0.0
     }
 }
 
