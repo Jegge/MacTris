@@ -31,9 +31,13 @@ class Menu: SceneBase {
         }
     }
 
-    private var updateUrl: URL?
+    @MainActor private var updateUrl: URL? {
+        didSet {
+            self.update()
+        }
+    }
 
-    @MainActor private func update() {
+    private func update() {
         for (index, item) in menuItems.enumerated() {
             guard let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode,
                   let label = self.childNode(withName: "label" + item) as? SKLabelNode
@@ -135,7 +139,7 @@ class Menu: SceneBase {
         self.level = UserDefaults.standard.startLevel
 
         Task { [weak self] in
-            await self?.checkForUpdate()
+            self?.updateUrl = await self?.checkForUpdate()
         }
     }
 
@@ -165,20 +169,18 @@ class Menu: SceneBase {
         }
     }
 
-    private func checkForUpdate() async {
+    private func checkForUpdate() async -> URL? {
         do {
             let reader = GitHubApiReleaseReader(baseUrl: UserDefaults.standard.updateCheckBaseUrl)
-            let (version, url) = try await reader.readLatestRelease()
-            if version > Bundle.main.version, let url = url {
-                Logger.update.info("Update \(version, privacy: .public) available at \(url.absoluteString, privacy: .public)")
+            if let release = try await reader.readLatestRelease(), release.version > Bundle.main.version {
+                Logger.update.info("Update \(release.version, privacy: .public) available at \(release.downloadUrl.absoluteString, privacy: .public)")
+                return release.downloadUrl
             } else {
                 Logger.update.info("Current version \(Bundle.main.version, privacy: .public) is up to date.")
             }
-            self.updateUrl = url
         } catch {
             Logger.update.warning("Update check failed: \(error, privacy: .public).")
-            self.updateUrl = nil
         }
-        self.update()
+        return nil
     }
 }

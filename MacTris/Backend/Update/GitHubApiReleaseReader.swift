@@ -11,7 +11,12 @@ struct GitHubApiReleaseReader {
 
     let baseUrl: URL
 
-    public func readLatestRelease() async throws -> (MacTrisVersion, URL?) {
+    struct Release {
+        let version: AppVersion
+        let downloadUrl: URL
+    }
+
+    func readLatestRelease() async throws -> Release? {
         let url: URL
         if #available(macOS 13.0, *) {
             url = baseUrl.appending(path: "releases/latest")
@@ -20,16 +25,19 @@ struct GitHubApiReleaseReader {
         }
         let (data, _) = try await URLSession.shared.data(from: url)
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
-        let tag = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
-        let parts = Array(tag.split(separator: ".").map { Int(String($0)) ?? 0 })
+        let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
+
         #if DEBUG
         // fake an available update for development purposes
         if #available(macOS 13.0, *) {
             try await Task.sleep(for: .seconds(3))
         }
-        return (MacTrisVersion(major: Bundle.main.version.major, minor: Bundle.main.version.minor + 1), URL(string: "http://example.com/MacTris-0.0.dmg"))
+        return Release(version: AppVersion(major: Bundle.main.version.major, minor: Bundle.main.version.minor + 1), downloadUrl: URL(string: "http://example.com/MacTris-0.0.dmg")!)
         #else
-        return (MacTrisVersion(major: parts[0], minor: parts[1]), URL(string: release.assets.first?.browser_download_url ?? ""))
+        if let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "") {
+            return Release(version: AppVersion(string: version), downloadUrl: downloadUrl)
+        }
+        return nil
         #endif
     }
 
