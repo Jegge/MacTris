@@ -64,7 +64,7 @@ class AudioPlayer: NSObject {
 }
 
 extension AudioPlayer: AVAudioPlayerDelegate {
-    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         self.fxPlayers.remove(player)
     }
 }

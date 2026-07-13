@@ -11,11 +11,11 @@ import OSLog
 class Menu: SceneBase {
 
     private struct Item {
-        public static let play = "Play"
-        public static let settings = "Settings"
-        public static let hiscores = "Hiscores"
-        public static let update = "Update"
-        public static let quit = "Quit"
+        static let play = "Play"
+        static let settings = "Settings"
+        static let hiscores = "Hiscores"
+        static let update = "Update"
+        static let quit = "Quit"
     }
 
     private var level: Int = 0 {

@@ -16,11 +16,11 @@ class Hiscore {
     static let filename = "hiscores.json"
     #endif
 
-    public struct Score: Codable, Comparable, Equatable {
+    struct Score: Codable, Comparable, Equatable {
         let name: String
         let value: Int
 
-        public static func < (lhs: Hiscore.Score, rhs: Hiscore.Score) -> Bool {
+        static func < (lhs: Hiscore.Score, rhs: Hiscore.Score) -> Bool {
             return lhs.value < rhs.value
         }
     }
@@ -44,7 +44,7 @@ class Hiscore {
     private var list: [Score]
     private var key: SymmetricKey
 
-    public var scores: [Score] {
+    var scores: [Score] {
         return self.list
     }
 

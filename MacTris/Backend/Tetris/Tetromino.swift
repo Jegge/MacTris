@@ -11,6 +11,7 @@ struct Tetromino {
     enum Shape: CaseIterable {
         case t, j, z, o, s, l, i
 
+        /// Each entry represents a rotation, and each rotation has multiple points
         var points: [[Point]] {
             switch self {
             case .o:
@@ -51,6 +52,7 @@ struct Tetromino {
             }
         }
 
+        /// Used to build the name of the tilegroup
         var appearance: String {
             switch self {
             case .o: return "Yellow"

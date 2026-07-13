@@ -11,23 +11,23 @@ import GameController
 class Settings: SceneBase {
 
     private struct Item {
-        public static let musicVolume = "MusicVolume"
-        public static let fxVolume = "FxVolume"
-        public static let displayMode = "DisplayMode"
-        public static let appearance = "Appearance"
-        public static let animations = "Animations"
-        public static let keyShiftLeft = "KeyShiftLeft"
-        public static let keyShiftRight = "KeyShiftRight"
-        public static let keyRotateLeft = "KeyRotateLeft"
-        public static let keyRotateRight = "KeyRotateRight"
-        public static let keySoftDrop = "KeySoftDrop"
-        public static let keyHardDrop = "KeyHardDrop"
-        public static let rngMode = "RngMode"
-        public static let autoShift = "AutoShift"
-        public static let wallKick = "WallKick"
-        public static let hardDrop = "HardDrop"
+        static let musicVolume = "MusicVolume"
+        static let fxVolume = "FxVolume"
+        static let displayMode = "DisplayMode"
+        static let appearance = "Appearance"
+        static let animations = "Animations"
+        static let keyShiftLeft = "KeyShiftLeft"
+        static let keyShiftRight = "KeyShiftRight"
+        static let keyRotateLeft = "KeyRotateLeft"
+        static let keyRotateRight = "KeyRotateRight"
+        static let keySoftDrop = "KeySoftDrop"
+        static let keyHardDrop = "KeyHardDrop"
+        static let rngMode = "RngMode"
+        static let autoShift = "AutoShift"
+        static let wallKick = "WallKick"
+        static let hardDrop = "HardDrop"
 
-        public static let back = "Back"
+        static let back = "Back"
     }
 
     private var menuItems: [String] = []

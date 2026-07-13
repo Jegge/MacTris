@@ -208,7 +208,7 @@ class Tetris {
         if enableWallKick, var current = self.current, !self.collides(tetromino: current.rotatedCounterClockwise(), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotatedCounterClockwise())
             if self.collides(tetromino: current, with: .all) {
-                return  false
+                return false
             }
             self.current = current
             return true
@@ -224,7 +224,7 @@ class Tetris {
         if enableWallKick, var current = self.current, !self.collides(tetromino: current.rotatedClockwise(), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotatedClockwise())
             if self.collides(tetromino: current, with: .all) {
-                return  false
+                return false
             }
             self.current = current
             return true

@@ -10,18 +10,18 @@ import Foundation
 extension UserDefaults {
 
     private struct Key {
-        public static let musicVolume = "MusicVolume"
-        public static let fxVolume = "FxVolume"
-        public static let fullscreen = "Fullscreen"
-        public static let keyboardBindings = "KeyboardBindings"
-        public static let startLevel = "StartLevel"
-        public static let randomGeneratorMode = "RandomGeneratorMode"
-        public static let appearance = "Appearance"
-        public static let autoShift = "AutoShift"
-        public static let wallKick = "WallKick"
-        public static let hardDrop = "HardDrop"
-        public static let animations = "Animations"
-        public static let updateCheckBaseUrl = "UpdateCheckBaseUrl"
+        static let musicVolume = "MusicVolume"
+        static let fxVolume = "FxVolume"
+        static let fullscreen = "Fullscreen"
+        static let keyboardBindings = "KeyboardBindings"
+        static let startLevel = "StartLevel"
+        static let randomGeneratorMode = "RandomGeneratorMode"
+        static let appearance = "Appearance"
+        static let autoShift = "AutoShift"
+        static let wallKick = "WallKick"
+        static let hardDrop = "HardDrop"
+        static let animations = "Animations"
+        static let updateCheckBaseUrl = "UpdateCheckBaseUrl"
     }
 
     func register() {
