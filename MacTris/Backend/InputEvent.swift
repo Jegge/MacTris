@@ -8,8 +8,16 @@
 import GameController
 
 struct InputEvent: Equatable {
+
+    init(id: Input, isDown: Bool, isARepeat: Bool = false) {
+        self.id = id
+        self.isDown = isDown
+        self.isARepeat = isARepeat
+    }
+
     let id: Input
     let isDown: Bool
+    let isARepeat: Bool
 
     static let inputDownNotification: NSNotification.Name = NSNotification.Name("InputEventInputDown")
     static let inputUpNotification: NSNotification.Name = NSNotification.Name("InputEventInputUp")
@@ -21,6 +29,6 @@ struct InputEvent: Equatable {
 
 extension InputEvent: CustomStringConvertible {
     var description: String {
-        return "\(isDown ? "↓" : "↑")\(id)"
+        return "\(isDown ? "↓" : "↑")\(id)\(isARepeat ? " (repeated)" : "")"
     }
 }

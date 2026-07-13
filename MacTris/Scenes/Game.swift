@@ -324,6 +324,10 @@ class Game: SceneBase {
     }
 
     override func inputDown(event: InputEvent) {
+        if event.isARepeat {
+            return
+        }
+
         switch self.state {
         case .gameover:
             if event.id == .select {

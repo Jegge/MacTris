@@ -123,7 +123,7 @@ class InputMapper {
 
         switch event.type {
         case .keyDown:
-            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true) }
+            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true, isARepeat: event.isARepeat) }
         case .keyUp:
             result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: false) }
         default:
