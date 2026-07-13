@@ -265,7 +265,7 @@ class Settings: SceneBase {
         return true
     }
 
-    private func canceRebind(item: String) {
+    private func cancelRebind(item: String) {
         self.fxPlayer.playNegative()
         if let node = self.childNode(withName: "value\(item)") {
             node.removeAllActions()
@@ -372,7 +372,7 @@ class Settings: SceneBase {
         if let id = self.rebindId, let item = self.rebindItem {
             // the menu key aborts binding the key
             if self.inputMapper.translate(event: event).first(where: { $0.id == .menu }) != nil {
-                self.canceRebind(item: item)
+                self.cancelRebind(item: item)
                 self.rebindId = nil
                 self.rebindItem = nil
                 self.update()
