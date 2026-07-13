@@ -10,19 +10,19 @@ import Testing
 
 struct StatisticsTests {
     @Test func testInitialTotalIsZero() async throws {
-        var stats = Statistics()
+        let stats = Statistics()
         #expect(stats.total == 0)
     }
 
     @Test func testInitialCountIsZero() async throws {
-        var stats = Statistics()
+        let stats = Statistics()
         #expect(stats.count(.t) == 0)
         #expect(stats.count(.i) == 0)
         #expect(stats.count(.o) == 0)
     }
 
     @Test func testInitialPercentIsZero() async throws {
-        var stats = Statistics()
+        let stats = Statistics()
         #expect(stats.percent(.t) == 0.0)
     }
 
