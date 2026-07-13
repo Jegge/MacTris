@@ -206,6 +206,7 @@
 		D26459633004DFF50027F35A /* Tetris */ = {
 			isa = PBXGroup;
 			children = (
+				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D229010F2B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift */,
 				D21AA3862B513A7300362226 /* Tetris.swift */,
@@ -273,7 +274,6 @@
 				D26459623004DFDC0027F35A /* Hiscore */,
 				D26459633004DFF50027F35A /* Tetris */,
 				D26459613004DFB30027F35A /* Input */,
-				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
