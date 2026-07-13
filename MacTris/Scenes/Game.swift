@@ -20,12 +20,12 @@ class Game: SceneBase {
     private struct FrameCount {
         init() {
             self.keyRepeatShiftInitial = 6
-            self.keyRepeatShift = 6
+            self.keyRepeatShiftDelay = 6
         }
 
         init(options: TetrisOptions) {
             self.keyRepeatShiftInitial = options.autoShift.delays.initial
-            self.keyRepeatShift = options.autoShift.delays.repeating
+            self.keyRepeatShiftDelay = options.autoShift.delays.repeating
         }
 
         private static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
@@ -35,16 +35,16 @@ class Game: SceneBase {
         }
 
         func keyRepeatShift(initial: Bool) -> Int {
-            return initial ? self.keyRepeatShiftInitial : self.keyRepeatShift
+            return initial ? self.keyRepeatShiftInitial : self.keyRepeatShiftDelay
         }
         func spawn(stackHeight: Int) -> Int {
-            return self.spawn + (stackHeight / 4)
+            return self.spawnDelay + (stackHeight / 4)
         }
 
         let animation: Int = 4
-        let spawn: Int = 16
+        let spawnDelay: Int = 16
         let keyRepeatShiftInitial: Int
-        let keyRepeatShift: Int
+        let keyRepeatShiftDelay: Int
         let keyRepeatDrop: Int = 1
     }
 
