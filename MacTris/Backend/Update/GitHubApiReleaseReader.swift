@@ -7,13 +7,25 @@
 
 import OSLog
 
+protocol URLSessionProtocol {
+    func data(from url: URL) async throws -> (Data, URLResponse)
+}
+
+extension URLSession: URLSessionProtocol {}
+
 struct GitHubApiReleaseReader {
 
     let baseUrl: URL
+    let session: URLSessionProtocol
 
     struct Release {
         let version: AppVersion
         let downloadUrl: URL
+    }
+
+    init(baseUrl: URL, session: URLSessionProtocol = URLSession.shared) {
+        self.baseUrl = baseUrl
+        self.session = session
     }
 
     func readLatestRelease() async throws -> Release? {
@@ -23,22 +35,28 @@ struct GitHubApiReleaseReader {
         } else {
             url = baseUrl.appendingPathComponent("releases/latest")
         }
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await self.session.data(from: url)
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
         let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
 
-        #if DEBUG
-        // fake an available update for development purposes
-        if #available(macOS 13.0, *) {
-            try await Task.sleep(for: .seconds(3))
-        }
-        return Release(version: AppVersion(major: Bundle.main.version.major, minor: Bundle.main.version.minor + 1), downloadUrl: URL(string: "http://example.com/MacTris-0.0.dmg")!)
-        #else
+//        #if DEBUG
+//        // fake an available update for development purposes
+//        if #available(macOS 13.0, *) {
+//            try await Task.sleep(for: .seconds(3))
+//        }
+//        return Release(version: AppVersion(major: Bundle.main.version.major, minor: Bundle.main.version.minor + 1), downloadUrl: URL(string: "http://example.com/MacTris-0.0.dmg")!)
+//        #else
         if let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "") {
             return Release(version: AppVersion(string: version), downloadUrl: downloadUrl)
         }
         return nil
-        #endif
+      //  #endif
+    }
+
+    func parseRelease(from data: Data) throws -> (version: String, downloadUrl: String?) {
+        let release = try JSONDecoder().decode(GithubRelease.self, from: data)
+        let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
+        return (version, release.assets.first?.browser_download_url)
     }
 
     // swiftlint:disable identifier_name

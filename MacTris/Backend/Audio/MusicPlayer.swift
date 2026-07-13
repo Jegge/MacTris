@@ -46,5 +46,6 @@ class MusicPlayer: NSObject {
         self.muted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.volume)))
     }
 
+    // Kept as a singleton, since it is effectively only used once
     static let shared = MusicPlayer()
 }
