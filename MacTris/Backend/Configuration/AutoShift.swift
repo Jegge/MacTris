@@ -5,6 +5,8 @@
 //  Created by Sebastian Boettcher on 10.01.24.
 //
 
+import Foundation
+
 enum AutoShift: Int {
     case nes = 1
     case modern = 2
@@ -24,10 +26,10 @@ enum AutoShift: Int {
 extension AutoShift: CustomStringConvertible {
     var description: String {
         switch self {
-        case .nes: return "Classic (16–6)"
-        case .modern: return "Modern (8–6)"
-        case .fast: return "Fast (6–3)"
-        case .insane: return "Insane (5–1)"
+        case .nes: return NSLocalizedString("EnumAutoShiftNes", comment: "Description of enum case AutoShift.nes")
+        case .modern: return NSLocalizedString("EnumAutoShiftModern", comment: "Description of enum case AutoShift.modern")
+        case .fast: return NSLocalizedString("EnumAutoShiftFast", comment: "Description of enum case AutoShift.fast")
+        case .insane: return NSLocalizedString("EnumAutoShiftInsane", comment: "Description of enum case AutoShift.insane")
         }
     }
 }

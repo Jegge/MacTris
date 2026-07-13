@@ -1,0 +1,248 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "EnumAppearanceBright" : {
+      "comment" : "Description of enum case Appearance.bright",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bright"
+          }
+        }
+      }
+    },
+    "EnumAppearancePlain" : {
+      "comment" : "Description of enum case Appearance.plain",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plain"
+          }
+        }
+      }
+    },
+    "EnumAppearanceShaded" : {
+      "comment" : "Description of enum case Appearance.shaded",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shaded"
+          }
+        }
+      }
+    },
+    "EnumAutoShiftFast" : {
+      "comment" : "Description of enum case AutoShift.fast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fast (6–3)"
+          }
+        }
+      }
+    },
+    "EnumAutoShiftInsane" : {
+      "comment" : "Description of enum case AutoShift.insane",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insane (5–1)"
+          }
+        }
+      }
+    },
+    "EnumAutoShiftModern" : {
+      "comment" : "Description of enum case AutoShift.modern",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modern (8–6)"
+          }
+        }
+      }
+    },
+    "EnumAutoShiftNes" : {
+      "comment" : "Description of enum case AutoShift.nes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classic (16–6)"
+          }
+        }
+      }
+    },
+    "EnumRandomGeneratorModeNes" : {
+      "comment" : "Description of enum case RandomGeneratorMode.nes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classic (NES)"
+          }
+        }
+      }
+    },
+    "EnumRandomGeneratorModeSevenBag" : {
+      "comment" : "Description of enum case RandomGeneratorMode.sevenBag",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modern (7-Bag)"
+          }
+        }
+      }
+    },
+    "GameFinishedNewHiscore" : {
+      "comment" : "New hiscore",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New hiscore!"
+          }
+        }
+      }
+    },
+    "GameFinishedYourScore" : {
+      "comment" : "No new hiscore",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your score:"
+          }
+        }
+      }
+    },
+    "GamePauseMenuInstructionContinue" : {
+      "comment" : "Has a string argument for the key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— %1$(key)@ to continue —"
+          }
+        }
+      }
+    },
+    "GamePauseMenuInstructionPause" : {
+      "comment" : "Has a string argument for the key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— %1$(key)@ to pause —"
+          }
+        }
+      }
+    },
+    "GamePauseMenuInstructionQuit" : {
+      "comment" : "Has a string argument for the key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— %1$(key)@ to quit —"
+          }
+        }
+      }
+    },
+    "GamePauseMenuInstructionResume" : {
+      "comment" : "Has a string argument for the key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "— %1$(key)@ to resume —"
+          }
+        }
+      }
+    },
+    "InputMapperControllerButtonMenuOrStart" : {
+      "comment" : "The name of the controller button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu or Start"
+          }
+        }
+      }
+    },
+    "MenuPlayLevelNr" : {
+      "comment" : "Has a numeric argument for the level nr.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play level %1$(level)lld"
+          }
+        }
+      }
+    },
+    "SettingAudioOff" : {
+      "comment" : "Value, if music volume or fx volume is 0",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "SettingDisplayModeFullscreen" : {
+      "comment" : "Value, if display mode is fullscreen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fullscreen"
+          }
+        }
+      }
+    },
+    "SettingDisplayModeWindow" : {
+      "comment" : "Value, if display mode is window",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Window"
+          }
+        }
+      }
+    },
+    "SettingGenericDisabled" : {
+      "comment" : "Value, if a setting is disabled",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled"
+          }
+        }
+      }
+    },
+    "SettingGenericEnabled" : {
+      "comment" : "Value, if a setting is enabled",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}

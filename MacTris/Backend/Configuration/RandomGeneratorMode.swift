@@ -5,6 +5,8 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
+import Foundation
+
 enum RandomGeneratorMode: Int {
     case nes = 1
     case sevenBag = 2
@@ -22,8 +24,8 @@ enum RandomGeneratorMode: Int {
 extension RandomGeneratorMode: CustomStringConvertible {
     var description: String {
         switch self {
-        case .nes: return "Classic (NES)"
-        case .sevenBag: return "Modern (7-Bag)"
+        case .nes: return NSLocalizedString("EnumRandomGeneratorModeNes", comment: "Description of enum case RandomGeneratorMode.nes")
+        case .sevenBag: return NSLocalizedString("EnumRandomGeneratorModeSevenBag", comment: "Description of enum case RandomGeneratorMode.sevenBag")
         }
     }
 }

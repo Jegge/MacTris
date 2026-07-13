@@ -36,7 +36,6 @@ class Settings: SceneBase {
             self.update()
         }
     }
-
     private var rebindId: Input?
     private var rebindItem: String?
 
@@ -69,15 +68,24 @@ class Settings: SceneBase {
     }
 
     private func value(for item: String) -> String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+
         switch item {
         case Item.displayMode:
-            return UserDefaults.standard.fullscreen ? "Fullscreen" : "Window"
+            return UserDefaults.standard.fullscreen
+                ? NSLocalizedString("SettingDisplayModeFullscreen", comment: "Value, if display mode is fullscreen")
+                : NSLocalizedString("SettingDisplayModeWindow", comment: "Value, if display mode is window")
 
         case Item.musicVolume:
-            return MusicPlayer.shared.volume == 0 ? "Off" : "\(MusicPlayer.shared.volume)%"
+            return MusicPlayer.shared.volume == 0
+                ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
+                : formatter.string(from: NSNumber(value: Double(MusicPlayer.shared.volume) / 100.0))
 
         case Item.fxVolume:
-            return self.fxPlayer.volume == 0 ? "Off" : "\(self.fxPlayer.volume)%"
+            return self.fxPlayer.volume == 0
+                ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
+                : formatter.string(from: NSNumber(value: Double(self.fxPlayer.volume) / 100.0))
 
         case Item.keyShiftLeft:
             return self.inputMapper.describeIdForKeyboard(.shiftLeft)
@@ -104,16 +112,22 @@ class Settings: SceneBase {
             return UserDefaults.standard.autoShift.description
 
         case Item.wallKick:
-            return UserDefaults.standard.wallKick ? "Enabled" : "Disabled"
+            return UserDefaults.standard.wallKick
+                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
+                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
 
         case Item.hardDrop:
-            return UserDefaults.standard.hardDrop ? "Enabled" : "Disabled"
+            return UserDefaults.standard.hardDrop
+                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
+                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
 
         case Item.appearance:
             return UserDefaults.standard.appearance.description
 
         case Item.animations:
-            return UserDefaults.standard.animations ? "Enabled" : "Disabled"
+            return UserDefaults.standard.animations
+                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
+                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
 
         default:
             return nil
@@ -342,7 +356,6 @@ class Settings: SceneBase {
 
         default:
             break
-
         }
     }
 }

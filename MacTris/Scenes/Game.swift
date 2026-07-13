@@ -96,9 +96,9 @@ class Game: SceneBase {
 
                 if let label = self.childNode(withName: "//labelFinalScoreTitle") as? SKLabelNode {
                     if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: tetris.score)) {
-                        label.text = "New hiscore!"
+                        label.text = NSLocalizedString("GameFinishedNewHiscore", comment: "New hiscore")
                     } else {
-                        label.text = "Your score:"
+                        label.text = NSLocalizedString("GameFinishedYourScore", comment: "No new hiscore")
                     }
                 }
 
@@ -108,36 +108,28 @@ class Game: SceneBase {
     }
 
     private func updateInstructions() {
+        let menuKey = GCController.controllers().isEmpty
+            ? self.inputMapper.describeIdForKeyboard(.menu)
+            : self.inputMapper.describeIdForController(.menu)
+
+        let selectKey = GCController.controllers().isEmpty
+            ? self.inputMapper.describeIdForKeyboard(.select)
+            : self.inputMapper.describeIdForController(.select)
+
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
-            if GCController.controllers().isEmpty {
-                label.text = "— \(self.inputMapper.describeIdForKeyboard(.menu)) to quit —"
-            } else {
-                label.text = "— \(self.inputMapper.describeIdForController(.menu)) to quit —"
-            }
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionQuit", comment: "Has a string argument for the key"), menuKey)
         }
 
         if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
-            if GCController.controllers().isEmpty {
-                label.text = "— \(self.inputMapper.describeIdForKeyboard(.menu)) to pause —"
-            } else {
-                label.text = "— \(self.inputMapper.describeIdForController(.menu)) to pause —"
-            }
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionPause", comment: "Has a string argument for the key"), menuKey)
         }
 
         if let label = self.childNode(withName: "//labelGameOverInstructions") as? SKLabelNode {
-            if GCController.controllers().isEmpty {
-                label.text = "— \(self.inputMapper.describeIdForKeyboard(.select)) to continue —"
-            } else {
-                label.text = "— \(self.inputMapper.describeIdForController(.select)) to continue —"
-            }
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionContinue", comment: "Has a string argument for the key"), selectKey)
         }
 
         if let label = self.childNode(withName: "//labelResumeInstructions") as? SKLabelNode {
-            if GCController.controllers().isEmpty {
-                label.text = "— \(self.inputMapper.describeIdForKeyboard(.select)) to resume —"
-            } else {
-                label.text = "— \(self.inputMapper.describeIdForController(.select)) to resume —"
-            }
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionResume", comment: "Has a string argument for the key"), selectKey)
         }
     }
 

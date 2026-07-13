@@ -5,6 +5,7 @@
 //  Created by Sebastian Boettcher on 06.01.24.
 //
 
+import Foundation
 import GameController
 
 class InputMapper {
@@ -69,7 +70,7 @@ class InputMapper {
         case .softDrop: return "⒣"
         case .hardDrop: return "⒏ or ⒋" // Y / Triangle
         case .select: return "⒍ or ⒉" // B / Circle
-        case .menu: return "Menu or Start"
+        case .menu: return NSLocalizedString("InputMapperControllerButtonMenuOrStart", comment: "The name of the controller button")
         case .rotateCounterClockwise: return "⒌ or ⒈" // A / Cross
         case .rotateClockwise:  return "⒍ or ⒉" // B / Circle
         }

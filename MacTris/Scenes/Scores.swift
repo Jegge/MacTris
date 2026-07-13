@@ -10,7 +10,7 @@ import OSLog
 
 class Scores: SceneBase {
 
-    var score: Int?  // = 234566
+    var score: Int?
 
     private var index: Int?
     private var hiscores: Hiscore = Hiscore(key: Secrets.hiscoreKey)
