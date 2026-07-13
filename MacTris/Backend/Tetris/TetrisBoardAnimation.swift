@@ -1,5 +1,5 @@
 //
-//  DissolveAnimation.swift
+//  TetrisBoardAnimation.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 11.07.26.
@@ -13,7 +13,7 @@ protocol TetrisBoardAnimation {
 
 class DissolveLinesAnimation: TetrisBoardAnimation {
     init (board: [[Tetromino.Shape?]], lines: Range<Int>) {
-        self.board = board.map { $0 } // deep copy outer and inner array
+        self.board = board
         self.lines = lines
     }
 
@@ -46,7 +46,7 @@ class DissolveLinesAnimation: TetrisBoardAnimation {
 
 class StackOutAnimation: TetrisBoardAnimation {
     init(board: [[Tetromino.Shape?]], fillAmountPerStep: Int) {
-        self.board = board.map { $0 } // deep copy outer and inner array
+        self.board = board
         self.fillAmountPerStep = fillAmountPerStep
     }
 
