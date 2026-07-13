@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.0] - 2026-07-13
+
+### Added
+- Added a game over animation
+
+### Changed
+- Binding a key can now be aborted with ESC
+- Lots of refactorings and unit tests
+
+### Fixed
+- Fixed a bug where a keybinding would not work correctly
+- Fixed a bug where resuming the game from the pause menu could result in a hard drop
+
 ## [1.9.0] - 2026-07-10
 
 ### Added
