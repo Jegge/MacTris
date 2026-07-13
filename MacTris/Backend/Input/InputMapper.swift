@@ -9,6 +9,14 @@ import GameController
 
 class InputMapper {
 
+    convenience init () {
+        self.init(keyboardBindings: [])
+    }
+
+    init (keyboardBindings: [KeyBinding]) {
+        self.keyboardBindings = keyboardBindings
+    }
+
     struct KeyBinding: Codable {
         let keyCode: UInt16
         let id: Input

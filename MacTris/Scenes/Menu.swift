@@ -68,30 +68,30 @@ class Menu: SceneBase {
     private func select(item: String) {
         switch item {
         case Item.play:
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
             self.transitionToGame(level: self.level)
 
         case Item.settings:
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
             self.transitionToSettings()
 
         case Item.hiscores:
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
             self.transitionToScores()
 
         case Item.update:
             if let url = self.updateUrl {
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
                 NSWorkspace.shared.open(url)
             } else {
-                self.audioPlayer.playFxNegative()
+                self.fxPlayer.playNegative()
             }
 
         case Item.quit:
             NSApplication.shared.terminate(nil)
 
         default:
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
         }
     }
 
@@ -101,13 +101,13 @@ class Menu: SceneBase {
             if self.level < 19 {
                 self.level += 1
                 UserDefaults.standard.startLevel = self.level
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
             } else {
-                self.audioPlayer.playFxNegative()
+                self.fxPlayer.playNegative()
             }
 
         default:
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
         }
     }
 
@@ -117,13 +117,13 @@ class Menu: SceneBase {
             if self.level > 0 {
                 self.level -= 1
                 UserDefaults.standard.startLevel = self.level
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
             } else {
-                self.audioPlayer.playFxNegative()
+                self.fxPlayer.playNegative()
             }
 
         default:
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
         }
     }
 
@@ -146,11 +146,11 @@ class Menu: SceneBase {
     override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
-            self.audioPlayer.playFxSelect()
+            self.fxPlayer.playSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
 
         case .down:
-            self.audioPlayer.playFxSelect()
+            self.fxPlayer.playSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
         case .select:

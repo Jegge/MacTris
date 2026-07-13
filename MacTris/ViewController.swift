@@ -17,21 +17,13 @@ class ViewController: NSViewController {
     private var didEnterFullScreenObserver: Any?
     private var didExitFullScreenObserver: Any?
 
-    let audioPlayer = AudioPlayer()
-    let inputMapper = InputMapper()
+    let inputMapper = InputMapper(keyboardBindings: UserDefaults.standard.keyboardBindings)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.audioPlayer.fxVolume = UserDefaults.standard.fxVolume
-        self.audioPlayer.musicVolume = UserDefaults.standard.musicVolume
-        self.audioPlayer.playMusic(mp3: "Korobeiniki")
-
-        self.inputMapper.keyboardBindings = UserDefaults.standard.keyboardBindings
-
         if let view = self.skView {
             if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
-                scene.audioPlayer = self.audioPlayer
                 scene.inputMapper = self.inputMapper
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
@@ -96,7 +88,5 @@ class ViewController: NSViewController {
         if let observer = self.didExitFullScreenObserver {
             NotificationCenter.default.removeObserver(observer)
         }
-
-        self.audioPlayer.stopMusic()
     }
 }

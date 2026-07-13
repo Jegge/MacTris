@@ -74,10 +74,10 @@ class Settings: SceneBase {
             return UserDefaults.standard.fullscreen ? "Fullscreen" : "Window"
 
         case Item.musicVolume:
-            return self.audioPlayer.musicVolume == 0 ? "Off" : "\(self.audioPlayer.musicVolume)%"
+            return MusicPlayer.shared.volume == 0 ? "Off" : "\(MusicPlayer.shared.volume)%"
 
         case Item.fxVolume:
-            return self.audioPlayer.fxVolume == 0 ? "Off" : "\(self.audioPlayer.fxVolume)%"
+            return self.fxPlayer.volume == 0 ? "Off" : "\(self.fxPlayer.volume)%"
 
         case Item.keyShiftLeft:
             return self.inputMapper.describeIdForKeyboard(.shiftLeft)
@@ -150,44 +150,44 @@ class Settings: SceneBase {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
             self.view?.window?.toggleFullScreen(nil)
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.musicVolume:
-            self.audioPlayer.musicVolume = min(100, self.audioPlayer.musicVolume + 2)
-            UserDefaults.standard.musicVolume = self.audioPlayer.musicVolume
-            self.audioPlayer.playFxPositive()
+            MusicPlayer.shared.volume = min(100, MusicPlayer.shared.volume + 2)
+            UserDefaults.standard.musicVolume = MusicPlayer.shared.volume
+            self.fxPlayer.playPositive()
 
         case Item.fxVolume:
-            self.audioPlayer.fxVolume = min(100, self.audioPlayer.fxVolume + 2)
-            UserDefaults.standard.fxVolume = self.audioPlayer.fxVolume
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.volume = min(100, self.fxPlayer.volume + 2)
+            UserDefaults.standard.fxVolume = self.fxPlayer.volume
+            self.fxPlayer.playPositive()
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.hardDrop:
             UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.animations:
             UserDefaults.standard.animations = !UserDefaults.standard.animations
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         default:
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
         }
     }
 
@@ -196,44 +196,44 @@ class Settings: SceneBase {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
             self.view?.window?.toggleFullScreen(nil)
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.musicVolume:
-            self.audioPlayer.musicVolume = max(0, self.audioPlayer.musicVolume - 2)
-            UserDefaults.standard.musicVolume = self.audioPlayer.musicVolume
-            self.audioPlayer.playFxPositive()
+            MusicPlayer.shared.volume = max(0, MusicPlayer.shared.volume - 2)
+            UserDefaults.standard.musicVolume = MusicPlayer.shared.volume
+            self.fxPlayer.playPositive()
 
         case Item.fxVolume:
-            self.audioPlayer.fxVolume = max(0, self.audioPlayer.fxVolume - 2)
-            UserDefaults.standard.fxVolume = self.audioPlayer.fxVolume
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.volume = max(0, self.fxPlayer.volume - 2)
+            UserDefaults.standard.fxVolume = self.fxPlayer.volume
+            self.fxPlayer.playPositive()
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.decrease()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.decrease()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.hardDrop:
             UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.decrease()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.animations:
             UserDefaults.standard.animations = !UserDefaults.standard.animations
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         default:
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
         }
     }
 
@@ -244,18 +244,18 @@ class Settings: SceneBase {
         ])))
         self.rebindId = id
         self.rebindItem = item
-        self.audioPlayer.playFxPositive()
+        self.fxPlayer.playPositive()
     }
 
     private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
         if !self.inputMapper.canBind(keyCode: event.keyCode, id: id) {
-            self.audioPlayer.playFxNegative()
+            self.fxPlayer.playNegative()
             return false
         }
 
         self.inputMapper.bind(keyCode: event.keyCode, id: id)
         UserDefaults.standard.keyboardBindings = self.inputMapper.keyboardBindings
-        self.audioPlayer.playFxPositive()
+        self.fxPlayer.playPositive()
 
         if let node = self.childNode(withName: "value\(item)") {
             node.removeAllActions()
@@ -266,7 +266,7 @@ class Settings: SceneBase {
     }
 
     private func canceRebind(item: String) {
-        self.audioPlayer.playFxNegative()
+        self.fxPlayer.playNegative()
         if let node = self.childNode(withName: "value\(item)") {
             node.removeAllActions()
             node.run(SKAction.fadeAlpha(to: 1.0, duration: 0.25))
@@ -278,19 +278,19 @@ class Settings: SceneBase {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
             self.view?.window?.toggleFullScreen(nil)
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.musicVolume:
-            let volume = ((self.audioPlayer.musicVolume / 10) * 10) + 10
-            self.audioPlayer.musicVolume = volume > 100 ? 0 : volume
+            let volume = ((MusicPlayer.shared.volume / 10) * 10) + 10
+            MusicPlayer.shared.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.fxVolume:
-            let volume = ((self.audioPlayer.fxVolume / 10) * 10) + 10
-            self.audioPlayer.fxVolume = volume > 100 ? 0 : volume
+            let volume = ((self.fxPlayer.volume / 10) * 10) + 10
+            self.fxPlayer.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.keyShiftLeft:
             self.beginRebind(id: .shiftLeft, for: item)
@@ -312,30 +312,30 @@ class Settings: SceneBase {
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.hardDrop:
             UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.animations:
             UserDefaults.standard.animations = !UserDefaults.standard.animations
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
 
         case Item.back:
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
             self.transitionToMenu()
 
         default:
@@ -389,12 +389,12 @@ class Settings: SceneBase {
     override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
-            self.audioPlayer.playFxSelect()
+            self.fxPlayer.playSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
             self.update()
 
         case .down:
-            self.audioPlayer.playFxSelect()
+            self.fxPlayer.playSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
             self.update()
 

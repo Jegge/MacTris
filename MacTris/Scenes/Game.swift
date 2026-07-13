@@ -182,14 +182,14 @@ class Game: SceneBase {
         self.updateInstructions()
         if self.state == .running {
             self.state = .paused
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
         }
     }
 
     override func didResignKey() {
         if self.state == .running {
             self.state = .paused
-            self.audioPlayer.playFxPositive()
+            self.fxPlayer.playPositive()
         }
     }
 
@@ -220,24 +220,24 @@ class Game: SceneBase {
                 if options.animations {
                     self.board?.shake(direction: .both)
                 }
-                self.audioPlayer.playFxLock()
+                self.fxPlayer.playLock()
                 self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
                 self.framesToWait = self.frameCount.gravity(level: tetris.level)
             } else if self.events.contains(.shiftLeft) {
                 if tetris.shiftLeft() {
-                    self.audioPlayer.playFxShift()
+                    self.fxPlayer.playShift()
                 }
                 self.keyRepeatFrames = self.frameCount.keyRepeatShift(initial: self.keyRepeatIsInitial)
                 self.keyRepeatIsInitial = false
             } else if self.events.contains(.shiftRight) {
                 if tetris.shiftRight() {
-                    self.audioPlayer.playFxShift()
+                    self.fxPlayer.playShift()
                 }
                 self.keyRepeatFrames = self.frameCount.keyRepeatShift(initial: self.keyRepeatIsInitial)
                 self.keyRepeatIsInitial = false
             } else if self.events.contains(.softDrop) {
                 if !tetris.softDrop(manual: true) {
-                    self.audioPlayer.playFxLock()
+                    self.fxPlayer.playLock()
                     self.events.remove(.softDrop) // user need to press the key intentionally again for the next piece
                 }
                 self.keyRepeatFrames = self.frameCount.keyRepeatDrop
@@ -245,12 +245,12 @@ class Game: SceneBase {
 
             if self.events.contains(.rotateCounterClockwise) {
                 if tetris.rotateCounterClockwise() {
-                    self.audioPlayer.playFxRotate()
+                    self.fxPlayer.playRotate()
                 }
                 self.events.remove(.rotateCounterClockwise)
             } else if self.events.contains(.rotateClockwise) {
                 if tetris.rotateClockwise() {
-                    self.audioPlayer.playFxRotate()
+                    self.fxPlayer.playRotate()
                 }
                 self.events.remove(.rotateClockwise)
             }
@@ -280,14 +280,14 @@ class Game: SceneBase {
                 self.boardAnimation = DissolveLinesAnimation(board: tetris.board, lines: lines)
                 tetris.clear(lines: lines)
                 if lines.count > 3 {
-                    self.audioPlayer.playFxQuadSuccess()
+                    self.fxPlayer.playQuadSuccess()
                 } else {
-                    self.audioPlayer.playFxSuccess()
+                    self.fxPlayer.playSuccess()
                 }
                 self.framesToWait = self.frameCount.animation
             } else if !tetris.spawn() {
                 self.boardAnimation = StackOutAnimation(board: tetris.board, fillAmountPerStep: 15)
-                self.audioPlayer.playFxGameOver()
+                self.fxPlayer.playGameOver()
             } else {
                 self.framesToWait = self.frameCount.gravity(level: tetris.level)
                 self.keyRepeatFrames = self.frameCount.keyRepeatShiftInitial
@@ -295,7 +295,7 @@ class Game: SceneBase {
         } else if tetris.softDrop(manual: false) {
             self.framesToWait = self.frameCount.gravity(level: tetris.level)
         } else {
-            self.audioPlayer.playFxLock()
+            self.fxPlayer.playLock()
             self.framesToWait = self.frameCount.gravity(level: tetris.level)
         }
     }
@@ -331,18 +331,18 @@ class Game: SceneBase {
         switch self.state {
         case .gameover:
             if event.id == .select {
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
                 self.transitionToScores(score: self.tetris?.score ?? 0)
             }
 
         case .paused:
             switch event.id {
             case .menu:
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
                 self.transitionToScores(score: self.tetris?.score ?? 0)
 
             case .select:
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
                 self.state = .running
                 self.events.removeAll()
 
@@ -378,7 +378,7 @@ class Game: SceneBase {
 
             case Input.menu:
                 self.state = .paused
-                self.audioPlayer.playFxPositive()
+                self.fxPlayer.playPositive()
 
             default:
                 break
