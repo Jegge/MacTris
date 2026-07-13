@@ -36,7 +36,7 @@ class ViewController: NSViewController {
             #endif
         }
 
-        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
             guard let controller = notification.object as? GCController else {
                 Logger.input.info("Controller connection failed.")
                 return
@@ -44,8 +44,8 @@ class ViewController: NSViewController {
 
             Logger.input.info("Controller \(controller.vendorName ?? "Unknown Controller Vendor", privacy: .public) did connect.")
             controller.microGamepad?.valueChangedHandler = nil
-            controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-                self.inputMapper.translate(gamepad: gamepad, element: element).forEach {
+            controller.extendedGamepad?.valueChangedHandler = { [weak self] (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+                self?.inputMapper.translate(gamepad: gamepad, element: element).forEach {
                     $0.postNotification()
                 }
             }
