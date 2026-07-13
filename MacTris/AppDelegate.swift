@@ -10,7 +10,6 @@ import Cocoa
 @main class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         UserDefaults.standard.register()
-        InputMapper.shared.keyboardBindings = UserDefaults.standard.keyboardBindings
         AudioPlayer.shared.fxVolume = UserDefaults.standard.fxVolume
         AudioPlayer.shared.musicVolume = UserDefaults.standard.musicVolume
         AudioPlayer.shared.playMusic(mp3: "Korobeiniki")

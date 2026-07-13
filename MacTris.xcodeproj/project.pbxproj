@@ -41,6 +41,7 @@
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
 		D264595D3004D5F20027F35A /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595C3004D5510027F35A /* AppVersion.swift */; };
 		D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595E3004D60D0027F35A /* Bundle+Properties.swift */; };
+		D2645965300507720027F35A /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2645964300507720027F35A /* Input.swift */; };
 		D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */; };
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
@@ -115,6 +116,7 @@
 		D263AD482B54651900BC2B66 /* RadialGradient.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = RadialGradient.fsh; sourceTree = "<group>"; };
 		D264595C3004D5510027F35A /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		D264595E3004D60D0027F35A /* Bundle+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Properties.swift"; sourceTree = "<group>"; };
+		D2645964300507720027F35A /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiReleaseReader.swift; sourceTree = "<group>"; };
@@ -182,8 +184,9 @@
 		D26459613004DFB30027F35A /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
+				D2645964300507720027F35A /* Input.swift */,
 				D229011D2B46EA9500A9F88E /* KeyCode.swift */,
+				D22900F22B454FDD00A9F88E /* InputEvent.swift */,
 				D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */,
 			);
 			path = Input;
@@ -518,6 +521,7 @@
 				D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */,
 				D262DFCB2B4EBC3E00FDC801 /* GameConfiguration.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
+				D2645965300507720027F35A /* Input.swift in Sources */,
 				D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */,
 				D22900ED2B4543CD00A9F88E /* Menu.swift in Sources */,
 				D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */,

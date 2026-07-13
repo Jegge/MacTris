@@ -110,33 +110,33 @@ class Game: SceneBase {
     private func updateInstructions() {
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
-                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to quit —"
+                label.text = "— \(self.inputMapper.describeIdForKeyboard(.menu)) to quit —"
             } else {
-                label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to quit —"
+                label.text = "— \(self.inputMapper.describeIdForController(.menu)) to quit —"
             }
         }
 
         if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
-                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.menu)) to pause —"
+                label.text = "— \(self.inputMapper.describeIdForKeyboard(.menu)) to pause —"
             } else {
-                label.text = "— \(InputMapper.shared.describeIdForController(.menu)) to pause —"
+                label.text = "— \(self.inputMapper.describeIdForController(.menu)) to pause —"
             }
         }
 
         if let label = self.childNode(withName: "//labelGameOverInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
-                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.select)) to continue —"
+                label.text = "— \(self.inputMapper.describeIdForKeyboard(.select)) to continue —"
             } else {
-                label.text = "— \(InputMapper.shared.describeIdForController(.select)) to continue —"
+                label.text = "— \(self.inputMapper.describeIdForController(.select)) to continue —"
             }
         }
 
         if let label = self.childNode(withName: "//labelResumeInstructions") as? SKLabelNode {
             if GCController.controllers().isEmpty {
-                label.text = "— \(InputMapper.shared.describeIdForKeyboard(.select)) to resume —"
+                label.text = "— \(self.inputMapper.describeIdForKeyboard(.select)) to resume —"
             } else {
-                label.text = "— \(InputMapper.shared.describeIdForController(.select)) to resume —"
+                label.text = "— \(self.inputMapper.describeIdForController(.select)) to resume —"
             }
         }
     }

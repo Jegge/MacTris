@@ -21,30 +21,31 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         if let view = self.skView {
-            if let scene = SKScene(fileNamed: "Menu") {
+            if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
+
+                self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
+                    guard let controller = notification.object as? GCController else {
+                        Logger.input.info("Controller connection failed.")
+                        return
+                    }
+
+                    Logger.input.info("Controller \(controller.vendorName ?? "Unknown Controller Vendor", privacy: .public) did connect.")
+                    controller.microGamepad?.valueChangedHandler = nil
+                    controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+                        scene.inputMapper.translate(gamepad: gamepad, element: element).forEach {
+                            $0.postNotification()
+                        }
+                    }
+                }
             }
+
             view.ignoresSiblingOrder = true
             view.preferredFramesPerSecond = 60
             #if DEBUG
             view.showsFPS = true
             #endif
-        }
-
-        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
-            guard let controller = notification.object as? GCController else {
-                Logger.input.info("Controller connection failed.")
-                return
-            }
-
-            Logger.input.info("Controller \(controller.vendorName ?? "Unknown Controller Vendor", privacy: .public) did connect.")
-            controller.microGamepad?.valueChangedHandler = nil
-            controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-                InputMapper.shared.translate(gamepad: gamepad, element: element).forEach {
-                    $0.postNotification()
-                }
-            }
         }
 
         self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in

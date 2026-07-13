@@ -80,22 +80,22 @@ class Settings: SceneBase {
             return AudioPlayer.shared.fxVolume == 0 ? "Off" : "\(AudioPlayer.shared.fxVolume)%"
 
         case Item.keyShiftLeft:
-            return InputMapper.shared.describeIdForKeyboard(.shiftLeft)
+            return self.inputMapper.describeIdForKeyboard(.shiftLeft)
 
         case Item.keyShiftRight:
-            return InputMapper.shared.describeIdForKeyboard(.shiftRight)
+            return self.inputMapper.describeIdForKeyboard(.shiftRight)
 
         case Item.keyRotateLeft:
-            return InputMapper.shared.describeIdForKeyboard(.rotateCounterClockwise)
+            return self.inputMapper.describeIdForKeyboard(.rotateCounterClockwise)
 
         case Item.keyRotateRight:
-            return InputMapper.shared.describeIdForKeyboard(.rotateClockwise)
+            return self.inputMapper.describeIdForKeyboard(.rotateClockwise)
 
         case Item.keySoftDrop:
-            return InputMapper.shared.describeIdForKeyboard(.softDrop)
+            return self.inputMapper.describeIdForKeyboard(.softDrop)
 
         case Item.keyHardDrop:
-            return InputMapper.shared.describeIdForKeyboard(.hardDrop)
+            return self.inputMapper.describeIdForKeyboard(.hardDrop)
 
         case Item.rngMode:
             return UserDefaults.standard.randomGeneratorMode.description
@@ -123,22 +123,22 @@ class Settings: SceneBase {
     private func controllerValue(for item: String) -> String? {
         switch item {
         case Item.keyShiftLeft:
-            return InputMapper.shared.describeIdForController(.shiftLeft)
+            return self.inputMapper.describeIdForController(.shiftLeft)
 
         case Item.keyShiftRight:
-            return InputMapper.shared.describeIdForController(.shiftRight)
+            return self.inputMapper.describeIdForController(.shiftRight)
 
         case Item.keyRotateLeft:
-            return InputMapper.shared.describeIdForController(.rotateCounterClockwise)
+            return self.inputMapper.describeIdForController(.rotateCounterClockwise)
 
         case Item.keyRotateRight:
-            return InputMapper.shared.describeIdForController(.rotateClockwise)
+            return self.inputMapper.describeIdForController(.rotateClockwise)
 
         case Item.keySoftDrop:
-            return InputMapper.shared.describeIdForController(.softDrop)
+            return self.inputMapper.describeIdForController(.softDrop)
 
         case Item.keyHardDrop:
-            return InputMapper.shared.describeIdForController(.hardDrop)
+            return self.inputMapper.describeIdForController(.hardDrop)
 
         default:
             return nil
@@ -248,13 +248,13 @@ class Settings: SceneBase {
     }
 
     private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
-        if !InputMapper.shared.canBind(keyCode: event.keyCode, id: id) {
+        if !self.inputMapper.canBind(keyCode: event.keyCode, id: id) {
             AudioPlayer.playFxNegative()
             return false
         }
 
-        InputMapper.shared.bind(keyCode: event.keyCode, id: id)
-        UserDefaults.standard.keyboardBindings = InputMapper.shared.keyboardBindings
+        self.inputMapper.bind(keyCode: event.keyCode, id: id)
+        UserDefaults.standard.keyboardBindings = self.inputMapper.keyboardBindings
         AudioPlayer.playFxPositive()
 
         if let node = self.childNode(withName: "value\(item)") {
@@ -371,7 +371,7 @@ class Settings: SceneBase {
     override func keyDown(with event: NSEvent) {
         if let id = self.rebindId, let item = self.rebindItem {
             // the menu key aborts binding the key
-            if InputMapper.shared.translate(event: event).first(where: { $0.id == .menu }) != nil {
+            if self.inputMapper.translate(event: event).first(where: { $0.id == .menu }) != nil {
                 self.canceRebind(item: item)
                 self.rebindId = nil
                 self.rebindItem = nil

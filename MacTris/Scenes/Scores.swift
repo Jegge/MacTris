@@ -122,7 +122,7 @@ class Scores: SceneBase {
         if let index = self.index {
             self.enterText(at: index, forEvent: event)
         } else {
-            InputMapper.shared.translate(event: event).forEach {
+            self.inputMapper.translate(event: event).forEach {
                 self.inputDown(event: $0)
             }
         }

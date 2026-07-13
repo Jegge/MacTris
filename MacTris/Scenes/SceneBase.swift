@@ -19,6 +19,8 @@ class SceneBase: SKScene {
 
     private var eventMonitor: Any?
 
+    let inputMapper: InputMapper = InputMapper()
+
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),
         (keyCode: .rightcommand, flag: .command),
@@ -67,6 +69,8 @@ class SceneBase: SKScene {
         }
 
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
+
+        self.inputMapper.keyboardBindings = UserDefaults.standard.keyboardBindings
     }
 
     func eventFlagsChanged(event: NSEvent) -> NSEvent {
@@ -112,13 +116,13 @@ class SceneBase: SKScene {
     }
 
     override func keyDown(with event: NSEvent) {
-        InputMapper.shared.translate(event: event).forEach {
+        self.inputMapper.translate(event: event).forEach {
             self.inputDown(event: $0)
         }
     }
 
     override func keyUp(with event: NSEvent) {
-        InputMapper.shared.translate(event: event).forEach {
+        self.inputMapper.translate(event: event).forEach {
             self.inputUp(event: $0)
         }
     }
