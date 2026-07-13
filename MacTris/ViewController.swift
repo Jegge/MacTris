@@ -17,28 +17,24 @@ class ViewController: NSViewController {
     private var didEnterFullScreenObserver: Any?
     private var didExitFullScreenObserver: Any?
 
+    let audioPlayer = AudioPlayer()
+    let inputMapper = InputMapper()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.audioPlayer.fxVolume = UserDefaults.standard.fxVolume
+        self.audioPlayer.musicVolume = UserDefaults.standard.musicVolume
+        self.audioPlayer.playMusic(mp3: "Korobeiniki")
+
+        self.inputMapper.keyboardBindings = UserDefaults.standard.keyboardBindings
+
         if let view = self.skView {
             if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
+                scene.audioPlayer = self.audioPlayer
+                scene.inputMapper = self.inputMapper
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
-
-                self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
-                    guard let controller = notification.object as? GCController else {
-                        Logger.input.info("Controller connection failed.")
-                        return
-                    }
-
-                    Logger.input.info("Controller \(controller.vendorName ?? "Unknown Controller Vendor", privacy: .public) did connect.")
-                    controller.microGamepad?.valueChangedHandler = nil
-                    controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-                        scene.inputMapper.translate(gamepad: gamepad, element: element).forEach {
-                            $0.postNotification()
-                        }
-                    }
-                }
             }
 
             view.ignoresSiblingOrder = true
@@ -46,6 +42,21 @@ class ViewController: NSViewController {
             #if DEBUG
             view.showsFPS = true
             #endif
+        }
+
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { notification in
+            guard let controller = notification.object as? GCController else {
+                Logger.input.info("Controller connection failed.")
+                return
+            }
+
+            Logger.input.info("Controller \(controller.vendorName ?? "Unknown Controller Vendor", privacy: .public) did connect.")
+            controller.microGamepad?.valueChangedHandler = nil
+            controller.extendedGamepad?.valueChangedHandler = { (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+                self.inputMapper.translate(gamepad: gamepad, element: element).forEach {
+                    $0.postNotification()
+                }
+            }
         }
 
         self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
@@ -85,5 +96,7 @@ class ViewController: NSViewController {
         if let observer = self.didExitFullScreenObserver {
             NotificationCenter.default.removeObserver(observer)
         }
+
+        self.audioPlayer.stopMusic()
     }
 }

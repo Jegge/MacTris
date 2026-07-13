@@ -8,7 +8,6 @@
 import SpriteKit
 
 class SceneBase: SKScene {
-
     private var inputDownObserver: NSObjectProtocol?
     private var inputUpObserver: NSObjectProtocol?
     private var controllerDidConnectObserver: NSObjectProtocol?
@@ -19,7 +18,10 @@ class SceneBase: SKScene {
 
     private var eventMonitor: Any?
 
-    let inputMapper: InputMapper = InputMapper()
+    // swiftlint:disable implicitly_unwrapped_optional
+    var inputMapper: InputMapper!
+    var audioPlayer: AudioPlayer!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),
@@ -69,8 +71,6 @@ class SceneBase: SKScene {
         }
 
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
-
-        self.inputMapper.keyboardBindings = UserDefaults.standard.keyboardBindings
     }
 
     func eventFlagsChanged(event: NSEvent) -> NSEvent {
@@ -146,5 +146,43 @@ class SceneBase: SKScene {
     }
 
     func inputUp(event: InputEvent) {
+    }
+
+    func transitionToGame(level: Int) {
+        if let newScene = SKScene(fileNamed: "Game") as? Game {
+            newScene.scaleMode = self.scaleMode
+            newScene.audioPlayer = self.audioPlayer
+            newScene.inputMapper = self.inputMapper
+            newScene.options = UserDefaults.standard.tetrisOptions
+            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+        }
+    }
+
+    func transitionToScores(score: Int? = nil) {
+        if let newScene = SKScene(fileNamed: "Scores") as? Scores {
+            newScene.scaleMode = self.scaleMode
+            newScene.audioPlayer = self.audioPlayer
+            newScene.inputMapper = self.inputMapper
+            newScene.score = score
+            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+        }
+    }
+
+    func transitionToSettings() {
+        if let newScene = SKScene(fileNamed: "Settings") as? Settings {
+            newScene.scaleMode = self.scaleMode
+            newScene.audioPlayer = self.audioPlayer
+            newScene.inputMapper = self.inputMapper
+            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+        }
+    }
+
+    func transitionToMenu() {
+        if let newScene = SKScene(fileNamed: "Menu") as? Menu {
+            newScene.scaleMode = self.scaleMode
+            newScene.audioPlayer = self.audioPlayer
+            newScene.inputMapper = self.inputMapper
+            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+        }
     }
 }

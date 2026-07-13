@@ -59,12 +59,48 @@ class AudioPlayer: NSObject {
     var fxVolume: Int = 100
 
     var fxMuted: Bool = false
-
-    static let shared = AudioPlayer()
 }
 
 extension AudioPlayer: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         self.fxPlayers.remove(player)
+    }
+}
+
+extension AudioPlayer {
+    func playFxPositive() {
+        self.playFx(aiff: "Positive")
+    }
+
+    func playFxNegative() {
+        self.playFx(aiff: "Negative")
+    }
+
+    func playFxSelect() {
+        self.playFx(aiff: "Select")
+    }
+
+    func playFxSuccess() {
+        self.playFx(aiff: "Success")
+    }
+
+    func playFxQuadSuccess() {
+        self.playFx(aiff: "QuadSuccess")
+    }
+
+    func playFxGameOver() {
+        self.playFx(aiff: "GameOver")
+    }
+
+    func playFxShift() {
+        self.playFx(aiff: "Shift")
+    }
+
+    func playFxRotate() {
+        self.playFx(aiff: "Rotate")
+    }
+
+    func playFxLock() {
+        self.playFx(aiff: "Lock")
     }
 }

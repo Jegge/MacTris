@@ -30,7 +30,6 @@
 		D22901142B46379600A9F88E /* Shift.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D22901132B46379600A9F88E /* Shift.aiff */; };
 		D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */; };
 		D229011A2B46BB3B00A9F88E /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901192B46BB3B00A9F88E /* AudioPlayer.swift */; };
-		D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */; };
 		D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011D2B46EA9500A9F88E /* KeyCode.swift */; };
 		D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */; };
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
@@ -49,7 +48,6 @@
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
-		D2D6EEE32B4A9323008143D9 /* SKScene+Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE22B4A9323008143D9 /* SKScene+Transition.swift */; };
 		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
 		D2D6EEE72B4AD8F3008143D9 /* Lock.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE62B4AD8F3008143D9 /* Lock.aiff */; };
 		D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEEB2B4C4567008143D9 /* SceneBase.swift */; };
@@ -101,7 +99,6 @@
 		D22901132B46379600A9F88E /* Shift.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Shift.aiff; sourceTree = "<group>"; };
 		D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Korobeiniki.mp3; sourceTree = "<group>"; };
 		D22901192B46BB3B00A9F88E /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioPlayer+Fx.swift"; sourceTree = "<group>"; };
 		D229011D2B46EA9500A9F88E /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
 		D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
 		D22901212B47346500A9F88E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -128,7 +125,6 @@
 		D29FF1332E8A56CA005915E4 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
-		D2D6EEE22B4A9323008143D9 /* SKScene+Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKScene+Transition.swift"; sourceTree = "<group>"; };
 		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
 		D2D6EEE62B4AD8F3008143D9 /* Lock.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Lock.aiff; sourceTree = "<group>"; };
 		D2D6EEEB2B4C4567008143D9 /* SceneBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneBase.swift; sourceTree = "<group>"; };
@@ -250,11 +246,9 @@
 				D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */,
 				D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */,
 				D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */,
-				D229011B2B46C1B700A9F88E /* AudioPlayer+Fx.swift */,
 				D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */,
 				D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */,
 				D22901262B4828A600A9F88E /* OSLog+Categories.swift */,
-				D2D6EEE22B4A9323008143D9 /* SKScene+Transition.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -517,7 +511,6 @@
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
-				D2D6EEE32B4A9323008143D9 /* SKScene+Transition.swift in Sources */,
 				D26459AF30051B0B0027F35A /* Appearance.swift in Sources */,
 				D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
@@ -525,7 +518,6 @@
 				D262DFC82B4DCC4900FDC801 /* Secrets.generated.swift in Sources */,
 				D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */,
 				D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */,
-				D229011C2B46C1B700A9F88E /* AudioPlayer+Fx.swift in Sources */,
 				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
 				D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */,
 				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,

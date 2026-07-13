@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Mactris
+//  MacTris
 //
 //  Created by Sebastian Boettcher on 02.01.24.
 //
@@ -10,12 +10,5 @@ import Cocoa
 @main class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         UserDefaults.standard.register()
-        AudioPlayer.shared.fxVolume = UserDefaults.standard.fxVolume
-        AudioPlayer.shared.musicVolume = UserDefaults.standard.musicVolume
-        AudioPlayer.shared.playMusic(mp3: "Korobeiniki")
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        AudioPlayer.shared.stopMusic()
     }
 }
