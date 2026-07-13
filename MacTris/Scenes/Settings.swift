@@ -328,6 +328,10 @@ class Settings: SceneBase {
     }
 
     override func inputDown(event: InputEvent) {
+        if self.rebindId != nil && self.rebindItem != nil {
+            return
+        }
+
         switch event.id {
         case .up:
             self.fxPlayer.playSelect()

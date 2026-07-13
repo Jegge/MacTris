@@ -9,14 +9,16 @@ import GameController
 
 struct InputEvent: Equatable {
 
-    init(id: Input, isDown: Bool, isARepeat: Bool = false) {
+    init(id: Input, isDown: Bool, source: InputSource, isARepeat: Bool = false) {
         self.id = id
         self.isDown = isDown
+        self.source = source
         self.isARepeat = isARepeat
     }
 
     let id: Input
     let isDown: Bool
+    let source: InputSource
     let isARepeat: Bool
 
     static let inputDownNotification: NSNotification.Name = NSNotification.Name("InputEventInputDown")

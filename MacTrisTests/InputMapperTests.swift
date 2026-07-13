@@ -125,6 +125,26 @@ struct InputMapperTests {
         #expect(!mapper.canBind(keyCode: KeyCode.space.rawValue, id: .rotateClockwise))
     }
 
+    @Test func testCanBindUnmappableEscapeReturnsFalse() async throws {
+        let mapper = InputMapper()
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .hardDrop))
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .softDrop))
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .shiftLeft))
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .shiftRight))
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .rotateClockwise))
+        #expect(!mapper.canBind(keyCode: KeyCode.escape.rawValue, id: .rotateCounterClockwise))
+    }
+
+    @Test func testCanBindUnmappableReturnReturnsFalse() async throws {
+        let mapper = InputMapper()
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .hardDrop))
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .softDrop))
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .shiftLeft))
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .shiftRight))
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .rotateClockwise))
+        #expect(!mapper.canBind(keyCode: KeyCode.return.rawValue, id: .rotateCounterClockwise))
+    }
+
     @Test func testCanBindSameKeyToSameInputReturnsTrue() async throws {
         let mapper = InputMapper()
         #expect(mapper.canBind(keyCode: KeyCode.space.rawValue, id: .hardDrop))
@@ -174,45 +194,45 @@ struct InputMapperTests {
 struct InputEventTests {
 
     @Test func testEquality() async throws {
-        let lhs = InputEvent(id: .hardDrop, isDown: true)
-        let rhs = InputEvent(id: .hardDrop, isDown: true)
+        let lhs = InputEvent(id: .hardDrop, isDown: true, source: .keyboard)
+        let rhs = InputEvent(id: .hardDrop, isDown: true, source: .keyboard)
         #expect(lhs == rhs)
     }
 
     @Test func testInequalityDifferentIsDown() async throws {
-        let lhs = InputEvent(id: .hardDrop, isDown: true)
-        let rhs = InputEvent(id: .hardDrop, isDown: false)
+        let lhs = InputEvent(id: .hardDrop, isDown: true, source: .keyboard)
+        let rhs = InputEvent(id: .hardDrop, isDown: false, source: .keyboard)
         #expect(lhs != rhs)
     }
 
     @Test func testInequalityDifferentId() async throws {
-        let lhs = InputEvent(id: .hardDrop, isDown: true)
-        let rhs = InputEvent(id: .softDrop, isDown: true)
+        let lhs = InputEvent(id: .hardDrop, isDown: true, source: .keyboard)
+        let rhs = InputEvent(id: .softDrop, isDown: true, source: .keyboard)
         #expect(lhs != rhs)
     }
 
     @Test func testDescriptionKeyDown() async throws {
-        let event = InputEvent(id: .shiftLeft, isDown: true)
+        let event = InputEvent(id: .shiftLeft, isDown: true, source: .keyboard)
         #expect(event.description == "↓shift left")
     }
 
     @Test func testDescriptionKeyUp() async throws {
-        let event = InputEvent(id: .shiftLeft, isDown: false)
+        let event = InputEvent(id: .shiftLeft, isDown: false, source: .keyboard)
         #expect(event.description == "↑shift left")
     }
 
     @Test func testDescriptionRepeat() async throws {
-        let event = InputEvent(id: .shiftLeft, isDown: true, isARepeat: true)
+        let event = InputEvent(id: .shiftLeft, isDown: true, source: .keyboard, isARepeat: true)
         #expect(event.description == "↓shift left (repeated)")
     }
 
     @Test func testDefaultIsARepeatIsFalse() async throws {
-        let event = InputEvent(id: .hardDrop, isDown: true)
+        let event = InputEvent(id: .hardDrop, isDown: true, source: .keyboard)
         #expect(event.isARepeat == false)
     }
 
     @Test func testPostNotificationDown() async throws {
-        let event = InputEvent(id: .select, isDown: true)
+        let event = InputEvent(id: .select, isDown: true, source: .keyboard)
         var received = false
         let token = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: nil) { notification in
             if let obj = notification.object as? InputEvent, obj.id == .select {
@@ -225,7 +245,7 @@ struct InputEventTests {
     }
 
     @Test func testPostNotificationUp() async throws {
-        let event = InputEvent(id: .select, isDown: false)
+        let event = InputEvent(id: .select, isDown: false, source: .keyboard)
         var received = false
         let token = NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: nil) { notification in
             if let obj = notification.object as? InputEvent, obj.id == .select {

@@ -40,3 +40,8 @@ extension Input: CustomStringConvertible {
         }
     }
 }
+
+enum InputSource: Codable {
+    case keyboard
+    case controller
+}

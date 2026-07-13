@@ -41,6 +41,11 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateClockwise), mutable: true)
     ]
 
+    private var unmappable: [KeyCode] = [
+        .escape,
+        .return
+    ]
+
     var keyboardBindings: [KeyBinding] {
         get {
             self.keymap.filter { $0.mutable }.map { $0.binding }
@@ -82,12 +87,17 @@ class InputMapper {
     }
 
     func canBind(keyCode: UInt16, id: Input) -> Bool {
+        // check if it's a forbidden key
+        if self.unmappable.first(where: { $0.rawValue == keyCode}) != nil {
+            return false
+        }
+
         // check if it's a mutable, bindable key
         if self.keymap.first(where: { $0.binding.id == id && $0.mutable }) == nil {
             return false
         }
         // check if it's not already bound elsewhere
-        if self.keymap.first(where: { $0.binding.keyCode == keyCode && $0.binding.id != id}) != nil {
+        if self.keymap.first(where: { $0.binding.keyCode == keyCode && $0.binding.id != id && $0.mutable }) != nil {
             return false
         }
         return true
@@ -98,9 +108,9 @@ class InputMapper {
 
         switch event.type {
         case .keyDown:
-            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true, isARepeat: event.isARepeat) }
+            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true, source: .keyboard, isARepeat: event.isARepeat) }
         case .keyUp:
-            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: false) }
+            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: false, source: .keyboard) }
         default:
             break
         }
@@ -115,39 +125,39 @@ class InputMapper {
         if gamepad.dpad == element {
             result = [
                 // the order is important: game events before menu events
-                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed),
-                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed),
-                InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed),
-                InputEvent(id: .left, isDown: gamepad.dpad.left.isPressed),
-                InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed),
-                InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed),
-                InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed)
+                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed, source: .controller),
+                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed, source: .controller),
+                InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed, source: .controller),
+                InputEvent(id: .left, isDown: gamepad.dpad.left.isPressed, source: .controller),
+                InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed, source: .controller),
+                InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed, source: .controller),
+                InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonA == element {
             result =  [
-                InputEvent(id: .rotateCounterClockwise, isDown: gamepad.buttonA.isPressed)
+                InputEvent(id: .rotateCounterClockwise, isDown: gamepad.buttonA.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonB == element {
             result =  [
                 // the order is important: game events before menu events
-                InputEvent(id: .rotateClockwise, isDown: gamepad.buttonB.isPressed),
-                InputEvent(id: .select, isDown: gamepad.buttonB.isPressed)
+                InputEvent(id: .rotateClockwise, isDown: gamepad.buttonB.isPressed, source: .controller),
+                InputEvent(id: .select, isDown: gamepad.buttonB.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonY == element {
             result =  [
-                InputEvent(id: .hardDrop, isDown: gamepad.buttonY.isPressed)
+                InputEvent(id: .hardDrop, isDown: gamepad.buttonY.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonMenu == element {
             result =  [
-                InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed)
+                InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed, source: .controller)
             ]
         }
 
