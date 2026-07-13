@@ -65,7 +65,12 @@ class StackOutAnimation: TetrisBoardAnimation {
     }
 
     var finished: Bool {
-        return self.emptySpaces().isEmpty
+        for column in 0..<self.board.count {
+            for row in 0..<self.board[column].count where board[column][row] == nil {
+                return false
+            }
+        }
+        return true
     }
 
     func next() {
