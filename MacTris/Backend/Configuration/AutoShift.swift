@@ -19,14 +19,6 @@ enum AutoShift: Int {
         case .insane: return (5, 1)
         }
     }
-
-    func increase() -> AutoShift {
-        return AutoShift(rawValue: self.rawValue + 1) ?? .nes
-    }
-
-    func decrease() -> AutoShift {
-        return AutoShift(rawValue: self.rawValue - 1) ?? .insane
-    }
 }
 
 extension AutoShift: CustomStringConvertible {
@@ -37,5 +29,15 @@ extension AutoShift: CustomStringConvertible {
         case .fast: return "Fast (6–3)"
         case .insane: return "Insane (5–1)"
         }
+    }
+}
+
+extension AutoShift: Adjustable {
+    func increased() -> AutoShift {
+        return AutoShift(rawValue: self.rawValue + 1) ?? .nes
+    }
+
+    func decreased() -> AutoShift {
+        return AutoShift(rawValue: self.rawValue - 1) ?? .insane
     }
 }

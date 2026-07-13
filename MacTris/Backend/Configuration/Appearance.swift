@@ -9,14 +9,6 @@ enum Appearance: Int {
     case plain = 1
     case shaded = 2
     case bright = 3
-
-    func increase() -> Appearance {
-        return Appearance(rawValue: self.rawValue + 1) ?? .plain
-    }
-
-    func decrease() -> Appearance {
-        return Appearance(rawValue: self.rawValue - 1) ?? .bright
-    }
 }
 
 extension Appearance: CustomStringConvertible {
@@ -26,5 +18,15 @@ extension Appearance: CustomStringConvertible {
         case .shaded: return "Shaded"
         case .bright: return "Bright"
         }
+    }
+}
+
+extension Appearance: Adjustable {
+    func increased() -> Appearance {
+        return Appearance(rawValue: self.rawValue + 1) ?? .plain
+    }
+
+    func decreased() -> Appearance {
+        return Appearance(rawValue: self.rawValue - 1) ?? .bright
     }
 }

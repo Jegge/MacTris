@@ -44,6 +44,7 @@
 		D26459AF30051B0B0027F35A /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459AE30051B0B0027F35A /* Appearance.swift */; };
 		D26459B3300529F10027F35A /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459B2300529F10027F35A /* MusicPlayer.swift */; };
 		D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459C6300534BF0027F35A /* Secrets.generated.swift */; };
+		D26459E0300571210027F35A /* Adjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26459DF3005711D0027F35A /* Adjustable.swift */; };
 		D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */; };
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
@@ -120,6 +121,7 @@
 		D26459AE30051B0B0027F35A /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		D26459B2300529F10027F35A /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		D26459C6300534BF0027F35A /* Secrets.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.generated.swift; sourceTree = "<group>"; };
+		D26459DF3005711D0027F35A /* Adjustable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adjustable.swift; sourceTree = "<group>"; };
 		D26ED3972B44D7A1000FE86C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D26ED3982B44D7A1000FE86C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiReleaseReader.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 		D26459AB30051AE70027F35A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				D26459DF3005711D0027F35A /* Adjustable.swift */,
 				D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */,
 				D26459AE30051B0B0027F35A /* Appearance.swift */,
 				D26459AC30051AF80027F35A /* RandomGeneratorMode.swift */,
@@ -526,6 +529,7 @@
 				D26459AF30051B0B0027F35A /* Appearance.swift in Sources */,
 				D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */,
 				D2D6EEEC2B4C4567008143D9 /* SceneBase.swift in Sources */,
+				D26459E0300571210027F35A /* Adjustable.swift in Sources */,
 				D22900EF2B454D3000A9F88E /* Scores.swift in Sources */,
 				D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */,
 				D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */,

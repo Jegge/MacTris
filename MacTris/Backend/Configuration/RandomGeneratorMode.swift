@@ -9,14 +9,6 @@ enum RandomGeneratorMode: Int {
     case nes = 1
     case sevenBag = 2
 
-    func increase() -> RandomGeneratorMode {
-        return RandomGeneratorMode(rawValue: self.rawValue + 1) ?? .nes
-    }
-
-    func decrease() -> RandomGeneratorMode {
-        return RandomGeneratorMode(rawValue: self.rawValue - 1) ?? .sevenBag
-    }
-
     func createGenerator() -> RandomTetrominoShapeGenerator {
         switch self {
         case .nes:
@@ -33,5 +25,15 @@ extension RandomGeneratorMode: CustomStringConvertible {
         case .nes: return "Classic (NES)"
         case .sevenBag: return "Modern (7-Bag)"
         }
+    }
+}
+
+extension RandomGeneratorMode: Adjustable {
+    func increased() -> RandomGeneratorMode {
+        return RandomGeneratorMode(rawValue: self.rawValue + 1) ?? .nes
+    }
+
+    func decreased() -> RandomGeneratorMode {
+        return RandomGeneratorMode(rawValue: self.rawValue - 1) ?? .sevenBag
     }
 }

@@ -16,24 +16,24 @@ struct RandomGeneratorModeTests {
     }
 
     @Test func testIncreaseNes() async throws {
-        #expect(RandomGeneratorMode.nes.increase() == .sevenBag)
+        #expect(RandomGeneratorMode.nes.increased() == .sevenBag)
     }
 
     @Test func testIncreaseSevenBagWrapsToNes() async throws {
-        #expect(RandomGeneratorMode.sevenBag.increase() == .nes)
+        #expect(RandomGeneratorMode.sevenBag.increased() == .nes)
     }
 
     @Test func testDecreaseSevenBag() async throws {
-        #expect(RandomGeneratorMode.sevenBag.decrease() == .nes)
+        #expect(RandomGeneratorMode.sevenBag.decreased() == .nes)
     }
 
     @Test func testDecreaseNesWrapsToSevenBag() async throws {
-        #expect(RandomGeneratorMode.nes.decrease() == .sevenBag)
+        #expect(RandomGeneratorMode.nes.decreased() == .sevenBag)
     }
 
     @Test func testCycleRoundtrip() async throws {
-        #expect(RandomGeneratorMode.nes.increase().decrease() == .nes)
-        #expect(RandomGeneratorMode.sevenBag.decrease().increase() == .sevenBag)
+        #expect(RandomGeneratorMode.nes.increased().decreased() == .nes)
+        #expect(RandomGeneratorMode.sevenBag.decreased().increased() == .sevenBag)
     }
 
     @Test func testCreateNesGenerator() async throws {
@@ -64,33 +64,33 @@ struct AppearanceTests {
     }
 
     @Test func testIncreasePlain() async throws {
-        #expect(Appearance.plain.increase() == .shaded)
+        #expect(Appearance.plain.increased() == .shaded)
     }
 
     @Test func testIncreaseShaded() async throws {
-        #expect(Appearance.shaded.increase() == .bright)
+        #expect(Appearance.shaded.increased() == .bright)
     }
 
     @Test func testIncreaseBrightWrapsToPlain() async throws {
-        #expect(Appearance.bright.increase() == .plain)
+        #expect(Appearance.bright.increased() == .plain)
     }
 
     @Test func testDecreaseBright() async throws {
-        #expect(Appearance.bright.decrease() == .shaded)
+        #expect(Appearance.bright.decreased() == .shaded)
     }
 
     @Test func testDecreaseShaded() async throws {
-        #expect(Appearance.shaded.decrease() == .plain)
+        #expect(Appearance.shaded.decreased() == .plain)
     }
 
     @Test func testDecreasePlainWrapsToBright() async throws {
-        #expect(Appearance.plain.decrease() == .bright)
+        #expect(Appearance.plain.decreased() == .bright)
     }
 
     @Test func testCycleRoundtrip() async throws {
         for appearance in [Appearance.plain, .shaded, .bright] {
-            #expect(appearance.increase().decrease() == appearance)
-            #expect(appearance.decrease().increase() == appearance)
+            #expect(appearance.increased().decreased() == appearance)
+            #expect(appearance.decreased().increased() == appearance)
         }
     }
 
@@ -117,41 +117,41 @@ struct AutoShiftTests {
     }
 
     @Test func testIncreaseNesToModern() async throws {
-        #expect(AutoShift.nes.increase() == .modern)
+        #expect(AutoShift.nes.increased() == .modern)
     }
 
     @Test func testIncreaseModernToFast() async throws {
-        #expect(AutoShift.modern.increase() == .fast)
+        #expect(AutoShift.modern.increased() == .fast)
     }
 
     @Test func testIncreaseFastToInsane() async throws {
-        #expect(AutoShift.fast.increase() == .insane)
+        #expect(AutoShift.fast.increased() == .insane)
     }
 
     @Test func testIncreaseInsaneWrapsToNes() async throws {
-        #expect(AutoShift.insane.increase() == .nes)
+        #expect(AutoShift.insane.increased() == .nes)
     }
 
     @Test func testDecreaseInsaneToFast() async throws {
-        #expect(AutoShift.insane.decrease() == .fast)
+        #expect(AutoShift.insane.decreased() == .fast)
     }
 
     @Test func testDecreaseFastToModern() async throws {
-        #expect(AutoShift.fast.decrease() == .modern)
+        #expect(AutoShift.fast.decreased() == .modern)
     }
 
     @Test func testDecreaseModernToNes() async throws {
-        #expect(AutoShift.modern.decrease() == .nes)
+        #expect(AutoShift.modern.decreased() == .nes)
     }
 
     @Test func testDecreaseNesWrapsToInsane() async throws {
-        #expect(AutoShift.nes.decrease() == .insane)
+        #expect(AutoShift.nes.decreased() == .insane)
     }
 
     @Test func testCycleRoundtrip() async throws {
         for shift in [AutoShift.nes, .modern, .fast, .insane] {
-            #expect(shift.increase().decrease() == shift)
-            #expect(shift.decrease().increase() == shift)
+            #expect(shift.increased().decreased() == shift)
+            #expect(shift.decreased().increased() == shift)
         }
     }
 

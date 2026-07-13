@@ -145,45 +145,47 @@ class Settings: SceneBase {
         }
     }
 
-    private func increase(item: String) {
+    private func adjust(item: String, direction: AdjustDirection) {
         switch item {
         case Item.displayMode:
-            UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
+            UserDefaults.standard.fullscreen = UserDefaults.standard.fullscreen.adjusted(by: direction)
             self.view?.window?.toggleFullScreen(nil)
             self.fxPlayer.playPositive()
 
         case Item.musicVolume:
-            MusicPlayer.shared.volume = min(100, MusicPlayer.shared.volume + 2)
-            UserDefaults.standard.musicVolume = MusicPlayer.shared.volume
+            let volume = min(100, max(0, MusicPlayer.shared.volume + (direction == .increase ? 2 : -2)))
+            MusicPlayer.shared.volume = volume
+            UserDefaults.standard.musicVolume = volume
             self.fxPlayer.playPositive()
 
         case Item.fxVolume:
-            self.fxPlayer.volume = min(100, self.fxPlayer.volume + 2)
-            UserDefaults.standard.fxVolume = self.fxPlayer.volume
+            let volume = min(100, max(0, self.fxPlayer.volume + (direction == .increase ? 2 : -2)))
+            self.fxPlayer.volume = volume
+            UserDefaults.standard.fxVolume = volume
             self.fxPlayer.playPositive()
 
         case Item.rngMode:
-            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
+            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         case Item.autoShift:
-            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
+            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         case Item.wallKick:
-            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
+            UserDefaults.standard.wallKick = UserDefaults.standard.wallKick.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         case Item.hardDrop:
-            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
+            UserDefaults.standard.hardDrop = UserDefaults.standard.hardDrop.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         case Item.appearance:
-            UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
+            UserDefaults.standard.appearance = UserDefaults.standard.appearance.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         case Item.animations:
-            UserDefaults.standard.animations = !UserDefaults.standard.animations
+            UserDefaults.standard.animations = UserDefaults.standard.animations.adjusted(by: direction)
             self.fxPlayer.playPositive()
 
         default:
@@ -191,49 +193,45 @@ class Settings: SceneBase {
         }
     }
 
-    private func decrease(item: String) {
+    private func select(item: String) {
         switch item {
-        case Item.displayMode:
-            UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
-            self.view?.window?.toggleFullScreen(nil)
-            self.fxPlayer.playPositive()
-
         case Item.musicVolume:
-            MusicPlayer.shared.volume = max(0, MusicPlayer.shared.volume - 2)
-            UserDefaults.standard.musicVolume = MusicPlayer.shared.volume
+            let volume = ((MusicPlayer.shared.volume / 10) * 10) + 10
+            MusicPlayer.shared.volume = volume > 100 ? 0 : volume
+            UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
             self.fxPlayer.playPositive()
 
         case Item.fxVolume:
-            self.fxPlayer.volume = max(0, self.fxPlayer.volume - 2)
-            UserDefaults.standard.fxVolume = self.fxPlayer.volume
+            let volume = ((self.fxPlayer.volume / 10) * 10) + 10
+            self.fxPlayer.volume = volume > 100 ? 0 : volume
+            UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
             self.fxPlayer.playPositive()
 
-        case Item.rngMode:
-            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.decrease()
-            self.fxPlayer.playPositive()
+        case Item.keyShiftLeft:
+            self.beginRebind(id: .shiftLeft, for: item)
 
-        case Item.autoShift:
-            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.decrease()
-            self.fxPlayer.playPositive()
+        case Item.keyShiftRight:
+            self.beginRebind(id: .shiftRight, for: item)
 
-        case Item.wallKick:
-            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
-            self.fxPlayer.playPositive()
+        case Item.keyRotateLeft:
+            self.beginRebind(id: .rotateCounterClockwise, for: item)
 
-        case Item.hardDrop:
-            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
-            self.fxPlayer.playPositive()
+        case Item.keyRotateRight:
+            self.beginRebind(id: .rotateClockwise, for: item)
 
-        case Item.appearance:
-            UserDefaults.standard.appearance = UserDefaults.standard.appearance.decrease()
-            self.fxPlayer.playPositive()
+        case Item.keySoftDrop:
+            self.beginRebind(id: .softDrop, for: item)
 
-        case Item.animations:
-            UserDefaults.standard.animations = !UserDefaults.standard.animations
+        case Item.keyHardDrop:
+            self.beginRebind(id: .hardDrop, for: item)
+
+        case Item.back:
             self.fxPlayer.playPositive()
+            self.transitionToMenu()
 
         default:
-            self.fxPlayer.playNegative()
+            // selecting all other items results in the same behaviour as increasing it's value
+            self.adjust(item: item, direction: .increase)
         }
     }
 
@@ -273,79 +271,8 @@ class Settings: SceneBase {
         }
     }
 
-    private func select(item: String) {
-        switch item {
-        case Item.displayMode:
-            UserDefaults.standard.fullscreen = !UserDefaults.standard.fullscreen
-            self.view?.window?.toggleFullScreen(nil)
-            self.fxPlayer.playPositive()
-
-        case Item.musicVolume:
-            let volume = ((MusicPlayer.shared.volume / 10) * 10) + 10
-            MusicPlayer.shared.volume = volume > 100 ? 0 : volume
-            UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
-            self.fxPlayer.playPositive()
-
-        case Item.fxVolume:
-            let volume = ((self.fxPlayer.volume / 10) * 10) + 10
-            self.fxPlayer.volume = volume > 100 ? 0 : volume
-            UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
-            self.fxPlayer.playPositive()
-
-        case Item.keyShiftLeft:
-            self.beginRebind(id: .shiftLeft, for: item)
-
-        case Item.keyShiftRight:
-            self.beginRebind(id: .shiftRight, for: item)
-
-        case Item.keyRotateLeft:
-            self.beginRebind(id: .rotateCounterClockwise, for: item)
-
-        case Item.keyRotateRight:
-            self.beginRebind(id: .rotateClockwise, for: item)
-
-        case Item.keySoftDrop:
-            self.beginRebind(id: .softDrop, for: item)
-
-        case Item.keyHardDrop:
-            self.beginRebind(id: .hardDrop, for: item)
-
-        case Item.rngMode:
-            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.increase()
-            self.fxPlayer.playPositive()
-
-        case Item.autoShift:
-            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.increase()
-            self.fxPlayer.playPositive()
-
-        case Item.wallKick:
-            UserDefaults.standard.wallKick = !UserDefaults.standard.wallKick
-            self.fxPlayer.playPositive()
-
-        case Item.hardDrop:
-            UserDefaults.standard.hardDrop = !UserDefaults.standard.hardDrop
-            self.fxPlayer.playPositive()
-
-        case Item.appearance:
-            UserDefaults.standard.appearance = UserDefaults.standard.appearance.increase()
-            self.fxPlayer.playPositive()
-
-        case Item.animations:
-            UserDefaults.standard.animations = !UserDefaults.standard.animations
-            self.fxPlayer.playPositive()
-
-        case Item.back:
-            self.fxPlayer.playPositive()
-            self.transitionToMenu()
-
-        default:
-            break
-        }
-    }
-
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
     }
@@ -403,11 +330,11 @@ class Settings: SceneBase {
             self.update()
 
         case .left:
-            self.decrease(item: self.menuItems[self.selection])
+            self.adjust(item: self.menuItems[self.selection], direction: .decrease)
             self.update()
 
         case .right:
-            self.increase(item: self.menuItems[self.selection])
+            self.adjust(item: self.menuItems[self.selection], direction: .increase)
             self.update()
 
         case .menu:
