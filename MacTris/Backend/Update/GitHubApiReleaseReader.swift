@@ -38,19 +38,10 @@ struct GitHubApiReleaseReader {
         let (data, _) = try await self.session.data(from: url)
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
         let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
-
-//        #if DEBUG
-//        // fake an available update for development purposes
-//        if #available(macOS 13.0, *) {
-//            try await Task.sleep(for: .seconds(3))
-//        }
-//        return Release(version: AppVersion(major: Bundle.main.version.major, minor: Bundle.main.version.minor + 1), downloadUrl: URL(string: "http://example.com/MacTris-0.0.dmg")!)
-//        #else
         if let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "") {
             return Release(version: AppVersion(string: version), downloadUrl: downloadUrl)
         }
         return nil
-      //  #endif
     }
 
     func parseRelease(from data: Data) throws -> (version: String, downloadUrl: String?) {
