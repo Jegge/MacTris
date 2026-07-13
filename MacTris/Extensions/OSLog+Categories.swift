@@ -1,5 +1,5 @@
 //
-//  OsLog+Categories.swift
+//  OSLog+Categories.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 05.01.24.

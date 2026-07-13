@@ -1,5 +1,5 @@
 //
-//  KeyMapper.swift
+//  InputMapper.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 06.01.24.
