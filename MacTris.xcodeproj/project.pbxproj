@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D20F653430024C9D00E432FE /* TetrisBoardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */; };
-		D21AA3872B513A7300362226 /* Tetris.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* Tetris.swift */; };
+		D21AA3872B513A7300362226 /* TetrisBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21AA3862B513A7300362226 /* TetrisBoard.swift */; };
 		D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */; };
 		D22877BB3000B6D3005B36E2 /* SKNode+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */; };
 		D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */; };
@@ -78,7 +78,7 @@
 		D20B3E232FFD5F6F0021CAF0 /* MacTrisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTrisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisBoardAnimation.swift; sourceTree = "<group>"; };
 		D20F653530029BF000E432FE /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		D21AA3862B513A7300362226 /* Tetris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetris.swift; sourceTree = "<group>"; };
+		D21AA3862B513A7300362226 /* TetrisBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisBoard.swift; sourceTree = "<group>"; };
 		D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKLabelNode+Animation.swift"; sourceTree = "<group>"; };
 		D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+Animation.swift"; sourceTree = "<group>"; };
 		D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKTileMapNode+Drawing.swift"; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D229010F2B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift */,
-				D21AA3862B513A7300362226 /* Tetris.swift */,
+				D21AA3862B513A7300362226 /* TetrisBoard.swift */,
 				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
 				D20F653330024C9D00E432FE /* TetrisBoardAnimation.swift */,
 			);
@@ -527,7 +527,7 @@
 			files = (
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
-				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
+				D21AA3872B513A7300362226 /* TetrisBoard.swift in Sources */,
 				D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
 				D26459AF30051B0B0027F35A /* Appearance.swift in Sources */,

@@ -10,9 +10,9 @@ import Testing
 
 // swiftlint:disable force_unwrapping
 
-struct TetrisTests {
-    private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
-        Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: wallKick)
+struct TetrisBoardTests {
+    private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> TetrisBoard {
+        TetrisBoard(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: wallKick)
     }
 
     @Test func testInitialState() async throws {
@@ -25,8 +25,8 @@ struct TetrisTests {
 
     @Test func testBoardSize() async throws {
         let tetris = makeTetris()
-        #expect(tetris.board.count == Tetris.numberOfColumns)
-        #expect(tetris.board[0].count == Tetris.numberOfRows)
+        #expect(tetris.board.count == TetrisBoard.numberOfColumns)
+        #expect(tetris.board[0].count == TetrisBoard.numberOfRows)
     }
 
     @Test func testSpawnCreatesCurrentPiece() async throws {
@@ -378,7 +378,7 @@ struct TetrisTests {
             wallKick: true,
             hardDrop: true
         )
-        let tetris = Tetris(options: options)
+        let tetris = TetrisBoard(options: options)
         #expect(tetris.level == 3)
         #expect(tetris.current != nil)
         #expect(tetris.score == 0)
@@ -408,7 +408,7 @@ struct TetrisTests {
         #expect(tetris.stackHeight == 2)
     }
 
-    private func reachGameOver() -> Tetris {
+    private func reachGameOver() -> TetrisBoard {
         let shapes: [Tetromino.Shape] = Array(repeating: .o, count: 100)
         let tetris = makeTetris(shapes: shapes)
         while tetris.softDrop(manual: false) {}

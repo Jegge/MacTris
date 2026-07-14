@@ -50,7 +50,7 @@ class Game: SceneBase {
 
     var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animations: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
 
-    private var tetris: Tetris?
+    private var tetris: TetrisBoard?
     private var boardAnimation: TetrisBoardAnimation?
     private var frameCount: FrameCount = FrameCount()
 
@@ -158,7 +158,7 @@ class Game: SceneBase {
         Logger.game.info("Begin game with \(self.options, privacy: .public)")
 
         self.frameCount = FrameCount(options: self.options)
-        self.tetris = Tetris(options: self.options)
+        self.tetris = TetrisBoard(options: self.options)
         self.framesToWait = self.frameCount.gravity(level: self.options.startingLevel)
         self.state = .running
 
@@ -203,7 +203,7 @@ class Game: SceneBase {
         }
     }
 
-    private func handleInput(_ tetris: Tetris) {
+    private func handleInput(_ tetris: TetrisBoard) {
         if self.keyRepeatFrames > 0 {
             self.keyRepeatFrames -= 1
         } else if self.boardAnimation == nil, tetris.current != nil {
@@ -249,7 +249,7 @@ class Game: SceneBase {
         }
     }
 
-    private func handleAutomaticActions(_ tetris: Tetris) {
+    private func handleAutomaticActions(_ tetris: TetrisBoard) {
         if self.framesToWait > 0 {
             self.framesToWait -= 1
         } else if let animation = self.boardAnimation as? DissolveLinesAnimation {
