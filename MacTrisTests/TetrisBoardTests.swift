@@ -539,6 +539,132 @@ struct TetrisBoardTests {
         #expect(tetris.grid[2][0] == nil)
         #expect(tetris.grid[6][0] == nil)
     }
+
+    // MARK: - Integration: full game simulation
+
+    @Test func testFullGameIntegrationPlaysUntilGameOver() async throws {
+        // Play through the entire game lifecycle: spawn, drop, lock,
+        // line clear, level up, and eventually game over.
+        let shapes: [Tetromino.Shape] = [
+            .i, .o, .t, .s, .z, .j, .l,
+            .i, .o, .t, .s, .z, .j, .l,
+            .i, .o, .t, .s, .z, .j, .l,
+            .i, .o, .t, .s, .z, .j, .l,
+            .i, .o, .t, .s, .z, .j, .l
+        ]
+        let tetris = makeTetris(startingLevel: 0, wallKick: false, shapes: shapes)
+
+        #expect(tetris.level == 0)
+        #expect(tetris.lines == 0)
+        #expect(tetris.score == 0)
+        #expect(tetris.current != nil)
+
+        var spawned = 1
+        var cleared = 0
+
+        while tetris.current != nil {
+            // Drop until locked
+            while tetris.softDrop(manual: false) { }
+
+            // Clear completed lines
+            if let lines = tetris.lowestCompletedLines {
+                cleared += lines.count
+                tetris.clear(lines: lines)
+            }
+
+            guard tetris.spawn() else { break }
+            spawned += 1
+            #expect(tetris.current != nil)
+        }
+
+        #expect(tetris.current == nil)
+        #expect(tetris.lines == cleared)
+        #expect(spawned > 5)
+        #expect(tetris.statistics.total >= spawned)
+        #expect(tetris.level >= 0)
+        #expect(tetris.level <= TetrisBoard.maxLevel)
+        #expect(tetris.score >= 0)
+    }
+
+    @Test func testFullGameIntegrationScoreAndLevelProgression() async throws {
+        // Fill a single complete row using I (left + right) and O (far right),
+        // clear it, then continue dropping pieces until game over.
+        // This exercises: line completion, scoring, spawn/drop cycle, game over.
+
+        let shapes: [Tetromino.Shape] = Array(repeating: [.i, .i, .o], count: 15).flatMap { $0 }
+        let tetris = makeTetris(startingLevel: 0, wallKick: false, shapes: shapes)
+
+        #expect(tetris.current?.shape == .i)
+
+        // Place I at left (x=2), covers cols 0..3
+        for _ in 0..<3 where tetris.shiftLeft() {}
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+
+        // Place I at right (x=6), covers cols 4..7
+        for _ in 0..<1 where tetris.shiftRight() {}
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+
+        // Place O at far right (x=9), covers cols 8..9 at rows y-1 and y
+        for _ in 0..<4 where tetris.shiftRight() {}
+        tetris.hardDrop()
+
+        // Row 0 should now be complete
+        #expect(tetris.lowestCompletedLines != nil)
+        let lines = tetris.lowestCompletedLines!
+        #expect(lines.count == 1)
+
+        let expectedScore = 40 * (0 + 1)  // 40 at level 0
+        let beforeScore = tetris.score
+        tetris.clear(lines: lines)
+        #expect(tetris.score == beforeScore + expectedScore)
+        #expect(tetris.lines == 1)
+        #expect(tetris.level == 0)
+
+        // Continue playing until game over — validates the game loop
+        #expect(tetris.spawn())
+        var spawned = 3  // we already spawned 3 pieces
+        while tetris.current != nil {
+            while tetris.softDrop(manual: false) { }
+            if let nextLines = tetris.lowestCompletedLines {
+                tetris.clear(lines: nextLines)
+            }
+            guard tetris.spawn() else { break }
+            spawned += 1
+        }
+
+        #expect(tetris.current == nil)
+        #expect(tetris.statistics.total >= spawned)
+        #expect(tetris.lines > 0)
+    }
+
+    @Test func testFullGameIntegrationGameOver() async throws {
+        // Stack O pieces in the same column until the board fills up.
+        // O at (5,19) covers cols 4..5 and rows 18..19.
+        // Hard drop lands the first O at y=1 (rows 0..1).
+        // 10 O pieces fill 10×2=20 rows → 11th spawn fails.
+        let shapes: [Tetromino.Shape] = Array(repeating: .o, count: 20)
+        let tetris = makeTetris(startingLevel: 0, wallKick: false, shapes: shapes)
+
+        var dropped = 0
+        while tetris.current != nil {
+            tetris.hardDrop()
+            dropped += 1
+            guard tetris.spawn() else { break }
+        }
+
+        #expect(dropped == 10)
+        #expect(tetris.current == nil)
+
+        // Each O drops a decreasing distance: 18, 16, 14, ..., 0 rows.
+        // Score = 2 * sum(even 2..18) = 2 * (18+16+14+12+10+8+6+4+2+0) = 180
+        // But only the first 9 hard drops add score (the 10th is already at the top).
+        #expect(tetris.score == 180)
+        #expect(tetris.lines == 0)
+        #expect(tetris.statistics.total == 11)
+        #expect(tetris.statistics.count(.o) == 11)
+    }
 }
 
 // swiftlint:enable force_unwrapping
