@@ -34,6 +34,7 @@ class Game: SceneBase {
     private var waitFramesForUpdate: Int = 0
     private var waitFramesForKeyRepeat: Int  = 0
     private var keyRepeatIsInitial: Bool = false
+    private var duration: TimeInterval = 0
 
     private var frameRateStabilizer = FrameRateStabilizer(desiredFps: 60)
 
@@ -152,7 +153,7 @@ class Game: SceneBase {
         }
 
         self.frameRateStabilizer.update(currentTime) { delta in
-            board.addDuration(delta)
+            self.duration += delta
 
             if self.boardAnimation == nil, board.current != nil {
                 if self.waitFramesForKeyRepeat > 0 {
@@ -178,7 +179,7 @@ class Game: SceneBase {
         self.labelLevel?.set(text: self.numberFormatter.string(for: board.level) ?? "", animated: self.options.animations)
         self.labelLines?.set(text: self.numberFormatter.string(for: board.lines) ?? "", animated: self.options.animations)
         self.labelScore?.set(text: self.numberFormatter.string(for: board.score) ?? "", animated: self.options.animations)
-        self.labelTime?.text = self.dateFormatter.string(from: board.duration)
+        self.labelTime?.text = self.dateFormatter.string(from: self.duration)
         self.preview?.draw(tetromino: board.next.with(position: (2, 1)), appearance: self.options.appearance)
     }
 

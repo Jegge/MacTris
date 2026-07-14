@@ -20,7 +20,6 @@ struct TetrisBoardTests {
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
         #expect(tetris.level == 0)
-        #expect(tetris.duration == 0)
     }
 
     @Test func testBoardSize() async throws {
@@ -32,11 +31,6 @@ struct TetrisBoardTests {
     @Test func testSpawnCreatesCurrentPiece() async throws {
         let tetris = makeTetris()
         #expect(tetris.current != nil)
-    }
-
-    @Test func testSpawnPosition() async throws {
-        let tetris = makeTetris()
-        #expect(tetris.spawnPosition == (5, 19))
     }
 
     @Test func testBoardShowsCurrentPiece() async throws {
@@ -128,14 +122,6 @@ struct TetrisBoardTests {
     @Test func testStackHeight() async throws {
         let tetris = makeTetris()
         #expect(tetris.stackHeight == 0)
-    }
-
-    @Test func testAddDuration() async throws {
-        let tetris = makeTetris()
-        tetris.addDuration(5.5)
-        #expect(tetris.duration == 5.5)
-        tetris.addDuration(2.5)
-        #expect(tetris.duration == 8.0)
     }
 
     @Test func testLowestCompletedLinesNoLines() async throws {

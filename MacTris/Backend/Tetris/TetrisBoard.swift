@@ -29,15 +29,16 @@ class TetrisBoard {
     private var dropCounter: Int = 0
     private var linesToNextLevel: Int
     private var enableWallKick: Bool
-
     private(set) var lines: Int = 0
     private(set) var level: Int = 0
     private(set) var score: Int = 0
-    private(set) var duration: TimeInterval = 0
+
     private(set) var next: Tetromino
     private(set) var current: Tetromino?
 
     private(set) var statistics: Statistics = Statistics()
+
+    static let spawnPosition: Point = (TetrisBoard.numberOfColumns / 2, TetrisBoard.numberOfRows - 1)
 
     init (random: RandomTetrominoShapeGenerator, startingLevel: Int, wallKick: Bool) {
         self.random = random
@@ -47,7 +48,7 @@ class TetrisBoard {
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: TetrisBoard.numberOfRows), count: TetrisBoard.numberOfColumns)
 
-        let current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
+        let current = Tetromino(shape: self.random.next(), rotation: 0, position: TetrisBoard.spawnPosition)
         self.statistics.add(current.shape)
         self.current = current
 
@@ -105,10 +106,6 @@ class TetrisBoard {
         return result
     }
 
-    lazy var spawnPosition: (Int, Int) = {
-        return (TetrisBoard.numberOfColumns / 2, TetrisBoard.numberOfRows - 1)
-    }()
-
     private subscript (column: Int, row: Int) -> Tetromino.Shape? {
         get {
             if column >= 0 && column < TetrisBoard.numberOfColumns && row >= 0 && row < TetrisBoard.numberOfRows {
@@ -123,17 +120,13 @@ class TetrisBoard {
         }
     }
 
-    func addDuration(_ elapsed: TimeInterval) {
-        self.duration += elapsed
-    }
-
     func clear(lines: Range<Int>) {
         self.drop(lines: lines)
         self.score(lines: lines)
     }
 
     func spawn() -> Bool {
-        let current = self.next.with(position: self.spawnPosition)
+        let current = self.next.with(position: TetrisBoard.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
         self.statistics.add(current.shape)
 
