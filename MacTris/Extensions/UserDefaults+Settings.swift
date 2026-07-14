@@ -9,6 +9,8 @@ import Foundation
 
 extension UserDefaults {
 
+    private static let defaultUpdateUrl = URL(string: "https://api.github.com/repos/Jegge/MacTris/")!
+
     private struct Key {
         static let musicVolume = "MusicVolume"
         static let fxVolume = "FxVolume"
@@ -37,7 +39,7 @@ extension UserDefaults {
             Key.wallKick: false,
             Key.hardDrop: false,
             Key.animations: true,
-            Key.updateCheckBaseUrl: URL(string: "https://api.github.com/repos/Jegge/MacTris/")!
+            Key.updateCheckBaseUrl: UserDefaults.defaultUpdateUrl
         ])
     }
 
@@ -145,7 +147,6 @@ extension UserDefaults {
     }
 
     var updateCheckBaseUrl: URL {
-        // swiftlint:disable:next force_unwrapping
-        self.url(forKey: Key.updateCheckBaseUrl)!
+        self.url(forKey: Key.updateCheckBaseUrl) ?? UserDefaults.defaultUpdateUrl
     }
 }
