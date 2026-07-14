@@ -10,9 +10,13 @@ enum AdjustDirection {
     case decrease
 }
 
+/// Something that be increased of decreased
 protocol Adjustable {
+    /// Returns an increased version of itself
     func increased() -> Self
+    /// Returns a decreased version of itself
     func decreased() -> Self
+    /// Returns an increased of decreased version of itself, depending on the direction
     func adjusted(by direction: AdjustDirection) -> Self
 }
 

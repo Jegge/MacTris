@@ -5,9 +5,13 @@
 //  Created by Sebastian Boettcher on 11.07.26.
 //
 
+/// A special tetris board that can be manipulated based on a sequence of calls.
 protocol TetrisBoardAnimation {
+    /// The curernt board
     var board: [[Tetromino.Shape?]] { get }
+    /// A flag that indicates wether the animation is finished or still running
     var finished: Bool { get }
+    /// Advance the animation to the next frame
     func next()
 }
 

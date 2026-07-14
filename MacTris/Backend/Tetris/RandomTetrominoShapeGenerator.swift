@@ -5,7 +5,9 @@
 //  Created by Sebastian Boettcher on 04.01.24.
 //
 
+/// A random generator that produces a stream of tetronimo shapes
 protocol RandomTetrominoShapeGenerator {
+    /// Retrieve the next tetronimo shape
     func next() -> Tetromino.Shape
 }
 
