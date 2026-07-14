@@ -39,7 +39,8 @@ class Hiscore {
         }
     }
 
-    static var nameLength: Int = 16
+    static let nameLength: Int = 16
+    static let numberOfEntries: Int = 10
 
     private var list: [Score]
     private var key: SymmetricKey
@@ -86,16 +87,18 @@ class Hiscore {
     }
 
     func insert(score: Score) -> Int? {
-        self.list = Array((self.list + [score]) .sorted().reversed().prefix(10))
+        self.list = Array((self.list + [score]) .sorted().reversed().prefix(Hiscore.numberOfEntries))
         return self.list.firstIndex(of: score)
     }
 
     func rename(at index: Int, to name: String) {
-        self.list[index] = Score(name: String(name.prefix(Hiscore.nameLength)), value: self.list[index].value)
+        if index >= 0 && index < self.list.count {
+            self.list[index] = Score(name: String(name.prefix(Hiscore.nameLength)), value: self.list[index].value)
+        }
     }
 
     func name(at index: Int) -> String {
-        return self.list[index].name
+        return index >= 0 && index < self.list.count ? self.list[index].name : ""
     }
 
     func isHighscore(score: Score) -> Bool {
