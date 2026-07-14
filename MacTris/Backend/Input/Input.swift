@@ -5,8 +5,6 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
-import GameController
-
 enum Input: Codable {
     case menu
     case select

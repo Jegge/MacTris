@@ -18,11 +18,6 @@ class Menu: SceneBase {
         static let quit = "Quit"
     }
 
-    private var level: Int = 0 {
-        didSet {
-            self.update()
-        }
-    }
     private var menuItems: [String] = []
 
     private var selection: Int = -1 {
@@ -60,7 +55,7 @@ class Menu: SceneBase {
             }
 
             if item == Item.play {
-                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level nr."), self.level)
+                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level nr."), UserDefaults.standard.startLevel)
             }
         }
     }
@@ -69,7 +64,7 @@ class Menu: SceneBase {
         switch item {
         case Item.play:
             self.fxPlayer.playPositive()
-            self.transitionToGame(level: self.level)
+            self.transitionToGame()
 
         case Item.settings:
             self.fxPlayer.playPositive()
@@ -95,28 +90,16 @@ class Menu: SceneBase {
         }
     }
 
-    private func increase(item: String) {
+    private func adjust(item: String, direction: AdjustDirection) {
         switch item {
         case Item.play:
-            if self.level < 19 {
-                self.level += 1
-                UserDefaults.standard.startLevel = self.level
+            if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxLevel {
+                UserDefaults.standard.startLevel += 1
+                self.update()
                 self.fxPlayer.playPositive()
-            } else {
-                self.fxPlayer.playNegative()
-            }
-
-        default:
-            self.fxPlayer.playNegative()
-        }
-    }
-
-    private func decrease(item: String) {
-        switch item {
-        case Item.play:
-            if self.level > 0 {
-                self.level -= 1
-                UserDefaults.standard.startLevel = self.level
+            } else if direction == .decrease && UserDefaults.standard.startLevel > 0 {
+                UserDefaults.standard.startLevel -= 1
+                self.update()
                 self.fxPlayer.playPositive()
             } else {
                 self.fxPlayer.playNegative()
@@ -135,8 +118,6 @@ class Menu: SceneBase {
 
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "\(Bundle.main.version) (\(Bundle.main.build))"
         (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = Bundle.main.copyright
-
-        self.level = UserDefaults.standard.startLevel
 
         Task { [weak self] in
             self?.updateUrl = await self?.checkForUpdate()
@@ -157,12 +138,10 @@ class Menu: SceneBase {
             self.select(item: self.menuItems[self.selection])
 
         case .left:
-            self.decrease(item: self.menuItems[self.selection])
-            self.update()
+            self.adjust(item: self.menuItems[self.selection], direction: .decrease)
 
         case .right:
-            self.increase(item: self.menuItems[self.selection])
-            self.update()
+            self.adjust(item: self.menuItems[self.selection], direction: .increase)
 
         default:
             break

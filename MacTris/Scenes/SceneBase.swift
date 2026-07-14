@@ -147,7 +147,7 @@ class SceneBase: SKScene {
     func inputUp(event: InputEvent) {
     }
 
-    func transitionToGame(level: Int) {
+    func transitionToGame() {
         if let newScene = SKScene(fileNamed: "Game") as? Game {
             newScene.scaleMode = self.scaleMode
             newScene.inputMapper = self.inputMapper

@@ -4,8 +4,7 @@
 //
 //  Created by Sebastian Boettcher on 03.01.24.
 //
-
-import GameController
+import Foundation
 
 struct InputEvent: Equatable {
 

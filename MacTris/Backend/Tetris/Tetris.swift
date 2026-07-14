@@ -9,6 +9,8 @@ import OSLog
 
 class Tetris {
 
+    static let maxLevel: Int = 19
+
     private struct CollisionFlags: OptionSet {
         let rawValue: Int
         static let leftWall = CollisionFlags(rawValue: 1 << 0)
@@ -18,8 +20,9 @@ class Tetris {
         static let all = CollisionFlags([.leftWall, .rightWall, .floor, .piece])
     }
 
-    let numberOfColumns: Int = 10
-    let numberOfRows: Int = 20
+    static let numberOfColumns: Int = 10
+    static let numberOfRows: Int = 20
+
     let random: RandomTetrominoShapeGenerator
 
     private var data: [[Tetromino.Shape?]]
@@ -42,7 +45,7 @@ class Tetris {
         self.enableWallKick = wallKick
         self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50))
         self.next = Tetromino(shape: self.random.next())
-        self.data = Array(repeating: Array(repeating: nil, count: self.numberOfRows), count: self.numberOfColumns)
+        self.data = Array(repeating: Array(repeating: nil, count: Tetris.numberOfRows), count: Tetris.numberOfColumns)
 
         let current = Tetromino(shape: self.random.next(), rotation: 0, position: self.spawnPosition)
         self.statistics.add(current.shape)
@@ -60,7 +63,7 @@ class Tetris {
 
         if let tetromino = self.current {
             for (column, row) in tetromino.points {
-                if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
+                if row >= 0 && column >= 0 && row < Tetris.numberOfRows && column < Tetris.numberOfColumns {
                     result[column][row] = tetromino.shape
                 }
             }
@@ -73,7 +76,7 @@ class Tetris {
         var start = 0
         while !self.isComplete(row: start) {
             start += 1
-            if start == self.numberOfRows {
+            if start == Tetris.numberOfRows {
                 return nil
             }
         }
@@ -81,8 +84,8 @@ class Tetris {
         var end = start
         while self.isComplete(row: end) {
             end += 1
-            if end >= self.numberOfRows {
-                return Range(uncheckedBounds: (start, self.numberOfRows))
+            if end >= Tetris.numberOfRows {
+                return Range(uncheckedBounds: (start, Tetris.numberOfRows))
             }
         }
 
@@ -92,8 +95,8 @@ class Tetris {
     var stackHeight: Int {
         var result = 0
 
-        for row in 0..<self.numberOfRows {
-            for column in 0..<self.numberOfColumns where self[column, row] != nil {
+        for row in 0..<Tetris.numberOfRows {
+            for column in 0..<Tetris.numberOfColumns where self[column, row] != nil {
                 result += 1
                 break
             }
@@ -101,19 +104,19 @@ class Tetris {
         return result
     }
 
-    var spawnPosition: (Int, Int) {
-        return (self.numberOfColumns / 2, self.numberOfRows - 1)
-    }
+    lazy var spawnPosition: (Int, Int) = {
+        return (Tetris.numberOfColumns / 2, Tetris.numberOfRows - 1)
+    }()
 
     private subscript (column: Int, row: Int) -> Tetromino.Shape? {
         get {
-            if column >= 0 && column < self.numberOfColumns && row >= 0 && row < self.numberOfRows {
+            if column >= 0 && column < Tetris.numberOfColumns && row >= 0 && row < Tetris.numberOfRows {
                 return self.data[column][row]
             }
             return nil
         }
         set {
-            if column >= 0 && column < self.numberOfColumns && row >= 0 && row < self.numberOfRows {
+            if column >= 0 && column < Tetris.numberOfColumns && row >= 0 && row < Tetris.numberOfRows {
                 self.data[column][row] = newValue
             }
         }
@@ -251,13 +254,13 @@ class Tetris {
     }
 
     private func drop(lines: Range<Int>) {
-        for row in lines.upperBound..<self.numberOfRows {
+        for row in lines.upperBound..<Tetris.numberOfRows {
             let target = row - (lines.upperBound - lines.lowerBound)
-            for column in 0..<self.numberOfColumns {
+            for column in 0..<Tetris.numberOfColumns {
                 self[column, target] = self[column, row]
             }
 
-            for column in 0..<self.numberOfColumns {
+            for column in 0..<Tetris.numberOfColumns {
                 self[column, row] = nil
             }
         }
@@ -269,14 +272,14 @@ class Tetris {
         }
 
         for (column, row) in tetromino.points {
-            if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
+            if row >= 0 && column >= 0 && row < Tetris.numberOfRows && column < Tetris.numberOfColumns {
                 self[column, row] = tetromino.shape
             }
         }
     }
 
     private func isComplete(row: Int) -> Bool {
-        for column in 0..<self.numberOfColumns where self[column, row] == nil {
+        for column in 0..<Tetris.numberOfColumns where self[column, row] == nil {
             return false
         }
         return true
@@ -301,7 +304,7 @@ class Tetris {
             if flags.contains(.leftWall) && column < 0 {
                 return true
             }
-            if flags.contains(.rightWall) && column >= self.numberOfColumns {
+            if flags.contains(.rightWall) && column >= Tetris.numberOfColumns {
                 return true
             }
             if flags.contains(.piece) && self[column, row] != nil {

@@ -36,14 +36,8 @@ class MusicPlayer: NSObject {
         }
     }
 
-    var muted: Bool = false {
-        didSet {
-            self.player?.volume = self.calculateVolume()
-        }
-    }
-
     private func calculateVolume() -> Float {
-        self.muted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.volume)))
+        0.01 * max(0.0, min(100.0, Float(self.volume)))
     }
 
     // Kept as a singleton, since it is effectively only used once

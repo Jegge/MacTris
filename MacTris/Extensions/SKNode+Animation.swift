@@ -12,7 +12,6 @@ struct AnimationDirection: OptionSet {
 
     static let horizontal = AnimationDirection(rawValue: (1 << 0))
     static let vertical = AnimationDirection(rawValue: (1 << 1))
-    static let none: AnimationDirection = []
     static let both: AnimationDirection = [.horizontal, .vertical]
 }
 

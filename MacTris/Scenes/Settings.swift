@@ -336,12 +336,10 @@ class Settings: SceneBase {
         case .up:
             self.fxPlayer.playSelect()
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
-            self.update()
 
         case .down:
             self.fxPlayer.playSelect()
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
-            self.update()
 
         case .select:
             self.select(item: self.menuItems[self.selection])

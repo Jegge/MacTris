@@ -25,8 +25,8 @@ struct TetrisTests {
 
     @Test func testBoardSize() async throws {
         let tetris = makeTetris()
-        #expect(tetris.board.count == tetris.numberOfColumns)
-        #expect(tetris.board[0].count == tetris.numberOfRows)
+        #expect(tetris.board.count == Tetris.numberOfColumns)
+        #expect(tetris.board[0].count == Tetris.numberOfRows)
     }
 
     @Test func testSpawnCreatesCurrentPiece() async throws {

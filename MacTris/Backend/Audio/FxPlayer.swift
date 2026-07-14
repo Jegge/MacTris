@@ -15,7 +15,6 @@ class FxPlayer: NSObject {
     }
 
     var volume: Int = 100
-    var muted: Bool = false
 
     deinit {
         self.players.removeAll()
@@ -26,7 +25,7 @@ class FxPlayer: NSObject {
            let player = try? AVAudioPlayer(contentsOf: url) {
             player.prepareToPlay()
             player.numberOfLoops = 0
-            player.volume = self.muted ? 0.0 : 0.01 * max(0.0, min(100.0, Float(self.volume)))
+            player.volume = 0.01 * max(0.0, min(100.0, Float(self.volume)))
             player.delegate = self
             self.players.insert(player)
             player.play()

@@ -4,8 +4,7 @@
 //
 //  Created by Sebastian Boettcher on 20.12.25.
 //
-
-import OSLog
+import Foundation
 
 protocol URLSessionProtocol {
     func data(from url: URL) async throws -> (Data, URLResponse)
@@ -42,12 +41,6 @@ struct GitHubApiReleaseReader {
             return Release(version: AppVersion(string: version), downloadUrl: downloadUrl)
         }
         return nil
-    }
-
-    func parseRelease(from data: Data) throws -> (version: String, downloadUrl: String?) {
-        let release = try JSONDecoder().decode(GithubRelease.self, from: data)
-        let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
-        return (version, release.assets.first?.browser_download_url)
     }
 
     // swiftlint:disable identifier_name
