@@ -15,11 +15,9 @@ class Scores: SceneBase {
     private var index: Int?
     private var hiscores: Hiscore = Hiscore(key: Secrets.hiscoreKey)
 
+    let formatter = NumberFormatter()
+
     private func update() {
-
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-
         for (index, score) in hiscores.scores.enumerated() {
             guard let value = self.childNode(withName: "//labelScore\(index)") as? SKLabelNode,
                   let name = self.childNode(withName: "//labelName\(index)") as? SKLabelNode,
@@ -88,6 +86,8 @@ class Scores: SceneBase {
 
     override func didMove(to view: SKView) {
         super.didMove(to: view)
+
+        formatter.numberStyle = .decimal
 
         guard let cursor = self.childNode(withName: "cursor") else {
             return
