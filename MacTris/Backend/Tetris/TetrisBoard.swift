@@ -55,10 +55,11 @@ class TetrisBoard {
     }
 
     convenience init (options: TetrisOptions) {
+        Logger.game.info("Begin game with \(options, privacy: .public)")
         self.init(random: options.randomGeneratorMode.createGenerator(), startingLevel: options.startingLevel, wallKick: options.wallKick)
     }
 
-    var board: [[Tetromino.Shape?]] {
+    var grid: [[Tetromino.Shape?]] {
         var result = self.data
 
         if let tetromino = self.current {

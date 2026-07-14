@@ -25,8 +25,8 @@ struct TetrisBoardTests {
 
     @Test func testBoardSize() async throws {
         let tetris = makeTetris()
-        #expect(tetris.board.count == TetrisBoard.numberOfColumns)
-        #expect(tetris.board[0].count == TetrisBoard.numberOfRows)
+        #expect(tetris.grid.count == TetrisBoard.numberOfColumns)
+        #expect(tetris.grid[0].count == TetrisBoard.numberOfRows)
     }
 
     @Test func testSpawnCreatesCurrentPiece() async throws {
@@ -44,7 +44,7 @@ struct TetrisBoardTests {
         if let current = tetris.current {
             for (col, row) in current.points {
                 if row >= 0, row < TetrisBoard.numberOfRows, col >= 0, col < TetrisBoard.numberOfColumns {
-                    #expect(tetris.board[col][row] == current.shape)
+                    #expect(tetris.grid[col][row] == current.shape)
                 }
             }
         }
@@ -340,10 +340,10 @@ struct TetrisBoardTests {
     @Test func testHardDropPlacesPieceAtBottom() async throws {
         let tetris = makeTetris(shapes: [.o])
         tetris.hardDrop()
-        #expect(tetris.board[4][1] == .o)
-        #expect(tetris.board[5][1] == .o)
-        #expect(tetris.board[4][0] == .o)
-        #expect(tetris.board[5][0] == .o)
+        #expect(tetris.grid[4][1] == .o)
+        #expect(tetris.grid[5][1] == .o)
+        #expect(tetris.grid[4][0] == .o)
+        #expect(tetris.grid[5][0] == .o)
     }
 
     @Test func testHardDropOnTopOfStack() async throws {
@@ -353,10 +353,10 @@ struct TetrisBoardTests {
         #expect(tetris.spawn())
         tetris.hardDrop()  // second O lands on top at y=3, score += 32
         #expect(tetris.score == 68)
-        #expect(tetris.board[4][3] == .o)
-        #expect(tetris.board[5][3] == .o)
-        #expect(tetris.board[4][2] == .o)
-        #expect(tetris.board[5][2] == .o)
+        #expect(tetris.grid[4][3] == .o)
+        #expect(tetris.grid[5][3] == .o)
+        #expect(tetris.grid[4][2] == .o)
+        #expect(tetris.grid[5][2] == .o)
     }
 
     @Test func testHardDropWhenNoCurrentPiece() async throws {
@@ -466,19 +466,19 @@ struct TetrisBoardTests {
 
         #expect(tetris.lowestCompletedLines == 0..<1)
         // row 1 has O at cols 8..9
-        #expect(tetris.board[8][1] == .o)
-        #expect(tetris.board[9][1] == .o)
+        #expect(tetris.grid[8][1] == .o)
+        #expect(tetris.grid[9][1] == .o)
 
         tetris.clear(lines: 0..<1)
 
         // old row 1 shifted down to row 0
-        #expect(tetris.board[8][0] == .o)
-        #expect(tetris.board[9][0] == .o)
+        #expect(tetris.grid[8][0] == .o)
+        #expect(tetris.grid[9][0] == .o)
         // old row 0 content is gone
-        #expect(tetris.board[0][0] == nil)
-        #expect(tetris.board[4][0] == nil)
+        #expect(tetris.grid[0][0] == nil)
+        #expect(tetris.grid[4][0] == nil)
         // old row 2 (empty) shifted to row 1
-        #expect(tetris.board[8][1] == nil)
+        #expect(tetris.grid[8][1] == nil)
     }
 
     @Test func testShiftLeftReturnsFalseAtWall() async throws {
@@ -544,14 +544,14 @@ struct TetrisBoardTests {
         for _ in 0..<4 where tetris.shiftRight() {}
         tetris.hardDrop()
 
-        #expect(tetris.board[4][0] == .o)
-        #expect(tetris.board[5][0] == .o)
-        #expect(tetris.board[0][0] == .o)
-        #expect(tetris.board[1][0] == .o)
-        #expect(tetris.board[8][0] == .o)
-        #expect(tetris.board[9][0] == .o)
-        #expect(tetris.board[2][0] == nil)
-        #expect(tetris.board[6][0] == nil)
+        #expect(tetris.grid[4][0] == .o)
+        #expect(tetris.grid[5][0] == .o)
+        #expect(tetris.grid[0][0] == .o)
+        #expect(tetris.grid[1][0] == .o)
+        #expect(tetris.grid[8][0] == .o)
+        #expect(tetris.grid[9][0] == .o)
+        #expect(tetris.grid[2][0] == nil)
+        #expect(tetris.grid[6][0] == nil)
     }
 }
 

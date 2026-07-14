@@ -49,6 +49,7 @@
 		D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */; };
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
+		D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
@@ -129,6 +130,7 @@
 		D2728E1E2FFE40520071BAD9 /* GitHubApiReleaseReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiReleaseReader.swift; sourceTree = "<group>"; };
 		D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisOptions.swift; sourceTree = "<group>"; };
 		D29FF1332E8A56CA005915E4 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameRateStabilizer.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		D26ED3A42B4538DC000FE86C /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */,
 				D26459B430052E0D0027F35A /* Audio */,
 				D26459AB30051AE70027F35A /* Configuration */,
 				D26459603004DF910027F35A /* Update */,
@@ -526,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
+				D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* TetrisBoard.swift in Sources */,
 				D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */,
