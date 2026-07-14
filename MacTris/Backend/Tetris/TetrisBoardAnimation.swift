@@ -50,7 +50,6 @@ class StackOutAnimation: TetrisBoardAnimation {
         self.fillAmountPerStep = fillAmountPerStep
     }
 
-    private var step: Int = 0
     private(set) var board: [[Tetromino.Shape?]]
     private let fillAmountPerStep: Int
 
@@ -82,7 +81,5 @@ class StackOutAnimation: TetrisBoardAnimation {
                 self.board[space.x][space.y] = .allCases.randomElement()
             }
         }
-
-        self.step += 1
     }
 }
