@@ -43,7 +43,7 @@ struct TetrisBoardTests {
         let tetris = makeTetris()
         if let current = tetris.current {
             for (col, row) in current.points {
-                if row >= 0, row < 20, col >= 0, col < 10 {
+                if row >= 0, row < TetrisBoard.numberOfRows, col >= 0, col < TetrisBoard.numberOfColumns {
                     #expect(tetris.board[col][row] == current.shape)
                 }
             }
@@ -207,7 +207,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtLeftWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<20 where tetris.shiftLeft() {
+        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftLeft() {
             // empty
         }
         let farLeft = tetris.current!
@@ -217,7 +217,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtRightWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<20 where tetris.shiftRight() {
+        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftRight() {
             // empty
         }
         let farRight = tetris.current!
@@ -483,13 +483,13 @@ struct TetrisBoardTests {
 
     @Test func testShiftLeftReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<20 where tetris.shiftLeft() {}
+        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftLeft() {}
         #expect(!tetris.shiftLeft())
     }
 
     @Test func testShiftRightReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<20 where tetris.shiftRight() {}
+        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftRight() {}
         #expect(!tetris.shiftRight())
     }
 
