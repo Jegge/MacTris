@@ -48,7 +48,7 @@ class Scores: SceneBase {
         switch event.keyCode {
         case KeyCode.return.rawValue:
             if !self.hiscores.name(at: index).isEmpty {
-                self.fxPlayer.playPositive()
+                self.audioFxPlayer.play(.positive)
                 self.index = nil
 
                 self.childNode(withName: "cursor")?.removeFromParent()
@@ -61,25 +61,25 @@ class Scores: SceneBase {
                     Logger.hiscore.error("Failed to save hiscores: \(error, privacy: .public)")
                 }
             } else {
-                self.fxPlayer.playNegative()
+                self.audioFxPlayer.play(.negative)
             }
 
         case KeyCode.delete.rawValue:
             if !self.hiscores.name(at: index).isEmpty {
-                self.fxPlayer.playSelect()
+                self.audioFxPlayer.play(.select)
                 self.hiscores.rename(at: index, to: String(self.hiscores.name(at: index).dropLast()))
                 self.update()
             } else {
-                self.fxPlayer.playNegative()
+                self.audioFxPlayer.play(.negative)
             }
 
         default:
             if let character = event.characters?.first, character.isLetter || character.isNumber, self.hiscores.name(at: index).count < Hiscore.nameLength {
-                self.fxPlayer.playSelect()
+                self.audioFxPlayer.play(.select)
                 self.hiscores.rename(at: index, to: self.hiscores.name(at: index).appending("\(character)"))
                 self.update()
             } else {
-                self.fxPlayer.playNegative()
+                self.audioFxPlayer.play(.negative)
             }
         }
     }
@@ -130,7 +130,7 @@ class Scores: SceneBase {
 
     override func inputDown(event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
-            self.fxPlayer.playPositive()
+            self.audioFxPlayer.play(.positive)
             self.transitionToMenu()
         }
     }

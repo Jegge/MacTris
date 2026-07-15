@@ -14,7 +14,7 @@ class SceneBase: SKScene {
 
     // swiftlint:disable:next implicitly_unwrapped_optional
     var inputMapper: InputMapper!
-    let fxPlayer: FxPlayer = FxPlayer(volume: UserDefaults.standard.fxVolume)
+    let audioFxPlayer: AudioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),
