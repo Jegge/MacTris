@@ -131,7 +131,7 @@ class Scores: SceneBase {
     override func inputDown(event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             self.audioFxPlayer.play(.positive)
-            self.transitionToMenu()
+            self.transition(to: Menu.self)
         }
     }
 }

@@ -64,15 +64,15 @@ class Menu: SceneBase {
         switch item {
         case Item.play:
             self.audioFxPlayer.play(.positive)
-            self.transitionToGame()
+            self.transition(to: Game.self)
 
         case Item.settings:
             self.audioFxPlayer.play(.positive)
-            self.transitionToSettings()
+            self.transition(to: Settings.self)
 
         case Item.hiscores:
             self.audioFxPlayer.play(.positive)
-            self.transitionToScores()
+            self.transition(to: Scores.self)
 
         case Item.update:
             if let url = self.updateUrl {

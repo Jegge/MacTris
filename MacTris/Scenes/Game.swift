@@ -16,7 +16,7 @@ class Game: SceneBase {
         case gameover
     }
 
-    var options: TetrisOptions = TetrisOptions(startingLevel: 0, appearance: .plain, animations: true, autoShift: .nes, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+    let options: TetrisOptions = UserDefaults.standard.tetrisOptions
 
     private var tetris: Tetris?
     private var animation: TetrisAnimation?
@@ -271,14 +271,18 @@ class Game: SceneBase {
         case .gameover:
             if event.id == .select {
                 self.audioFxPlayer.play(.positive)
-                self.transitionToScores(score: self.tetris?.score ?? 0)
+                self.transition(to: Scores.self) {
+                    $0.score = self.tetris?.score ?? 0
+                }
             }
 
         case .paused:
             switch event.id {
             case .menu:
                 self.audioFxPlayer.play(.positive)
-                self.transitionToScores(score: self.tetris?.score ?? 0)
+                self.transition(to: Scores.self) {
+                    $0.score = self.tetris?.score ?? 0
+                }
 
             case .select:
                 self.audioFxPlayer.play(.positive)

@@ -241,7 +241,7 @@ class Settings: SceneBase {
 
         case Item.back:
             self.audioFxPlayer.play(.positive)
-            self.transitionToMenu()
+            self.transition(to: Menu.self)
 
         default:
             // selecting all other items results in the same behaviour as increasing it's value

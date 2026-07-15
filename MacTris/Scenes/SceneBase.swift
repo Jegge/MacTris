@@ -121,36 +121,11 @@ class SceneBase: SKScene {
     func inputUp(event: InputEvent) {
     }
 
-    func transitionToGame() {
-        if let newScene = SKScene(fileNamed: "Game") as? Game {
+    func transition<T: SceneBase>(to type: T.Type, configureScene: ((T) -> Void)? = nil) {
+        if let newScene = SKScene(fileNamed: String(describing: T.self)) as? T {
             newScene.scaleMode = self.scaleMode
             newScene.inputMapper = self.inputMapper
-            newScene.options = UserDefaults.standard.tetrisOptions
-            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-        }
-    }
-
-    func transitionToScores(score: Int? = nil) {
-        if let newScene = SKScene(fileNamed: "Scores") as? Scores {
-            newScene.scaleMode = self.scaleMode
-            newScene.inputMapper = self.inputMapper
-            newScene.score = score
-            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-        }
-    }
-
-    func transitionToSettings() {
-        if let newScene = SKScene(fileNamed: "Settings") as? Settings {
-            newScene.scaleMode = self.scaleMode
-            newScene.inputMapper = self.inputMapper
-            self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
-        }
-    }
-
-    func transitionToMenu() {
-        if let newScene = SKScene(fileNamed: "Menu") as? Menu {
-            newScene.scaleMode = self.scaleMode
-            newScene.inputMapper = self.inputMapper
+            configureScene?(newScene)
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         }
     }
