@@ -9,11 +9,11 @@ struct AppVersion: Equatable, Comparable, CustomStringConvertible {
     let major: Int
     let minor: Int
 
-    init (major: Int, minor: Int) {
+    init(major: Int, minor: Int) {
         self.major = major
         self.minor = minor
     }
-    init (string: String) {
+    init(string: String) {
         let parts = Array(string.split(separator: ".").map { Int(String($0)) ?? 0 })
         self.major = parts.count > 0 ? parts[0] : 0
         self.minor = parts.count > 1 ? parts[1] : 0

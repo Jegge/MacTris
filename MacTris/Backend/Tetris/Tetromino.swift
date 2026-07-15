@@ -74,7 +74,7 @@ struct Tetromino {
         return self.shape.points[self.rotation].map { ($0.x + position.x, $0.y + position.y) }
     }
 
-    init (shape: Shape, rotation: Int = 0, position: Point = (0, 0)) {
+    init(shape: Shape, rotation: Int = 0, position: Point = (0, 0)) {
         self.shape = shape
         self.rotation = rotation
         self.position = position

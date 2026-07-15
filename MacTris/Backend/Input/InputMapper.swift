@@ -10,11 +10,11 @@ import GameController
 
 class InputMapper {
 
-    convenience init () {
+    convenience init() {
         self.init(keyboardBindings: [])
     }
 
-    init (keyboardBindings: [KeyBinding]) {
+    init(keyboardBindings: [KeyBinding]) {
         self.keyboardBindings = keyboardBindings
     }
 

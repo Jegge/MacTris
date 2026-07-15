@@ -7,16 +7,16 @@
 
 /// A special tetris board that can be manipulated based on a sequence of calls.
 protocol TetrisAnimation {
-    /// The curernt board
+    /// The current grid
     var grid: Tetris.Grid { get }
-    /// A flag that indicates wether the animation is finished or still running
+    /// A flag that indicates that the animation is finished
     var finished: Bool { get }
     /// Advance the animation to the next frame
     func next()
 }
 
 class DissolveLinesAnimation: TetrisAnimation {
-    init (grid: Tetris.Grid, lines: Range<Int>) {
+    init(grid: Tetris.Grid, lines: Range<Int>) {
         self.grid = grid
         self.lines = lines
     }

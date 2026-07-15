@@ -20,7 +20,7 @@ protocol PlayAudio {
 class AudioFxPlayer: NSObject {
     private var players: Set<AVAudioPlayer> = Set()
 
-    init (volume: Int) {
+    init(volume: Int) {
         self.volume = volume
     }
 

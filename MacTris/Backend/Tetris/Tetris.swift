@@ -38,7 +38,7 @@ class Tetris {
     private(set) var current: Tetromino?
     private(set) var statistics: Statistics = Statistics()
 
-    init (random: RandomTetrominoShapeGenerator, startingLevel: Int, allowWallKick: Bool) {
+    init(random: RandomTetrominoShapeGenerator, startingLevel: Int, allowWallKick: Bool) {
         self.random = random
         self.level = startingLevel
         self.allowWallKick = allowWallKick
@@ -53,7 +53,7 @@ class Tetris {
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
 
-    convenience init (options: TetrisOptions) {
+    convenience init(options: TetrisOptions) {
         Logger.game.info("Begin game with \(options, privacy: .public)")
         self.init(random: options.randomGeneratorMode.createGenerator(), startingLevel: options.startingLevel, allowWallKick: options.wallKick)
     }

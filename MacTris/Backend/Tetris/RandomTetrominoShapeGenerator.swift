@@ -5,9 +5,9 @@
 //  Created by Sebastian Boettcher on 04.01.24.
 //
 
-/// A random generator that produces a stream of tetronimo shapes
+/// A random generator that produces a stream of tetromino shapes
 protocol RandomTetrominoShapeGenerator {
-    /// Retrieve the next tetronimo shape
+    /// Retrieve the next tetromino shape
     func next() -> Tetromino.Shape
 }
 
@@ -15,7 +15,7 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var bag: [Tetromino.Shape] = []
 
-    init (random: RandomNumberGenerator) {
+    init(random: RandomNumberGenerator) {
         self.random = random
     }
 
