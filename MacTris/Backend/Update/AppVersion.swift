@@ -13,10 +13,23 @@ struct AppVersion: Equatable, Comparable, CustomStringConvertible {
         self.major = major
         self.minor = minor
     }
-    init(string: String) {
-        let parts = Array(string.split(separator: ".").map { Int(String($0)) ?? 0 })
-        self.major = parts.count > 0 ? parts[0] : 0
-        self.minor = parts.count > 1 ? parts[1] : 0
+    init?(string: any StringProtocol) {
+        if !string.allSatisfy({ $0.isNumber || $0 == "." }) {
+            return nil
+        }
+
+        let parts = Array(string.split(separator: ".").map { Int($0) ?? 0 })
+
+        switch parts.count {
+        case 1:
+            self.major = parts[0]
+            self.minor = 0
+        case 2...3:
+            self.major = parts[0]
+            self.minor = parts[1]
+        default:
+            return nil
+        }
     }
 
     static func < (lhs: AppVersion, rhs: AppVersion) -> Bool {

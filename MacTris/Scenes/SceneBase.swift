@@ -122,11 +122,14 @@ class SceneBase: SKScene {
     }
 
     func transition<T: SceneBase>(to type: T.Type, configureScene: ((T) -> Void)? = nil) {
-        if let newScene = SKScene(fileNamed: String(describing: T.self)) as? T {
+        let name = String(describing: T.self)
+        if let newScene = SKScene(fileNamed: name) as? T {
             newScene.scaleMode = self.scaleMode
             newScene.inputMapper = self.inputMapper
             configureScene?(newScene)
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
+        } else {
+            fatalError("Failed to transition to \(name).sks")
         }
     }
 }

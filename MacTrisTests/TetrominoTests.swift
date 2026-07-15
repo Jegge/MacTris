@@ -80,7 +80,7 @@ struct TetrominoTests {
         #expect(shifted.rotation == t.rotation)
     }
 
-    @Test func testshiftRigth() async throws {
+    @Test func testshiftRight() async throws {
         let t = Tetromino(shape: .o, position: (5, 5))
         let shifted = t.shifted(.right)
         #expect(shifted.position.x == 6)

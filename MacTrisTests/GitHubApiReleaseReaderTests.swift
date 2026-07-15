@@ -23,92 +23,100 @@ struct GitHubApiReleaseReaderTests {
         """)
     }
 
-    @Test func testParseValidRelease() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: createSession(tag: "Release/v1.10", url: "https://example.com/MacTris-1.10.dmg"))
+    @Test func testReadLatestValidRelease() async throws {
+        let session = MockURLSession(string: """
+            {
+                "tag_name": "Release/v1.23",
+                "assets": [
+                    { "browser_download_url": "https://example.com/MacTris-1.23.dmg" }
+                ]
+            }
+            """)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         let result = try await reader.readLatestRelease()
-        #expect(result?.version == AppVersion(string: "1.10"))
-        #expect(result?.downloadUrl.absoluteString == "https://example.com/MacTris-1.10.dmg")
+        #expect(result != nil)
+        #expect(result?.version == AppVersion(string: "1.23"))
+        #expect(result?.downloadUrl.absoluteString == "https://example.com/MacTris-1.23.dmg")
     }
 
-    @Test func testParseReleaseInvalidTag() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: createSession(tag: "invalid", url: "https://example.com/dmg"))
-        let result = try await reader.readLatestRelease()
-        #expect(result?.version == AppVersion(string: "0.0.0"))
-    }
-
-    @Test func testParseReleaseTagMissingPrefix() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: createSession(tag: "v1.5", url: "https://example.com/dmg"))
-        let result = try await reader.readLatestRelease()
-        #expect(result?.version == AppVersion(string: "0.0.0"))
-    }
-
-    @Test func testParseReleaseEmptyAssets() async throws {
-        let mockSession = MockURLSession(string: """
-        {
-            "tag_name": "Release/v2.0",
-            "assets": []
-        }
-        """)
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: mockSession)
+    @Test func testReadLatestMissingPrefix() async throws {
+        let session = MockURLSession(string: """
+            {
+                "tag_name": "v1.23",
+                "assets": [
+                    { "browser_download_url": "https://example.com/MacTris-1.23.dmg" }
+                ]
+            }
+            """)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         let result = try await reader.readLatestRelease()
         #expect(result == nil)
     }
 
-    @Test func testParseReleaseMalformedJson() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: MockURLSession(string: "not json"))
-        await #expect(throws: DecodingError.self) {
-            try await reader.readLatestRelease()
-        }
-    }
-
-    @Test func testParseReleaseMissingTag() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: MockURLSession(string: """
+    @Test func testReadLatestReleaseMissingTagThrows() async throws {
+        let session = MockURLSession(string: """
         {
             "assets": []
         }
-        """))
+        """)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         await #expect(throws: DecodingError.self) {
             try await reader.readLatestRelease()
         }
     }
 
-    @Test func testReadLatestReleaseMalformedJsonThrows() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: MockURLSession(string: "not json"))
+    @Test func testReadLatestReleaseMissingAssetsThrows() async throws {
+        let session = MockURLSession(string: """
+        {
+            "tag": "Release/v1.23"
+        }
+        """)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         await #expect(throws: DecodingError.self) {
             try await reader.readLatestRelease()
         }
     }
 
-    @Test func testReadLatestReleaseSuccess() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: createSession(tag: "Release/v2.5", url: "https://example.com/MacTris-2.5.dmg"))
-        let release = try await reader.readLatestRelease()
-        #expect(release?.version == AppVersion(string: "2.5"))
-        #expect(release?.downloadUrl.absoluteString == "https://example.com/MacTris-2.5.dmg")
+    @Test func testReadLatestMalformedJsonThrows() async throws {
+        let session = MockURLSession(string: "not json")
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
+        await #expect(throws: DecodingError.self) {
+            try await reader.readLatestRelease()
+        }
     }
 
     @Test func testReadLatestReleaseNetworkError() async throws {
         enum TestError: Error { case networkFailure }
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: MockURLSession(error: TestError.networkFailure))
+        let session = MockURLSession(error: TestError.networkFailure)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         await #expect(throws: TestError.self) {
             try await reader.readLatestRelease()
         }
     }
 
     @Test func testReadLatestReleaseEmptyAssetsReturnsNil() async throws {
-        let mockSession = MockURLSession(string: """
+        let session = MockURLSession(string: """
         {
             "tag_name": "Release/v3.0",
             "assets": []
         }
         """)
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: mockSession)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         let release = try await reader.readLatestRelease()
         #expect(release == nil)
     }
 
-    @Test func testReadLatestReleaseInvalidTagReturnsZeroVersion() async throws {
-        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: createSession(tag: "something-else", url: "https://example.com/dmg"))
+    @Test func testReadLatestReleaseInvalidTagReturnsNil() async throws {
+        let session = MockURLSession(string: """
+        {
+            "tag_name": "something-else",
+            "assets": [
+                { "browser_download_url": "https://example.com/MacTris-1.23.dmg" }
+            ]
+        }
+        """)
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
         let release = try await reader.readLatestRelease()
-        #expect(release?.version == AppVersion(string: "0.0.0"))
+        #expect(release == nil)
     }
 }

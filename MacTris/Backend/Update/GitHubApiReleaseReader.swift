@@ -36,11 +36,14 @@ struct GitHubApiReleaseReader {
         }
         let (data, _) = try await self.session.data(from: url)
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
-        let version = String(release.tag_name.hasPrefix("Release/v") ? String(release.tag_name.dropFirst(9)) : "0.0.0")
-        if let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "") {
-            return Release(version: AppVersion(string: version), downloadUrl: downloadUrl)
+        guard release.tag_name.hasPrefix("Release/v"),
+              let version = AppVersion(string: release.tag_name.dropFirst(9)),
+              let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "")
+        else {
+            return nil
         }
-        return nil
+
+        return Release(version: version, downloadUrl: downloadUrl)
     }
 
     // swiftlint:disable identifier_name
