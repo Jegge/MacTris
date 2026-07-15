@@ -42,7 +42,7 @@ class Tetris {
         self.random = random
         self.level = startingLevel
         self.allowWallKick = allowWallKick
-        self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50))
+        self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50)) // classic NES style calculation, includes replicating the bug
         self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: Tetris.numberOfRows), count: Tetris.numberOfColumns)
 
@@ -228,7 +228,7 @@ class Tetris {
     }
 
     private func score(lines: Range<Int>) {
-        let baseScorePerLines = [0, 40, 100, 300, 1200]
+        let baseScorePerLines = [0, 40, 100, 300, 1200] // classic NES line scores
         let linesScore = baseScorePerLines[lines.count] * (self.level + 1)
 
         self.score += linesScore

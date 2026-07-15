@@ -15,9 +15,13 @@ struct TetrisOptions {
     let hardDrop: Bool
 
     struct Frames {
+        /// Number of frames it takes for a tetromino to drop by one space per level. Higher levels always drop one space per frame.
         static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+        /// Number  of frames it takes before a new tetromino spawns
         static let spawn: Int = 16
+        /// Number of frames it takes to complete an animation step
         static let animation: Int = 4
+        /// Number of frames it takes the "drop" key to repeat when held down
         static let keyRepeatDrop: Int = 1
     }
 
