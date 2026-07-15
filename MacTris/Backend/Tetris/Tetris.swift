@@ -1,5 +1,5 @@
 //
-//  TetrisBoard.swift
+//  Tetris.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 12.01.24.
@@ -7,9 +7,9 @@
 
 import OSLog
 
-typealias TetrisGrid = [[Tetromino.Shape?]]
-
 class Tetris {
+    typealias Grid = [[Tetromino.Shape?]]
+
     private struct CollisionFlags: OptionSet {
         let rawValue: Int
         static let leftWall = CollisionFlags(rawValue: 1 << 0)
@@ -27,7 +27,7 @@ class Tetris {
     let random: RandomTetrominoShapeGenerator
     let allowWallKick: Bool
 
-    private var data: TetrisGrid
+    private var data: Grid
     private var dropCounter: Int = 0
     private var linesToNextLevel: Int
 
@@ -58,7 +58,7 @@ class Tetris {
         self.init(random: options.randomGeneratorMode.createGenerator(), startingLevel: options.startingLevel, allowWallKick: options.wallKick)
     }
 
-    var grid: TetrisGrid {
+    var grid: Grid {
         var result = self.data
 
         if let tetromino = self.current {

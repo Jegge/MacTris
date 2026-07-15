@@ -1,46 +1,46 @@
 //
-//  TetrisBoardAnimation.swift
+//  TetrisAnimation.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 11.07.26.
 //
 
 /// A special tetris board that can be manipulated based on a sequence of calls.
-protocol TetrisBoardAnimation {
+protocol TetrisAnimation {
     /// The curernt board
-    var board: [[Tetromino.Shape?]] { get }
+    var grid: Tetris.Grid { get }
     /// A flag that indicates wether the animation is finished or still running
     var finished: Bool { get }
     /// Advance the animation to the next frame
     func next()
 }
 
-class DissolveLinesAnimation: TetrisBoardAnimation {
-    init (board: [[Tetromino.Shape?]], lines: Range<Int>) {
-        self.board = board
+class DissolveLinesAnimation: TetrisAnimation {
+    init (grid: Tetris.Grid, lines: Range<Int>) {
+        self.grid = grid
         self.lines = lines
     }
 
     private var step: Int = 0
     private let lines: Range<Int>
 
-    private(set) var board: [[Tetromino.Shape?]]
+    private(set) var grid: Tetris.Grid
     var finished: Bool {
-        return self.step > self.board.count / 2
+        return self.step > self.grid.count / 2
     }
 
     func next() {
-        let mid = self.board.count / 2
+        let mid = self.grid.count / 2
 
         for row in lines {
-            guard row >= 0 && row < (self.board.first?.count ?? 0) else {
+            guard row >= 0 && row < (self.grid.first?.count ?? 0) else {
                 continue
             }
-            for column in (mid - step)..<mid where column >= 0 && column < self.board.count {
-                self.board[column][row] = nil
+            for column in (mid - step)..<mid where column >= 0 && column < self.grid.count {
+                self.grid[column][row] = nil
             }
-            for column in mid..<(mid + step) where column < self.board.count {
-                self.board[column][row] = nil
+            for column in mid..<(mid + step) where column < self.grid.count {
+                self.grid[column][row] = nil
             }
         }
 
@@ -48,19 +48,19 @@ class DissolveLinesAnimation: TetrisBoardAnimation {
     }
 }
 
-class StackOutAnimation: TetrisBoardAnimation {
-    init(board: [[Tetromino.Shape?]], fillAmountPerStep: Int) {
-        self.board = board
+class StackOutAnimation: TetrisAnimation {
+    init(grid: Tetris.Grid, fillAmountPerStep: Int) {
+        self.grid = grid
         self.fillAmountPerStep = fillAmountPerStep
     }
 
-    private(set) var board: [[Tetromino.Shape?]]
+    private(set) var grid: Tetris.Grid
     private let fillAmountPerStep: Int
 
     private func emptySpaces() -> [Point] {
         var result: [Point] = []
-        for column in 0..<self.board.count {
-            for row in 0..<self.board[column].count where board[column][row] == nil {
+        for column in 0..<self.grid.count {
+            for row in 0..<self.grid[column].count where grid[column][row] == nil {
                 result.append((column, row))
             }
         }
@@ -68,8 +68,8 @@ class StackOutAnimation: TetrisBoardAnimation {
     }
 
     var finished: Bool {
-        for column in 0..<self.board.count {
-            for row in 0..<self.board[column].count where board[column][row] == nil {
+        for column in 0..<self.grid.count {
+            for row in 0..<self.grid[column].count where grid[column][row] == nil {
                 return false
             }
         }
@@ -82,7 +82,7 @@ class StackOutAnimation: TetrisBoardAnimation {
         for _ in 0..<fillAmountPerStep {
             if let space = spaces.randomElement() {
                 spaces.removeAll { $0 == space }
-                self.board[space.x][space.y] = .allCases.randomElement()
+                self.grid[space.x][space.y] = .allCases.randomElement()
             }
         }
     }

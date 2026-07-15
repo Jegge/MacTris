@@ -93,7 +93,7 @@ class Menu: SceneBase {
     private func adjust(item: String, direction: AdjustDirection) {
         switch item {
         case Item.play:
-            if direction == .increase && UserDefaults.standard.startLevel < TetrisBoard.maxLevel {
+            if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxLevel {
                 UserDefaults.standard.startLevel += 1
                 self.update()
                 self.audioFxPlayer.play(.positive)

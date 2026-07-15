@@ -11,8 +11,8 @@ import Testing
 // swiftlint:disable force_unwrapping
 
 struct TetrisBoardTests {
-    private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> TetrisBoard {
-        TetrisBoard(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, wallKick: wallKick)
+    private func makeTetris(startingLevel: Int = 0, wallKick: Bool = false, shapes: [Tetromino.Shape] = [.i, .o, .t, .s, .z, .j, .l]) -> Tetris {
+        Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: startingLevel, allowWallKick: wallKick)
     }
 
     @Test func testInitialState() async throws {
@@ -24,8 +24,8 @@ struct TetrisBoardTests {
 
     @Test func testBoardSize() async throws {
         let tetris = makeTetris()
-        #expect(tetris.grid.count == TetrisBoard.numberOfColumns)
-        #expect(tetris.grid[0].count == TetrisBoard.numberOfRows)
+        #expect(tetris.grid.count == Tetris.numberOfColumns)
+        #expect(tetris.grid[0].count == Tetris.numberOfRows)
     }
 
     @Test func testSpawnCreatesCurrentPiece() async throws {
@@ -37,7 +37,7 @@ struct TetrisBoardTests {
         let tetris = makeTetris()
         if let current = tetris.current {
             for (col, row) in current.points {
-                if row >= 0, row < TetrisBoard.numberOfRows, col >= 0, col < TetrisBoard.numberOfColumns {
+                if row >= 0, row < Tetris.numberOfRows, col >= 0, col < Tetris.numberOfColumns {
                     #expect(tetris.grid[col][row] == current.shape)
                 }
             }
@@ -193,7 +193,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtLeftWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftLeft() {
+        for _ in 0..<Tetris.numberOfColumns where tetris.shiftLeft() {
             // empty
         }
         let farLeft = tetris.current!
@@ -203,7 +203,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtRightWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftRight() {
+        for _ in 0..<Tetris.numberOfColumns where tetris.shiftRight() {
             // empty
         }
         let farRight = tetris.current!
@@ -364,7 +364,7 @@ struct TetrisBoardTests {
             wallKick: true,
             hardDrop: true
         )
-        let tetris = TetrisBoard(options: options)
+        let tetris = Tetris(options: options)
         #expect(tetris.level == 3)
         #expect(tetris.current != nil)
         #expect(tetris.score == 0)
@@ -394,7 +394,7 @@ struct TetrisBoardTests {
         #expect(tetris.stackHeight == 2)
     }
 
-    private func reachGameOver() -> TetrisBoard {
+    private func reachGameOver() -> Tetris {
         let shapes: [Tetromino.Shape] = Array(repeating: .o, count: 100)
         let tetris = makeTetris(shapes: shapes)
         while tetris.softDrop(manual: false) {}
@@ -469,13 +469,13 @@ struct TetrisBoardTests {
 
     @Test func testShiftLeftReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftLeft() {}
+        for _ in 0..<Tetris.numberOfColumns where tetris.shiftLeft() {}
         #expect(!tetris.shiftLeft())
     }
 
     @Test func testShiftRightReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<TetrisBoard.numberOfColumns where tetris.shiftRight() {}
+        for _ in 0..<Tetris.numberOfColumns where tetris.shiftRight() {}
         #expect(!tetris.shiftRight())
     }
 
@@ -582,7 +582,7 @@ struct TetrisBoardTests {
         #expect(spawned > 5)
         #expect(tetris.statistics.total >= spawned)
         #expect(tetris.level >= 0)
-        #expect(tetris.level <= TetrisBoard.maxLevel)
+        #expect(tetris.level <= Tetris.maxLevel)
         #expect(tetris.score >= 0)
     }
 

@@ -21,10 +21,10 @@ extension SKTileMapNode {
         return Self.tileGroupCache[name]
     }
 
-    func draw(board: [[Tetromino.Shape?]], appearance: Appearance) {
+    func draw(grid: Tetris.Grid, appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
-                if let shape = board[column][row] {
+                if let shape = grid[column][row] {
                     let tileGroup = self.tileGroup(named: "\(shape.appearance)-\(appearance.rawValue)")
                     self.setTileGroup(tileGroup, forColumn: column, row: row)
                 } else {
