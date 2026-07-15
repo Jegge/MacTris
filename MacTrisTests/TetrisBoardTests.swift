@@ -44,24 +44,24 @@ struct TetrisBoardTests {
         }
     }
 
-    @Test func testShiftLeft() async throws {
+    @Test func testshiftLeft() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.x
-        #expect(tetris.shiftLeft())
+        #expect(tetris.shift(.left))
         #expect(tetris.current?.position.x == (before ?? 0) - 1)
     }
 
-    @Test func testShiftRight() async throws {
+    @Test func testshiftRight() async throws {
         let tetris = makeTetris()
         let before = tetris.current?.position.x
-        #expect(tetris.shiftRight())
+        #expect(tetris.shift(.right))
         #expect(tetris.current?.position.x == (before ?? 0) + 1)
     }
 
     @Test func testRotateClockwise() async throws {
         let tetris = makeTetris(shapes: [.t])
         let before = tetris.current?.rotation
-        #expect(tetris.rotateClockwise())
+        #expect(tetris.rotate(.clockwise))
         let expected = ((before ?? 0) + Tetromino.Shape.t.points.count - 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -69,7 +69,7 @@ struct TetrisBoardTests {
     @Test func testRotateCounterClockwise() async throws {
         let tetris = makeTetris(shapes: [.t])
         let before = tetris.current?.rotation
-        #expect(tetris.rotateCounterClockwise())
+        #expect(tetris.rotate(.counterClockwise))
         let expected = ((before ?? 0) + 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -193,7 +193,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtLeftWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<Tetris.numberOfColumns where tetris.shiftLeft() {
+        for _ in 0..<Tetris.numberOfColumns where tetris.shift(.left) {
             // empty
         }
         let farLeft = tetris.current!
@@ -203,7 +203,7 @@ struct TetrisBoardTests {
     @Test func testCollidesAtRightWall() async throws {
         let tetris = makeTetris()
         let piece = tetris.current!
-        for _ in 0..<Tetris.numberOfColumns where tetris.shiftRight() {
+        for _ in 0..<Tetris.numberOfColumns where tetris.shift(.right) {
             // empty
         }
         let farRight = tetris.current!
@@ -213,10 +213,10 @@ struct TetrisBoardTests {
     @Test func testRotationCannotSlideThroughLeftWall() async throws {
         let tetris = makeTetris(shapes: [.l])
 
-        #expect(tetris.rotateClockwise())
+        #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 3)
 
-        while tetris.shiftLeft() {
+        while tetris.shift(.left) {
             // empty
         }
 
@@ -227,10 +227,10 @@ struct TetrisBoardTests {
     @Test func testRotationCannotSlideThroughRightWall() async throws {
         let tetris = makeTetris(shapes: [.l])
 
-        #expect(tetris.rotateCounterClockwise())
+        #expect(tetris.rotate(.counterClockwise))
         #expect(tetris.current?.rotation == 1)
 
-        while tetris.shiftRight() {
+        while tetris.shift(.right) {
             // empty
         }
 
@@ -250,15 +250,15 @@ struct TetrisBoardTests {
         // Two I pieces (1 cell tall) cover cols 0..7; an O at the far right covers cols 8..9.
         let tetris = makeTetris(shapes: [.i, .i, .o])
         // first I: cols 0..3 at row 0
-        for _ in 0..<3 where tetris.shiftLeft() {}
+        for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // second I: cols 4..7 at row 0
-        for _ in 0..<1 where tetris.shiftRight() {}
+        for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // O: cols 8..9 at row 0 -> row 0 now complete
-        for _ in 0..<4 where tetris.shiftRight() {}
+        for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         #expect(tetris.lowestCompletedLines != nil)
@@ -273,7 +273,7 @@ struct TetrisBoardTests {
     @Test func testWallKickRotateNormally() async throws {
         let tetris = makeTetris(wallKick: true, shapes: [.t])
         let before = tetris.current?.rotation
-        #expect(tetris.rotateClockwise())
+        #expect(tetris.rotate(.clockwise))
         let expected = ((before ?? 0) + Tetromino.Shape.t.points.count - 1) % Tetromino.Shape.t.points.count
         #expect(tetris.current?.rotation == expected)
     }
@@ -281,15 +281,15 @@ struct TetrisBoardTests {
     @Test func testWallKickRotateAtLeftWall() async throws {
         let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
 
-        #expect(tetris.rotateCounterClockwise())
+        #expect(tetris.rotate(.counterClockwise))
         #expect(tetris.current?.rotation == 1)
 
-        while tetris.shiftLeft() {
+        while tetris.shift(.left) {
             // empty
         }
         let leftmostX = tetris.current!.position.x
 
-        #expect(tetris.rotateClockwise())
+        #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 0)
         #expect(tetris.current?.position.x == leftmostX + 2)
     }
@@ -297,15 +297,15 @@ struct TetrisBoardTests {
     @Test func testWallKickRotateAtRightWall() async throws {
         let tetris = makeTetris(wallKick: true, shapes: Array(repeating: .i, count: 10))
 
-        #expect(tetris.rotateCounterClockwise())
+        #expect(tetris.rotate(.counterClockwise))
         #expect(tetris.current?.rotation == 1)
 
-        while tetris.shiftRight() {
+        while tetris.shift(.right) {
             // empty
         }
         let rightmostX = tetris.current!.position.x
 
-        #expect(tetris.rotateClockwise())
+        #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 0)
         #expect(tetris.current?.position.x == rightmostX - 1)
     }
@@ -407,25 +407,25 @@ struct TetrisBoardTests {
     @Test func testShiftLeftReturnsFalseAfterGameOver() async throws {
         let tetris = reachGameOver()
         #expect(tetris.current == nil)
-        #expect(!tetris.shiftLeft())
+        #expect(!tetris.shift(.left))
     }
 
     @Test func testShiftRightReturnsFalseAfterGameOver() async throws {
         let tetris = reachGameOver()
         #expect(tetris.current == nil)
-        #expect(!tetris.shiftRight())
+        #expect(!tetris.shift(.right))
     }
 
     @Test func testRotateClockwiseReturnsFalseAfterGameOver() async throws {
         let tetris = reachGameOver()
         #expect(tetris.current == nil)
-        #expect(!tetris.rotateClockwise())
+        #expect(!tetris.rotate(.clockwise))
     }
 
     @Test func testRotateCounterClockwiseReturnsFalseAfterGameOver() async throws {
         let tetris = reachGameOver()
         #expect(tetris.current == nil)
-        #expect(!tetris.rotateCounterClockwise())
+        #expect(!tetris.rotate(.counterClockwise))
     }
 
     @Test func testAutoSoftDropDoesNotScore() async throws {
@@ -439,15 +439,15 @@ struct TetrisBoardTests {
     @Test func testClearShiftsRowsDownCorrectly() async throws {
         let tetris = makeTetris(shapes: [.i, .i, .o])
         // first I: cols 0..3 at row 0
-        for _ in 0..<3 where tetris.shiftLeft() {}
+        for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // second I: cols 4..7 at row 0
-        for _ in 0..<1 where tetris.shiftRight() {}
+        for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // O: cols 8..9, rows 0..1
-        for _ in 0..<4 where tetris.shiftRight() {}
+        for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         #expect(tetris.lowestCompletedLines == 0..<1)
@@ -469,14 +469,14 @@ struct TetrisBoardTests {
 
     @Test func testShiftLeftReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<Tetris.numberOfColumns where tetris.shiftLeft() {}
-        #expect(!tetris.shiftLeft())
+        for _ in 0..<Tetris.numberOfColumns where tetris.shift(.left) {}
+        #expect(!tetris.shift(.left))
     }
 
     @Test func testShiftRightReturnsFalseAtWall() async throws {
         let tetris = makeTetris(shapes: [.i])
-        for _ in 0..<Tetris.numberOfColumns where tetris.shiftRight() {}
-        #expect(!tetris.shiftRight())
+        for _ in 0..<Tetris.numberOfColumns where tetris.shift(.right) {}
+        #expect(!tetris.shift(.right))
     }
 
     @Test func testSoftDropExactScoreAccumulation() async throws {
@@ -495,23 +495,23 @@ struct TetrisBoardTests {
         let tetris = makeTetris(shapes: [.i, .i, .o, .i, .i, .i])
         // init: current=.i(shapes[1]), next=.i(shapes[0]), genIndex=2
         // piece 1 (.i): shift left 3x -> cols 0..3, row 0
-        for _ in 0..<3 where tetris.shiftLeft() {}
+        for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // piece 2 (.i): shift right 1x -> cols 4..7, row 0
-        for _ in 0..<1 where tetris.shiftRight() {}
+        for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // piece 3 (.o): shift right 4x -> cols 8..9, rows 0..1; row 0 complete
-        for _ in 0..<4 where tetris.shiftRight() {}
+        for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // piece 4 (.i): shift left 3x -> cols 0..3, row 1
-        for _ in 0..<3 where tetris.shiftLeft() {}
+        for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // piece 5 (.i): shift right 1x -> cols 4..7, row 1; row 1 complete
-        for _ in 0..<1 where tetris.shiftRight() {}
+        for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         #expect(tetris.lowestCompletedLines == 0..<2)
@@ -523,11 +523,11 @@ struct TetrisBoardTests {
         tetris.hardDrop()
         #expect(tetris.spawn())
         // second O: cols 0..1, rows 0..1
-        for _ in 0..<4 where tetris.shiftLeft() {}
+        for _ in 0..<4 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
         // third O: cols 8..9, rows 0..1
-        for _ in 0..<4 where tetris.shiftRight() {}
+        for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         #expect(tetris.grid[4][0] == .o)
@@ -597,17 +597,17 @@ struct TetrisBoardTests {
         #expect(tetris.current?.shape == .i)
 
         // Place I at left (x=2), covers cols 0..3
-        for _ in 0..<3 where tetris.shiftLeft() {}
+        for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
 
         // Place I at right (x=6), covers cols 4..7
-        for _ in 0..<1 where tetris.shiftRight() {}
+        for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
 
         // Place O at far right (x=9), covers cols 8..9 at rows y-1 and y
-        for _ in 0..<4 where tetris.shiftRight() {}
+        for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         // Row 0 should now be complete

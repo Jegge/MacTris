@@ -41,7 +41,7 @@ struct TetrominoTests {
 
     @Test func testRotateClockwise() async throws {
         let t = Tetromino(shape: .t, rotation: 0)
-        let rotated = t.rotatedClockwise()
+        let rotated = t.rotated(.clockwise)
         // rotatedClockwise decrements: (0 + 4 - 1) % 4 = 3
         #expect(rotated.rotation == 3)
         #expect(rotated.position.x == t.position.x)
@@ -51,13 +51,13 @@ struct TetrominoTests {
     @Test func testRotateClockwiseWraps() async throws {
         // T piece has 4 rotation states, clockwise from last: (3 + 4 - 1) % 4 = 2
         let t = Tetromino(shape: .t, rotation: 3)
-        let rotated = t.rotatedClockwise()
+        let rotated = t.rotated(.clockwise)
         #expect(rotated.rotation == 2)
     }
 
     @Test func testRotateCounterClockwise() async throws {
         let t = Tetromino(shape: .t, rotation: 0)
-        let rotated = t.rotatedCounterClockwise()
+        let rotated = t.rotated(.counterClockwise)
         // rotatedCounterClockwise increments: (0 + 1) % 4 = 1
         #expect(rotated.rotation == 1)
         #expect(rotated.position.x == t.position.x)
@@ -67,22 +67,22 @@ struct TetrominoTests {
     @Test func testRotateCounterClockwiseWraps() async throws {
         // T piece has 4 rotation states, counter-clockwise from last: (3 + 1) % 4 = 0
         let t = Tetromino(shape: .t, rotation: 3)
-        let rotated = t.rotatedCounterClockwise()
+        let rotated = t.rotated(.counterClockwise)
         #expect(rotated.rotation == 0)
     }
 
-    @Test func testShiftLeft() async throws {
+    @Test func testshiftLeft() async throws {
         let t = Tetromino(shape: .o, position: (5, 5))
-        let shifted = t.shiftedLeft()
+        let shifted = t.shifted(.left)
         #expect(shifted.position.x == 4)
         #expect(shifted.position.y == 5)
         #expect(shifted.shape == t.shape)
         #expect(shifted.rotation == t.rotation)
     }
 
-    @Test func testShiftRight() async throws {
+    @Test func testshiftRigth() async throws {
         let t = Tetromino(shape: .o, position: (5, 5))
-        let shifted = t.shiftedRight()
+        let shifted = t.shifted(.right)
         #expect(shifted.position.x == 6)
         #expect(shifted.position.y == 5)
     }
@@ -117,7 +117,7 @@ struct TetrominoTests {
         let points = Tetromino.Shape.o.points
         #expect(points.count == 1)
         let rotated = Tetromino(shape: .o, rotation: 0)
-        let same = rotated.rotatedClockwise()
+        let same = rotated.rotated(.clockwise)
         #expect(same.points.count == rotated.points.count)
         for (lhs, rhs) in zip(same.points, rotated.points) {
             #expect(lhs.x == rhs.x)
@@ -135,7 +135,7 @@ struct TetrominoTests {
         let t = Tetromino(shape: shape, rotation: 0)
         var current = t
         for _ in 0..<rotations {
-            current = current.rotatedClockwise()
+            current = current.rotated(.clockwise)
         }
         #expect(current.rotation == 0)
     }

@@ -8,6 +8,16 @@
 typealias Point = (x: Int, y: Int)
 
 struct Tetromino {
+    enum Rotation {
+        case clockwise
+        case counterClockwise
+    }
+
+    enum Shift {
+        case left
+        case right
+    }
+
     enum Shape: CaseIterable {
         case t, j, z, o, s, l, i
 
@@ -84,20 +94,22 @@ struct Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
-    func rotatedCounterClockwise() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: (self.rotation + 1) % self.shape.points.count, position: self.position)
+    func rotated(_ rotation: Rotation) -> Tetromino {
+        switch rotation {
+        case .clockwise:
+            return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
+        case .counterClockwise:
+            return Tetromino(shape: self.shape, rotation: (self.rotation + 1) % self.shape.points.count, position: self.position)
+        }
     }
 
-    func rotatedClockwise() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: (self.rotation + self.shape.points.count - 1) % self.shape.points.count, position: self.position)
-    }
-
-    func shiftedLeft() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x - 1, position.y))
-    }
-
-    func shiftedRight() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x + 1, position.y))
+    func shifted(_ direction: Shift) -> Tetromino {
+        switch direction {
+        case .left:
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x - 1, position.y))
+        case .right:
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x + 1, position.y))
+        }
     }
 
     func dropped() -> Tetromino {

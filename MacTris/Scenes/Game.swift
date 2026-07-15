@@ -194,24 +194,24 @@ class Game: SceneBase {
             }
             self.waitFramesForKeyRepeat = TetrisOptions.Frames.keyRepeatDrop
         } else if self.events.contains(.shiftLeft) {
-            if tetris.shiftLeft() {
+            if tetris.shift(.left) {
                 self.audioFxPlayer.play(.shift)
             }
             self.waitFramesForKeyRepeat = self.options.keyRepeatShift(initial: self.keyRepeatIsInitial)
             self.keyRepeatIsInitial = false
         } else if self.events.contains(.shiftRight) {
-            if tetris.shiftRight() {
+            if tetris.shift(.right) {
                 self.audioFxPlayer.play(.shift)
             }
             self.waitFramesForKeyRepeat = self.options.keyRepeatShift(initial: self.keyRepeatIsInitial)
             self.keyRepeatIsInitial = false
         } else if self.events.contains(.rotateCounterClockwise) {
-            if tetris.rotateCounterClockwise() {
+            if tetris.rotate(.counterClockwise) {
                 self.audioFxPlayer.play(.rotate)
             }
             self.events.remove(.rotateCounterClockwise)
         } else if self.events.contains(.rotateClockwise) {
-            if tetris.rotateClockwise() {
+            if tetris.rotate(.clockwise) {
                 self.audioFxPlayer.play(.rotate)
             }
             self.events.remove(.rotateClockwise)
