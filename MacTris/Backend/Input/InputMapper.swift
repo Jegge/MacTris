@@ -41,7 +41,7 @@ class InputMapper {
         (binding: KeyBinding(keyCode: KeyCode.s.rawValue, id: .rotateClockwise), mutable: true)
     ]
 
-    private var unmappable: [KeyCode] = [
+    static let unmappableKeyCodes: [KeyCode] = [
         .escape,
         .return
     ]
@@ -52,7 +52,7 @@ class InputMapper {
         }
         set {
             for binding in newValue {
-                self.bind(keyCode: binding.keyCode, id: binding.id)
+                self.bindUnsafe(keyCode: binding.keyCode, id: binding.id)
             }
         }
     }
@@ -81,14 +81,22 @@ class InputMapper {
         }
     }
 
-    func bind(keyCode: UInt16, id: Input) {
+    private func bindUnsafe(keyCode: UInt16, id: Input) {
         self.keymap.removeAll { $0.binding.id == id && $0.mutable }
         self.keymap.append((binding: KeyBinding(keyCode: keyCode, id: id), mutable: true))
     }
 
+    func bind(keyCode: UInt16, id: Input) -> Bool {
+        if !canBind(keyCode: keyCode, id: id) {
+            return false
+        }
+        self.bindUnsafe(keyCode: keyCode, id: id)
+        return true
+    }
+
     func canBind(keyCode: UInt16, id: Input) -> Bool {
         // check if it's a forbidden key
-        if self.unmappable.first(where: { $0.rawValue == keyCode}) != nil {
+        if InputMapper.unmappableKeyCodes.first(where: { $0.rawValue == keyCode}) != nil {
             return false
         }
 

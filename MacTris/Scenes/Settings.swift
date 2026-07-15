@@ -260,14 +260,13 @@ class Settings: SceneBase {
     }
 
     private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
-        if !self.inputMapper.canBind(keyCode: event.keyCode, id: id) {
+        if !self.inputMapper.bind(keyCode: event.keyCode, id: id) {
             self.audioFxPlayer.play(.negative)
             return false
         }
 
-        self.inputMapper.bind(keyCode: event.keyCode, id: id)
-        UserDefaults.standard.keyboardBindings = self.inputMapper.keyboardBindings
         self.audioFxPlayer.play(.positive)
+        UserDefaults.standard.keyboardBindings = self.inputMapper.keyboardBindings
 
         if let node = self.childNode(withName: "value\(item)") {
             node.removeAllActions()
