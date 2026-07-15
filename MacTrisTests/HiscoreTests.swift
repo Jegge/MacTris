@@ -20,9 +20,8 @@ struct HiscoreTests {
 
     @Test func testDefaultScoresSorted() async throws {
         let hiscore = Hiscore(key: key)
-        let scores = hiscore.scores
-        for i in 0..<(scores.count - 1) {
-            #expect(scores[i].value >= scores[i + 1].value)
+        for i in 0..<(hiscore.scores.count - 1) {
+            #expect(hiscore.scores[i].value >= hiscore.scores[i + 1].value)
         }
     }
 
@@ -34,10 +33,7 @@ struct HiscoreTests {
 
     @Test func testInsertMidScore() async throws {
         let hiscore = Hiscore(key: key)
-        let scores = hiscore.scores
-        let midValue = scores[4].value
-        let insertValue = midValue + 1
-        let index = hiscore.insert(score: Hiscore.Score(name: "Mid", value: insertValue))
+        let index = hiscore.insert(score: Hiscore.Score(name: "Mid", value: hiscore.scores[4].value + 1))
         #expect(index == 4)
     }
 
@@ -67,14 +63,14 @@ struct HiscoreTests {
 
     @Test func testRenamePreservesScore() async throws {
         let hiscore = Hiscore(key: key)
-        let originalValue = hiscore.scores[0].value
+        let originalScore = hiscore.scores[0].value
         hiscore.rename(at: 0, to: "Bob")
-        #expect(hiscore.scores[0].value == originalValue)
+        #expect(hiscore.scores[0].value == originalScore)
     }
 
-    @Test func testNameTruncation() async throws {
+    @Test func testRenameTruncates() async throws {
         let hiscore = Hiscore(key: key)
-        let longName = String(repeating: "A", count: 50)
+        let longName = String(repeating: "A", count: Hiscore.nameLength + 1)
         hiscore.rename(at: 0, to: longName)
         #expect(hiscore.name(at: 0).count == Hiscore.nameLength)
     }
@@ -90,7 +86,7 @@ struct HiscoreTests {
 
         let loaded = try Hiscore(contentsOfUrl: tempURL, key: key)
         #expect(loaded.scores.count == 10)
-        #expect(loaded.scores.contains { $0.name == "TestPlayer" && $0.value == 75000 })
+        #expect(loaded.scores.contains { $0.name == score.name && $0.value == score.value })
     }
 
     @Test func testWriteReadPreservesOrder() async throws {
@@ -111,8 +107,7 @@ struct HiscoreTests {
         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("test_badkey.json")
         defer { try? FileManager.default.removeItem(at: tempURL) }
 
-        let original = Hiscore(key: key)
-        try? original.write(to: tempURL)
+        try? Hiscore(key: key).write(to: tempURL)
 
         #expect(throws: CryptoKitError.authenticationFailure) {
             _ = try Hiscore(contentsOfUrl: tempURL, key: key.uppercased())
@@ -121,7 +116,7 @@ struct HiscoreTests {
 
     @Test func testInsertMaintainsLimit() async throws {
         let hiscore = Hiscore(key: key)
-        for i in 0..<20 {
+        for i in 0..<(Hiscore.numberOfEntries * 2) {
             _ = hiscore.insert(score: Hiscore.Score(name: "P\(i)", value: 100000 + i))
         }
         #expect(hiscore.scores.count == 10)
@@ -129,8 +124,13 @@ struct HiscoreTests {
 
     @Test func testNameAt() async throws {
         let hiscore = Hiscore(key: key)
-        let name = hiscore.name(at: 0)
-        #expect(!name.isEmpty)
+        #expect(hiscore.name(at: 0) == hiscore.scores[0].name)
+    }
+
+    @Test func testNameAtIndexOutOfRangeReturnsEmptyString() async throws {
+        let hiscore = Hiscore(key: key)
+        #expect(hiscore.name(at: -1).isEmpty)
+        #expect(hiscore.name(at: Hiscore.numberOfEntries * 2).isEmpty)
     }
 
     @Test func testScoreComparable() async throws {
