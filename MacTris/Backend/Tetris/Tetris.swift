@@ -43,12 +43,13 @@ class Tetris {
         self.level = startingLevel
         self.allowWallKick = allowWallKick
         self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50)) // classic NES style calculation, includes replicating the bug
-        self.next = Tetromino(shape: self.random.next())
         self.data = Array(repeating: Array(repeating: nil, count: Tetris.numberOfRows), count: Tetris.numberOfColumns)
 
         let current = Tetromino(shape: self.random.next(), rotation: 0, position: Tetris.spawnPosition)
         self.statistics.add(current.shape)
         self.current = current
+
+        self.next = Tetromino(shape: self.random.next())
 
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }

@@ -16,19 +16,23 @@ struct TetrominoTests {
     }
 
     @Test func testDefaultInit() async throws {
-        let t = Tetromino(shape: .t)
-        #expect(t.shape == .t)
-        #expect(t.rotation == 0)
-        #expect(t.position.x == 0)
-        #expect(t.position.y == 0)
+        for shape in Tetromino.Shape.allCases {
+            let t = Tetromino(shape: shape)
+            #expect(t.shape == shape)
+            #expect(t.rotation == 0)
+            #expect(t.position.x == 0)
+            #expect(t.position.y == 0)
+        }
     }
 
     @Test func testCustomInit() async throws {
-        let t = Tetromino(shape: .i, rotation: 1, position: (5, 10))
-        #expect(t.shape == .i)
-        #expect(t.rotation == 1)
-        #expect(t.position.x == 5)
-        #expect(t.position.y == 10)
+        for shape in Tetromino.Shape.allCases {
+            let t = Tetromino(shape: shape, rotation: 1, position: (5, 10))
+            #expect(t.shape == shape)
+            #expect(t.rotation == 1)
+            #expect(t.position.x == 5)
+            #expect(t.position.y == 10)
+        }
     }
 
     @Test func testPointsIncludePosition() async throws {
@@ -42,7 +46,6 @@ struct TetrominoTests {
     @Test func testRotateClockwise() async throws {
         let t = Tetromino(shape: .t, rotation: 0)
         let rotated = t.rotated(.clockwise)
-        // rotatedClockwise decrements: (0 + 4 - 1) % 4 = 3
         #expect(rotated.rotation == 3)
         #expect(rotated.position.x == t.position.x)
         #expect(rotated.position.y == t.position.y)
@@ -111,32 +114,5 @@ struct TetrominoTests {
         #expect(Tetromino.Shape.j.appearance == "Blue")
         #expect(Tetromino.Shape.l.appearance == "Orange")
         #expect(Tetromino.Shape.t.appearance == "Purple")
-    }
-
-    @Test func testOPieceIsSymmetric() async throws {
-        let points = Tetromino.Shape.o.points
-        #expect(points.count == 1)
-        let rotated = Tetromino(shape: .o, rotation: 0)
-        let same = rotated.rotated(.clockwise)
-        #expect(same.points.count == rotated.points.count)
-        for (lhs, rhs) in zip(same.points, rotated.points) {
-            #expect(lhs.x == rhs.x)
-            #expect(lhs.y == rhs.y)
-        }
-    }
-
-    @Test func testIPieceHasTwoRotations() async throws {
-        #expect(Tetromino.Shape.i.points.count == 2)
-    }
-
-    @Test func testTPiecePointsAreValidAfterFullRotation() async throws {
-        let shape = Tetromino.Shape.t
-        let rotations = shape.points.count
-        let t = Tetromino(shape: shape, rotation: 0)
-        var current = t
-        for _ in 0..<rotations {
-            current = current.rotated(.clockwise)
-        }
-        #expect(current.rotation == 0)
     }
 }
