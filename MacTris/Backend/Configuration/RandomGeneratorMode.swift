@@ -30,12 +30,4 @@ extension RandomGeneratorMode: CustomStringConvertible {
     }
 }
 
-extension RandomGeneratorMode: Adjustable {
-    func increased() -> RandomGeneratorMode {
-        return RandomGeneratorMode(rawValue: self.rawValue + 1) ?? .nes
-    }
-
-    func decreased() -> RandomGeneratorMode {
-        return RandomGeneratorMode(rawValue: self.rawValue - 1) ?? .sevenBag
-    }
-}
+extension RandomGeneratorMode: Adjustable { }

@@ -29,6 +29,25 @@ extension Adjustable {
     }
 }
 
+extension Adjustable where Self: RawRepresentable, RawValue == Int {
+    func increased() -> Self {
+        Self(rawValue: self.rawValue + 1) ?? self.findLimit(direction: -1)
+    }
+
+    func decreased() -> Self {
+        Self(rawValue: self.rawValue - 1) ?? self.findLimit(direction: 1)
+    }
+
+    private func findLimit(direction: Int) -> Self {
+        var raw = self.rawValue
+        while Self(rawValue: raw + direction) != nil {
+            raw += direction
+        }
+        // swiftlint:disable:next force_unwrapping
+        return Self(rawValue: raw)!
+    }
+}
+
 extension Bool: Adjustable {
     func increased() -> Bool {
         !self

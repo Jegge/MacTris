@@ -23,12 +23,4 @@ extension Appearance: CustomStringConvertible {
     }
 }
 
-extension Appearance: Adjustable {
-    func increased() -> Appearance {
-        return Appearance(rawValue: self.rawValue + 1) ?? .plain
-    }
-
-    func decreased() -> Appearance {
-        return Appearance(rawValue: self.rawValue - 1) ?? .bright
-    }
-}
+extension Appearance: Adjustable { }

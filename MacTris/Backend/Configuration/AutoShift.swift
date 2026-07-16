@@ -34,12 +34,4 @@ extension AutoShift: CustomStringConvertible {
     }
 }
 
-extension AutoShift: Adjustable {
-    func increased() -> AutoShift {
-        return AutoShift(rawValue: self.rawValue + 1) ?? .nes
-    }
-
-    func decreased() -> AutoShift {
-        return AutoShift(rawValue: self.rawValue - 1) ?? .insane
-    }
-}
+extension AutoShift: Adjustable { }
