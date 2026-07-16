@@ -288,6 +288,28 @@ struct TetrisBoardTests {
         #expect(tetris.current?.position.x == (rightmostX ?? 0) - 1)
     }
 
+    @Test func testWallKickNotPossibleIfBlockedByOther() async throws {
+        let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.o, .o, .o, .o, .o, .i]), startingLevel: 0, allowWallKick: true)
+        // build a tower from o 1 space from the left
+        for _ in 0..<5 {
+            #expect(tetris.shift(.left))
+            tetris.hardDrop()
+            #expect(tetris.spawn())
+        }
+
+        // drop a vertical the i inbetween the wall and the tower
+        #expect(tetris.rotate(.counterClockwise))
+        for _ in 0..<4 {
+            #expect(tetris.shift(.left))
+        }
+        for _ in 0..<13 {
+            #expect(tetris.softDrop(manual: true))
+        }
+
+        #expect(!tetris.rotate(.clockwise))
+        #expect(!tetris.rotate(.counterClockwise))
+    }
+
     @Test func testHardDropLocksAtBottomPieceAndScores() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.o]), startingLevel: 0, allowWallKick: false)
         tetris.hardDrop()
@@ -388,51 +410,7 @@ struct TetrisBoardTests {
         #expect(tetris.grid[6][0] == nil)
     }
 
-    @Test func testFullGameIntegrationPlaysUntilGameOver() async throws {
-        // Play through the entire game lifecycle: spawn, drop, lock,
-        // line clear, level up, and eventually game over.
-        let shapes: [Tetromino.Shape] = [
-            .i, .o, .t, .s, .z, .j, .l,
-            .i, .o, .t, .s, .z, .j, .l,
-            .i, .o, .t, .s, .z, .j, .l,
-            .i, .o, .t, .s, .z, .j, .l,
-            .i, .o, .t, .s, .z, .j, .l
-        ]
-        let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: shapes), startingLevel: 0, allowWallKick: false)
-
-        #expect(tetris.level == 0)
-        #expect(tetris.lines == 0)
-        #expect(tetris.score == 0)
-        #expect(tetris.current != nil)
-
-        var spawned = 1
-        var cleared = 0
-
-        while tetris.current != nil {
-            // Drop until locked
-            while tetris.softDrop(manual: false) { }
-
-            // Clear completed lines
-            if let lines = tetris.lowestCompletedLines {
-                cleared += lines.count
-                tetris.clear(lines: lines)
-            }
-
-            guard tetris.spawn() else { break }
-            spawned += 1
-            #expect(tetris.current != nil)
-        }
-
-        #expect(tetris.current == nil)
-        #expect(tetris.lines == cleared)
-        #expect(spawned > 5)
-        #expect(tetris.statistics.total >= spawned)
-        #expect(tetris.level >= 0)
-        #expect(tetris.level <= Tetris.maxLevel)
-        #expect(tetris.score >= 0)
-    }
-
-    @Test func testFullGameIntegrationScoreAndLevelProgression() async throws {
+    @Test func testFullGameIntegrationWithLineClear() async throws {
         // Fill a single complete row using I (left + right) and O (far right),
         // clear it, then continue dropping pieces until game over.
         // This exercises: line completion, scoring, spawn/drop cycle, game over.
@@ -484,7 +462,7 @@ struct TetrisBoardTests {
         #expect(tetris.lines > 0)
     }
 
-    @Test func testFullGameIntegrationGameOver() async throws {
+    @Test func testFullGameIntegrationStackToGameOver() async throws {
         // Stack O pieces in the same column until the board fills up.
         // O at (5,19) covers cols 4..5 and rows 18..19.
         // Hard drop lands the first O at y=1 (rows 0..1).

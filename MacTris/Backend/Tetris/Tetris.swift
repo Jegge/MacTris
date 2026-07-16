@@ -178,7 +178,9 @@ class Tetris {
             Logger.game.info("Soft dropping tetromino gives \(self.dropCounter) points: total \(self.score) points.")
         }
 
-        self.lock(tetromino: self.current)
+        if let current = self.current {
+            self.lock(tetromino: current)
+        }
         self.current = nil
         self.dropCounter = 0
 
@@ -235,11 +237,7 @@ class Tetris {
         }
     }
 
-    private func lock(tetromino: Tetromino?) {
-        guard let tetromino = tetromino else {
-            return
-        }
-
+    private func lock(tetromino: Tetromino) {
         for (column, row) in tetromino.points {
             if row >= 0 && column >= 0 && row < Tetris.numberOfRows && column < Tetris.numberOfColumns {
                 self[column, row] = tetromino.shape

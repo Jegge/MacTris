@@ -25,6 +25,7 @@ class DissolveLinesAnimation: TetrisAnimation {
     private let lines: Range<Int>
 
     private(set) var grid: Tetris.Grid
+
     var finished: Bool {
         return self.step > self.grid.count / 2
     }
