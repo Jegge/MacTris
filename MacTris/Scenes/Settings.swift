@@ -159,67 +159,58 @@ class Settings: SceneBase {
         }
     }
 
-    private func adjust(item: String, direction: AdjustDirection) {
+    private func adjust(item: String, direction: AdjustDirection) -> Bool {
         switch item {
         case Item.displayMode:
             UserDefaults.standard.fullscreen = UserDefaults.standard.fullscreen.adjusted(by: direction)
             self.view?.window?.toggleFullScreen(nil)
-            self.audioFxPlayer.play(.positive)
 
         case Item.musicVolume:
             let volume = min(100, max(0, MusicPlayer.shared.volume + (direction == .increase ? 2 : -2)))
             MusicPlayer.shared.volume = volume
             UserDefaults.standard.musicVolume = volume
-            self.audioFxPlayer.play(.positive)
 
         case Item.fxVolume:
             let volume = min(100, max(0, self.audioFxPlayer.volume + (direction == .increase ? 2 : -2)))
             self.audioFxPlayer.volume = volume
             UserDefaults.standard.fxVolume = volume
-            self.audioFxPlayer.play(.positive)
 
         case Item.rngMode:
             UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         case Item.autoShift:
             UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         case Item.wallKick:
             UserDefaults.standard.wallKick = UserDefaults.standard.wallKick.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         case Item.hardDrop:
             UserDefaults.standard.hardDrop = UserDefaults.standard.hardDrop.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         case Item.appearance:
             UserDefaults.standard.appearance = UserDefaults.standard.appearance.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         case Item.animations:
             UserDefaults.standard.animations = UserDefaults.standard.animations.adjusted(by: direction)
-            self.audioFxPlayer.play(.positive)
 
         default:
-            self.audioFxPlayer.play(.negative)
+            return false
         }
+
+        return true
     }
 
-    private func select(item: String) {
+    private func select(item: String) -> Bool {
         switch item {
         case Item.musicVolume:
             let volume = ((MusicPlayer.shared.volume / 10) * 10) + 10
             MusicPlayer.shared.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
-            self.audioFxPlayer.play(.positive)
 
         case Item.fxVolume:
             let volume = ((self.audioFxPlayer.volume / 10) * 10) + 10
             self.audioFxPlayer.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
-            self.audioFxPlayer.play(.positive)
 
         case Item.keyShiftLeft:
             self.beginRebind(id: .shiftLeft, for: item)
@@ -245,8 +236,10 @@ class Settings: SceneBase {
 
         default:
             // selecting all other items results in the same behaviour as increasing it's value
-            self.adjust(item: item, direction: .increase)
+            return self.adjust(item: item, direction: .increase)
         }
+
+        return true
     }
 
     private func beginRebind(id: Input, for item: String) {
@@ -256,16 +249,13 @@ class Settings: SceneBase {
         ])))
         self.rebindId = id
         self.rebindItem = item
-        self.audioFxPlayer.play(.positive)
     }
 
     private func endRebind(id: Input, for item: String, with event: NSEvent) -> Bool {
-        if !(self.inputMapper?.bind(keyCode: event.keyCode, id: id) ?? false) {
-            self.audioFxPlayer.play(.negative)
+        guard self.inputMapper?.bind(keyCode: event.keyCode, id: id) ?? false else {
             return false
         }
 
-        self.audioFxPlayer.play(.positive)
         if let bindings = self.inputMapper?.keyboardBindings {
             UserDefaults.standard.keyboardBindings = bindings
         }
@@ -279,7 +269,6 @@ class Settings: SceneBase {
     }
 
     private func cancelRebind(item: String) {
-        self.audioFxPlayer.play(.negative)
         if let node = self.childNode(withName: "value\(item)") {
             node.removeAllActions()
             node.run(SKAction.fadeAlpha(to: 1.0, duration: 0.25))
@@ -317,11 +306,15 @@ class Settings: SceneBase {
                 self.cancelRebind(item: item)
                 self.rebindId = nil
                 self.rebindItem = nil
+                self.audioFxPlayer.play(.negative)
                 self.update()
             } else if self.endRebind(id: id, for: item, with: event) {
                 self.rebindId = nil
                 self.rebindItem = nil
+                self.audioFxPlayer.play(.positive)
                 self.update()
+            } else {
+                self.audioFxPlayer.play(.negative)
             }
         } else {
             super.keyDown(with: event)
@@ -343,19 +336,23 @@ class Settings: SceneBase {
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
         case .select:
-            self.select(item: self.menuItems[self.selection])
+            let result = self.select(item: self.menuItems[self.selection])
+            self.audioFxPlayer.play(result ? .positive : .negative)
             self.update()
 
         case .left:
-            self.adjust(item: self.menuItems[self.selection], direction: .decrease)
+            let result = self.adjust(item: self.menuItems[self.selection], direction: .decrease)
+            self.audioFxPlayer.play(result ? .positive : .negative)
             self.update()
 
         case .right:
-            self.adjust(item: self.menuItems[self.selection], direction: .increase)
+            let result = self.adjust(item: self.menuItems[self.selection], direction: .increase)
+            self.audioFxPlayer.play(result ? .positive : .negative)
             self.update()
 
         case .menu:
-            self.select(item: Item.back)
+            let result = self.select(item: Item.back)
+            self.audioFxPlayer.play(result ? .positive : .negative)
 
         default:
             break
