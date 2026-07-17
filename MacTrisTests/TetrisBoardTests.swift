@@ -46,14 +46,14 @@ struct TetrisBoardTests {
         #expect(tetris.score == 0)
     }
 
-    @Test func testshiftLeft() async throws {
+    @Test func testShiftLeft() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
         let before = tetris.current?.position.x
         #expect(tetris.shift(.left))
         #expect(tetris.current?.position.x == (before ?? 0) - 1)
     }
 
-    @Test func testshiftRight() async throws {
+    @Test func testShiftRight() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
         let before = tetris.current?.position.x
         #expect(tetris.shift(.right))
