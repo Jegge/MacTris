@@ -1,5 +1,5 @@
 //
-//  MacTrisTests.swift
+//  TetrominoTests.swift
 //  MacTrisTests
 //
 //  Created by Sebastian Boettcher on 07.07.26.

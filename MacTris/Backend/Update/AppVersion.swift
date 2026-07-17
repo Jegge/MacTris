@@ -1,5 +1,5 @@
 //
-//  Version.swift
+//  AppVersion.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 13.07.26.

@@ -1,5 +1,5 @@
 //
-//  TestHelper.swift
+//  RandomNumberGeneratorMocks.swift
 //  MacTrisTests
 //
 //  Created by Sebastian Boettcher on 07.07.26.

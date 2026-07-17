@@ -1,5 +1,5 @@
 //
-//  SKLabel+Animation.swift
+//  SKLabelNode+Animation.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 10.07.26.

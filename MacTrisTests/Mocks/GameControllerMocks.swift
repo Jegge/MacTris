@@ -2,7 +2,7 @@
 //  GameControllerMocks.swift
 //  MacTrisTests
 //
-//  Created by OpenCode on 13.07.26.
+//  Created by Sebastian Boettcher on 13.07.26.
 //
 
 import GameController
