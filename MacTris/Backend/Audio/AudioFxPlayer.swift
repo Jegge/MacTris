@@ -11,12 +11,6 @@ enum AudioFx {
     case positive, negative, select, success, quadSuccess, gameOver, shift, rotate, lock
 }
 
-/// Play a given fx
-protocol PlayAudio {
-    /// Play the given fx
-    func play(_ audioFx: AudioFx)
-}
-
 class AudioFxPlayer: NSObject {
     private var players: Set<AVAudioPlayer> = Set()
 
@@ -43,7 +37,7 @@ class AudioFxPlayer: NSObject {
     }
 }
 
-extension AudioFxPlayer: PlayAudio {
+extension AudioFxPlayer {
     func play(_ audioFx: AudioFx) {
         switch audioFx {
         case .positive:
