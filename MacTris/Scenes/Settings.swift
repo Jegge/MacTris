@@ -83,9 +83,9 @@ class Settings: SceneBase {
                 : formatter.string(from: NSNumber(value: Double(MusicPlayer.shared.volume) / 100.0))
 
         case Item.fxVolume:
-            return self.audioFxPlayer.volume == 0
+            return self.audioFxPlayer?.volume == 0
                 ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-                : formatter.string(from: NSNumber(value: Double(self.audioFxPlayer.volume) / 100.0))
+                : formatter.string(from: NSNumber(value: Double(self.audioFxPlayer?.volume ?? 0) / 100.0))
 
         case Item.keyShiftLeft:
             return self.inputMapper?.describeIdForKeyboard(.shiftLeft)
@@ -171,8 +171,8 @@ class Settings: SceneBase {
             UserDefaults.standard.musicVolume = volume
 
         case Item.fxVolume:
-            let volume = min(100, max(0, self.audioFxPlayer.volume + (direction == .increase ? 2 : -2)))
-            self.audioFxPlayer.volume = volume
+            let volume = min(100, max(0, (self.audioFxPlayer?.volume ?? 0) + (direction == .increase ? 2 : -2)))
+            self.audioFxPlayer?.volume = volume
             UserDefaults.standard.fxVolume = volume
 
         case Item.rngMode:
@@ -208,8 +208,8 @@ class Settings: SceneBase {
             UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
 
         case Item.fxVolume:
-            let volume = ((self.audioFxPlayer.volume / 10) * 10) + 10
-            self.audioFxPlayer.volume = volume > 100 ? 0 : volume
+            let volume = (((self.audioFxPlayer?.volume ?? 0) / 10) * 10) + 10
+            self.audioFxPlayer?.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
 
         case Item.keyShiftLeft:
@@ -305,15 +305,15 @@ class Settings: SceneBase {
                 self.cancelRebind(item: item)
                 self.rebindId = nil
                 self.rebindItem = nil
-                self.audioFxPlayer.play(.negative)
+                self.audioFxPlayer?.play(.negative)
                 self.update()
             } else if self.endRebind(id: id, for: item, with: event) {
                 self.rebindId = nil
                 self.rebindItem = nil
-                self.audioFxPlayer.play(.positive)
+                self.audioFxPlayer?.play(.positive)
                 self.update()
             } else {
-                self.audioFxPlayer.play(.negative)
+                self.audioFxPlayer?.play(.negative)
             }
         } else {
             super.keyDown(with: event)
@@ -327,31 +327,31 @@ class Settings: SceneBase {
 
         switch event.id {
         case .up:
-            self.audioFxPlayer.play(.select)
+            self.audioFxPlayer?.play(.select)
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
 
         case .down:
-            self.audioFxPlayer.play(.select)
+            self.audioFxPlayer?.play(.select)
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
 
         case .select:
             let result = self.select(item: self.menuItems[self.selection])
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
             self.update()
 
         case .left:
             let result = self.adjust(item: self.menuItems[self.selection], direction: .decrease)
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
             self.update()
 
         case .right:
             let result = self.adjust(item: self.menuItems[self.selection], direction: .increase)
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
             self.update()
 
         case .menu:
             let result = self.select(item: Item.back)
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
 
         default:
             break

@@ -18,6 +18,7 @@ class ViewController: NSViewController {
     private var didExitFullScreenObserver: Any?
 
     let inputMapper = InputMapper(keyboardBindings: UserDefaults.standard.keyboardBindings)
+    let audioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class ViewController: NSViewController {
         if let view = self.skView {
             if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
                 scene.inputMapper = self.inputMapper
+                scene.audioFxPlayer = self.audioFxPlayer
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
             }

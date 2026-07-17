@@ -22,6 +22,7 @@ struct Tetromino {
         case t, j, z, o, s, l, i
 
         /// Each entry represents a rotation, and each rotation has multiple points
+        /// The points are offsets to the current shape position
         var points: [[Point]] {
             switch self {
             case .o:

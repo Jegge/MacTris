@@ -13,7 +13,7 @@ class SceneBase: SKScene {
     private var eventMonitor: Any?
 
     var inputMapper: InputMapper?
-    let audioFxPlayer: AudioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
+    var audioFxPlayer: AudioFxPlayer?
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),
@@ -125,6 +125,7 @@ class SceneBase: SKScene {
         if let newScene = SKScene(fileNamed: name) as? T {
             newScene.scaleMode = self.scaleMode
             newScene.inputMapper = self.inputMapper
+            newScene.audioFxPlayer = self.audioFxPlayer
             configureScene?(newScene)
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         } else {

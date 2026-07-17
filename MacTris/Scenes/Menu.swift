@@ -120,23 +120,23 @@ class Menu: SceneBase {
         switch event.id {
         case .up:
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
-            self.audioFxPlayer.play(.select)
+            self.audioFxPlayer?.play(.select)
 
         case .down:
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
-            self.audioFxPlayer.play(.select)
+            self.audioFxPlayer?.play(.select)
 
         case .select:
             let result = self.select(item: self.menuItems[self.selection])
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
 
         case .left:
             let result = self.adjust(item: self.menuItems[self.selection], direction: .decrease)
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
 
         case .right:
             let result = self.adjust(item: self.menuItems[self.selection], direction: .increase)
-            self.audioFxPlayer.play(result ? .positive : .negative)
+            self.audioFxPlayer?.play(result ? .positive : .negative)
 
         default:
             break
