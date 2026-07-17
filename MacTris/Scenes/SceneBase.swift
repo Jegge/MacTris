@@ -12,8 +12,7 @@ class SceneBase: SKScene {
     private var observers: [NSObjectProtocol] = []
     private var eventMonitor: Any?
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    var inputMapper: InputMapper!
+    var inputMapper: InputMapper?
     let audioFxPlayer: AudioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
@@ -89,13 +88,13 @@ class SceneBase: SKScene {
     }
 
     override func keyDown(with event: NSEvent) {
-        self.inputMapper.translate(event: event).forEach {
+        self.inputMapper?.translate(event: event).forEach {
             self.inputDown(event: $0)
         }
     }
 
     override func keyUp(with event: NSEvent) {
-        self.inputMapper.translate(event: event).forEach {
+        self.inputMapper?.translate(event: event).forEach {
             self.inputUp(event: $0)
         }
     }

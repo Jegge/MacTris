@@ -75,27 +75,27 @@ class Game: SceneBase {
 
     private func updateInstructions() {
         let menuKey = GCController.controllers().isEmpty
-            ? self.inputMapper.describeIdForKeyboard(.menu)
-            : self.inputMapper.describeIdForController(.menu)
+            ? self.inputMapper?.describeIdForKeyboard(.menu)
+            : self.inputMapper?.describeIdForController(.menu)
 
         let selectKey = GCController.controllers().isEmpty
-            ? self.inputMapper.describeIdForKeyboard(.select)
-            : self.inputMapper.describeIdForController(.select)
+            ? self.inputMapper?.describeIdForKeyboard(.select)
+            : self.inputMapper?.describeIdForController(.select)
 
         if let label = self.childNode(withName: "//labelQuitInstructions") as? SKLabelNode {
-            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionQuit", comment: "Has a string argument for the key"), menuKey)
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionQuit", comment: "Has a string argument for the key"), menuKey ?? InputMapper.unknownCharacterDescription)
         }
 
         if let label = self.childNode(withName: "//labelPauseInstructions") as? SKLabelNode {
-            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionPause", comment: "Has a string argument for the key"), menuKey)
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionPause", comment: "Has a string argument for the key"), menuKey ?? InputMapper.unknownCharacterDescription)
         }
 
         if let label = self.childNode(withName: "//labelGameOverInstructions") as? SKLabelNode {
-            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionContinue", comment: "Has a string argument for the key"), selectKey)
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionContinue", comment: "Has a string argument for the key"), selectKey ?? InputMapper.unknownCharacterDescription)
         }
 
         if let label = self.childNode(withName: "//labelResumeInstructions") as? SKLabelNode {
-            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionResume", comment: "Has a string argument for the key"), selectKey)
+            label.text = String(format: NSLocalizedString("GamePauseMenuInstructionResume", comment: "Has a string argument for the key"), selectKey ?? InputMapper.unknownCharacterDescription)
         }
     }
 
