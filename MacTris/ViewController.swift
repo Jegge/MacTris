@@ -19,14 +19,18 @@ class ViewController: NSViewController {
 
     let inputMapper = InputMapper(keyboardBindings: UserDefaults.standard.keyboardBindings)
     let audioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
+    let musicPlayer = MusicPlayer(volume: UserDefaults.standard.musicVolume)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.musicPlayer.play(mp3: "Korobeiniki")
 
         if let view = self.skView {
             if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
                 scene.inputMapper = self.inputMapper
                 scene.audioFxPlayer = self.audioFxPlayer
+                scene.musicPlayer = self.musicPlayer
                 scene.scaleMode = .aspectFit
                 view.presentScene(scene)
             }
@@ -78,6 +82,8 @@ class ViewController: NSViewController {
     }
 
     deinit {
+        self.musicPlayer.stop()
+
         if let observer = self.controllerDidConnectObserver {
             NotificationCenter.default.removeObserver(observer)
         }

@@ -11,6 +11,10 @@ class MusicPlayer: NSObject {
 
     private var player: AVAudioPlayer?
 
+    init(volume: Int) {
+        self.volume = volume
+    }
+
     deinit {
         self.stop()
     }
@@ -39,7 +43,4 @@ class MusicPlayer: NSObject {
     private func calculateVolume() -> Float {
         0.01 * max(0.0, min(100.0, Float(self.volume)))
     }
-
-    // Kept as a singleton, since it is effectively only used once
-    static let shared = MusicPlayer()
 }

@@ -14,6 +14,7 @@ class SceneBase: SKScene {
 
     var inputMapper: InputMapper?
     var audioFxPlayer: AudioFxPlayer?
+    var musicPlayer: MusicPlayer?
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),

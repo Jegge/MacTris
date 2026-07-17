@@ -78,9 +78,9 @@ class Settings: SceneBase {
                 : NSLocalizedString("SettingDisplayModeWindow", comment: "Value, if display mode is window")
 
         case Item.musicVolume:
-            return MusicPlayer.shared.volume == 0
+            return self.musicPlayer?.volume == 0
                 ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-                : formatter.string(from: NSNumber(value: Double(MusicPlayer.shared.volume) / 100.0))
+            : formatter.string(from: NSNumber(value: Double(self.musicPlayer?.volume ?? 0) / 100.0))
 
         case Item.fxVolume:
             return self.audioFxPlayer?.volume == 0
@@ -166,8 +166,8 @@ class Settings: SceneBase {
             self.view?.window?.toggleFullScreen(nil)
 
         case Item.musicVolume:
-            let volume = min(100, max(0, MusicPlayer.shared.volume + (direction == .increase ? 2 : -2)))
-            MusicPlayer.shared.volume = volume
+            let volume = min(100, max(0, (self.musicPlayer?.volume ?? 0) + (direction == .increase ? 2 : -2)))
+            self.musicPlayer?.volume = volume
             UserDefaults.standard.musicVolume = volume
 
         case Item.fxVolume:
@@ -203,8 +203,8 @@ class Settings: SceneBase {
     private func select(item: String) -> Bool {
         switch item {
         case Item.musicVolume:
-            let volume = ((MusicPlayer.shared.volume / 10) * 10) + 10
-            MusicPlayer.shared.volume = volume > 100 ? 0 : volume
+            let volume = (((self.musicPlayer?.volume ?? 0) / 10) * 10) + 10
+            self.musicPlayer?.volume = volume > 100 ? 0 : volume
             UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
 
         case Item.fxVolume:
