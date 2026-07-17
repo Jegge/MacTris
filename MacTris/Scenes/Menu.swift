@@ -60,54 +60,46 @@ class Menu: SceneBase {
         }
     }
 
-    private func select(item: String) {
+    private func select(item: String) -> Bool {
         switch item {
         case Item.play:
-            self.audioFxPlayer.play(.positive)
             self.transition(to: Game.self)
 
         case Item.settings:
-            self.audioFxPlayer.play(.positive)
             self.transition(to: Settings.self)
 
         case Item.hiscores:
-            self.audioFxPlayer.play(.positive)
             self.transition(to: Scores.self)
 
         case Item.update:
             if let url = self.updateUrl {
-                self.audioFxPlayer.play(.positive)
                 NSWorkspace.shared.open(url)
             } else {
-                self.audioFxPlayer.play(.negative)
+                return false
             }
 
         case Item.quit:
             NSApplication.shared.terminate(nil)
 
         default:
-            self.audioFxPlayer.play(.negative)
+            return false
         }
+        return true
     }
 
-    private func adjust(item: String, direction: AdjustDirection) {
-        switch item {
-        case Item.play:
+    private func adjust(item: String, direction: AdjustDirection) -> Bool {
+        if item == Item.play {
             if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxLevel {
                 UserDefaults.standard.startLevel += 1
                 self.update()
-                self.audioFxPlayer.play(.positive)
+                return true
             } else if direction == .decrease && UserDefaults.standard.startLevel > 0 {
                 UserDefaults.standard.startLevel -= 1
                 self.update()
-                self.audioFxPlayer.play(.positive)
-            } else {
-                self.audioFxPlayer.play(.negative)
+                return true
             }
-
-        default:
-            self.audioFxPlayer.play(.negative)
         }
+        return false
     }
 
     override func didMove(to view: SKView) {
@@ -127,21 +119,24 @@ class Menu: SceneBase {
     override func inputDown(event: InputEvent) {
         switch event.id {
         case .up:
-            self.audioFxPlayer.play(.select)
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1
+            self.audioFxPlayer.play(.select)
 
         case .down:
-            self.audioFxPlayer.play(.select)
             self.selection = self.selection < menuItems.count - 1 ? self.selection + 1 : 0
+            self.audioFxPlayer.play(.select)
 
         case .select:
-            self.select(item: self.menuItems[self.selection])
+            let result = self.select(item: self.menuItems[self.selection])
+            self.audioFxPlayer.play(result ? .positive : .negative)
 
         case .left:
-            self.adjust(item: self.menuItems[self.selection], direction: .decrease)
+            let result = self.adjust(item: self.menuItems[self.selection], direction: .decrease)
+            self.audioFxPlayer.play(result ? .positive : .negative)
 
         case .right:
-            self.adjust(item: self.menuItems[self.selection], direction: .increase)
+            let result = self.adjust(item: self.menuItems[self.selection], direction: .increase)
+            self.audioFxPlayer.play(result ? .positive : .negative)
 
         default:
             break

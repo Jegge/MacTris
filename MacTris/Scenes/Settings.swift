@@ -231,7 +231,6 @@ class Settings: SceneBase {
             self.beginRebind(id: .hardDrop, for: item)
 
         case Item.back:
-            self.audioFxPlayer.play(.positive)
             self.transition(to: Menu.self)
 
         default:
