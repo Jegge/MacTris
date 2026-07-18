@@ -48,16 +48,16 @@ struct TetrisBoardTests {
 
     @Test func testShiftLeft() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
-        let before = tetris.current?.position.x
+        let before = tetris.current?.position.column
         #expect(tetris.shift(.left))
-        #expect(tetris.current?.position.x == (before ?? 0) - 1)
+        #expect(tetris.current?.position.column == (before ?? 0) - 1)
     }
 
     @Test func testShiftRight() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
-        let before = tetris.current?.position.x
+        let before = tetris.current?.position.column
         #expect(tetris.shift(.right))
-        #expect(tetris.current?.position.x == (before ?? 0) + 1)
+        #expect(tetris.current?.position.column == (before ?? 0) + 1)
     }
 
     @Test func testRotateClockwise() async throws {
@@ -78,16 +78,16 @@ struct TetrisBoardTests {
 
     @Test func testSoftDropManual() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
-        let before = tetris.current?.position.y
+        let before = tetris.current?.position.row
         #expect(tetris.softDrop(manual: true))
-        #expect(tetris.current?.position.y == (before ?? 0) - 1)
+        #expect(tetris.current?.position.row == (before ?? 0) - 1)
     }
 
     @Test func testSoftDropAuto() async throws {
         let tetris = Tetris(random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]), startingLevel: 0, allowWallKick: false)
-        let before = tetris.current?.position.y
+        let before = tetris.current?.position.row
         #expect(tetris.softDrop(manual: false))
-        #expect(tetris.current?.position.y == (before ?? 0) - 1)
+        #expect(tetris.current?.position.row == (before ?? 0) - 1)
     }
 
     @Test func testSoftDropManualScoresOnLock() async throws {
@@ -182,7 +182,7 @@ struct TetrisBoardTests {
         let moved = tetris.current
         #expect(piece != nil)
         #expect(moved != nil)
-        #expect(piece?.position.x != moved?.position.x)
+        #expect(piece?.position.column != moved?.position.column)
         #expect(!tetris.shift(.left))
     }
 
@@ -193,7 +193,7 @@ struct TetrisBoardTests {
         let moved = tetris.current
         #expect(piece != nil)
         #expect(moved != nil)
-        #expect(piece?.position.x != moved?.position.x)
+        #expect(piece?.position.column != moved?.position.column)
         #expect(!tetris.shift(.right))
     }
 
@@ -204,8 +204,8 @@ struct TetrisBoardTests {
 
         while tetris.shift(.left) { }
 
-        #expect(tetris.current?.position.x == 1)
-        #expect(tetris.current?.position.y == 19)
+        #expect(tetris.current?.position.column == 1)
+        #expect(tetris.current?.position.row == 19)
     }
 
     @Test func testRotationCannotSlideThroughRightWall() async throws {
@@ -215,8 +215,8 @@ struct TetrisBoardTests {
 
         while tetris.shift(.right) { }
 
-        #expect(tetris.current?.position.x == 8)
-        #expect(tetris.current?.position.y == 19)
+        #expect(tetris.current?.position.column == 8)
+        #expect(tetris.current?.position.row == 19)
     }
 
     @Test func testClearLinesClearsRowShiftsDownAndScores() async throws {
@@ -265,12 +265,12 @@ struct TetrisBoardTests {
         #expect(tetris.current?.rotation == 1)
 
         while tetris.shift(.left) { }
-        let leftmostX = tetris.current?.position.x
+        let leftmostX = tetris.current?.position.column
         #expect(leftmostX != nil)
 
         #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 0)
-        #expect(tetris.current?.position.x == (leftmostX ?? 0) + 2)
+        #expect(tetris.current?.position.column == (leftmostX ?? 0) + 2)
     }
 
     @Test func testWallKickRotateAtRightWall() async throws {
@@ -280,12 +280,12 @@ struct TetrisBoardTests {
         #expect(tetris.current?.rotation == 1)
 
         while tetris.shift(.right) {}
-        let rightmostX = tetris.current?.position.x
+        let rightmostX = tetris.current?.position.column
         #expect(rightmostX != nil)
 
         #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 0)
-        #expect(tetris.current?.position.x == (rightmostX ?? 0) - 1)
+        #expect(tetris.current?.position.column == (rightmostX ?? 0) - 1)
     }
 
     @Test func testWallKickNotPossibleIfBlockedByOther() async throws {

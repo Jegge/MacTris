@@ -83,7 +83,7 @@ class StackOutAnimation: TetrisAnimation {
         for _ in 0..<fillAmountPerStep {
             if let space = spaces.randomElement() {
                 spaces.removeAll { $0 == space }
-                self.grid[space.x][space.y] = .allCases.randomElement()
+                self.grid[space.column][space.row] = .allCases.randomElement()
             }
         }
     }

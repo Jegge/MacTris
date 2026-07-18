@@ -5,7 +5,7 @@
 //  Created by Sebastian Boettcher on 02.01.24.
 //
 
-typealias Point = (x: Int, y: Int)
+typealias Point = (column: Int, row: Int)
 
 struct Tetromino {
     enum Rotation {
@@ -82,7 +82,7 @@ struct Tetromino {
     let position: Point
 
     var points: [Point] {
-        return self.shape.points[self.rotation].map { ($0.x + position.x, $0.y + position.y) }
+        return self.shape.points[self.rotation].map { ($0.column + position.column, $0.row + position.row) }
     }
 
     init(shape: Shape, rotation: Int = 0, position: Point = (0, 0)) {
@@ -107,13 +107,13 @@ struct Tetromino {
     func shifted(_ direction: Shift) -> Tetromino {
         switch direction {
         case .left:
-            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x - 1, position.y))
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column - 1, position.row))
         case .right:
-            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x + 1, position.y))
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column + 1, position.row))
         }
     }
 
     func dropped() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.x, position.y - 1))
+        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column, position.row - 1))
     }
 }
