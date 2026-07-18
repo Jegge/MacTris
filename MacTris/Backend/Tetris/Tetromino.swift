@@ -5,8 +5,6 @@
 //  Created by Sebastian Boettcher on 02.01.24.
 //
 
-typealias Point = (column: Int, row: Int)
-
 struct Tetromino {
     enum Rotation {
         case clockwise
@@ -26,39 +24,39 @@ struct Tetromino {
         var points: [[Point]] {
             switch self {
             case .o:
-                return [[(-1, 0), (0, 0), (-1, -1), (0, -1)]]
+                return [[Point(-1, 0), Point(0, 0), Point(-1, -1), Point(0, -1)]]
 
             case .s:
-                return [[(0, 0), (1, 0), (-1, -1), (0, -1)],
-                        [(0, 1), (0, 0), (1, 0), (1, -1)]
+                return [[Point(0, 0), Point(1, 0), Point(-1, -1), Point(0, -1)],
+                        [Point(0, 1), Point(0, 0), Point(1, 0), Point(1, -1)]
                        ]
             case .z:
-                return [[(-1, 0), (0, 0), (0, -1), (1, -1)],
-                        [(1, 1), (0, 0), (1, 0), (0, -1)]
+                return [[Point(-1, 0), Point(0, 0), Point(0, -1), Point(1, -1)],
+                        [Point(1, 1), Point(0, 0), Point(1, 0), Point(0, -1)]
                        ]
             case .i:
-                return [[(-2, 0), (-1, 0), (0, 0), (1, 0)],
-                        [(0, 2), (0, 1), (0, 0), (0, -1)]
+                return [[Point(-2, 0), Point(-1, 0), Point(0, 0), Point(1, 0)],
+                        [Point(0, 2), Point(0, 1), Point(0, 0), Point(0, -1)]
                        ]
 
             case .j:
-                return [[(-1, 0), (0, 0), (1, 0), (1, -1)],
-                        [(0, 1), (1, 1), (0, 0), (0, -1)],
-                        [(-1, 1), (-1, 0), (0, 0), (1, 0)],
-                        [(0, 1), (0, 0), (-1, -1), (0, -1)]
+                return [[Point(-1, 0), Point(0, 0), Point(1, 0), Point(1, -1)],
+                        [Point(0, 1), Point(1, 1), Point(0, 0), Point(0, -1)],
+                        [Point(-1, 1), Point(-1, 0), Point(0, 0), Point(1, 0)],
+                        [Point(0, 1), Point(0, 0), Point(-1, -1), Point(0, -1)]
                        ]
             case .l:
-                return [[(-1, 0), (0, 0), (1, 0), (-1, -1)],
-                        [(0, 1), (0, 0), (0, -1), (1, -1)],
-                        [(1, 1), (-1, 0), (0, 0), (1, 0)],
-                        [(-1, 1), (0, 1), (0, 0), (0, -1)]
+                return [[Point(-1, 0), Point(0, 0), Point(1, 0), Point(-1, -1)],
+                        [Point(0, 1), Point(0, 0), Point(0, -1), Point(1, -1)],
+                        [Point(1, 1), Point(-1, 0), Point(0, 0), Point(1, 0)],
+                        [Point(-1, 1), Point(0, 1), Point(0, 0), Point(0, -1)]
                        ]
 
             case .t:
-                return [[(-1, 0), (0, 0), (1, 0), (0, -1)],
-                        [(0, 1), (0, 0), (1, 0), (0, -1)],
-                        [(-1, 0), (0, 0), (1, 0), (0, 1)],
-                        [(0, 1), (-1, 0), (0, 0), (0, -1)]
+                return [[Point(-1, 0), Point(0, 0), Point(1, 0), Point(0, -1)],
+                        [Point(0, 1), Point(0, 0), Point(1, 0), Point(0, -1)],
+                        [Point(-1, 0), Point(0, 0), Point(1, 0), Point(0, 1)],
+                        [Point(0, 1), Point(-1, 0), Point(0, 0), Point(0, -1)]
                        ]
             }
         }
@@ -82,10 +80,10 @@ struct Tetromino {
     let position: Point
 
     var points: [Point] {
-        return self.shape.points[self.rotation].map { ($0.column + position.column, $0.row + position.row) }
+        return self.shape.points[self.rotation].map { Point($0.column + position.column, $0.row + position.row) }
     }
 
-    init(shape: Shape, rotation: Int = 0, position: Point = (0, 0)) {
+    init(shape: Shape, rotation: Int = 0, position: Point = .zero) {
         self.shape = shape
         self.rotation = rotation
         self.position = position
@@ -107,13 +105,13 @@ struct Tetromino {
     func shifted(_ direction: Shift) -> Tetromino {
         switch direction {
         case .left:
-            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column - 1, position.row))
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: Point(position.column - 1, position.row))
         case .right:
-            return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column + 1, position.row))
+            return Tetromino(shape: self.shape, rotation: self.rotation, position: Point(position.column + 1, position.row))
         }
     }
 
     func dropped() -> Tetromino {
-        return Tetromino(shape: self.shape, rotation: self.rotation, position: (position.column, position.row - 1))
+        return Tetromino(shape: self.shape, rotation: self.rotation, position: Point(position.column, position.row - 1))
     }
 }

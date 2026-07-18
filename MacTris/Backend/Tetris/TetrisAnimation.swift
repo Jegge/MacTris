@@ -62,7 +62,7 @@ class StackOutAnimation: TetrisAnimation {
         var result: [Point] = []
         for column in 0..<self.grid.count {
             for row in 0..<self.grid[column].count where grid[column][row] == nil {
-                result.append((column, row))
+                result.append(Point(column, row))
             }
         }
         return result

@@ -27,7 +27,7 @@ struct TetrominoTests {
 
     @Test func testCustomInit() async throws {
         for shape in Tetromino.Shape.allCases {
-            let t = Tetromino(shape: shape, rotation: 1, position: (5, 10))
+            let t = Tetromino(shape: shape, rotation: 1, position: Point(5, 10))
             #expect(t.shape == shape)
             #expect(t.rotation == 1)
             #expect(t.position.column == 5)
@@ -36,7 +36,7 @@ struct TetrominoTests {
     }
 
     @Test func testPointsIncludePosition() async throws {
-        let t = Tetromino(shape: .o, position: (3, 4))
+        let t = Tetromino(shape: .o, position: Point(3, 4))
         for point in t.points {
             #expect(point.column - 3 == point.column - t.position.column)
             #expect(point.row - 4 == point.row - t.position.row)
@@ -75,7 +75,7 @@ struct TetrominoTests {
     }
 
     @Test func testShiftLeft() async throws {
-        let t = Tetromino(shape: .o, position: (5, 5))
+        let t = Tetromino(shape: .o, position: Point(5, 5))
         let shifted = t.shifted(.left)
         #expect(shifted.position.column == 4)
         #expect(shifted.position.row == 5)
@@ -84,22 +84,22 @@ struct TetrominoTests {
     }
 
     @Test func testShiftRight() async throws {
-        let t = Tetromino(shape: .o, position: (5, 5))
+        let t = Tetromino(shape: .o, position: Point(5, 5))
         let shifted = t.shifted(.right)
         #expect(shifted.position.column == 6)
         #expect(shifted.position.row == 5)
     }
 
     @Test func testDrop() async throws {
-        let t = Tetromino(shape: .o, position: (5, 5))
+        let t = Tetromino(shape: .o, position: Point(5, 5))
         let dropped = t.dropped()
         #expect(dropped.position.column == 5)
         #expect(dropped.position.row == 4)
     }
 
     @Test func testWithPosition() async throws {
-        let t = Tetromino(shape: .i, rotation: 1, position: (0, 0))
-        let moved = t.with(position: (7, 15))
+        let t = Tetromino(shape: .i, rotation: 1, position: .zero)
+        let moved = t.with(position: Point(7, 15))
         #expect(moved.shape == .i)
         #expect(moved.rotation == 1)
         #expect(moved.position.column == 7)

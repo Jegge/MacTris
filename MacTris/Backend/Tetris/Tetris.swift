@@ -22,7 +22,7 @@ class Tetris {
     static let maxLevel: Int = 19
     static let numberOfColumns: Int = 10
     static let numberOfRows: Int = 20
-    static let spawnPosition: Point = (Tetris.numberOfColumns / 2, Tetris.numberOfRows - 1)
+    static let spawnPosition: Point = Point(Tetris.numberOfColumns / 2, Tetris.numberOfRows - 1)
 
     let random: RandomTetrominoShapeGenerator
     let allowWallKick: Bool
@@ -63,8 +63,10 @@ class Tetris {
         var result = self.data
 
         if let tetromino = self.current {
-            for (column, row) in tetromino.points {
-                result[column][row] = tetromino.shape
+            for point in tetromino.points {
+                if point.column >= 0 && point.column < Tetris.numberOfColumns && point.row >= 0 && point.row < Tetris.numberOfRows {
+                    result[point.column][point.row] = tetromino.shape
+                }
             }
         }
 
@@ -236,8 +238,8 @@ class Tetris {
     }
 
     private func lock(tetromino: Tetromino) {
-        for (column, row) in tetromino.points {
-            self[column, row] = tetromino.shape
+        for point in tetromino.points {
+            self[point.column, point.row] = tetromino.shape
         }
     }
 
@@ -260,17 +262,17 @@ class Tetris {
     }
 
     private func collides(tetromino: Tetromino, with flags: CollisionFlags) -> Bool {
-        for (column, row) in tetromino.points {
-            if flags.contains(.floor) && row < 0 {
+        for point in tetromino.points {
+            if flags.contains(.floor) && point.row < 0 {
                 return true
             }
-            if flags.contains(.leftWall) && column < 0 {
+            if flags.contains(.leftWall) && point.column < 0 {
                 return true
             }
-            if flags.contains(.rightWall) && column >= Tetris.numberOfColumns {
+            if flags.contains(.rightWall) && point.column >= Tetris.numberOfColumns {
                 return true
             }
-            if flags.contains(.piece) && self[column, row] != nil {
+            if flags.contains(.piece) && self[point.column, point.row] != nil {
                 return true
             }
         }

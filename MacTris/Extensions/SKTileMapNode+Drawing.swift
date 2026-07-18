@@ -46,9 +46,9 @@ extension SKTileMapNode {
         }
 
         let tileGroup = self.tileGroup(named: "\(tetromino.shape.appearance)-\(appearance.rawValue)")
-        for (column, row) in tetromino.points {
-            if row >= 0 && column >= 0 && row < self.numberOfRows && column < self.numberOfColumns {
-                self.setTileGroup(tileGroup, forColumn: column, row: row)
+        for point in tetromino.points {
+            if point.row >= 0 && point.column >= 0 && point.row < self.numberOfRows && point.column < self.numberOfColumns {
+                self.setTileGroup(tileGroup, forColumn: point.column, row: point.row)
             }
         }
     }

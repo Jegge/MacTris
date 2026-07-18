@@ -50,6 +50,7 @@
 		D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */; };
 		D29FF1342E8A56CA005915E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = D29FF1332E8A56CA005915E4 /* AppIcon.icon */; };
 		D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */; };
+		D2D26FE2300BA2B300D286CF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D26FE1300BA2B300D286CF /* Point.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
@@ -131,6 +132,7 @@
 		D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisOptions.swift; sourceTree = "<group>"; };
 		D29FF1332E8A56CA005915E4 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameRateStabilizer.swift; sourceTree = "<group>"; };
+		D2D26FE1300BA2B300D286CF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				D24356AD2EF6A87A004843D7 /* Statistics.swift */,
+				D2D26FE1300BA2B300D286CF /* Point.swift */,
 				D2FF08B22B43F8C200740390 /* Tetromino.swift */,
 				D229010F2B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift */,
 				D2728E382FFF688C0071BAD9 /* TetrisOptions.swift */,
@@ -560,6 +563,7 @@
 				D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */,
 				D22877B93000B51B005B36E2 /* SKLabelNode+Animation.swift in Sources */,
 				D2FF08B32B43F8C200740390 /* Tetromino.swift in Sources */,
+				D2D26FE2300BA2B300D286CF /* Point.swift in Sources */,
 				D26459AD30051AF80027F35A /* RandomGeneratorMode.swift in Sources */,
 				D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */,
 				D229011A2B46BB3B00A9F88E /* AudioFxPlayer.swift in Sources */,

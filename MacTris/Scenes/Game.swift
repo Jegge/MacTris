@@ -175,7 +175,7 @@ class Game: SceneBase {
         self.labelLines?.set(text: self.numberFormatter.string(for: tetris.lines) ?? "", animated: self.options.animations)
         self.labelScore?.set(text: self.numberFormatter.string(for: tetris.score) ?? "", animated: self.options.animations)
         self.labelTime?.text = self.dateFormatter.string(from: self.duration)
-        self.preview?.draw(tetromino: tetris.next.with(position: (2, 1)), appearance: self.options.appearance)
+        self.preview?.draw(tetromino: tetris.next.with(position: Point(2, 1)), appearance: self.options.appearance)
     }
 
     private func handleInput(_ tetris: Tetris) {

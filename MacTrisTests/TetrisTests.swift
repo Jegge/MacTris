@@ -23,9 +23,9 @@ struct TetrisBoardTests {
         #expect(tetris.stackHeight == 0)
         #expect(tetris.lowestCompletedLines == nil)
 
-        for (col, row) in tetris.current?.points ?? [] {
-            if row >= 0, row < Tetris.numberOfRows, col >= 0, col < Tetris.numberOfColumns {
-                #expect(tetris.grid[col][row] == tetris.current?.shape)
+        for point in tetris.current?.points ?? [] {
+            if point.row >= 0, point.row < Tetris.numberOfRows, point.column >= 0, point.column < Tetris.numberOfColumns {
+                #expect(tetris.grid[point.column][point.row] == tetris.current?.shape)
             }
         }
     }
