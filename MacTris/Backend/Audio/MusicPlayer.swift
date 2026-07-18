@@ -23,7 +23,7 @@ class MusicPlayer: NSObject {
         if let url = Bundle.main.url(forResource: name, withExtension: "mp3") {
             self.player = try? AVAudioPlayer(contentsOf: url)
             self.player?.numberOfLoops = -1
-            self.player?.volume = self.calculateVolume()
+            self.player?.volume = self.volume.asPercent
             self.player?.prepareToPlay()
             self.player?.play()
         }
@@ -36,11 +36,7 @@ class MusicPlayer: NSObject {
 
     var volume: Int = 100 {
         didSet {
-            self.player?.volume = self.calculateVolume()
+            self.player?.volume = self.volume.asPercent
         }
-    }
-
-    private func calculateVolume() -> Float {
-        0.01 * max(0.0, min(100.0, Float(self.volume)))
     }
 }

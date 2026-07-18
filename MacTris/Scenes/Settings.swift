@@ -39,6 +39,8 @@ class Settings: SceneBase {
     private var rebindId: Input?
     private var rebindItem: String?
 
+    private let percentFormatter = NumberFormatter()
+
     private func update() {
         for (index, item) in menuItems.enumerated() {
             if let bullet = self.childNode(withName: "menu" + item) as? SKLabelNode {
@@ -68,9 +70,6 @@ class Settings: SceneBase {
     }
 
     private func value(for item: String) -> String? {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-
         switch item {
         case Item.displayMode:
             return UserDefaults.standard.fullscreen
@@ -80,12 +79,12 @@ class Settings: SceneBase {
         case Item.musicVolume:
             return self.musicPlayer?.volume == 0
                 ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-            : formatter.string(from: NSNumber(value: Double(self.musicPlayer?.volume ?? 0) / 100.0))
+                : percentFormatter.string(from: NSNumber(value: Double(self.musicPlayer?.volume ?? 0) / 100.0))
 
         case Item.fxVolume:
             return self.audioFxPlayer?.volume == 0
                 ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-                : formatter.string(from: NSNumber(value: Double(self.audioFxPlayer?.volume ?? 0) / 100.0))
+                : percentFormatter.string(from: NSNumber(value: Double(self.audioFxPlayer?.volume ?? 0) / 100.0))
 
         case Item.keyShiftLeft:
             return self.inputMapper?.describeIdForKeyboard(.shiftLeft)
@@ -276,6 +275,7 @@ class Settings: SceneBase {
 
     override func didMove(to view: SKView) {
         super.didMove(to: view)
+        self.percentFormatter.numberStyle = .percent
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
         self.selection = 0
     }

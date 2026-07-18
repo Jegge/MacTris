@@ -29,7 +29,7 @@ class AudioFxPlayer: NSObject {
            let player = try? AVAudioPlayer(contentsOf: url) {
             player.prepareToPlay()
             player.numberOfLoops = 0
-            player.volume = 0.01 * max(0.0, min(100.0, Float(self.volume)))
+            player.volume = self.volume.asPercent
             player.delegate = self
             self.players.insert(player)
             player.play()
