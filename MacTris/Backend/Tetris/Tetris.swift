@@ -25,7 +25,7 @@ class Tetris {
     static let spawnPosition: Point = Point(Tetris.numberOfColumns / 2, Tetris.numberOfRows - 1)
 
     let random: RandomTetrominoShapeGenerator
-    let allowWallKick: Bool
+    let options: TetrisOptions
 
     private var data: Grid
     private var dropCounter: Int = 0
@@ -38,11 +38,11 @@ class Tetris {
     private(set) var current: Tetromino?
     private(set) var statistics: Statistics = Statistics()
 
-    init(random: RandomTetrominoShapeGenerator, startingLevel: Int, allowWallKick: Bool) {
+    init(options: TetrisOptions, random: RandomTetrominoShapeGenerator) {
+        self.options = options
         self.random = random
-        self.level = startingLevel
-        self.allowWallKick = allowWallKick
-        self.linesToNextLevel = min(startingLevel * 10 + 10, max(100, startingLevel * 10 - 50)) // classic NES style calculation, includes replicating the bug
+        self.level = options.startingLevel
+        self.linesToNextLevel = options.startingLinesToNextLevel
         self.data = Array(repeating: Array(repeating: nil, count: Tetris.numberOfRows), count: Tetris.numberOfColumns)
 
         let current = Tetromino(shape: self.random.next(), rotation: 0, position: Tetris.spawnPosition)
@@ -51,12 +51,12 @@ class Tetris {
 
         self.next = Tetromino(shape: self.random.next())
 
+        Logger.game.info("Begin game with \(options, privacy: .public)")
         Logger.game.info("Starting level \(self.level), lines to next level \(self.linesToNextLevel)")
     }
 
     convenience init(options: TetrisOptions) {
-        Logger.game.info("Begin game with \(options, privacy: .public)")
-        self.init(random: options.randomGeneratorMode.createGenerator(), startingLevel: options.startingLevel, allowWallKick: options.wallKick)
+        self.init(options: options, random: options.randomGeneratorMode.createGenerator())
     }
 
     var grid: Grid {
@@ -149,11 +149,11 @@ class Tetris {
     }
 
     func rotate(_ rotation: Tetromino.Rotation) -> Bool {
-        if !allowWallKick, let current = self.current, !self.collides(tetromino: current.rotated(rotation), with: .all) {
+        if !options.wallKick, let current = self.current, !self.collides(tetromino: current.rotated(rotation), with: .all) {
             self.current = current.rotated(rotation)
             return true
         }
-        if allowWallKick, var current = self.current, !self.collides(tetromino: current.rotated(rotation), with: [.floor, .piece]) {
+        if options.wallKick, var current = self.current, !self.collides(tetromino: current.rotated(rotation), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotated(rotation))
             if self.collides(tetromino: current, with: .all) {
                 return false

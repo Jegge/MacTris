@@ -14,7 +14,13 @@ struct TetrisOptions {
     let wallKick: Bool
     let hardDrop: Bool
 
+    var startingLinesToNextLevel: Int {
+        // classic NES style calculation, includes replicating the bug
+        min(self.startingLevel * 10 + 10, max(100, self.startingLevel * 10 - 50))
+    }
+
     struct Frames {
+        /// NES Tetris gravity table (29 levels)
         /// Number of frames it takes for a tetromino to drop by one space per level. Higher levels always drop one space per frame.
         static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
         /// Number  of frames it takes before a new tetromino spawns
