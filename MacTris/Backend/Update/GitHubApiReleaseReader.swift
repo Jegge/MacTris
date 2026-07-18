@@ -36,9 +36,9 @@ struct GitHubApiReleaseReader {
         }
         let (data, _) = try await self.session.data(from: url)
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
-        guard release.tag_name.hasPrefix("Release/v"),
-              let version = AppVersion(string: release.tag_name.dropFirst(9)),
-              let downloadUrl = URL(string: release.assets.first?.browser_download_url ?? "")
+        guard release.tagName.hasPrefix("Release/v"),
+              let version = AppVersion(string: release.tagName.dropFirst(9)),
+              let downloadUrl = URL(string: release.assets.first?.browserDownloadUrl ?? "")
         else {
             return nil
         }
@@ -46,14 +46,21 @@ struct GitHubApiReleaseReader {
         return Release(version: version, downloadUrl: downloadUrl)
     }
 
-    // swiftlint:disable identifier_name
     private struct GithubAsset: Decodable {
-        var browser_download_url: String
+        var browserDownloadUrl: String
+
+        enum CodingKeys: String, CodingKey {
+            case browserDownloadUrl = "browser_download_url"
+        }
     }
 
     private struct GithubRelease: Decodable {
-        var tag_name: String
+        var tagName: String
         var assets: [GithubAsset]
+
+        enum CodingKeys: String, CodingKey {
+            case tagName = "tag_name"
+            case assets
+        }
     }
-    // swiftlint:enable identifier_name
 }

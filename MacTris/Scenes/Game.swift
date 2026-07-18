@@ -32,7 +32,7 @@ class Game: SceneBase {
 
     private var events: Set<Input> = Set()
     private var waitFramesForUpdate: Int = 0
-    private var waitFramesForKeyRepeat: Int  = 0
+    private var waitFramesForKeyRepeat: Int = 0
     private var keyRepeatIsInitial: Bool = false
     private var duration: TimeInterval = 0
 
