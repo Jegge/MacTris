@@ -64,9 +64,7 @@ class Tetris {
 
         if let tetromino = self.current {
             for (column, row) in tetromino.points {
-                if row >= 0 && column >= 0 && row < Tetris.numberOfRows && column < Tetris.numberOfColumns {
-                    result[column][row] = tetromino.shape
-                }
+                result[column][row] = tetromino.shape
             }
         }
 
@@ -239,9 +237,7 @@ class Tetris {
 
     private func lock(tetromino: Tetromino) {
         for (column, row) in tetromino.points {
-            if row >= 0 && column >= 0 && row < Tetris.numberOfRows && column < Tetris.numberOfColumns {
-                self[column, row] = tetromino.shape
-            }
+            self[column, row] = tetromino.shape
         }
     }
 
