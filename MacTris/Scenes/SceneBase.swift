@@ -127,6 +127,7 @@ class SceneBase: SKScene {
             newScene.scaleMode = self.scaleMode
             newScene.inputMapper = self.inputMapper
             newScene.audioFxPlayer = self.audioFxPlayer
+            newScene.musicPlayer = self.musicPlayer
             configureScene?(newScene)
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         } else {
