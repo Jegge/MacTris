@@ -13,3 +13,4 @@ xcuserdata/
 xcshareddata/
 Secrets.install.xcconfig
 Secrets.generated.swift
+AGENTS.md
