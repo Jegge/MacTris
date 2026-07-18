@@ -18,3 +18,5 @@ struct Point {
 }
 
 extension Point: Equatable {}
+
+extension Point: Hashable {}
