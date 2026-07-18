@@ -7,8 +7,6 @@
 
 struct TetrisOptions {
     let startingLevel: Int
-    let appearance: Appearance
-    let animations: Bool
     let autoShift: AutoShift
     let randomGeneratorMode: RandomGeneratorMode
     let wallKick: Bool

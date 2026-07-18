@@ -20,6 +20,8 @@ class Game: SceneBase {
         GameSession(tetris: Tetris(options: UserDefaults.standard.tetrisOptions), effects: self)
     }()
 
+    let visualOptions: VisualOptions = UserDefaults.standard.visualOptions
+
     private var pauseNode: SKNode?
     private var gameOverNode: SKNode?
     private var board: SKTileMapNode?
@@ -140,12 +142,12 @@ class Game: SceneBase {
 
         self.gameSession.update(currentTime)
 
-        self.board?.draw(grid: self.gameSession.grid, appearance: self.gameSession.tetris.options.appearance)
-        self.labelLevel?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.level) ?? "", animated: self.gameSession.tetris.options.animations)
-        self.labelLines?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.lines) ?? "", animated: self.gameSession.tetris.options.animations)
-        self.labelScore?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.score) ?? "", animated: self.gameSession.tetris.options.animations)
+        self.board?.draw(grid: self.gameSession.grid, appearance: self.visualOptions.appearance)
+        self.labelLevel?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.level) ?? "", animated: self.visualOptions.animations)
+        self.labelLines?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.lines) ?? "", animated: self.visualOptions.animations)
+        self.labelScore?.set(text: self.numberFormatter.string(for: self.gameSession.tetris.score) ?? "", animated: self.visualOptions.animations)
         self.labelTime?.text = self.dateFormatter.string(from: self.gameSession.duration)
-        self.preview?.draw(tetromino: self.gameSession.tetris.next.with(position: Point(2, 1)), appearance: self.gameSession.tetris.options.appearance)
+        self.preview?.draw(tetromino: self.gameSession.tetris.next.with(position: Point(2, 1)), appearance: self.visualOptions.appearance)
     }
 
     override func inputDown(event: InputEvent) {

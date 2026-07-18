@@ -11,7 +11,7 @@ import Testing
 struct TetrisTests {
 
     @Test func testInitialState() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
@@ -32,7 +32,7 @@ struct TetrisTests {
     }
 
     @Test func testShiftLeft() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let before = tetris.current?.position.column
         #expect(tetris.shift(.left))
@@ -40,7 +40,7 @@ struct TetrisTests {
     }
 
     @Test func testShiftRight() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let before = tetris.current?.position.column
         #expect(tetris.shift(.right))
@@ -48,7 +48,7 @@ struct TetrisTests {
     }
 
     @Test func testRotateClockwise() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.t]))
         let before = tetris.current?.rotation
         #expect(tetris.rotate(.clockwise))
@@ -57,7 +57,7 @@ struct TetrisTests {
     }
 
     @Test func testRotateCounterClockwise() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.t]))
         let before = tetris.current?.rotation
         #expect(tetris.rotate(.counterClockwise))
@@ -66,7 +66,7 @@ struct TetrisTests {
     }
 
     @Test func testSoftDropManual() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let before = tetris.current?.position.row
         #expect(tetris.softDrop(manual: true))
@@ -74,7 +74,7 @@ struct TetrisTests {
     }
 
     @Test func testSoftDropAuto() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let before = tetris.current?.position.row
         #expect(tetris.softDrop(manual: false))
@@ -82,7 +82,7 @@ struct TetrisTests {
     }
 
     @Test func testSoftDropManualScoresOnLock() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         #expect(tetris.score == 0)
         while tetris.current != nil {
@@ -94,7 +94,7 @@ struct TetrisTests {
     }
 
     @Test func testLockAndSpawn() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         while tetris.current != nil {
             _ = tetris.softDrop(manual: false)
@@ -104,7 +104,7 @@ struct TetrisTests {
     }
 
     @Test func testGameOver() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: Array(repeating: .o, count: 100)))
         while tetris.softDrop(manual: false) { }
         while tetris.spawn() {
@@ -119,7 +119,7 @@ struct TetrisTests {
     }
 
     @Test func testScoreNoLines() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 0..<0)
         #expect(tetris.score == 0)
@@ -127,7 +127,7 @@ struct TetrisTests {
     }
 
     @Test func testScoreOneLine() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 3..<4)
         #expect(tetris.score == 40)
@@ -135,7 +135,7 @@ struct TetrisTests {
     }
 
     @Test func testScoreTwoLines() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 3..<5)
         #expect(tetris.score == 100)
@@ -143,7 +143,7 @@ struct TetrisTests {
     }
 
     @Test func testScoreThreeLines() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 2..<5)
         #expect(tetris.score == 300)
@@ -151,7 +151,7 @@ struct TetrisTests {
     }
 
     @Test func testScoreFourLines() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 2..<6)
         #expect(tetris.score == 1200)
@@ -159,14 +159,14 @@ struct TetrisTests {
     }
 
     @Test func testScoreScalesWithLevel() async throws {
-        let options = TetrisOptions(startingLevel: 5, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 5, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 0..<1)
         #expect(tetris.score == 40 * (5 + 1))
     }
 
     @Test func testLevelUp() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         #expect(tetris.level == 0)
         for _ in 0..<10 {
@@ -176,7 +176,7 @@ struct TetrisTests {
     }
 
     @Test func testCollidesAtLeftWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let piece = tetris.current
         for _ in 0..<Tetris.numberOfColumns where tetris.shift(.left) {
@@ -189,7 +189,7 @@ struct TetrisTests {
     }
 
     @Test func testCollidesAtRightWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let piece = tetris.current
         for _ in 0..<Tetris.numberOfColumns where tetris.shift(.right) { }
@@ -201,7 +201,7 @@ struct TetrisTests {
     }
 
     @Test func testRotationCannotSlideThroughLeftWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.l]))
         #expect(tetris.rotate(.clockwise))
         #expect(tetris.current?.rotation == 3)
@@ -213,7 +213,7 @@ struct TetrisTests {
     }
 
     @Test func testRotationCannotSlideThroughRightWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.l]))
         #expect(tetris.rotate(.counterClockwise))
         #expect(tetris.current?.rotation == 1)
@@ -225,7 +225,7 @@ struct TetrisTests {
     }
 
     @Test func testClearLinesClearsRowShiftsDownAndScores() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         // Played order from the stub is index1, index0, index2.
         // Two I pieces (1 cell tall) cover cols 0..7; an O at the far right covers cols 8..9.
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .i, .o]))
@@ -265,7 +265,7 @@ struct TetrisTests {
     }
 
     @Test func testWallKickRotateAtLeftWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: Array(repeating: .i, count: 10)))
 
         #expect(tetris.rotate(.counterClockwise))
@@ -281,7 +281,7 @@ struct TetrisTests {
     }
 
     @Test func testWallKickRotateAtRightWall() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: Array(repeating: .i, count: 10)))
 
         #expect(tetris.rotate(.counterClockwise))
@@ -297,7 +297,7 @@ struct TetrisTests {
     }
 
     @Test func testWallKickNotPossibleIfBlockedByOther() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o, .o, .o, .o, .o, .i]))
         // build a tower from o 1 space from the left
         for _ in 0..<5 {
@@ -320,7 +320,7 @@ struct TetrisTests {
     }
 
     @Test func testHardDropLocksAtBottomPieceAndScores() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o]))
         tetris.hardDrop()
         #expect(tetris.current == nil)
@@ -333,7 +333,7 @@ struct TetrisTests {
     }
 
     @Test func testHardDropOnTopOfStack() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o]))
         tetris.hardDrop()  // first O lands at y=1, score = 36
         #expect(tetris.score == 36)
@@ -348,7 +348,7 @@ struct TetrisTests {
     }
 
     @Test func testStatisticsCountsSpawnedPieces() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o, .i, .t]))
         #expect(tetris.statistics.total == 1)
         #expect(tetris.statistics.count(.o) == 1)
@@ -366,7 +366,7 @@ struct TetrisTests {
     }
 
     @Test func testAutoSoftDropDoesNotScore() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o]))
         while tetris.softDrop(manual: false) {
             #expect(tetris.score == 0)
@@ -375,7 +375,7 @@ struct TetrisTests {
     }
 
     @Test func testLowestCompletedLinesMultipleContiguousRows() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .i, .o, .i, .i, .i]))
         // init: current=.i(shapes[1]), next=.i(shapes[0]), genIndex=2
         // piece 1 (.i): shift left 3x -> cols 0..3, row 0
@@ -402,7 +402,7 @@ struct TetrisTests {
     }
 
     @Test func testBoardReflectsAllLockedPieces() async throws {
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o, .o, .o]))
         // first O: cols 4..5, rows 0..1
         tetris.hardDrop()
@@ -430,7 +430,7 @@ struct TetrisTests {
         // clear it, then continue dropping pieces until game over.
         // This exercises: line completion, scoring, spawn/drop cycle, game over.
 
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let shapes: [Tetromino.Shape] = Array(repeating: [.i, .i, .o], count: 15).flatMap { $0 }
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: shapes))
         #expect(tetris.current?.shape == .i)
@@ -483,7 +483,7 @@ struct TetrisTests {
         // O at (5,19) covers cols 4..5 and rows 18..19.
         // Hard drop lands the first O at y=1 (rows 0..1).
         // 10 O pieces fill 10×2=20 rows → 11th spawn fails.
-        let options = TetrisOptions(startingLevel: 0, appearance: .bright, animations: true, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let shapes: [Tetromino.Shape] = Array(repeating: .o, count: 20)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: shapes))
 

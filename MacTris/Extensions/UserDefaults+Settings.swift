@@ -143,7 +143,11 @@ extension UserDefaults {
     }
 
     var tetrisOptions: TetrisOptions {
-        TetrisOptions(startingLevel: self.startLevel, appearance: self.appearance, animations: self.animations, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
+        TetrisOptions(startingLevel: self.startLevel, autoShift: self.autoShift, randomGeneratorMode: self.randomGeneratorMode, wallKick: self.wallKick, hardDrop: self.hardDrop)
+    }
+
+    var visualOptions: VisualOptions {
+        VisualOptions(appearance: self.appearance, animations: self.animations)
     }
 
     var updateCheckBaseUrl: URL {
