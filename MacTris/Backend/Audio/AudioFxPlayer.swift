@@ -13,7 +13,7 @@ enum AudioFx {
 }
 
 /// Plays short sound effects from `.aiff` files bundled with the app.
-class AudioFxPlayer: NSObject {
+class AudioFxPlayer: NSObject, VolumeSettable {
     private var players: Set<AVAudioPlayer> = Set()
 
     init(volume: Int) {

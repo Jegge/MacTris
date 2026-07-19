@@ -36,6 +36,7 @@
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
 		D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24356AD2EF6A87A004843D7 /* Statistics.swift */; };
 		D262DFCB2B4EBC3E00FDC801 /* AutoShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */; };
+		D262DFCD2B4EBC3E00FDC801 /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262DFCC2B4EBC3E00FDC801 /* SettingItem.swift */; };
 		D263AD492B54651900BC2B66 /* RadialGradient.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D263AD482B54651900BC2B66 /* RadialGradient.fsh */; };
 		D264595D3004D5F20027F35A /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595C3004D5510027F35A /* AppVersion.swift */; };
 		D264595F3004D6150027F35A /* Bundle+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264595E3004D60D0027F35A /* Bundle+Properties.swift */; };
@@ -55,6 +56,7 @@
 		D2D27071300BDB9E00D286CF /* TetrisGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27070300BDB9E00D286CF /* TetrisGame.swift */; };
 		D2D27073300BDD0D00D286CF /* VisualOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27072300BDD0D00D286CF /* VisualOptions.swift */; };
 		D2D2710C300CF0BD00D286CF /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D2710B300CF0BD00D286CF /* StateMachine.swift */; };
+		D2D2717A300DFAD700D286CF /* VolumeSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27179300DFAD700D286CF /* VolumeSettable.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
@@ -120,6 +122,7 @@
 		D262DFC62B4DC8BC00FDC801 /* Secrets.install.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.install.xcconfig; sourceTree = "<group>"; };
 		D262DFC92B4DEFEB00FDC801 /* InstallerBackground.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = InstallerBackground.svg; sourceTree = "<group>"; };
 		D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoShift.swift; sourceTree = "<group>"; };
+		D262DFCC2B4EBC3E00FDC801 /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		D263AD482B54651900BC2B66 /* RadialGradient.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = RadialGradient.fsh; sourceTree = "<group>"; };
 		D264595C3004D5510027F35A /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		D264595E3004D60D0027F35A /* Bundle+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Properties.swift"; sourceTree = "<group>"; };
@@ -141,6 +144,7 @@
 		D2D27070300BDB9E00D286CF /* TetrisGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisGame.swift; sourceTree = "<group>"; };
 		D2D27072300BDD0D00D286CF /* VisualOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOptions.swift; sourceTree = "<group>"; };
 		D2D2710B300CF0BD00D286CF /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
+		D2D27179300DFAD700D286CF /* VolumeSettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeSettable.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				D262DFCA2B4EBC3E00FDC801 /* AutoShift.swift */,
 				D26459AE30051B0B0027F35A /* Appearance.swift */,
 				D26459AC30051AF80027F35A /* RandomGeneratorMode.swift */,
+				D262DFCC2B4EBC3E00FDC801 /* SettingItem.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 		D26459B430052E0D0027F35A /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				D2D27179300DFAD700D286CF /* VolumeSettable.swift */,
 				D22901192B46BB3B00A9F88E /* AudioFxPlayer.swift */,
 				D26459B2300529F10027F35A /* MusicPlayer.swift */,
 			);
@@ -548,6 +554,7 @@
 				D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
+				D2D2717A300DFAD700D286CF /* VolumeSettable.swift in Sources */,
 				D26459C7300534BF0027F35A /* Secrets.generated.swift in Sources */,
 				D22901102B462FAE00A9F88E /* RandomTetrominoShapeGenerator.swift in Sources */,
 				D26459AF30051B0B0027F35A /* Appearance.swift in Sources */,
@@ -568,6 +575,7 @@
 				D22900F32B454FDD00A9F88E /* InputEvent.swift in Sources */,
 				D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */,
 				D262DFCB2B4EBC3E00FDC801 /* AutoShift.swift in Sources */,
+				D262DFCD2B4EBC3E00FDC801 /* SettingItem.swift in Sources */,
 				D2FF089E2B43F65B00740390 /* AppDelegate.swift in Sources */,
 				D2645965300507720027F35A /* Input.swift in Sources */,
 				D2728E1F2FFE40570071BAD9 /* GitHubApiReleaseReader.swift in Sources */,

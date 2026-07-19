@@ -13,7 +13,7 @@ extension UserDefaults {
 
     private static let defaultUpdateUrl = URL(string: "https://api.github.com/repos/Jegge/MacTris/")!
 
-    private struct Key {
+    struct Key {
         static let musicVolume = "MusicVolume"
         static let fxVolume = "FxVolume"
         static let fullscreen = "Fullscreen"

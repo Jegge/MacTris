@@ -11,28 +11,9 @@ import GameController
 /// The settings scene. Allows customization of display mode, audio volumes,
 /// key bindings, RNG mode, DAS speed, wall kick, hard drop, appearance, and animations.
 class Settings: SceneBase {
-
-    private struct Item {
-        static let musicVolume = "MusicVolume"
-        static let fxVolume = "FxVolume"
-        static let displayMode = "DisplayMode"
-        static let appearance = "Appearance"
-        static let animations = "Animations"
-        static let keyShiftLeft = "KeyShiftLeft"
-        static let keyShiftRight = "KeyShiftRight"
-        static let keyRotateLeft = "KeyRotateLeft"
-        static let keyRotateRight = "KeyRotateRight"
-        static let keySoftDrop = "KeySoftDrop"
-        static let keyHardDrop = "KeyHardDrop"
-        static let rngMode = "RngMode"
-        static let autoShift = "AutoShift"
-        static let wallKick = "WallKick"
-        static let hardDrop = "HardDrop"
-
-        static let back = "Back"
-    }
-
     private var menuItems: [String] = []
+    private var settingItems: [any SettingItem] = []
+
     private var selection: Int = -1 {
         didSet {
             self.update()
@@ -40,8 +21,6 @@ class Settings: SceneBase {
     }
     private var rebindId: Input?
     private var rebindItem: String?
-
-    private let percentFormatter = NumberFormatter()
 
     private func update() {
         for (index, item) in menuItems.enumerated() {
@@ -56,190 +35,23 @@ class Settings: SceneBase {
 
             if let value = self.childNode(withName: "value" + item) as? SKLabelNode {
                 value.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
-                if let text = self.value(for: item) {
-                    value.text = text
-                }
-            }
+                value.text = self.settingItems.first { $0.identifier == item }?.value ?? ""
+            }  
 
             if let controller = self.childNode(withName: "controller" + item) as? SKLabelNode {
                 controller.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
                 controller.isHidden = GCController.controllers().isEmpty
-                if let text = self.controllerValue(for: item) {
-                    controller.text = text
-                }
+                controller.text = self.settingItems.first { $0.identifier == item }?.controllerValue ?? ""
             }
         }
     }
 
-    private func value(for item: String) -> String? {
-        switch item {
-        case Item.displayMode:
-            return UserDefaults.standard.fullscreen
-                ? NSLocalizedString("SettingDisplayModeFullscreen", comment: "Value, if display mode is fullscreen")
-                : NSLocalizedString("SettingDisplayModeWindow", comment: "Value, if display mode is window")
-
-        case Item.musicVolume:
-            return self.musicPlayer?.volume == 0
-                ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-                : percentFormatter.string(from: NSNumber(value: Double(self.musicPlayer?.volume ?? 0) / 100.0))
-
-        case Item.fxVolume:
-            return self.audioFxPlayer?.volume == 0
-                ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-                : percentFormatter.string(from: NSNumber(value: Double(self.audioFxPlayer?.volume ?? 0) / 100.0))
-
-        case Item.keyShiftLeft:
-            return self.inputMapper?.describeIdForKeyboard(.shiftLeft)
-
-        case Item.keyShiftRight:
-            return self.inputMapper?.describeIdForKeyboard(.shiftRight)
-
-        case Item.keyRotateLeft:
-            return self.inputMapper?.describeIdForKeyboard(.rotateCounterClockwise)
-
-        case Item.keyRotateRight:
-            return self.inputMapper?.describeIdForKeyboard(.rotateClockwise)
-
-        case Item.keySoftDrop:
-            return self.inputMapper?.describeIdForKeyboard(.softDrop)
-
-        case Item.keyHardDrop:
-            return self.inputMapper?.describeIdForKeyboard(.hardDrop)
-
-        case Item.rngMode:
-            return UserDefaults.standard.randomGeneratorMode.description
-
-        case Item.autoShift:
-            return UserDefaults.standard.autoShift.description
-
-        case Item.wallKick:
-            return UserDefaults.standard.wallKick
-                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
-                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
-
-        case Item.hardDrop:
-            return UserDefaults.standard.hardDrop
-                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
-                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
-
-        case Item.appearance:
-            return UserDefaults.standard.appearance.description
-
-        case Item.animations:
-            return UserDefaults.standard.animations
-                ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
-                : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
-
-        default:
-            return nil
-        }
+    private func adjust(item identifier: String, direction: AdjustDirection) -> Bool {
+        self.settingItems.first { $0.identifier == identifier }?.adjust(direction: direction) ?? false
     }
 
-    private func controllerValue(for item: String) -> String? {
-        switch item {
-        case Item.keyShiftLeft:
-            return self.inputMapper?.describeIdForController(.shiftLeft)
-
-        case Item.keyShiftRight:
-            return self.inputMapper?.describeIdForController(.shiftRight)
-
-        case Item.keyRotateLeft:
-            return self.inputMapper?.describeIdForController(.rotateCounterClockwise)
-
-        case Item.keyRotateRight:
-            return self.inputMapper?.describeIdForController(.rotateClockwise)
-
-        case Item.keySoftDrop:
-            return self.inputMapper?.describeIdForController(.softDrop)
-
-        case Item.keyHardDrop:
-            return self.inputMapper?.describeIdForController(.hardDrop)
-
-        default:
-            return nil
-        }
-    }
-
-    private func adjust(item: String, direction: AdjustDirection) -> Bool {
-        switch item {
-        case Item.displayMode:
-            UserDefaults.standard.fullscreen = UserDefaults.standard.fullscreen.adjusted(by: direction)
-            self.view?.window?.toggleFullScreen(nil)
-
-        case Item.musicVolume:
-            let volume = min(100, max(0, (self.musicPlayer?.volume ?? 0) + (direction == .increase ? 2 : -2)))
-            self.musicPlayer?.volume = volume
-            UserDefaults.standard.musicVolume = volume
-
-        case Item.fxVolume:
-            let volume = min(100, max(0, (self.audioFxPlayer?.volume ?? 0) + (direction == .increase ? 2 : -2)))
-            self.audioFxPlayer?.volume = volume
-            UserDefaults.standard.fxVolume = volume
-
-        case Item.rngMode:
-            UserDefaults.standard.randomGeneratorMode = UserDefaults.standard.randomGeneratorMode.adjusted(by: direction)
-
-        case Item.autoShift:
-            UserDefaults.standard.autoShift = UserDefaults.standard.autoShift.adjusted(by: direction)
-
-        case Item.wallKick:
-            UserDefaults.standard.wallKick = UserDefaults.standard.wallKick.adjusted(by: direction)
-
-        case Item.hardDrop:
-            UserDefaults.standard.hardDrop = UserDefaults.standard.hardDrop.adjusted(by: direction)
-
-        case Item.appearance:
-            UserDefaults.standard.appearance = UserDefaults.standard.appearance.adjusted(by: direction)
-
-        case Item.animations:
-            UserDefaults.standard.animations = UserDefaults.standard.animations.adjusted(by: direction)
-
-        default:
-            return false
-        }
-
-        return true
-    }
-
-    private func select(item: String) -> Bool {
-        switch item {
-        case Item.musicVolume:
-            let volume = (((self.musicPlayer?.volume ?? 0) / 10) * 10) + 10
-            self.musicPlayer?.volume = volume > 100 ? 0 : volume
-            UserDefaults.standard.musicVolume = volume > 100 ? 0 : volume
-
-        case Item.fxVolume:
-            let volume = (((self.audioFxPlayer?.volume ?? 0) / 10) * 10) + 10
-            self.audioFxPlayer?.volume = volume > 100 ? 0 : volume
-            UserDefaults.standard.fxVolume = volume > 100 ? 0 : volume
-
-        case Item.keyShiftLeft:
-            self.beginRebind(id: .shiftLeft, for: item)
-
-        case Item.keyShiftRight:
-            self.beginRebind(id: .shiftRight, for: item)
-
-        case Item.keyRotateLeft:
-            self.beginRebind(id: .rotateCounterClockwise, for: item)
-
-        case Item.keyRotateRight:
-            self.beginRebind(id: .rotateClockwise, for: item)
-
-        case Item.keySoftDrop:
-            self.beginRebind(id: .softDrop, for: item)
-
-        case Item.keyHardDrop:
-            self.beginRebind(id: .hardDrop, for: item)
-
-        case Item.back:
-            self.transition(to: Menu.self)
-
-        default:
-            // selecting all other items results in the same behaviour as increasing its value
-            return self.adjust(item: item, direction: .increase)
-        }
-
-        return true
+    private func select(item identifier: String) -> Bool {
+        self.settingItems.first { $0.identifier == identifier }?.select() ?? false
     }
 
     private func beginRebind(id: Input, for item: String) {
@@ -277,8 +89,39 @@ class Settings: SceneBase {
 
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-        self.percentFormatter.numberStyle = .percent
+
+        // A menu item XXX is constituted from a node named menuXXX (which acts as a bullet), a labelXXX and a valueXXX,
+        // keybindings may have an additional column labeled controllerXXX.
+        // The menuItems array contains the names of the menu items in order of the SpriteKit scene, whereas settingsItems contain
+        // the settings itself. The connections is made by the identifier XXX
+
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
+
+        self.settingItems = [
+            VolumeSetting(identifier: "MusicVolume", target: self.musicPlayer, defaultsKey: UserDefaults.Key.musicVolume),
+            VolumeSetting(identifier: "FxVolume", target: self.audioFxPlayer, defaultsKey: UserDefaults.Key.fxVolume),
+            DisplaySetting(identifier: "DisplayMode", target: self.view?.window, defaultsKey: UserDefaults.Key.fullscreen),
+
+            ToggleSetting(identifier: "Animations", defaultsKey: UserDefaults.Key.animations),
+            ToggleSetting(identifier: "WallKick", defaultsKey: UserDefaults.Key.wallKick),
+            ToggleSetting(identifier: "HardDrop", defaultsKey: UserDefaults.Key.hardDrop),
+
+            KeyBindingSetting(identifier: "KeyShiftLeft", target: .shiftLeft, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+            KeyBindingSetting(identifier: "KeyShiftRight", target: .shiftRight, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+            KeyBindingSetting(identifier: "KeyRotateLeft", target: .rotateCounterClockwise, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+            KeyBindingSetting(identifier: "KeyRotateRight", target: .rotateClockwise, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+            KeyBindingSetting(identifier: "KeySoftDrop", target: .softDrop, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+            KeyBindingSetting(identifier: "KeyHardDrop", target: .hardDrop, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
+
+            ChoiceSetting<RandomGeneratorMode>(identifier: "RngMode", defaultsKey: UserDefaults.Key.randomGeneratorMode),
+            ChoiceSetting<AutoShift>(identifier: "AutoShift", defaultsKey: UserDefaults.Key.autoShift),
+            ChoiceSetting<Appearance>(identifier: "Appearance", defaultsKey: UserDefaults.Key.appearance),
+
+            ActionSetting(identifier: "Back") { [weak self] in
+                self?.transition(to: Menu.self)
+            }
+        ]
+
         self.selection = 0
     }
 
@@ -352,7 +195,7 @@ class Settings: SceneBase {
             self.update()
 
         case .menu:
-            let result = self.select(item: Item.back)
+            let result = self.select(item: "Back")
             self.audioFxPlayer?.play(result ? .positive : .negative)
 
         default:
