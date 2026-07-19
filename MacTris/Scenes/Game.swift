@@ -19,7 +19,9 @@ enum GameState {
 /// transitions (running/paused/game over), and rendering the board and HUD.
 class Game: SceneBase {
     lazy var game: TetrisGame = {
-        TetrisGame(tetris: Tetris(options: UserDefaults.standard.tetrisOptions), effects: self)
+        TetrisGame(tetris: Tetris(options: UserDefaults.standard.tetrisOptions),
+                   stabilizer: FrameRateStabilizer(desiredFps: 60),
+                   effects: self)
     }()
 
     let state = StateMachine<GameState>(initialState: .running, transitions: [

@@ -19,16 +19,17 @@ protocol EffectDelegate: AnyObject {
 /// stabilization, gravity, and animation sequencing for a Tetris game.
 class TetrisGame {
 
-    init(tetris: Tetris, effects: EffectDelegate?) {
+    init(tetris: Tetris, stabilizer: FrameRateStabilizer, effects: EffectDelegate?) {
         self.tetris = tetris
-        self.waitFramesForUpdate = tetris.options.gravity(level: self.tetris.level)
+        self.frameRateStabilizer = stabilizer
         self.effects = effects
+        self.waitFramesForUpdate = tetris.options.gravity(level: self.tetris.level)
     }
 
     let tetris: Tetris
     weak var effects: EffectDelegate?
 
-    private var frameRateStabilizer: FrameRateStabilizer = FrameRateStabilizer(desiredFps: 60)
+    private var frameRateStabilizer: FrameRateStabilizer
     private var animation: TetrisAnimation?
     private var events: Set<Input> = Set()
     private var waitFramesForUpdate: Int = 0
