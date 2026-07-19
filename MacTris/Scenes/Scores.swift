@@ -123,12 +123,12 @@ class Scores: SceneBase {
             self.enterText(at: index, forEvent: event)
         } else {
             self.inputMapper?.translate(event: event).forEach {
-                self.inputDown(event: $0)
+                self.input(down: $0)
             }
         }
     }
 
-    override func inputDown(event: InputEvent) {
+    override func input(down event: InputEvent) {
         if self.index == nil && (event.id == Input.menu || event.id == Input.select) {
             self.audioFxPlayer?.play(.positive)
             self.transition(to: Menu.self)

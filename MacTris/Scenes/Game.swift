@@ -150,7 +150,7 @@ class Game: SceneBase {
         self.preview?.draw(tetromino: self.gameSession.tetris.next.with(position: Point(2, 1)), appearance: self.visualOptions.appearance)
     }
 
-    override func inputDown(event: InputEvent) {
+    override func input(down event: InputEvent) {
         if event.isARepeat {
             return
         }
@@ -186,13 +186,13 @@ class Game: SceneBase {
                 self.state = .paused
                 self.audioFxPlayer?.play(.positive)
             } else {
-                self.gameSession.inputDown(id: event.id)
+                self.gameSession.input(down: event.id)
             }
         }
     }
 
-    override func inputUp(event: InputEvent) {
-        self.gameSession.inputUp(id: event.id)
+    override func input(up event: InputEvent) {
+        self.gameSession.input(up: event.id)
     }
 }
 

@@ -116,7 +116,7 @@ class Menu: SceneBase {
         }
     }
 
-    override func inputDown(event: InputEvent) {
+    override func input(down event: InputEvent) {
         switch event.id {
         case .up:
             self.selection = self.selection > 0 ? self.selection - 1 : self.menuItems.count - 1

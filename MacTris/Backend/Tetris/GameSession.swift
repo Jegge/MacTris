@@ -135,7 +135,7 @@ class GameSession {
         }
     }
 
-    func inputDown(id: Input) {
+    func input(down id: Input) {
         switch id {
         case Input.shiftLeft:
             self.waitFramesForKeyRepeat = 0
@@ -166,7 +166,7 @@ class GameSession {
         }
     }
 
-    func inputUp(id: Input) {
+    func input(up id: Input) {
         self.events.remove(id)
     }
 

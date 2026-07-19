@@ -320,7 +320,7 @@ class Settings: SceneBase {
         }
     }
 
-    override func inputDown(event: InputEvent) {
+    override func input(down event: InputEvent) {
         if self.rebindId != nil && self.rebindItem != nil {
             return
         }

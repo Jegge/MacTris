@@ -34,12 +34,12 @@ class SceneBase: SKScene {
         self.observers = [
             NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
                 if let event = notification.object as? InputEvent {
-                    self?.inputDown(event: event)
+                    self?.input(down: event)
                 }
             },
             NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
                 if let event = notification.object as? InputEvent {
-                    self?.inputUp(event: event)
+                    self?.input(up: event)
                 }
             },
             NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
@@ -90,13 +90,13 @@ class SceneBase: SKScene {
 
     override func keyDown(with event: NSEvent) {
         self.inputMapper?.translate(event: event).forEach {
-            self.inputDown(event: $0)
+            self.input(down: $0)
         }
     }
 
     override func keyUp(with event: NSEvent) {
         self.inputMapper?.translate(event: event).forEach {
-            self.inputUp(event: $0)
+            self.input(up: $0)
         }
     }
 
@@ -115,10 +115,10 @@ class SceneBase: SKScene {
     func didResignKey() {
     }
 
-    func inputDown(event: InputEvent) {
+    func input(down event: InputEvent) {
     }
 
-    func inputUp(event: InputEvent) {
+    func input(up event: InputEvent) {
     }
 
     func transition<T: SceneBase>(to type: T.Type, configureScene: ((T) -> Void)? = nil) {
