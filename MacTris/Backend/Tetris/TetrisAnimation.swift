@@ -9,30 +9,27 @@
 protocol TetrisAnimation {
     /// The current grid.
     var grid: Tetris.Grid { get }
-    /// Whether the animation has completed.
-    var finished: Bool { get }
-    /// Advance the animation to the next frame.
-    func next()
+    /// Advance the animation to the next frame. Returns false if the animation is finished
+    func next() -> Bool
+    /// Called after the animation reached the last frame
+    var completion: (() -> Void)? { get }
 }
 
 /// Animates the dissolution of completed lines by clearing them outward from
 /// the center column over successive steps.
 class DissolveLinesAnimation: TetrisAnimation {
-    init(grid: Tetris.Grid, lines: Range<Int>) {
+    init(grid: Tetris.Grid, lines: Range<Int>, completion: @escaping (() -> Void)) {
         self.grid = grid
         self.lines = lines
+        self.completion = completion
     }
 
     private var step: Int = 0
-    private let lines: Range<Int>
-
     private(set) var grid: Tetris.Grid
+    private let lines: Range<Int>
+    let completion: (() -> Void)?
 
-    var finished: Bool {
-        return self.step > self.grid.count / 2
-    }
-
-    func next() {
+    func next() -> Bool {
         let mid = self.grid.count / 2
 
         for row in lines {
@@ -48,19 +45,27 @@ class DissolveLinesAnimation: TetrisAnimation {
         }
 
         self.step += 1
+        if self.step > self.grid.count / 2 {
+            self.completion?()
+            return false
+        }
+
+        return true
     }
 }
 
 /// Animates a "stack out" (game over) by filling empty spaces on the board
 /// with random tetromino tiles, step by step.
 class StackOutAnimation: TetrisAnimation {
-    init(grid: Tetris.Grid, fillAmountPerStep: Int) {
+    init(grid: Tetris.Grid, fillAmountPerStep: Int, completion: @escaping (() -> Void)) {
         self.grid = grid
         self.fillAmountPerStep = fillAmountPerStep
+        self.completion = completion
     }
 
     private(set) var grid: Tetris.Grid
     private let fillAmountPerStep: Int
+    let completion: (() -> Void)?
 
     private func emptySpaces() -> [Point] {
         var result: [Point] = []
@@ -72,16 +77,7 @@ class StackOutAnimation: TetrisAnimation {
         return result
     }
 
-    var finished: Bool {
-        for column in 0..<self.grid.count {
-            for row in 0..<self.grid[column].count where grid[column][row] == nil {
-                return false
-            }
-        }
-        return true
-    }
-
-    func next() {
+    func next() -> Bool {
         var spaces = self.emptySpaces()
 
         for _ in 0..<fillAmountPerStep {
@@ -90,5 +86,12 @@ class StackOutAnimation: TetrisAnimation {
                 self.grid[space.column][space.row] = .allCases.randomElement()
             }
         }
+
+        if spaces.isEmpty {
+            self.completion?()
+            return false
+        }
+
+        return true
     }
 }

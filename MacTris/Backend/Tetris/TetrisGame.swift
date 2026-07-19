@@ -50,19 +50,19 @@ class TetrisGame {
                 if self.waitFramesForKeyRepeat > 0 {
                     self.waitFramesForKeyRepeat -= 1
                 } else {
-                    self.handleInput()
+                    self.processInput()
                 }
             }
 
             if self.waitFramesForUpdate > 0 {
                 self.waitFramesForUpdate -= 1
             } else {
-                self.updateFrame()
+                self.processFrame()
             }
         }
     }
 
-    private func handleInput() {
+    private func processInput() {
         if self.tetris.options.hardDrop && self.events.contains(.hardDrop) {
             self.tetris.hardDrop()
             self.effects?.shakeBoard()
@@ -100,41 +100,37 @@ class TetrisGame {
         }
     }
 
-    private func updateFrame() {
-        // first play any special board animations
-        if let animation = self.animation as? DissolveLinesAnimation {
-            animation.next()
-            if animation.finished {
+    private func processFrame() {
+        if let animation = self.animation {
+            // first play any special board animations
+            if animation.next() {
+                self.waitFramesForUpdate = TetrisOptions.Frames.animation
+            } else {
                 self.animation = nil
-                self.waitFramesForUpdate = self.tetris.options.spawn(stackHeight: tetris.stackHeight)
-            } else {
-                self.waitFramesForUpdate = TetrisOptions.Frames.animation
             }
-        } else if let animation = self.animation as? StackOutAnimation {
-            animation.next()
-            if animation.finished {
-                self.effects?.gameOver()
-            } else {
-                self.waitFramesForUpdate = TetrisOptions.Frames.animation
-            }
-        } else if self.tetris.current == nil { // then handle all actions if there is no tetromino in game
+        } else if self.tetris.current == nil {
+            // then handle all actions if there is no tetromino in game
             if let lines = self.tetris.lowestCompletedLines {
-                self.animation = DissolveLinesAnimation(grid: self.tetris.grid, lines: lines)
+                self.animation = DissolveLinesAnimation(grid: self.tetris.grid, lines: lines) { [weak self] in
+                    self?.waitFramesForUpdate = self?.tetris.options.spawn(stackHeight: self?.tetris.stackHeight ?? 0) ?? 0
+                }
                 self.tetris.clear(lines: lines)
                 self.effects?.play(fx: lines.count > 3 ? .quadSuccess : .success)
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             } else if !self.tetris.spawn() {
-                self.animation = StackOutAnimation(grid: self.tetris.grid, fillAmountPerStep: 15)
+                self.animation = StackOutAnimation(grid: self.tetris.grid, fillAmountPerStep: 15) { [weak self] in
+                    self?.effects?.gameOver()
+                }
                 self.effects?.play(fx: .gameOver)
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             } else {
                 self.waitFramesForUpdate = self.tetris.options.gravity(level: self.tetris.level)
-                self.waitFramesForKeyRepeat = self.tetris.options.keyRepeatShift(initial: true)
             }
-            return
-        } else if self.tetris.softDrop(manual: false) { // otherwise, handle gravity
+        } else if self.tetris.softDrop(manual: false) {
+            // otherwise, handle gravity
             self.waitFramesForUpdate = self.tetris.options.gravity(level: tetris.level)
         } else {
+            // softDrop returned false, that means that the tetromino is now locked
             self.effects?.play(fx: .lock)
             self.waitFramesForUpdate = self.tetris.options.gravity(level: tetris.level)
         }
