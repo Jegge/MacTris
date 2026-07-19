@@ -52,8 +52,9 @@
 		D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */; };
 		D2D26FE2300BA2B300D286CF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D26FE1300BA2B300D286CF /* Point.swift */; };
 		D2D26FE4300BC4D000D286CF /* BinaryInteger+Percent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D26FE3300BC4C800D286CF /* BinaryInteger+Percent.swift */; };
-		D2D27071300BDB9E00D286CF /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27070300BDB9E00D286CF /* GameSession.swift */; };
+		D2D27071300BDB9E00D286CF /* TetrisGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27070300BDB9E00D286CF /* TetrisGame.swift */; };
 		D2D27073300BDD0D00D286CF /* VisualOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D27072300BDD0D00D286CF /* VisualOptions.swift */; };
+		D2D2710C300CF0BD00D286CF /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D2710B300CF0BD00D286CF /* StateMachine.swift */; };
 		D2D6EEDF2B49CABD008143D9 /* InputMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */; };
 		D2D6EEE12B49DA25008143D9 /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */; };
 		D2D6EEE52B4A9A12008143D9 /* Rotate.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */; };
@@ -137,8 +138,9 @@
 		D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameRateStabilizer.swift; sourceTree = "<group>"; };
 		D2D26FE1300BA2B300D286CF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		D2D26FE3300BC4C800D286CF /* BinaryInteger+Percent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BinaryInteger+Percent.swift"; sourceTree = "<group>"; };
-		D2D27070300BDB9E00D286CF /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		D2D27070300BDB9E00D286CF /* TetrisGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TetrisGame.swift; sourceTree = "<group>"; };
 		D2D27072300BDD0D00D286CF /* VisualOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualOptions.swift; sourceTree = "<group>"; };
+		D2D2710B300CF0BD00D286CF /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
 		D2D6EEDE2B49CABD008143D9 /* InputMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapper.swift; sourceTree = "<group>"; };
 		D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		D2D6EEE42B4A9A12008143D9 /* Rotate.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Rotate.aiff; sourceTree = "<group>"; };
@@ -228,7 +230,7 @@
 				D2D27072300BDD0D00D286CF /* VisualOptions.swift */,
 				D21AA3862B513A7300362226 /* Tetris.swift */,
 				D20F653330024C9D00E432FE /* TetrisAnimation.swift */,
-				D2D27070300BDB9E00D286CF /* GameSession.swift */,
+				D2D27070300BDB9E00D286CF /* TetrisGame.swift */,
 			);
 			path = Tetris;
 			sourceTree = "<group>";
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				D2C3B3633006D0E6002C628C /* FrameRateStabilizer.swift */,
+				D2D2710B300CF0BD00D286CF /* StateMachine.swift */,
 				D26459B430052E0D0027F35A /* Audio */,
 				D26459AB30051AE70027F35A /* Configuration */,
 				D26459603004DF910027F35A /* Update */,
@@ -541,7 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2FF08A62B43F65B00740390 /* ViewController.swift in Sources */,
-				D2D27071300BDB9E00D286CF /* GameSession.swift in Sources */,
+				D2D27071300BDB9E00D286CF /* TetrisGame.swift in Sources */,
 				D2C3B3643006D0E6002C628C /* FrameRateStabilizer.swift in Sources */,
 				D22900F52B45534F00A9F88E /* Hiscore.swift in Sources */,
 				D21AA3872B513A7300362226 /* Tetris.swift in Sources */,
@@ -578,6 +581,7 @@
 				D2D27073300BDD0D00D286CF /* VisualOptions.swift in Sources */,
 				D26459AD30051AF80027F35A /* RandomGeneratorMode.swift in Sources */,
 				D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */,
+				D2D2710C300CF0BD00D286CF /* StateMachine.swift in Sources */,
 				D229011A2B46BB3B00A9F88E /* AudioFxPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

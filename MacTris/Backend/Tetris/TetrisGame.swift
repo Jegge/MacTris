@@ -1,5 +1,5 @@
 //
-//  GameSession.swift
+//  TetrisGame.swift
 //  MacTris
 //
 //  Created by Sebastian Boettcher on 18.07.26.
@@ -13,7 +13,7 @@ protocol EffectDelegate: AnyObject {
     func gameOver()
 }
 
-class GameSession {
+class TetrisGame {
 
     init(tetris: Tetris, effects: EffectDelegate?) {
         self.tetris = tetris
@@ -97,18 +97,14 @@ class GameSession {
 
     private func updateFrame() {
         // first play any special board animations
-        if let animation = self.animation as? DissolveLinesAnimation {
+        if let animation = self.animation {
             animation.next()
             if animation.finished {
                 self.animation = nil
                 self.waitFramesForUpdate = self.tetris.options.spawn(stackHeight: tetris.stackHeight)
-            } else {
-                self.waitFramesForUpdate = TetrisOptions.Frames.animation
-            }
-        } else if let animation = self.animation as? StackOutAnimation {
-            animation.next()
-            if animation.finished {
-                self.effects?.gameOver()
+                if animation is StackOutAnimation {
+                    self.effects?.gameOver()
+                }
             } else {
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             }
