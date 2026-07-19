@@ -97,14 +97,18 @@ class TetrisGame {
 
     private func updateFrame() {
         // first play any special board animations
-        if let animation = self.animation {
+        if let animation = self.animation as? DissolveLinesAnimation {
             animation.next()
             if animation.finished {
                 self.animation = nil
                 self.waitFramesForUpdate = self.tetris.options.spawn(stackHeight: tetris.stackHeight)
-                if animation is StackOutAnimation {
-                    self.effects?.gameOver()
-                }
+            } else {
+                self.waitFramesForUpdate = TetrisOptions.Frames.animation
+            }
+        } else if let animation = self.animation as? StackOutAnimation {
+            animation.next()
+            if animation.finished {
+                self.effects?.gameOver()
             } else {
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             }
