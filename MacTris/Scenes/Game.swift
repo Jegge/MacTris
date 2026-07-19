@@ -8,18 +8,51 @@
 import SpriteKit
 import GameController
 
-class Game: SceneBase {
+enum GameState {
+    case running
+    case paused
+    case gameover
+}
 
-    private enum State {
-        case running
-        case paused
-        case gameover
+protocol GameStateMachineDelegate: AnyObject {
+    func enter(state: GameState)
+    func leave(state: GameState)
+}
+
+final class GameStateMachine {
+
+    init(initialState: GameState?, transitions: [(oldState: GameState, newState: GameState)]) {
+        self.current = initialState
+        self.transitions = transitions
     }
 
+    weak var delegate: GameStateMachineDelegate?
+    private(set) var current: GameState?
+    private(set) var transitions: [(oldState: GameState, newState: GameState)]
+
+    func transition(to newState: GameState) {
+        guard transitions.contains(where: { $0.oldState == self.current && $0.newState == newState }) else {
+            return
+        }
+
+        if let oldState = self.current {
+            self.delegate?.leave(state: oldState)
+        }
+        self.current = newState
+        self.delegate?.enter(state: newState)
+    }
+}
+
+class Game: SceneBase {
     lazy var gameSession: GameSession = {
         GameSession(tetris: Tetris(options: UserDefaults.standard.tetrisOptions), effects: self)
     }()
 
+    let state = GameStateMachine(initialState: .running, transitions: [
+            (.running, .paused),
+            (.running, .gameover),
+            (.paused, .running)
+        ])
     let visualOptions: VisualOptions = UserDefaults.standard.visualOptions
 
     private var pauseNode: SKNode?
@@ -33,34 +66,6 @@ class Game: SceneBase {
 
     private var numberFormatter = NumberFormatter()
     private var dateFormatter = DateComponentsFormatter()
-
-    private var state: State = .running {
-        didSet {
-            switch state {
-            case .running:
-                self.pauseNode?.isHidden = true
-                self.gameOverNode?.isHidden = true
-
-            case .paused:
-                self.pauseNode?.isHidden = false
-                self.gameOverNode?.isHidden = true
-
-            case .gameover:
-                self.pauseNode?.isHidden = true
-                self.gameOverNode?.isHidden = false
-
-                if let label = self.childNode(withName: "//labelFinalScoreTitle") as? SKLabelNode {
-                    if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.gameSession.tetris.score)) {
-                        label.text = NSLocalizedString("GameFinishedNewHiscore", comment: "New hiscore")
-                    } else {
-                        label.text = NSLocalizedString("GameFinishedYourScore", comment: "No new hiscore")
-                    }
-                }
-
-                (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.gameSession.tetris.score)
-            }
-        }
-    }
 
     private func updateInstructions() {
         let menuKey = GCController.controllers().isEmpty
@@ -113,7 +118,7 @@ class Game: SceneBase {
         self.updateInstructions()
         self.labelLevel?.text = self.numberFormatter.string(for: self.gameSession.tetris.level) ?? ""
 
-        self.state = .running
+        self.state.delegate = self
     }
 
     override func controllerDidConnect() {
@@ -122,21 +127,15 @@ class Game: SceneBase {
 
     override func controllerDidDisconnect() {
         self.updateInstructions()
-        if self.state == .running {
-            self.state = .paused
-            self.audioFxPlayer?.play(.positive)
-        }
+        self.state.transition(to: .paused)
     }
 
     override func didResignKey() {
-        if self.state == .running {
-            self.state = .paused
-            self.audioFxPlayer?.play(.positive)
-        }
+        self.state.transition(to: .paused)
     }
 
     override func update(_ currentTime: TimeInterval) {
-        guard self.state == .running else {
+        guard self.state.current == .running else {
             return
         }
 
@@ -155,39 +154,31 @@ class Game: SceneBase {
             return
         }
 
-        switch self.state {
-        case .gameover:
-            if event.id == .select {
-                self.audioFxPlayer?.play(.positive)
-                self.transition(to: Scores.self) {
-                    $0.score = self.gameSession.tetris.score
-                }
+        switch (self.state.current, event.id) {
+
+        case (.gameover, .select):
+            self.audioFxPlayer?.play(.positive)
+            self.transition(to: Scores.self) {
+                $0.score = self.gameSession.tetris.score
             }
 
-        case .paused:
-            switch event.id {
-            case .menu:
-                self.audioFxPlayer?.play(.positive)
-                self.transition(to: Scores.self) {
-                    $0.score = self.gameSession.tetris.score
-                }
-
-            case .select:
-                self.audioFxPlayer?.play(.positive)
-                self.state = .running
-                self.gameSession.inputClear()
-
-            default:
-                break
+        case (.paused, .menu):
+            self.audioFxPlayer?.play(.positive)
+            self.transition(to: Scores.self) {
+                $0.score = self.gameSession.tetris.score
             }
 
-        case .running:
-            if event.id == .menu {
-                self.state = .paused
-                self.audioFxPlayer?.play(.positive)
-            } else {
-                self.gameSession.input(down: event.id)
-            }
+        case (.paused, .select):
+            self.state.transition(to: .running)
+
+        case(.running, .menu):
+            self.state.transition(to: .paused)
+
+        case(.running, let id):
+            self.gameSession.input(down: id)
+
+        default:
+            break
         }
     }
 
@@ -206,6 +197,40 @@ extension Game: EffectDelegate {
     }
 
     func gameOver() {
-        self.state = .gameover
+        self.state.transition(to: .gameover)
+    }
+}
+
+extension Game: GameStateMachineDelegate {
+    func enter(state: GameState) {
+        switch state {
+        case .running:
+            self.audioFxPlayer?.play(.positive)
+            self.pauseNode?.isHidden = true
+            self.gameOverNode?.isHidden = true
+            self.gameSession.inputClear()
+
+        case .paused:
+            self.audioFxPlayer?.play(.positive)
+            self.pauseNode?.isHidden = false
+            self.gameOverNode?.isHidden = true
+
+        case .gameover:
+            self.pauseNode?.isHidden = true
+            self.gameOverNode?.isHidden = false
+
+            if let label = self.childNode(withName: "//labelFinalScoreTitle") as? SKLabelNode {
+                if let hiscores = try? Hiscore(contentsOfUrl: Hiscore.url, key: Secrets.hiscoreKey), hiscores.isHighscore(score: Hiscore.Score(name: "", value: self.gameSession.tetris.score)) {
+                    label.text = NSLocalizedString("GameFinishedNewHiscore", comment: "New hiscore")
+                } else {
+                    label.text = NSLocalizedString("GameFinishedYourScore", comment: "No new hiscore")
+                }
+            }
+
+            (self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode)?.text = self.numberFormatter.string(for: self.gameSession.tetris.score)
+        }
+    }
+
+    func leave(state: GameState) {
     }
 }
