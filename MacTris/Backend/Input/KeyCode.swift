@@ -6,6 +6,7 @@
 //
 
 // swiftlint:disable identifier_name
+/// The USB HID key codes for Mac keyboard keys.
 enum KeyCode: UInt16 {
     case a                   = 0x00
     case s                   = 0x01

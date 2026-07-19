@@ -6,12 +6,14 @@
 //
 import Foundation
 
+/// Abstraction for URLSession to enable mocking in tests.
 protocol URLSessionProtocol {
     func data(from url: URL) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: URLSessionProtocol {}
 
+/// Fetches the latest release metadata from a GitHub repository's releases API.
 struct GitHubApiReleaseReader {
 
     let baseUrl: URL

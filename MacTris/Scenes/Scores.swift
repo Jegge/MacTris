@@ -8,6 +8,8 @@
 import SpriteKit
 import OSLog
 
+/// The high-score scene. Displays the top 10 scores and allows name entry
+/// when a new high score is achieved.
 class Scores: SceneBase {
 
     var score: Int?

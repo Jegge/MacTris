@@ -7,13 +7,19 @@
 
 import SpriteKit
 
+/// Base class for all SpriteKit scenes in the game. Provides common functionality
+/// for input handling (keyboard and controller), scene transitions, and observer
+/// management for notification center events.
 class SceneBase: SKScene {
 
     private var observers: [NSObjectProtocol] = []
     private var eventMonitor: Any?
 
+    /// The input mapper to translate raw keyboard/gamepad events into game actions.
     var inputMapper: InputMapper?
+    /// The sound effect player.
     var audioFxPlayer: AudioFxPlayer?
+    /// The background music player.
     var musicPlayer: MusicPlayer?
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
@@ -75,6 +81,7 @@ class SceneBase: SKScene {
         return event
     }
 
+    /// Cleans up notification observers and event monitors when leaving the scene.
     override func willMove(from view: SKView) {
         super.willMove(from: view)
 
@@ -100,27 +107,36 @@ class SceneBase: SKScene {
         }
     }
 
+    /// Called when a game controller connects. Override in subclasses.
     func controllerDidConnect() {
     }
 
+    /// Called when a game controller disconnects. Override in subclasses.
     func controllerDidDisconnect() {
     }
 
+    /// Called when the window enters full-screen mode. Override in subclasses.
     func didEnterFullScreen() {
     }
 
+    /// Called when the window exits full-screen mode. Override in subclasses.
     func didExitFullScreen() {
     }
 
+    /// Called when the window resigns key status. Override in subclasses.
     func didResignKey() {
     }
 
+    /// Called when an input event is pressed. Override in subclasses.
     func input(down event: InputEvent) {
     }
 
+    /// Called when an input event is released. Override in subclasses.
     func input(up event: InputEvent) {
     }
 
+    /// Transitions to a new scene, passing along the input mapper, audio fx player,
+    /// and music player. An optional configuration closure can customize the new scene before presentation.
     func transition<T: SceneBase>(to type: T.Type, configureScene: ((T) -> Void)? = nil) {
         let name = String(describing: T.self)
         if let newScene = SKScene(fileNamed: name) as? T {

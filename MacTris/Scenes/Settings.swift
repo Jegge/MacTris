@@ -8,6 +8,8 @@
 import SpriteKit
 import GameController
 
+/// The settings scene. Allows customization of display mode, audio volumes,
+/// key bindings, RNG mode, DAS speed, wall kick, hard drop, appearance, and animations.
 class Settings: SceneBase {
 
     private struct Item {
@@ -233,7 +235,7 @@ class Settings: SceneBase {
             self.transition(to: Menu.self)
 
         default:
-            // selecting all other items results in the same behaviour as increasing it's value
+            // selecting all other items results in the same behaviour as increasing its value
             return self.adjust(item: item, direction: .increase)
         }
 

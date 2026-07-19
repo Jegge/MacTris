@@ -8,12 +8,15 @@
 import SpriteKit
 import GameController
 
+/// The possible states of the game scene.
 enum GameState {
     case running
     case paused
     case gameover
 }
 
+/// The main gameplay scene. Manages the Tetris game loop, input routing, state
+/// transitions (running/paused/game over), and rendering the board and HUD.
 class Game: SceneBase {
     lazy var game: TetrisGame = {
         TetrisGame(tetris: Tetris(options: UserDefaults.standard.tetrisOptions), effects: self)

@@ -7,10 +7,12 @@
 
 import AVFoundation
 
+/// Sound effect identifiers.
 enum AudioFx {
     case positive, negative, select, success, quadSuccess, gameOver, shift, rotate, lock
 }
 
+/// Plays short sound effects from `.aiff` files bundled with the app.
 class AudioFxPlayer: NSObject {
     private var players: Set<AVAudioPlayer> = Set()
 

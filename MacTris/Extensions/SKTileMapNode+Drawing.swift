@@ -7,9 +7,11 @@
 
 import SpriteKit
 
+/// Draws Tetris grids and tetromino previews onto an `SKTileMapNode`.
 extension SKTileMapNode {
     private static var tileGroupCache: [String: SKTileGroup] = [:]
 
+    /// Returns a cached tile group by name, populating the cache on first access.
     private func tileGroup(named name: String) -> SKTileGroup? {
         if Self.tileGroupCache.isEmpty {
             for group in self.tileSet.tileGroups {
@@ -21,6 +23,7 @@ extension SKTileMapNode {
         return Self.tileGroupCache[name]
     }
 
+    /// Fills the tile map to represent a full game grid.
     func draw(grid: Tetris.Grid, appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {
@@ -34,6 +37,7 @@ extension SKTileMapNode {
         }
     }
 
+    /// Renders a single tetromino shape onto the tile map (used for the preview).
     func draw(tetromino: Tetromino?, appearance: Appearance) {
         for column in 0..<self.numberOfColumns {
             for row in 0..<self.numberOfRows {

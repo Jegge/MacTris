@@ -7,6 +7,7 @@
 
 import AVFoundation
 
+/// Plays a looping music track from an `.mp3` file bundled with the app.
 class MusicPlayer: NSObject {
 
     private var player: AVAudioPlayer?

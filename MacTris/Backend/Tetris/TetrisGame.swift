@@ -7,12 +7,16 @@
 
 import Foundation
 
+/// Delegate protocol for receiving notifications of gameplay events that need
+/// audiovisual feedback.
 protocol EffectDelegate: AnyObject {
     func play(fx: AudioFx)
     func shakeBoard()
     func gameOver()
 }
 
+/// High-level game loop controller that manages input handling, frame-rate
+/// stabilization, gravity, and animation sequencing for a Tetris game.
 class TetrisGame {
 
     init(tetris: Tetris, effects: EffectDelegate?) {
@@ -62,7 +66,7 @@ class TetrisGame {
             self.tetris.hardDrop()
             self.effects?.shakeBoard()
             self.effects?.play(fx: .lock)
-            self.events.remove(.hardDrop) // user need to press the key intentionally again for the next piece
+            self.events.remove(.hardDrop) // user needs to press the key intentionally again for the next piece
             self.waitFramesForUpdate = self.tetris.options.gravity(level: self.tetris.level)
         } else if self.events.contains(.softDrop) {
             if !self.tetris.softDrop(manual: true) {
@@ -112,7 +116,7 @@ class TetrisGame {
             } else {
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             }
-        } else if self.tetris.current == nil { // then handle all actions if there is no tetronimo in game
+        } else if self.tetris.current == nil { // then handle all actions if there is no tetromino in game
             if let lines = self.tetris.lowestCompletedLines {
                 self.animation = DissolveLinesAnimation(grid: self.tetris.grid, lines: lines)
                 self.tetris.clear(lines: lines)

@@ -8,6 +8,8 @@
 import CryptoKit
 import OSLog
 
+/// Manages loading, saving, inserting, and querying high scores.
+/// Scores are stored in an encrypted JSON file using AES-GCM.
 class Hiscore {
 
     #if DEBUG
@@ -16,6 +18,7 @@ class Hiscore {
     static let filename = "hiscores.json"
     #endif
 
+    /// A single high-score entry with a player name and score value.
     struct Score: Codable, Comparable, Equatable {
         let name: String
         let value: Int
@@ -25,6 +28,7 @@ class Hiscore {
         }
     }
 
+    /// The file URL where the encrypted high scores are stored.
     static var url: URL {
         if #available(macOS 13.0, *) {
             return URL.applicationSupportDirectory.appendingPathComponent(Hiscore.filename, isDirectory: false)
@@ -54,6 +58,7 @@ class Hiscore {
         self.key = key
     }
 
+    /// Loads and decrypts high scores from an encrypted JSON file.
     convenience init(contentsOfUrl url: URL, key: String) throws {
         // swiftlint:disable:next force_unwrapping
         let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
@@ -63,6 +68,7 @@ class Hiscore {
         self.init(list: scores, key: symmetricKey)
     }
 
+    /// Creates a default high-score list with prefilled entries.
     convenience init(key: String) {
         // swiftlint:disable:next force_unwrapping
         let symmetricKey = SymmetricKey(data: key.data(using: .utf8)!)
@@ -80,27 +86,32 @@ class Hiscore {
         ], key: symmetricKey)
     }
 
+    /// Encrypts and writes the high-score list to a file.
     func write(to url: URL) throws {
         let decrypted = try JSONEncoder().encode(self.list)
         let encrypted = try AES.GCM.seal(decrypted, using: self.key).combined
         try encrypted?.write(to: url)
     }
 
+    /// Inserts a score into the list and returns its rank index (or `nil` if not in top 10).
     func insert(score: Score) -> Int? {
         self.list = Array((self.list + [score]) .sorted().reversed().prefix(Hiscore.numberOfEntries))
         return self.list.firstIndex(of: score)
     }
 
+    /// Renames the entry at the given index (truncated to `nameLength` characters).
     func rename(at index: Int, to name: String) {
         if index >= 0 && index < self.list.count {
             self.list[index] = Score(name: String(name.prefix(Hiscore.nameLength)), value: self.list[index].value)
         }
     }
 
+    /// Returns the player name at the given index.
     func name(at index: Int) -> String {
         return index >= 0 && index < self.list.count ? self.list[index].name : ""
     }
 
+    /// Returns `true` if the score would make it into the top 10.
     func isHighscore(score: Score) -> Bool {
         return score.value > (self.list.map { $0.value }.min() ?? 0)
     }

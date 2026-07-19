@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// The visual style used for tetromino tiles.
 enum Appearance: Int {
     case plain = 1
     case shaded = 2

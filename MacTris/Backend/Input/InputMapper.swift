@@ -8,6 +8,8 @@
 import Foundation
 import GameController
 
+/// Maps keyboard key codes and game controller input to game actions (`InputEvent`).
+/// Keyboard bindings can be customized and persisted.
 class InputMapper {
 
     convenience init() {
@@ -18,6 +20,7 @@ class InputMapper {
         self.keyboardBindings = keyboardBindings
     }
 
+    /// Associates a hardware key code with a game action.
     struct KeyBinding: Codable {
         let keyCode: UInt16
         let id: Input

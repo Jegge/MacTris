@@ -5,12 +5,14 @@
 //  Created by Sebastian Boettcher on 04.01.24.
 //
 
-/// A random generator that produces a stream of tetromino shapes
+/// A random generator that produces a stream of tetromino shapes.
 protocol RandomTetrominoShapeGenerator {
-    /// Retrieve the next tetromino shape
+    /// Retrieve the next tetromino shape.
     func next() -> Tetromino.Shape
 }
 
+/// Generates shapes using the "7-bag" system: all seven shapes are shuffled
+/// into a bag, and each call draws one. When the bag is empty, a new bag is shuffled.
 class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var bag: [Tetromino.Shape] = []
@@ -32,12 +34,16 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     }
 }
 
+/// Generates shapes using the same weighted-probability algorithm as the
+/// original NES Tetris. Probabilities for each shape depend on the previously
+/// drawn shape, closely replicating the NES RNG behavior.
+///
+/// See https://tetrissuomi.wordpress.com/wp-content/uploads/2020/04/nes_tetris_rng.pdf, Tables 2 & 3
 class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var last: Tetromino.Shape?
 
-    // See https://tetrissuomi.wordpress.com/wp-content/uploads/2020/04/nes_tetris_rng.pdf, Tables 2 & 3
-    // These are the weighted probabilites for each shape, depending on the previous shape.
+    // These are the weighted probabilities for each shape, depending on the previous shape.
     // So if no previous shape is known, we use probabilities[nil] as table; if the previous shape was a .t for instance,
     // we query the table probabilities[.t]. Effectively, this has to be read "if the previous shape was a .s, the probability for a .z is now 15.625%"
     private let probabilities: [Tetromino.Shape?: [(shape: Tetromino.Shape, probability: Int)]] = [

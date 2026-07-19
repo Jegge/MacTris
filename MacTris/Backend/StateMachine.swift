@@ -7,12 +7,15 @@
 
 import Foundation
 
+/// Delegate protocol for state machine lifecycle events.
 protocol StateMachineDelegate<State>: AnyObject {
     associatedtype State: Equatable
     func stateMachine(_ stateMachine: StateMachine<State>, willLeave state: State)
     func stateMachine(_ stateMachine: StateMachine<State>, didEnter state: State)
 }
 
+/// A simple finite-state machine that only allows transitions defined at
+/// initialization. Invalid transitions are silently ignored.
 final class StateMachine<State: Equatable> {
 
     init(initialState: State?, transitions: [(oldState: State, newState: State)]) {

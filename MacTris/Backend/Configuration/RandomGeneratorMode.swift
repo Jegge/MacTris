@@ -7,10 +7,14 @@
 
 import Foundation
 
+/// The algorithm used to generate random tetromino sequences.
 enum RandomGeneratorMode: Int {
+    /// NES Tetris weighted-probability algorithm.
     case nes = 1
+    /// Modern 7-bag shuffling algorithm.
     case sevenBag = 2
 
+    /// Creates the corresponding random generator instance.
     func createGenerator() -> RandomTetrominoShapeGenerator {
         switch self {
         case .nes:

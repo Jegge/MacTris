@@ -7,14 +7,16 @@
 
 /// A special tetris board that can be manipulated based on a sequence of calls.
 protocol TetrisAnimation {
-    /// The current grid
+    /// The current grid.
     var grid: Tetris.Grid { get }
-    /// A flag that indicates that the animation is finished
+    /// Whether the animation has completed.
     var finished: Bool { get }
-    /// Advance the animation to the next frame
+    /// Advance the animation to the next frame.
     func next()
 }
 
+/// Animates the dissolution of completed lines by clearing them outward from
+/// the center column over successive steps.
 class DissolveLinesAnimation: TetrisAnimation {
     init(grid: Tetris.Grid, lines: Range<Int>) {
         self.grid = grid
@@ -49,6 +51,8 @@ class DissolveLinesAnimation: TetrisAnimation {
     }
 }
 
+/// Animates a "stack out" (game over) by filling empty spaces on the board
+/// with random tetromino tiles, step by step.
 class StackOutAnimation: TetrisAnimation {
     init(grid: Tetris.Grid, fillAmountPerStep: Int) {
         self.grid = grid

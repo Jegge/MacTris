@@ -9,6 +9,9 @@ import SpriteKit
 import GameController
 import OSLog
 
+/// The main view controller. Sets up the SpriteKit view, initializes input
+/// mapping, audio, music, and observes controller connect/disconnect and
+/// full-screen events.
 class ViewController: NSViewController {
     @IBOutlet var skView: SKView!
 
@@ -17,8 +20,11 @@ class ViewController: NSViewController {
     private var didEnterFullScreenObserver: Any?
     private var didExitFullScreenObserver: Any?
 
+    /// Shared input mapper bound to the user's keyboard preferences.
     let inputMapper = InputMapper(keyboardBindings: UserDefaults.standard.keyboardBindings)
+    /// Shared sound effect player.
     let audioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
+    /// Shared background music player.
     let musicPlayer = MusicPlayer(volume: UserDefaults.standard.musicVolume)
 
     override func viewDidLoad() {

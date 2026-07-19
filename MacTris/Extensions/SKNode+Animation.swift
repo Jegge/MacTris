@@ -7,6 +7,7 @@
 
 import SpriteKit
 
+/// Describes which axes an animation should affect.
 struct AnimationDirection: OptionSet {
     let rawValue: Int
 
@@ -18,6 +19,7 @@ struct AnimationDirection: OptionSet {
 extension SKNode {
     private static let shakeAnimationName = "shakeAnimation"
 
+    /// Shakes the node with a random offset in the specified direction(s).
     func shake(direction: AnimationDirection = .both, intensity: CGFloat = 1.0) {
         if self.action(forKey: SKNode.shakeAnimationName) != nil {
             return
@@ -45,6 +47,7 @@ extension SKNode {
 
     private static let bounceAnimationName = "bounceAnimation"
 
+    /// Plays a quick scale-and-move bounce animation on the node.
     func bounce(direction: AnimationDirection = .both) {
         if self.action(forKey: SKNode.bounceAnimationName) != nil {
             return

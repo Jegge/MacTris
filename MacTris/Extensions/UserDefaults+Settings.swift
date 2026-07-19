@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Persistent game settings stored in UserDefaults with typed accessors and
+/// default values registered at app launch.
 extension UserDefaults {
 
     private static let defaultUpdateUrl = URL(string: "https://api.github.com/repos/Jegge/MacTris/")!

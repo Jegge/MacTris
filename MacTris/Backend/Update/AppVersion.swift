@@ -5,6 +5,7 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
+/// Represents a semantic version with major and minor components (e.g. "v1.3").
 struct AppVersion: Equatable, Comparable, CustomStringConvertible {
     let major: Int
     let minor: Int

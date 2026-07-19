@@ -5,6 +5,7 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
+/// An abstract game action that can be triggered by keyboard or controller input.
 enum Input: Codable {
     case menu
     case select
@@ -39,6 +40,7 @@ extension Input: CustomStringConvertible {
     }
 }
 
+/// The source device for an input event.
 enum InputSource: Codable {
     case keyboard
     case controller

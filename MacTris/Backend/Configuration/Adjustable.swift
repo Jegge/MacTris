@@ -5,18 +5,19 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
+/// The direction of an adjustment (increase or decrease).
 enum AdjustDirection {
     case increase
     case decrease
 }
 
-/// Something that be increased of decreased
+/// Something that can be increased or decreased, returning a new value.
 protocol Adjustable {
-    /// Returns an increased version of itself
+    /// Returns an increased version of itself.
     func increased() -> Self
-    /// Returns a decreased version of itself
+    /// Returns a decreased version of itself.
     func decreased() -> Self
-    /// Returns an increased of decreased version of itself, depending on the direction
+    /// Returns an increased or decreased version of itself, depending on the direction.
     func adjusted(by direction: AdjustDirection) -> Self
 }
 

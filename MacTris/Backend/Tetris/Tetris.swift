@@ -7,9 +7,13 @@
 
 import OSLog
 
+/// The core Tetris game engine: holds the board state, handles piece movement,
+/// rotation, line clearing, scoring, and level progression.
 class Tetris {
+    /// A 2D grid where each cell either contains a tetromino shape or is empty.
     typealias Grid = [[Tetromino.Shape?]]
 
+    /// Flags used to describe what a collision check should consider.
     private struct CollisionFlags: OptionSet {
         let rawValue: Int
         static let leftWall = CollisionFlags(rawValue: 1 << 0)

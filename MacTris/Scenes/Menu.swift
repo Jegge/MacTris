@@ -8,6 +8,8 @@
 import SpriteKit
 import OSLog
 
+/// The main menu scene. Allows the player to start a game, adjust the starting
+/// level, access settings, view high scores, check for updates, and quit.
 class Menu: SceneBase {
 
     private struct Item {
