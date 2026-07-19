@@ -71,9 +71,27 @@ class SceneBase: SKScene {
     func eventFlagsChanged(event: NSEvent) -> NSEvent {
         for (keyCode, flag) in self.keyCodesToModifierFlags where event.keyCode == keyCode.rawValue {
             if event.modifierFlags.contains(flag),
-               let keyEvent = NSEvent.keyEvent(with: .keyDown, location: event.locationInWindow, modifierFlags: event.modifierFlags, timestamp: event.timestamp, windowNumber: event.windowNumber, context: nil, characters: "", charactersIgnoringModifiers: "", isARepeat: false, keyCode: event.keyCode) {
+               let keyEvent = NSEvent.keyEvent(with: .keyDown,
+                                               location: event.locationInWindow,
+                                               modifierFlags: event.modifierFlags,
+                                               timestamp: event.timestamp,
+                                               windowNumber: event.windowNumber,
+                                               context: nil,
+                                               characters: "",
+                                               charactersIgnoringModifiers: "",
+                                               isARepeat: false,
+                                               keyCode: event.keyCode) {
                 self.keyDown(with: keyEvent)
-            } else if let keyEvent = NSEvent.keyEvent(with: .keyUp, location: event.locationInWindow, modifierFlags: event.modifierFlags, timestamp: event.timestamp, windowNumber: event.windowNumber, context: nil, characters: "", charactersIgnoringModifiers: "", isARepeat: false, keyCode: event.keyCode) {
+            } else if let keyEvent = NSEvent.keyEvent(with: .keyUp,
+                                                      location: event.locationInWindow,
+                                                      modifierFlags: event.modifierFlags,
+                                                      timestamp: event.timestamp,
+                                                      windowNumber: event.windowNumber,
+                                                      context: nil,
+                                                      characters: "",
+                                                      charactersIgnoringModifiers: "",
+                                                      isARepeat: false,
+                                                      keyCode: event.keyCode) {
                 self.keyUp(with: keyEvent)
             }
             return event

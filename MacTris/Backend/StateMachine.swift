@@ -28,15 +28,17 @@ final class StateMachine<State: Equatable> {
 
     weak var delegate: (any StateMachineDelegate<State>)?
 
-    func transition(to newState: State) {
+    @discardableResult func transition(to newState: State) -> Bool {
         guard transitions.contains(where: { $0.oldState == current && $0.newState == newState }) else {
-            return
+            return false
         }
 
         if let oldState = current {
-            delegate?.stateMachine(self, willLeave: oldState)
+            self.delegate?.stateMachine(self, willLeave: oldState)
         }
         current = newState
-        delegate?.stateMachine(self, didEnter: newState)
+        self.delegate?.stateMachine(self, didEnter: newState)
+
+        return true
     }
 }

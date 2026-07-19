@@ -67,10 +67,11 @@ class Tetris {
         var result = self.data
 
         if let tetromino = self.current {
-            for point in tetromino.points {
-                if point.column >= 0 && point.column < Tetris.numberOfColumns && point.row >= 0 && point.row < Tetris.numberOfRows {
-                    result[point.column][point.row] = tetromino.shape
-                }
+            for point in tetromino.points where point.column >= 0 &&
+                point.column < Tetris.numberOfColumns &&
+                point.row >= 0 &&
+                point.row < Tetris.numberOfRows {
+                result[point.column][point.row] = tetromino.shape
             }
         }
 
@@ -217,6 +218,7 @@ class Tetris {
         self.score += linesScore
         self.lines += lines.count
 
+        // swiftlint:disable:next line_length
         Logger.game.info("Completing \(lines.count) line(s) at level \(self.level) gives \(linesScore) points: total \(self.lines) lines, \(self.score) points. Next level in \(self.linesToNextLevel) lines.")
 
         self.linesToNextLevel -= lines.count

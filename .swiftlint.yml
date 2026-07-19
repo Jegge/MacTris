@@ -1,9 +1,21 @@
-disabled_rules:
- - line_length
- - type_body_length
- - function_body_length
- - file_length
- - cyclomatic_complexity
+#disabled_rules:
+# - line_length
+# - type_body_length
+# - function_body_length
+# - file_length
+# - cyclomatic_complexity
+
+line_length:
+  warning: 180
+  error: 260
+  
+file_length:
+  warning: 600
+  error: 700
+  
+type_body_length:
+  warning: 400
+  error: 500
 
 opt_in_rules:
  - force_unwrapping
@@ -31,5 +43,5 @@ identifier_name:
 nesting:
  type_level:
   warning: 2
- function_level:
-  warning: 10
+# function_level:
+#  warning: 10

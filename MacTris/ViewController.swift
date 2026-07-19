@@ -48,7 +48,9 @@ class ViewController: NSViewController {
             #endif
         }
 
-        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
+        self.controllerDidConnectObserver = NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect,
+                                                                                   object: nil,
+                                                                                   queue: .main) { [weak self] notification in
             guard let controller = notification.object as? GCController else {
                 Logger.input.info("Controller connection failed.")
                 return
@@ -63,7 +65,9 @@ class ViewController: NSViewController {
             }
         }
 
-        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
+        self.controllerDidDisconnectObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect,
+                                                                                      object: nil,
+                                                                                      queue: .main) { notification in
             let name = (notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor"
             Logger.input.info("Controller \(name, privacy: .public) did disconnect.")
         }
