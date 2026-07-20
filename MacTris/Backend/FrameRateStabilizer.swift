@@ -15,11 +15,11 @@ struct FrameRateStabilizer {
     private var accumulator: TimeInterval = 0
 
     init(desiredFps fps: Int) {
-        self.desiredFps = fps
-        self.frameTime = 1.0 / TimeInterval(fps)
+        self.desiredFps = min(max(1, fps), 120)
+        self.frameTime = 1.0 / TimeInterval(self.desiredFps)
     }
 
-    /// The target frame rate.
+    /// The target frame rate. Minimum 1, maximum 120 FPS
     let desiredFps: Int
     /// The duration of a single frame at the target FPS.
     let frameTime: TimeInterval
