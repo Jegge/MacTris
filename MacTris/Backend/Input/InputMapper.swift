@@ -140,10 +140,8 @@ class InputMapper {
     /// Translates a game controller element change into one or more `InputEvent` values.
     func translate(gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
 
-        var result: [InputEvent] = []
-
         if gamepad.dpad == element {
-            result = [
+            return [
                 // the order is important: game events before menu events
                 InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed, source: .controller),
                 InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed, source: .controller),
@@ -156,13 +154,13 @@ class InputMapper {
         }
 
         if gamepad.buttonA == element {
-            result =  [
+            return [
                 InputEvent(id: .rotateCounterClockwise, isDown: gamepad.buttonA.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonB == element {
-            result =  [
+            return [
                 // the order is important: game events before menu events
                 InputEvent(id: .rotateClockwise, isDown: gamepad.buttonB.isPressed, source: .controller),
                 InputEvent(id: .select, isDown: gamepad.buttonB.isPressed, source: .controller)
@@ -170,17 +168,53 @@ class InputMapper {
         }
 
         if gamepad.buttonY == element {
-            result =  [
+            return [
                 InputEvent(id: .hardDrop, isDown: gamepad.buttonY.isPressed, source: .controller)
             ]
         }
 
         if gamepad.buttonMenu == element {
-            result =  [
+            return [
                 InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed, source: .controller)
             ]
         }
 
-        return result
+        return []
+    }
+
+    func translate(gamepad: GCMicroGamepad, element: GCControllerElement) -> [InputEvent] {
+        if gamepad.dpad == element {
+            return [
+                InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed, source: .controller),
+                InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed, source: .controller),
+                InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed, source: .controller),
+                InputEvent(id: .left, isDown: gamepad.dpad.left.isPressed, source: .controller),
+                InputEvent(id: .right, isDown: gamepad.dpad.right.isPressed, source: .controller),
+                InputEvent(id: .down, isDown: gamepad.dpad.down.isPressed, source: .controller),
+                InputEvent(id: .up, isDown: gamepad.dpad.up.isPressed, source: .controller)
+            ]
+        }
+
+        if gamepad.buttonA == element {
+            return [
+                InputEvent(id: .rotateCounterClockwise, isDown: gamepad.buttonA.isPressed, source: .controller)
+            ]
+        }
+
+        if gamepad.buttonX == element {
+            return [
+                // the order is important: game events before menu events
+                InputEvent(id: .rotateClockwise, isDown: gamepad.buttonX.isPressed, source: .controller),
+                InputEvent(id: .select, isDown: gamepad.buttonX.isPressed, source: .controller)
+            ]
+        }
+
+        if gamepad.buttonMenu == element {
+            return [
+                InputEvent(id: .menu, isDown: gamepad.buttonMenu.isPressed, source: .controller)
+            ]
+        }
+
+        return []
     }
 }
