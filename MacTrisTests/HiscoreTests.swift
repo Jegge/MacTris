@@ -55,6 +55,32 @@ struct HiscoreTests {
         #expect(!isHigh)
     }
 
+    @Test func testIsHighscoreTiedWithLowestScore() async throws {
+        let hiscore = Hiscore(key: key)
+        let isHigh = hiscore.isHighscore(score: Hiscore.Score(name: "Tie", value: 10000))
+        #expect(isHigh)
+    }
+
+    @Test func testInsertTiedWithLowestScoreRanksAheadOfExistingScore() async throws {
+        let hiscore = Hiscore(key: key)
+        let score = Hiscore.Score(name: "Tie", value: 10000)
+        let index = hiscore.insert(score: score)
+
+        #expect(index == Hiscore.numberOfEntries - 1)
+        #expect(hiscore.scores[index ?? 0] == score)
+    }
+
+    @Test func testInsertEqualScoresAreDeterministic() async throws {
+        let hiscore = Hiscore(key: key)
+        let first = Hiscore.Score(name: "First", value: 50000)
+        let second = Hiscore.Score(name: "Second", value: 50000)
+
+        #expect(hiscore.insert(score: first) == 5)
+        #expect(hiscore.insert(score: second) == 5)
+        #expect(hiscore.name(at: 5) == second.name)
+        #expect(hiscore.name(at: 6) == first.name)
+    }
+
     @Test func testRename() async throws {
         let hiscore = Hiscore(key: key)
         hiscore.rename(at: 0, to: "Alice")

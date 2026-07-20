@@ -99,8 +99,17 @@ class Hiscore {
 
     /// Inserts a score into the list and returns its rank index (or `nil` if not in top 10).
     func insert(score: Score) -> Int? {
-        self.list = Array((self.list + [score]) .sorted().reversed().prefix(Hiscore.numberOfEntries))
-        return self.list.firstIndex(of: score)
+        let index = self.insertionIndex(for: score)
+        guard index < Hiscore.numberOfEntries else {
+            return nil
+        }
+
+        self.list.insert(score, at: index)
+        if self.list.count > Hiscore.numberOfEntries {
+            self.list.removeLast()
+        }
+
+        return index
     }
 
     /// Renames the entry at the given index (truncated to `nameLength` characters).
@@ -117,6 +126,11 @@ class Hiscore {
 
     /// Returns `true` if the score would make it into the top 10.
     func isHighscore(score: Score) -> Bool {
-        return score.value > (self.list.map { $0.value }.min() ?? 0)
+        return self.insertionIndex(for: score) < Hiscore.numberOfEntries
+    }
+
+    /// Returns the insertion index for a score. New equal scores rank ahead of existing equal scores.
+    private func insertionIndex(for score: Score) -> Int {
+        self.list.firstIndex { $0.value <= score.value } ?? self.list.endIndex
     }
 }
