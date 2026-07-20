@@ -19,22 +19,19 @@ struct AppVersion: Equatable, Comparable, CustomStringConvertible {
     }
     /// Parses a version string such as `"1.3"` or `"1.3.0"`. Returns `nil` if the string is invalid.
     init?(string: any StringProtocol) {
-        if !string.allSatisfy({ $0.isNumber || $0 == "." }) {
+        let parts = Array(string.split(separator: ".", omittingEmptySubsequences: false).map { String($0) })
+
+        guard parts.count >= 1, parts.count < 4, parts.allSatisfy({ !$0.isEmpty && $0.allSatisfy { $0.isNumber } }) else {
             return nil
         }
 
-        let parts = Array(string.split(separator: ".").map { Int($0) ?? 0 })
-
-        switch parts.count {
-        case 1:
-            self.major = parts[0]
-            self.minor = 0
-        case 2...3:
-            self.major = parts[0]
-            self.minor = parts[1]
-        default:
+        let numbers = parts.compactMap(Int.init)
+        guard numbers.count == parts.count else {
             return nil
         }
+
+        self.major = numbers[0]
+        self.minor = numbers.count > 1 ? numbers[1] : 0
     }
 
     static func < (lhs: AppVersion, rhs: AppVersion) -> Bool {

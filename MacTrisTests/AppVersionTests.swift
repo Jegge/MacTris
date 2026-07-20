@@ -38,6 +38,35 @@ struct AppVersionTests {
         #expect(version == nil)
     }
 
+    @Test func testInitFromStringEmptyComponent() async throws {
+        #expect(AppVersion(string: "1..2") == nil)
+    }
+
+    @Test func testInitFromStringTrailingSeparator() async throws {
+        #expect(AppVersion(string: "1.") == nil)
+    }
+
+    @Test func testInitFromStringLeadingSeparator() async throws {
+        #expect(AppVersion(string: ".1") == nil)
+    }
+
+    @Test func testInitFromStringTooManyComponents() async throws {
+        #expect(AppVersion(string: "1.2.3.4") == nil)
+    }
+
+    @Test func testInitFromStringNonNumericComponent() async throws {
+        #expect(AppVersion(string: "1.x") == nil)
+    }
+
+    @Test func testInitFromStringNegativeComponent() async throws {
+        #expect(AppVersion(string: "-1.2") == nil)
+    }
+
+    @Test func testInitFromStringIntegerOverflow() async throws {
+        let overflowingValue = String(Int.max) + "0"
+        #expect(AppVersion(string: overflowingValue) == nil)
+    }
+
     @Test func testInitFromStringThreeParts() async throws {
         let version = AppVersion(string: "2.5.3")
         #expect(version?.major == 2)
