@@ -91,7 +91,7 @@ class Menu: SceneBase {
 
     private func adjust(item: String, direction: AdjustDirection) -> Bool {
         if item == Item.play {
-            if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxLevel {
+            if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxStartingLevel {
                 UserDefaults.standard.startLevel += 1
                 self.update()
                 return true

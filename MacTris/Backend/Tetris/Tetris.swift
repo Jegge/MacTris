@@ -23,8 +23,8 @@ class Tetris {
         static let all = CollisionFlags([.leftWall, .rightWall, .floor, .piece])
     }
 
-    /// The highest achievable level.
-    static let maxLevel: Int = 19
+    /// The highest starting level.
+    static let maxStartingLevel: Int = 19
     /// The number of columns in the board.
     static let numberOfColumns: Int = 10
     /// The number of rows in the board.
