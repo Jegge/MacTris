@@ -89,6 +89,19 @@ struct HiscoreTests {
         #expect(loaded.scores.contains { $0.name == score.name && $0.value == score.value })
     }
 
+    @Test func testWriteReadCreatesMissingParentDirectory() async throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let tempURL = root.appendingPathComponent("Application Support/hiscores.json")
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let original = Hiscore(key: key)
+        try original.write(to: tempURL)
+
+        #expect(FileManager.default.fileExists(atPath: tempURL.path))
+        let loaded = try Hiscore(contentsOfUrl: tempURL, key: key)
+        #expect(loaded.scores == original.scores)
+    }
+
     @Test func testWriteReadPreservesOrder() async throws {
         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("test_order.json")
         defer { try? FileManager.default.removeItem(at: tempURL) }

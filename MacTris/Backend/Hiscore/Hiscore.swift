@@ -86,11 +86,15 @@ class Hiscore {
         ], key: symmetricKey)
     }
 
-    /// Encrypts and writes the high-score list to a file.
+    /// Encrypts and writes the high-score list to a file. Creates the Application Support directory if needed.
     func write(to url: URL) throws {
         let decrypted = try JSONEncoder().encode(self.list)
-        let encrypted = try AES.GCM.seal(decrypted, using: self.key).combined
-        try encrypted?.write(to: url)
+        guard let encrypted = try AES.GCM.seal(decrypted, using: self.key).combined else {
+            throw CocoaError(.fileWriteUnknown)
+        }
+
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try encrypted.write(to: url, options: .atomic)
     }
 
     /// Inserts a score into the list and returns its rank index (or `nil` if not in top 10).
