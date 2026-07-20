@@ -94,6 +94,14 @@ struct GitHubApiReleaseReaderTests {
         }
     }
 
+    @Test func testReadLatestReleaseHttpError() async throws {
+        let session = MockURLSession(statusCode: 404, string: "Not found")
+        let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)
+        await #expect(throws: URLError.self) {
+            try await reader.readLatestRelease()
+        }
+    }
+
     @Test func testReadLatestReleaseEmptyAssetsReturnsNil() async throws {
         let session = MockURLSession(string: """
         {

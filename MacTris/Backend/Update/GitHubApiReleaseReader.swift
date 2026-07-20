@@ -61,7 +61,14 @@ struct GitHubApiReleaseReader {
         } else {
             url = baseUrl.appendingPathComponent("releases/latest")
         }
-        let (data, _) = try await self.session.data(from: url)
+
+        let (data, response) = try await self.session.data(from: url)
+        guard let response = response as? HTTPURLResponse,
+                (200..<300).contains(response.statusCode)
+        else {
+            throw URLError(.badServerResponse)
+        }
+
         let release = try JSONDecoder().decode(GithubRelease.self, from: data)
         guard release.tagName.hasPrefix("Release/v"),
               let version = AppVersion(string: release.tagName.dropFirst(9)),
