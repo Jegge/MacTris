@@ -38,12 +38,15 @@ struct TetrisOptions {
         static let keyRepeatDrop: Int = 1
     }
 
+    /// Returns the spawn delay in frames, adjusted by the current stack height.
     func spawn(stackHeight: Int) -> Int {
         return TetrisOptions.Frames.spawn + (stackHeight / 4)
     }
+    /// Returns the gravity interval in frames for the given level.
     func gravity(level: Int) -> Int {
         return level < TetrisOptions.Frames.gravityPerLevel.count ? TetrisOptions.Frames.gravityPerLevel[level] : 1
     }
+    /// Returns the key-repeat delay in frames. Uses a shorter delay for the initial press.
     func keyRepeatShift(initial: Bool) -> Int {
         return initial ? self.autoShift.delays.initial : self.autoShift.delays.repeating
     }

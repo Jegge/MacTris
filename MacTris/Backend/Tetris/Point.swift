@@ -9,9 +9,12 @@
 /// The origin (0, 0) is at the bottom-left, with column increasing to the right
 /// and row increasing upward.
 struct Point {
+    /// The column index (horizontal position).
     let column: Int
+    /// The row index (vertical position).
     let row: Int
 
+    /// Creates a point with the given column and row.
     init (_ column: Int, _ row: Int) {
         self.column = column
         self.row = row

@@ -26,7 +26,9 @@ class TetrisGame {
         self.waitFramesForUpdate = tetris.options.gravity(level: self.tetris.level)
     }
 
+    /// The underlying Tetris engine holding board state and piece logic.
     let tetris: Tetris
+    /// Delegate for audiovisual feedback (sound effects, screen shake, game over).
     weak var effects: EffectDelegate?
 
     private var frameRateStabilizer: FrameRateStabilizer
@@ -36,12 +38,15 @@ class TetrisGame {
     private var waitFramesForKeyRepeat: Int = 0
     private var keyRepeatIsInitial: Bool = false
 
+    /// The total elapsed game time in seconds.
     private(set) var duration: TimeInterval = 0
 
+    /// The current board state, including any active animation overlay.
     var grid: Tetris.Grid {
         self.animation?.grid ?? self.tetris.grid
     }
 
+    /// Called each display frame. Advances the game loop using fixed-timestep updates.
     func update(_ currentTime: TimeInterval) {
         self.frameRateStabilizer.update(currentTime) { delta in
             self.duration += delta
@@ -62,42 +67,78 @@ class TetrisGame {
         }
     }
 
-    private func processInput() {
+    private func handleDrop() -> Bool {
         if self.tetris.options.hardDrop && self.events.contains(.hardDrop) {
             self.tetris.hardDrop()
             self.effects?.shakeBoard()
             self.effects?.play(fx: .lock)
             self.events.remove(.hardDrop) // user needs to press the key intentionally again for the next piece
             self.waitFramesForUpdate = self.tetris.options.gravity(level: self.tetris.level)
-        } else if self.events.contains(.softDrop) {
+            return true
+        }
+
+        if self.events.contains(.softDrop) {
             if !self.tetris.softDrop(manual: true) {
                 self.effects?.play(fx: .lock)
                 self.events.remove(.softDrop) // user needs to press the key intentionally again for the next piece
             }
             self.waitFramesForKeyRepeat = TetrisOptions.Frames.keyRepeatDrop
-        } else if self.events.contains(.shiftLeft) {
+            return true
+        }
+
+        return false
+    }
+
+    private func handleShift() -> Bool {
+        if self.events.contains(.shiftLeft) {
             if self.tetris.shift(.left) {
                 self.effects?.play(fx: .shift)
             }
             self.waitFramesForKeyRepeat = self.tetris.options.keyRepeatShift(initial: self.keyRepeatIsInitial)
             self.keyRepeatIsInitial = false
-        } else if self.events.contains(.shiftRight) {
+            return true
+        }
+
+        if self.events.contains(.shiftRight) {
             if self.tetris.shift(.right) {
                 self.effects?.play(fx: .shift)
             }
             self.waitFramesForKeyRepeat = self.tetris.options.keyRepeatShift(initial: self.keyRepeatIsInitial)
             self.keyRepeatIsInitial = false
-        } else if self.events.contains(.rotateCounterClockwise) {
+            return true
+        }
+
+        return false
+    }
+
+    private func handleRotate() -> Bool {
+        if self.events.contains(.rotateCounterClockwise) {
             if self.tetris.rotate(.counterClockwise) {
                 self.effects?.play(fx: .rotate)
             }
             self.events.remove(.rotateCounterClockwise)
-        } else if self.events.contains(.rotateClockwise) {
+            return true
+        }
+
+        if self.events.contains(.rotateClockwise) {
             if self.tetris.rotate(.clockwise) {
                 self.effects?.play(fx: .rotate)
             }
             self.events.remove(.rotateClockwise)
+            return true
         }
+
+        return false
+    }
+
+    private func processInput() {
+        if self.handleDrop() {
+            return
+        }
+        if self.handleShift() {
+            return
+        }
+        _ = self.handleRotate()
     }
 
     private func processFrame() {
@@ -136,6 +177,7 @@ class TetrisGame {
         }
     }
 
+    /// Registers a key-down or button-press input event.
     func input(down id: Input) {
         switch id {
         case Input.shiftLeft:
@@ -167,10 +209,12 @@ class TetrisGame {
         }
     }
 
+    /// Registers a key-up or button-release input event.
     func input(up id: Input) {
         self.events.remove(id)
     }
 
+    /// Clears all pending input events (e.g. when pausing or losing focus).
     func inputClear() {
         self.events.removeAll()
     }

@@ -26,6 +26,7 @@ class AudioFxPlayer: NSObject, VolumeSettable {
         self.players.removeAll()
     }
 
+    /// Plays a single-shot sound effect from the given AIFF file.
     func play(aiff name: String) {
         if let url = Bundle.main.url(forResource: name, withExtension: "aiff"),
            let player = try? AVAudioPlayer(contentsOf: url) {
@@ -40,6 +41,7 @@ class AudioFxPlayer: NSObject, VolumeSettable {
 }
 
 extension AudioFxPlayer {
+    /// Plays the sound effect corresponding to the given `AudioFx` identifier.
     func play(_ audioFx: AudioFx) {
         switch audioFx {
         case .positive:

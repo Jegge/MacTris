@@ -26,6 +26,7 @@ class InputMapper {
         let id: Input
     }
 
+    /// Placeholder string shown when a key code cannot be described.
     static let unknownCharacterDescription: String = "???"
 
     private var keymap: [(binding: KeyBinding, mutable: Bool)] = [
@@ -49,6 +50,7 @@ class InputMapper {
         .return
     ]
 
+    /// The current mutable keyboard bindings. Setting this overwrites existing bindings.
     var keyboardBindings: [KeyBinding] {
         get {
             self.keymap.filter { $0.mutable }.map { $0.binding }
@@ -60,6 +62,7 @@ class InputMapper {
         }
     }
 
+    /// Returns a human-readable key name for the given input action on the keyboard.
     func describeIdForKeyboard(_ id: Input) -> String {
         if let keyCode = self.keymap.first(where: { $0.binding.id == id})?.binding.keyCode {
             return KeyCode(rawValue: keyCode)?.description ?? InputMapper.unknownCharacterDescription
@@ -67,7 +70,9 @@ class InputMapper {
         return InputMapper.unknownCharacterDescription
     }
 
+    /// Returns a human-readable button description for the given input action on a controller.
     func describeIdForController(_ id: Input) -> String {
+        // swiftlint:disable:previous cyclomatic_complexity
         switch id {
         case .down: return "⒣"
         case .left: return "⒤"
@@ -89,6 +94,7 @@ class InputMapper {
         self.keymap.append((binding: KeyBinding(keyCode: keyCode, id: id), mutable: true))
     }
 
+    /// Attempts to bind a key code to an input action. Returns `false` if the binding is not allowed.
     func bind(keyCode: UInt16, id: Input) -> Bool {
         if !canBind(keyCode: keyCode, id: id) {
             return false
@@ -97,6 +103,7 @@ class InputMapper {
         return true
     }
 
+    /// Checks whether the given key code can be bound to the input action without conflicts.
     func canBind(keyCode: UInt16, id: Input) -> Bool {
         // check if it's a forbidden key
         if InputMapper.unmappableKeyCodes.first(where: { $0.rawValue == keyCode}) != nil {
@@ -114,6 +121,7 @@ class InputMapper {
         return true
     }
 
+    /// Translates a keyboard `NSEvent` into one or more `InputEvent` values.
     func translate(event: NSEvent) -> [InputEvent] {
         var result: [InputEvent] = []
 
@@ -129,6 +137,7 @@ class InputMapper {
         return result
     }
 
+    /// Translates a game controller element change into one or more `InputEvent` values.
     func translate(gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
 
         var result: [InputEvent] = []

@@ -36,7 +36,7 @@ class Settings: SceneBase {
             if let value = self.childNode(withName: "value" + item) as? SKLabelNode {
                 value.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
                 value.text = self.settingItems.first { $0.identifier == item }?.value ?? ""
-            }  
+            }
 
             if let controller = self.childNode(withName: "controller" + item) as? SKLabelNode {
                 controller.fontColor = index == self.selection ? NSColor(named: "MenuHilite") : NSColor(named: "MenuDefault")
@@ -92,8 +92,8 @@ class Settings: SceneBase {
 
         // A menu item XXX is constituted from a node named menuXXX (which acts as a bullet), a labelXXX and a valueXXX,
         // keybindings may have an additional column labeled controllerXXX.
-        // The menuItems array contains the names of the menu items in order of the SpriteKit scene, whereas settingsItems contain
-        // the settings itself. The connections is made by the identifier XXX
+        // The menuItems array contains the names of the menu items in order of the SpriteKit scene, whereas settingItems contain
+        // the settings themselves. The connection is made by the identifier XXX
 
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
 

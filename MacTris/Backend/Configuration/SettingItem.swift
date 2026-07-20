@@ -10,7 +10,7 @@ import AppKit
 
 /// A single item in the settings menu.
 protocol SettingItem {
-    /// And identifier that matches the menu setting in from the sks file
+    /// An identifier that matches the menu setting from the sks file.
     var identifier: String { get }
     /// The display value shown in the settings row.
     var value: String { get }
@@ -103,7 +103,7 @@ struct VolumeSetting: SettingItem {
     }
 }
 
-/// A display setting that syncs between an windows display mode and UserDefaults.
+/// A display setting that syncs between a window's display mode and UserDefaults.
 struct DisplaySetting: SettingItem {
     let identifier: String
     let target: NSWindow?

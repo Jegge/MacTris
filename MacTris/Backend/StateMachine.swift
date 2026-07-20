@@ -28,6 +28,7 @@ final class StateMachine<State: Equatable> {
 
     weak var delegate: (any StateMachineDelegate<State>)?
 
+    /// Attempts to transition to the new state. Returns `false` if the transition is not defined.
     @discardableResult func transition(to newState: State) -> Bool {
         guard transitions.contains(where: { $0.oldState == current && $0.newState == newState }) else {
             return false

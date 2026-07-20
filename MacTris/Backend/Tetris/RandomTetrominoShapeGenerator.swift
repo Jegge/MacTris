@@ -17,6 +17,7 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var bag: [Tetromino.Shape] = []
 
+    /// Creates a generator backed by the given random number generator.
     init(random: RandomNumberGenerator) {
         self.random = random
     }
@@ -25,6 +26,7 @@ class SevenBagTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
         self.init(random: SystemRandomNumberGenerator())
     }
 
+    /// Draws the next shape from the bag, refilling it when empty.
     func next() -> Tetromino.Shape {
         if self.bag.isEmpty {
             self.bag = Tetromino.Shape.allCases.shuffled(using: &self.random)
@@ -57,6 +59,7 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
          .i: [ (.t, 15625), (.j, 15625), (.z, 15625), (.o, 15625), (.s, 18750), (.l, 15625), (.i, 03125) ]
     ]
 
+    /// Creates a generator backed by the given random number generator.
     init(random: RandomNumberGenerator) {
         self.random = random
     }
@@ -65,6 +68,7 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
         self.init(random: SystemRandomNumberGenerator())
     }
 
+    /// Selects the next shape using the NES weighted-probability algorithm.
     func next() -> Tetromino.Shape {
         // swiftlint:disable:next force_unwrapping
         let table = probabilities[self.last]!

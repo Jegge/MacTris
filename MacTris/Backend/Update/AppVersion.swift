@@ -7,13 +7,17 @@
 
 /// Represents a semantic version with major and minor components (e.g. "v1.3").
 struct AppVersion: Equatable, Comparable, CustomStringConvertible {
+    /// The major version number.
     let major: Int
+    /// The minor version number.
     let minor: Int
 
+    /// Creates a version with the given major and minor components.
     init(major: Int, minor: Int) {
         self.major = major
         self.minor = minor
     }
+    /// Parses a version string such as `"1.3"` or `"1.3.0"`. Returns `nil` if the string is invalid.
     init?(string: any StringProtocol) {
         if !string.allSatisfy({ $0.isNumber || $0 == "." }) {
             return nil

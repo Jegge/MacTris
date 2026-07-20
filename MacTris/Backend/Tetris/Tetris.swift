@@ -23,23 +23,35 @@ class Tetris {
         static let all = CollisionFlags([.leftWall, .rightWall, .floor, .piece])
     }
 
+    /// The highest achievable level.
     static let maxLevel: Int = 19
+    /// The number of columns in the board.
     static let numberOfColumns: Int = 10
+    /// The number of rows in the board.
     static let numberOfRows: Int = 20
+    /// The position where new tetrominoes spawn.
     static let spawnPosition: Point = Point(Tetris.numberOfColumns / 2, Tetris.numberOfRows - 1)
 
+    /// The random shape generator used to produce tetrominoes.
     let random: RandomTetrominoShapeGenerator
+    /// The game configuration options.
     let options: TetrisOptions
 
     private var data: Grid
     private var dropCounter: Int = 0
     private var linesToNextLevel: Int
 
+    /// The total number of lines cleared so far.
     private(set) var lines: Int = 0
+    /// The current level, which affects gravity speed.
     private(set) var level: Int = 0
+    /// The current score.
     private(set) var score: Int = 0
+    /// The next tetromino to be spawned.
     private(set) var next: Tetromino
+    /// The currently active tetromino, or `nil` if none is in play.
     private(set) var current: Tetromino?
+    /// Piece distribution statistics for the current game.
     private(set) var statistics: Statistics = Statistics()
 
     init(options: TetrisOptions, random: RandomTetrominoShapeGenerator) {
@@ -63,6 +75,7 @@ class Tetris {
         self.init(options: options, random: options.randomGeneratorMode.createGenerator())
     }
 
+    /// The board state with the current tetromino overlaid.
     var grid: Grid {
         var result = self.data
 
@@ -78,6 +91,7 @@ class Tetris {
         return result
     }
 
+    /// The lowest contiguous range of completed lines, or `nil` if none are complete.
     var lowestCompletedLines: Range<Int>? {
         var start = 0
         while !self.isComplete(row: start) {
@@ -98,6 +112,7 @@ class Tetris {
         return Range(uncheckedBounds: (start, end))
     }
 
+    /// The number of rows from the bottom that contain at least one filled cell.
     var stackHeight: Int {
         var result = 0
 
@@ -124,11 +139,13 @@ class Tetris {
         }
     }
 
+    /// Clears completed lines from the board, drops rows above, and updates score.
     func clear(lines: Range<Int>) {
         self.drop(lines: lines)
         self.score(lines: lines)
     }
 
+    /// Spawns the next tetromino at the top of the board. Returns `false` if the board is stacked out.
     func spawn() -> Bool {
         let current = self.next.with(position: Tetris.spawnPosition)
         self.next = Tetromino(shape: self.random.next())
@@ -145,6 +162,7 @@ class Tetris {
         return true
     }
 
+    /// Attempts to move the current tetromino left or right. Returns `true` if successful.
     func shift(_ direction: Tetromino.Shift) -> Bool {
         if let current = self.current, !self.collides(tetromino: current.shifted(direction), with: .all) {
             self.current = current.shifted(direction)
@@ -153,6 +171,7 @@ class Tetris {
         return false
     }
 
+    /// Attempts to rotate the current tetromino. Returns `true` if successful.
     func rotate(_ rotation: Tetromino.Rotation) -> Bool {
         if !options.wallKick, let current = self.current, !self.collides(tetromino: current.rotated(rotation), with: .all) {
             self.current = current.rotated(rotation)
@@ -169,6 +188,8 @@ class Tetris {
         return false
     }
 
+    /// Moves the current tetromino down by one row. When called manually, awards a point per row.
+    /// Returns `true` if the tetromino moved, or `false` if it locked in place.
     func softDrop(manual: Bool) -> Bool {
         if let current = self.current, !self.collides(tetromino: current.dropped(), with: .all) {
             self.current = current.dropped()
@@ -192,6 +213,7 @@ class Tetris {
         return false
     }
 
+    /// Instantly drops the current tetromino to the lowest valid position and locks it.
     func hardDrop() {
         if var current = self.current {
             self.dropCounter = 0

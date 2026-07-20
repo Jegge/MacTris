@@ -80,24 +80,31 @@ struct Tetromino {
         }
     }
 
+    /// The shape of this tetromino.
     let shape: Shape
+    /// The current rotation index into the shape's point table.
     let rotation: Int
+    /// The position of this tetromino on the board.
     let position: Point
 
+    /// The absolute board positions of this tetromino's four cells.
     var points: [Point] {
         return self.shape.points[self.rotation].map { Point($0.column + position.column, $0.row + position.row) }
     }
 
+    /// Creates a tetromino with the given shape, rotation, and position.
     init(shape: Shape, rotation: Int = 0, position: Point = .zero) {
         self.shape = shape
         self.rotation = rotation
         self.position = position
     }
 
+    /// Returns a copy of this tetromino moved to the given position.
     func with(position: Point) -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: position)
     }
 
+    /// Returns a copy of this tetromino rotated in the given direction.
     func rotated(_ rotation: Rotation) -> Tetromino {
         switch rotation {
         case .clockwise:
@@ -107,6 +114,7 @@ struct Tetromino {
         }
     }
 
+    /// Returns a copy of this tetromino shifted one column in the given direction.
     func shifted(_ direction: Shift) -> Tetromino {
         switch direction {
         case .left:
@@ -116,6 +124,7 @@ struct Tetromino {
         }
     }
 
+    /// Returns a copy of this tetromino dropped one row downward.
     func dropped() -> Tetromino {
         return Tetromino(shape: self.shape, rotation: self.rotation, position: Point(position.column, position.row - 1))
     }

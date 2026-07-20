@@ -5,13 +5,13 @@
 //  Created by Sebastian Boettcher on 11.07.26.
 //
 
-/// A special tetris board that can be manipulated based on a sequence of calls.
+/// Protocol for board-level animations that advance frame by frame.
 protocol TetrisAnimation {
     /// The current grid.
     var grid: Tetris.Grid { get }
     /// Advance the animation to the next frame. Returns false if the animation is finished
     func next() -> Bool
-    /// Called after the animation reached the last frame
+    /// Closure invoked when the animation reaches its final frame.
     var completion: (() -> Void)? { get }
 }
 

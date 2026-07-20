@@ -16,19 +16,26 @@ extension URLSession: URLSessionProtocol {}
 /// Fetches the latest release metadata from a GitHub repository's releases API.
 struct GitHubApiReleaseReader {
 
+    /// The base URL of the GitHub repository API endpoint.
     let baseUrl: URL
+    /// The URL session used for network requests.
     let session: URLSessionProtocol
 
+    /// A parsed GitHub release with its version and download URL.
     struct Release {
+        /// The release version.
         let version: AppVersion
+        /// The URL to download the release asset.
         let downloadUrl: URL
     }
 
+    /// Creates a reader with the given base URL and URL session.
     init(baseUrl: URL, session: URLSessionProtocol = URLSession.shared) {
         self.baseUrl = baseUrl
         self.session = session
     }
 
+    /// Fetches the latest release from the GitHub API. Returns `nil` if no valid release is found.
     func readLatestRelease() async throws -> Release? {
         let url: URL
         if #available(macOS 13.0, *) {
