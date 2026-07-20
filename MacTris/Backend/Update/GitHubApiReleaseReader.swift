@@ -13,6 +13,24 @@ protocol URLSessionProtocol {
 
 extension URLSession: URLSessionProtocol {}
 
+private struct GithubAsset: Decodable {
+    var browserDownloadUrl: String
+
+    enum CodingKeys: String, CodingKey {
+        case browserDownloadUrl = "browser_download_url"
+    }
+}
+
+private struct GithubRelease: Decodable {
+    var tagName: String
+    var assets: [GithubAsset]
+
+    enum CodingKeys: String, CodingKey {
+        case tagName = "tag_name"
+        case assets
+    }
+}
+
 /// Fetches the latest release metadata from a GitHub repository's releases API.
 struct GitHubApiReleaseReader {
 
@@ -53,23 +71,5 @@ struct GitHubApiReleaseReader {
         }
 
         return Release(version: version, downloadUrl: downloadUrl)
-    }
-
-    private struct GithubAsset: Decodable {
-        var browserDownloadUrl: String
-
-        enum CodingKeys: String, CodingKey {
-            case browserDownloadUrl = "browser_download_url"
-        }
-    }
-
-    private struct GithubRelease: Decodable {
-        var tagName: String
-        var assets: [GithubAsset]
-
-        enum CodingKeys: String, CodingKey {
-            case tagName = "tag_name"
-            case assets
-        }
     }
 }
