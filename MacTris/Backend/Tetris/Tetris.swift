@@ -112,7 +112,7 @@ class Tetris {
         return Range(uncheckedBounds: (start, end))
     }
 
-    /// The number of rows from the bottom that contain at least one filled cell.
+    /// The height of the top occupied cell.
     var stackHeight: Int {
         var result = 0
 
@@ -141,6 +141,13 @@ class Tetris {
 
     /// Clears completed lines from the board, drops rows above, and updates score.
     func clear(lines: Range<Int>) {
+        guard !lines.isEmpty,
+              lines.count <= 4,
+              lines.lowerBound >= 0,
+              lines.upperBound <= Tetris.numberOfRows,
+              lines.allSatisfy({ self.isComplete(row: $0) }) else {
+            return
+        }
         self.drop(lines: lines)
         self.score(lines: lines)
     }
