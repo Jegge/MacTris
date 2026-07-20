@@ -74,10 +74,10 @@ extension UserDefaults {
 
     var startLevel: Int {
         get {
-            return max(0, min(19, self.integer(forKey: Key.startLevel)))
+            return max(0, min(Tetris.maxStartingLevel, self.integer(forKey: Key.startLevel)))
         }
         set {
-            self.setValue(max(0, min(19, newValue)), forKey: Key.startLevel)
+            self.setValue(max(0, min(Tetris.maxStartingLevel, newValue)), forKey: Key.startLevel)
         }
     }
 
