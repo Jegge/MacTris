@@ -9,7 +9,8 @@ import Cocoa
 
 /// The app delegate. Registers default UserDefaults values on launch.
 @main class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    override init() {
         UserDefaults.standard.register()
+        super.init()
     }
 }
