@@ -50,7 +50,7 @@ class InputMapper {
         .return
     ]
 
-    /// The current mutable keyboard bindings. Setting this overwrites existing bindings.
+    /// The current mutable keyboard bindings. Setting this overwrites existing bindings. This method is considered unsafe and should only be used for persistence.
     var keyboardBindings: [KeyBinding] {
         get {
             self.keymap.filter { $0.mutable }.map { $0.binding }

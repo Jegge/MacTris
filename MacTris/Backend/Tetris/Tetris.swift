@@ -234,8 +234,11 @@ class Tetris {
     }
 
     private func score(lines: Range<Int>) {
-        let baseScorePerLines = [0, 40, 100, 300, 1200] // classic NES line scores
-        let linesScore = baseScorePerLines[lines.count] * (self.level + 1)
+        guard lines.count >= 1, lines.count <= 4 else {
+            return
+        }
+        let baseScorePerLines = [40, 100, 300, 1200] // classic NES line scores
+        let linesScore = baseScorePerLines[lines.count - 1] * (self.level + 1)
 
         self.score += linesScore
         self.lines += lines.count
@@ -253,13 +256,12 @@ class Tetris {
     }
 
     private func drop(lines: Range<Int>) {
-        for row in lines.upperBound..<Tetris.numberOfRows {
-            let target = row - (lines.upperBound - lines.lowerBound)
+        guard !lines.isEmpty, lines.lowerBound >= 0, lines.upperBound <= Tetris.numberOfRows else {
+            return
+        }
+        for row in lines.upperBound..<(Tetris.numberOfRows + lines.count) {
             for column in 0..<Tetris.numberOfColumns {
-                self[column, target] = self[column, row]
-            }
-
-            for column in 0..<Tetris.numberOfColumns {
+                self[column, row - lines.count] = self[column, row]
                 self[column, row] = nil
             }
         }
