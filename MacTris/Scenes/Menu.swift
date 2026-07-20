@@ -21,6 +21,7 @@ class Menu: SceneBase {
     }
 
     private var menuItems: [String] = []
+    private var updateCheckTask: Task<Void, Never>?
 
     private var selection: Int = -1 {
         didSet {
@@ -113,9 +114,15 @@ class Menu: SceneBase {
         (self.childNode(withName: "labelVersion") as? SKLabelNode)?.text = "\(Bundle.main.version) (\(Bundle.main.build))"
         (self.childNode(withName: "labelCopyright") as? SKLabelNode)?.text = Bundle.main.copyright
 
-        Task { [weak self] in
+        self.updateCheckTask = Task { [weak self] in
             self?.updateUrl = await self?.checkForUpdate()
         }
+    }
+
+    override func willMove(from view: SKView) {
+        self.updateCheckTask?.cancel()
+        self.updateCheckTask = nil
+        super.willMove(from: view)
     }
 
     override func input(down event: InputEvent) {
