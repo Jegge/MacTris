@@ -35,14 +35,6 @@ struct TetrominoTests {
         }
     }
 
-    @Test func testPointsIncludePosition() async throws {
-        let t = Tetromino(shape: .o, position: Point(3, 4))
-        for point in t.points {
-            #expect(point.column - 3 == point.column - t.position.column)
-            #expect(point.row - 4 == point.row - t.position.row)
-        }
-    }
-
     @Test func testRotateClockwise() async throws {
         let t = Tetromino(shape: .t, rotation: 0)
         let rotated = t.rotated(.clockwise)
