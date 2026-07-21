@@ -9,6 +9,12 @@ import Testing
 @testable import MacTris
 
 struct TetrisTests {
+    private func shift(_ horizontalShift: Int, in tetris: Tetris) {
+        let direction: Tetromino.Shift = horizontalShift < 0 ? .left : .right
+        for _ in 0..<abs(horizontalShift) {
+            #expect(tetris.shift(direction))
+        }
+    }
 
     @Test func testInitialState() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
@@ -138,6 +144,16 @@ struct TetrisTests {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         tetris.clear(lines: 0..<5)
+        #expect(tetris.score == 0)
+        #expect(tetris.lines == 0)
+        #expect(tetris.level == 0)
+    }
+
+    @Test func testClearOutOfBoundsLinesDoesNothing() async throws {
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
+        tetris.clear(lines: -1..<0)
+        tetris.clear(lines: Tetris.numberOfRows..<(Tetris.numberOfRows + 1))
         #expect(tetris.score == 0)
         #expect(tetris.lines == 0)
         #expect(tetris.level == 0)
@@ -342,7 +358,7 @@ struct TetrisTests {
         #expect(tetris.score == 0)
     }
 
-    @Test func testLowestCompletedLinesMultipleContiguousRows() async throws {
+    @Test func testClearTwoLinesScoresAndDropsRows() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .i, .o, .i, .i, .i]))
         // init: current=.i(shapes[1]), next=.i(shapes[0]), genIndex=2
@@ -367,6 +383,106 @@ struct TetrisTests {
         tetris.hardDrop()
 
         #expect(tetris.lowestCompletedLines == 0..<2)
+
+        let scoreBefore = tetris.score
+        tetris.clear(lines: 0..<2)
+
+        #expect(tetris.score == scoreBefore + 100)
+        #expect(tetris.lines == 2)
+        #expect(tetris.level == 0)
+        #expect(tetris.lowestCompletedLines == nil)
+    }
+
+    @Test func testClearThreeLinesUsesLevelMultiplier() async throws {
+        let options = TetrisOptions(startingLevel: 1, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let shapes: [Tetromino.Shape] = [.o, .o, .o, .o, .o, .i, .i, .o]
+        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: shapes))
+
+        // Fill rows 0 and 1 with O pieces in five two-column sections.
+        for horizontalShift in [-4, -2, 0, 2, 4] {
+            shift(horizontalShift, in: tetris)
+            tetris.hardDrop()
+            #expect(tetris.spawn())
+        }
+
+        // Two I pieces fill row 2 from the left; the O fills its right side.
+        for _ in 0..<3 {
+            #expect(tetris.shift(.left))
+        }
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+        #expect(tetris.shift(.right))
+        tetris.hardDrop()
+        #expect(tetris.spawn())
+        for _ in 0..<4 {
+            #expect(tetris.shift(.right))
+        }
+        tetris.hardDrop()
+
+        #expect(tetris.lowestCompletedLines == 0..<3)
+        let scoreBefore = tetris.score
+        tetris.clear(lines: 0..<3)
+
+        #expect(tetris.score == scoreBefore + 600)
+        #expect(tetris.lines == 3)
+        #expect(tetris.level == 1)
+    }
+
+    @Test func testClearFourLinesUsesTetrisScore() async throws {
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: Array(repeating: .o, count: 12)))
+        let horizontalShifts = [-4, -2, 0, 2, 4]
+
+        // Stack two rows of O pieces twice, creating four completed rows.
+        var dropped = 0
+        for _ in 0..<2 {
+            for horizontalShift in horizontalShifts {
+                shift(horizontalShift, in: tetris)
+                tetris.hardDrop()
+                dropped += 1
+                if dropped < 10 {
+                    #expect(tetris.spawn())
+                }
+            }
+        }
+
+        #expect(tetris.lowestCompletedLines == 0..<4)
+        let scoreBefore = tetris.score
+        tetris.clear(lines: 0..<4)
+
+        #expect(tetris.score == scoreBefore + 1200)
+        #expect(tetris.lines == 4)
+        #expect(tetris.level == 0)
+    }
+
+    @Test func testClearTenLinesAdvancesLevel() async throws {
+        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
+        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: Array(repeating: .o, count: 30)))
+        let horizontalShifts = [-4, -2, 0, 2, 4]
+
+        // Clear five sets of two rows to reach the next level.
+        var dropped = 0
+        for _ in 0..<5 {
+            for horizontalShift in horizontalShifts {
+                shift(horizontalShift, in: tetris)
+                tetris.hardDrop()
+                dropped += 1
+                if dropped % 5 != 0 {
+                    #expect(tetris.spawn())
+                }
+            }
+
+            let scoreBefore = tetris.score
+            tetris.clear(lines: 0..<2)
+            #expect(tetris.score == scoreBefore + 100)
+            #expect(tetris.lines == (dropped / 5) * 2)
+            if dropped < 25 {
+                #expect(tetris.spawn())
+            }
+        }
+
+        #expect(tetris.lines == 10)
+        #expect(tetris.level == 1)
     }
 
     @Test func testBoardReflectsAllLockedPieces() async throws {
