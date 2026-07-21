@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.11.0] - 2026-07-21
+
+### Added
+- Support for micro game controllers, such as the Siri Remote
+
+### Changed
+- Added fixed-timestep game loop to compensate for instable FPS or FPS below 60Hz
+
+### Fixed
+- Fixed inconsistent high-score tie breaking
+
 ## [1.10.0] - 2026-07-13
 
 ### Added
