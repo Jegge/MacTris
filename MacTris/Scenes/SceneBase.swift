@@ -8,11 +8,9 @@
 import SpriteKit
 
 /// Base class for all SpriteKit scenes in the game. Provides common functionality
-/// for input handling (keyboard and controller), scene transitions, and observer
-/// management for notification center events.
+/// for input handling, scene transitions, and lifecycle hooks.
 class SceneBase: SKScene {
 
-    private var observers: [NSObjectProtocol] = []
     private var eventMonitor: Any?
 
     /// The input mapper to translate raw keyboard/gamepad events into game actions.
@@ -26,24 +24,6 @@ class SceneBase: SKScene {
 
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-
-        self.observers = [
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
-                self?.controllerDidConnect()
-            },
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { [weak self] _ in
-                self?.controllerDidDisconnect()
-            },
-            NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
-                self?.didEnterFullScreen()
-            },
-            NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { [weak self] _ in
-                self?.didExitFullScreen()
-            },
-            NotificationCenter.default.addObserver(forName: NSWindow.didResignKeyNotification, object: nil, queue: .main) { [weak self] _ in
-                self?.didResignKey()
-            }
-        ]
 
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
     }
@@ -59,17 +39,13 @@ class SceneBase: SKScene {
         return event
     }
 
-    /// Cleans up notification observers and event monitors when leaving the scene.
+    /// Cleans up the event monitor when leaving the scene.
     override func willMove(from view: SKView) {
         super.willMove(from: view)
 
-        self.observers.forEach { observer in
-            NotificationCenter.default.removeObserver(observer)
-        }
-        self.observers.removeAll()
-
         if let monitor = self.eventMonitor {
             NSEvent.removeMonitor(monitor)
+            self.eventMonitor = nil
         }
     }
 

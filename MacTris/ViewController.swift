@@ -26,17 +26,11 @@ class ViewController: NSViewController {
     /// Shared background music player.
     lazy var musicPlayer = MusicPlayer(volume: self.gameSettings.musicVolume)
 
-    private func send(input event: InputEvent) {
-        DispatchQueue.main.async { [weak self] in
-            guard let scene = self?.skView?.scene as? SceneBase else {
-                return
-            }
-            if event.isDown {
-                scene.input(down: event)
-            } else {
-                scene.input(up: event)
-            }
+    private func notifyCurrentScene(_ action: (SceneBase) -> Void) {
+        guard let scene = self.skView?.scene as? SceneBase else {
+            return
         }
+        action(scene)
     }
 
     private func configureObservers() {
@@ -51,31 +45,38 @@ class ViewController: NSViewController {
 
                 if let gamepad = controller.extendedGamepad {
                     gamepad.valueChangedHandler = { [weak self] (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-                        self?.inputMapper.translate(gamepad: gamepad, element: element).forEach {
-                            self?.send(input: $0)
+                        self?.inputMapper.translate(gamepad: gamepad, element: element).forEach { input in
+                            self?.notifyCurrentScene { input.isDown ? $0.input(down: input) : $0.input(up: input) }
                         }
                     }
                 } else if let gamepad = controller.microGamepad {
                     gamepad.allowsRotation = true
                     gamepad.valueChangedHandler = { [weak self] (gamepad: GCMicroGamepad, element: GCControllerElement) in
-                        self?.inputMapper.translate(gamepad: gamepad, element: element).forEach {
-                            self?.send(input: $0)
+                        self?.inputMapper.translate(gamepad: gamepad, element: element).forEach { input in
+                            self?.notifyCurrentScene { input.isDown ? $0.input(down: input) : $0.input(up: input) }
                         }
                     }
                 } else {
                     Logger.input.warning("Controller is not supported: neither an extended nor a micro gamepad.")
                 }
+                self?.notifyCurrentScene { $0.controllerDidConnect() }
             },
             NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: .main) { notification in
                 Logger.input.info("Controller \((notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor", privacy: .public) did disconnect.")
+                self.notifyCurrentScene { $0.controllerDidDisconnect() }
             },
             NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in
                 self.gameSettings.fullscreen = true
                 NSCursor.hide()
+                self.notifyCurrentScene { $0.didEnterFullScreen() }
             },
             NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
                 self.gameSettings.fullscreen = false
                 NSCursor.unhide()
+                self.notifyCurrentScene { $0.didExitFullScreen() }
+            },
+            NotificationCenter.default.addObserver(forName: NSWindow.didResignKeyNotification, object: nil, queue: .main) { _ in
+                self.notifyCurrentScene { $0.didResignKey() }
             }
         ]
     }
