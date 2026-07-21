@@ -44,7 +44,7 @@ struct TetrisOptions {
     }
     /// Returns the gravity interval in frames for the given level.
     func gravity(level: Int) -> Int {
-        return level < TetrisOptions.Frames.gravityPerLevel.count ? TetrisOptions.Frames.gravityPerLevel[level] : 1
+        return level >= 0 && level < TetrisOptions.Frames.gravityPerLevel.count ? TetrisOptions.Frames.gravityPerLevel[level] : 1
     }
     /// Returns the key-repeat delay in frames. Uses a shorter delay for the initial press.
     func keyRepeatShift(initial: Bool) -> Int {
