@@ -65,8 +65,13 @@ struct StateMachineTests {
     }
 
     @Test func testTransitionToSameState() async throws {
+        let delegate = TestDelegate()
         let machine = StateMachine<Int>(initialState: 1, transitions: [(1, 1)])
+        machine.delegate = delegate
+
         #expect(machine.transition(to: 1))
         #expect(machine.current == 1)
+        #expect(delegate.willLeave == [1])
+        #expect(delegate.didEnter == [1])
     }
 }

@@ -18,27 +18,25 @@ protocol StateMachineDelegate<State>: AnyObject {
 /// initialization. Invalid transitions are silently ignored.
 final class StateMachine<State: Equatable> {
 
-    init(initialState: State?, transitions: [(oldState: State, newState: State)]) {
+    init(initialState: State, transitions: [(oldState: State, newState: State)]) {
         self.current = initialState
         self.transitions = transitions
     }
 
-    private(set) var current: State?
+    private(set) var current: State
     private(set) var transitions: [(oldState: State, newState: State)]
 
     weak var delegate: (any StateMachineDelegate<State>)?
 
     /// Attempts to transition to the new state. Returns `false` if the transition is not defined.
     @discardableResult func transition(to newState: State) -> Bool {
-        guard transitions.contains(where: { $0.oldState == current && $0.newState == newState }) else {
+        guard transitions.contains(where: { self.current == $0.oldState && $0.newState == newState }) else {
             return false
         }
 
-        if let oldState = current {
-            self.delegate?.stateMachine(self, willLeave: oldState)
-        }
+        self.delegate?.stateMachine(self, willLeave: self.current)
         current = newState
-        self.delegate?.stateMachine(self, didEnter: newState)
+        self.delegate?.stateMachine(self, didEnter: self.current)
 
         return true
     }
