@@ -46,6 +46,12 @@ class TetrisGame {
         self.animation?.grid ?? self.tetris.grid
     }
 
+    /// Resumes the game after it has been paused. Clears all stray input events and resets the frame accumulator.
+    func unpause() {
+        self.events.removeAll()
+        self.frameRateStabilizer.reset()
+    }
+
     /// Called each display frame. Advances the game loop using fixed-timestep updates.
     func update(_ currentTime: TimeInterval) {
         self.frameRateStabilizer.update(currentTime) { delta in
@@ -212,10 +218,5 @@ class TetrisGame {
     /// Registers a key-up or button-release input event.
     func input(up id: Input) {
         self.events.remove(id)
-    }
-
-    /// Clears all pending input events (e.g. when pausing or losing focus).
-    func inputClear() {
-        self.events.removeAll()
     }
 }

@@ -72,6 +72,20 @@ struct FrameRateStabilizerTests {
         #expect(callCount == 2)
     }
 
+    @Test func testResetDiscardsElapsedAndPartialFrameTime() async throws {
+        var stabilizer = FrameRateStabilizer(desiredFps: 2)
+        var callCount = 0
+        stabilizer.update(1.0) { _ in callCount += 1 }
+        stabilizer.update(1.75) { _ in callCount += 1 }
+        #expect(callCount == 1)
+
+        stabilizer.reset()
+        stabilizer.update(10.0) { _ in callCount += 1 }
+        #expect(callCount == 1)
+        stabilizer.update(10.5) { _ in callCount += 1 }
+        #expect(callCount == 2)
+    }
+
     @Test func testNegativeDeltaTimeHandledGracefully() async throws {
         var stabilizer = FrameRateStabilizer(desiredFps: 60)
         var callCount = 0

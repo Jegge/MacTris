@@ -164,12 +164,6 @@ class Game: SceneBase {
 extension Game: StateMachineDelegate<GameState> {
     func stateMachine(_ stateMachine: StateMachine<GameState>, didEnter state: GameState) {
         switch state {
-        case .running:
-            self.audioFxPlayer?.play(.positive)
-            self.pauseNode?.isHidden = true
-            self.gameOverNode?.isHidden = true
-            self.game.inputClear()
-
         case .paused:
             self.audioFxPlayer?.play(.positive)
             self.pauseNode?.isHidden = false
@@ -191,9 +185,23 @@ extension Game: StateMachineDelegate<GameState> {
             if let label = self.childNode(withName: "//labelFinalScoreValue") as? SKLabelNode {
                 label.text = self.numberFormatter.string(for: self.game.tetris.score)
             }
+
+        default:
+            break
         }
     }
+
     func stateMachine(_ stateMachine: StateMachine<GameState>, willLeave state: GameState) {
+        switch state {
+        case .paused:
+            self.audioFxPlayer?.play(.positive)
+            self.pauseNode?.isHidden = true
+            self.gameOverNode?.isHidden = true
+            self.game.unpause()
+
+        default:
+            break
+        }
     }
 }
 

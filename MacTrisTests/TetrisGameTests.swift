@@ -34,7 +34,7 @@ struct TetrisGameTests {
     private func hardDropAndWait(_ game: TetrisGame, time: GameTime, gravityFrames: Int = 49) {
         game.input(down: .hardDrop)
         time.advance(game, frames: 1)
-        game.inputClear()
+        game.input(up: .hardDrop)
         time.advance(game, frames: gravityFrames)
     }
 
@@ -50,7 +50,7 @@ struct TetrisGameTests {
         for _ in 0..<abs(shifts) {
             game.input(down: shifts > 0 ? .shiftRight : .shiftLeft)
             time.advance(game, frames: 1)
-            game.inputClear()
+            game.input(up: shifts > 0 ? .shiftRight : .shiftLeft)
         }
         // Wait for the key-repeat timer to expire so the hard-drop event is processed.
         time.advance(game, frames: 7)
@@ -86,7 +86,7 @@ struct TetrisGameTests {
         #expect(game.tetris.current?.position.column == 5)
     }
 
-    @Test func testInputClearRemovesAllEvents() async throws {
+    @Test func testUnpauseRemovesAllEvents() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
         let stabilizer = FrameRateStabilizer(desiredFps: 60)
@@ -96,7 +96,7 @@ struct TetrisGameTests {
         game.input(down: .shiftLeft)
         game.input(down: .shiftRight)
         game.input(down: .softDrop)
-        game.inputClear()
+        game.unpause()
         time.advance(game, frames: 10)
         #expect(game.tetris.current?.position.column == 5)
     }
@@ -162,7 +162,6 @@ struct TetrisGameTests {
         let game = TetrisGame(tetris: tetris, stabilizer: stabilizer, effects: effects)
         let time = GameTime()
         for _ in 0..<Tetris.numberOfColumns where game.tetris.shift(.left) {}
-        game.inputClear()
         effects.playedEffects.removeAll()
         game.input(down: .shiftLeft)
         time.advance(game, frames: 1)

@@ -24,6 +24,12 @@ struct FrameRateStabilizer {
     /// The duration of a single frame at the target FPS.
     let frameTime: TimeInterval
 
+    /// Discards elapsed time so the next update starts a new timing interval.
+    mutating func reset() {
+        self.lastUpdate = 0
+        self.accumulator = 0
+    }
+
     /// Call this each display frame with the current time. The `stableUpdate`
     /// closure is called at the configured frame rate, potentially multiple
     /// times per display frame if the real FPS is lower than desired.
