@@ -70,9 +70,11 @@ class ViewController: NSViewController {
                 Logger.input.info("Controller \((notification.object as? GCController)?.vendorName ?? "Unknown Controller Vendor", privacy: .public) did disconnect.")
             },
             NotificationCenter.default.addObserver(forName: NSWindow.didEnterFullScreenNotification, object: nil, queue: .main) { _ in
+                self.gameSettings.fullscreen = true
                 NSCursor.hide()
             },
             NotificationCenter.default.addObserver(forName: NSWindow.didExitFullScreenNotification, object: nil, queue: .main) { _ in
+                self.gameSettings.fullscreen = false
                 NSCursor.unhide()
             }
         ]

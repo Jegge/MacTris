@@ -138,12 +138,10 @@ class Settings: SceneBase {
     }
 
     override func didEnterFullScreen() {
-        self.gameSettings?.fullscreen = true
         self.update()
     }
 
     override func didExitFullScreen() {
-        self.gameSettings?.fullscreen = false
         self.update()
     }
 
