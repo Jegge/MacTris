@@ -178,7 +178,7 @@
       }
     },
     "MenuPlayLevelNr" : {
-      "comment" : "Has a numeric argument for the level nr.",
+      "comment" : "Has a numeric argument for the level number.",
       "localizations" : {
         "en" : {
           "stringUnit" : {

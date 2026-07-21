@@ -17,8 +17,6 @@ protocol Adjustable {
     func increased() -> Self
     /// Returns a decreased version of itself.
     func decreased() -> Self
-    /// Returns an increased or decreased version of itself, depending on the direction.
-    func adjusted(by direction: AdjustDirection) -> Self
 }
 
 extension Adjustable {
