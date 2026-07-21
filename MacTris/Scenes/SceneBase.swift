@@ -28,16 +28,6 @@ class SceneBase: SKScene {
         super.didMove(to: view)
 
         self.observers = [
-            NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: .main) { [weak self] notification in
-                if let event = notification.object as? InputEvent {
-                    self?.input(down: event)
-                }
-            },
-            NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: .main) { [weak self] notification in
-                if let event = notification.object as? InputEvent {
-                    self?.input(up: event)
-                }
-            },
             NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] _ in
                 self?.controllerDidConnect()
             },

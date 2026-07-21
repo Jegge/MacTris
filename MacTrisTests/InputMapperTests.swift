@@ -177,31 +177,6 @@ struct InputEventTests {
         #expect(InputEvent(id: .shiftLeft, isDown: true, source: .keyboard, isARepeat: true).description == "↓shift left (repeated)")
     }
 
-    @Test func testPostNotificationDown() async throws {
-        var received = false
-        let event = InputEvent(id: .left, isDown: true, source: .keyboard)
-        let token = NotificationCenter.default.addObserver(forName: InputEvent.inputDownNotification, object: nil, queue: nil) { notification in
-            if let obj = notification.object as? InputEvent, obj.id == event.id {
-                received = true
-            }
-        }
-        defer { NotificationCenter.default.removeObserver(token) }
-        event.postNotification()
-        #expect(received)
-    }
-
-    @Test func testPostNotificationUp() async throws {
-        var received = false
-        let event = InputEvent(id: .left, isDown: false, source: .keyboard)
-        let token = NotificationCenter.default.addObserver(forName: InputEvent.inputUpNotification, object: nil, queue: nil) { notification in
-            if let obj = notification.object as? InputEvent, obj.id == event.id {
-                received = true
-            }
-        }
-        defer { NotificationCenter.default.removeObserver(token) }
-        event.postNotification()
-        #expect(received)
-    }
 }
 
 struct InputMapperTranslateKeyboardTests {

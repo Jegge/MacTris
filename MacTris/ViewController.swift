@@ -26,6 +26,19 @@ class ViewController: NSViewController {
     /// Shared background music player.
     lazy var musicPlayer = MusicPlayer(volume: self.gameSettings.musicVolume)
 
+    private func send(input event: InputEvent) {
+        DispatchQueue.main.async { [weak self] in
+            guard let scene = self?.skView?.scene as? SceneBase else {
+                return
+            }
+            if event.isDown {
+                scene.input(down: event)
+            } else {
+                scene.input(up: event)
+            }
+        }
+    }
+
     private func configureObservers() {
         self.observers = [
             NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
@@ -39,14 +52,14 @@ class ViewController: NSViewController {
                 if let gamepad = controller.extendedGamepad {
                     gamepad.valueChangedHandler = { [weak self] (gamepad: GCExtendedGamepad, element: GCControllerElement) in
                         self?.inputMapper.translate(gamepad: gamepad, element: element).forEach {
-                            $0.postNotification()
+                            self?.send(input: $0)
                         }
                     }
                 } else if let gamepad = controller.microGamepad {
                     gamepad.allowsRotation = true
                     gamepad.valueChangedHandler = { [weak self] (gamepad: GCMicroGamepad, element: GCControllerElement) in
                         self?.inputMapper.translate(gamepad: gamepad, element: element).forEach {
-                            $0.postNotification()
+                            self?.send(input: $0)
                         }
                     }
                 } else {
