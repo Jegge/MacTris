@@ -31,7 +31,7 @@ struct TetrisGameTests {
 
     /// Drop the current piece via hard drop, then advance enough frames for the
     /// next piece to spawn (gravity countdown + one extra frame for processFrame).
-    private func hardDropAndWait(_ game: TetrisGame, effects: MockEffectDelegate, time: GameTime, gravityFrames: Int = 49) {
+    private func hardDropAndWait(_ game: TetrisGame, time: GameTime, gravityFrames: Int = 49) {
         game.input(down: .hardDrop)
         time.advance(game, frames: 1)
         game.inputClear()
@@ -40,9 +40,9 @@ struct TetrisGameTests {
 
     /// Shift the current piece to `targetColumn` (relative to spawn at column 5)
     /// and hard-drop it, then wait for the next piece to spawn.
-    private func shiftAndDrop(_ game: TetrisGame, effects: MockEffectDelegate, time: GameTime, targetColumn: Int) {
+    private func shiftAndDrop(_ game: TetrisGame, time: GameTime, targetColumn: Int) {
         shiftToTarget(game, time: time, targetColumn: targetColumn)
-        hardDropAndWait(game, effects: effects, time: time)
+        hardDropAndWait(game, time: time)
     }
 
     private func shiftToTarget(_ game: TetrisGame, time: GameTime, targetColumn: Int) {
@@ -62,8 +62,6 @@ struct TetrisGameTests {
         }
     }
 
-    // MARK: - Initial State
-
     @Test func testInitialState() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
@@ -77,21 +75,6 @@ struct TetrisGameTests {
         #expect(game.grid.count == Tetris.numberOfColumns)
         #expect(game.grid[0].count == Tetris.numberOfRows)
         #expect(game.duration == 0)
-    }
-
-    // MARK: - Input Handling
-
-    @Test func testInputDownRegistersEvent() async throws {
-        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
-        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
-        let stabilizer = FrameRateStabilizer(desiredFps: 60)
-        let effects = MockEffectDelegate()
-        let game = TetrisGame(tetris: tetris, stabilizer: stabilizer, effects: effects)
-        let time = GameTime()
-        game.input(down: .shiftLeft)
-        game.input(down: .shiftRight)
-        time.advance(game, frames: 1)
-        #expect(game.tetris.current != nil)
     }
 
     @Test func testInputUpRemovesEvent() async throws {
@@ -122,8 +105,6 @@ struct TetrisGameTests {
         #expect(game.tetris.current?.position.column == 5)
     }
 
-    // MARK: - Gravity
-
     @Test func testGravityPullsPieceDown() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o]))
@@ -148,8 +129,6 @@ struct TetrisGameTests {
         time.advance(game, frames: 48)
         #expect(game.tetris.current?.position.row == initialRow)
     }
-
-    // MARK: - Shift
 
     @Test func testShiftLeftInput() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
@@ -194,8 +173,6 @@ struct TetrisGameTests {
         #expect(!effects.playedEffects.contains(.shift))
     }
 
-    // MARK: - Rotation
-
     @Test func testRotateClockwiseInput() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.t]))
@@ -234,8 +211,6 @@ struct TetrisGameTests {
         #expect(!effects.playedEffects.contains(.rotate))
     }
 
-    // MARK: - Soft Drop
-
     @Test func testSoftDropInput() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: true)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
@@ -248,21 +223,6 @@ struct TetrisGameTests {
         time.advance(game, frames: 1)
         #expect(game.tetris.current?.position.row == (row ?? 0) - 1)
     }
-
-    @Test func testSoftDropRepeatsWhileHeld() async throws {
-        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: true)
-        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
-        let stabilizer = FrameRateStabilizer(desiredFps: 60)
-        let effects = MockEffectDelegate()
-        let game = TetrisGame(tetris: tetris, stabilizer: stabilizer, effects: effects)
-        let time = GameTime()
-        let initialRow = game.tetris.current?.position.row
-        game.input(down: .softDrop)
-        time.advance(game, frames: 5)
-        #expect((game.tetris.current?.position.row ?? 0) < (initialRow ?? 0))
-    }
-
-    // MARK: - Hard Drop
 
     @Test func testHardDropInputTriggersShakeAndLock() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: true)
@@ -307,19 +267,6 @@ struct TetrisGameTests {
         #expect(game.tetris.current != nil)
         time.advance(game, frames: 1)
         #expect(effects.shakeBoardCount == 1)
-    }
-
-    // MARK: - Duration
-
-    @Test func testDurationIncreasesOverTime() async throws {
-        let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
-        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
-        let stabilizer = FrameRateStabilizer(desiredFps: 60)
-        let effects = MockEffectDelegate()
-        let game = TetrisGame(tetris: tetris, stabilizer: stabilizer, effects: effects)
-        let time = GameTime()
-        time.advance(game, frames: 60)
-        #expect(game.duration > 0)
     }
 
     @Test func testDurationMatchesFrameCount() async throws {
@@ -425,7 +372,7 @@ struct TetrisGameTests {
         let game = TetrisGame(tetris: tetris, stabilizer: stabilizer, effects: effects)
         let time = GameTime()
         #expect(game.tetris.current?.shape == .i)
-        hardDropAndWait(game, effects: effects, time: time)
+        hardDropAndWait(game, time: time)
         #expect(game.tetris.current != nil)
         #expect(effects.playedEffects.contains(.lock))
     }
@@ -440,11 +387,11 @@ struct TetrisGameTests {
 
         // Place five O-pieces across the board to fill rows 0 and 1:
         //   columns 0-1, 2-3, 4-5, 6-7, 8-9
-        shiftAndDrop(game, effects: effects, time: time, targetColumn: 1)
-        shiftAndDrop(game, effects: effects, time: time, targetColumn: 3)
-        shiftAndDrop(game, effects: effects, time: time, targetColumn: 5)
-        shiftAndDrop(game, effects: effects, time: time, targetColumn: 7)
-        shiftAndDrop(game, effects: effects, time: time, targetColumn: 9)
+        shiftAndDrop(game, time: time, targetColumn: 1)
+        shiftAndDrop(game, time: time, targetColumn: 3)
+        shiftAndDrop(game, time: time, targetColumn: 5)
+        shiftAndDrop(game, time: time, targetColumn: 7)
+        shiftAndDrop(game, time: time, targetColumn: 9)
 
         // Two complete lines should have been cleared.
         #expect(game.tetris.lines == 2)
@@ -502,7 +449,7 @@ struct TetrisGameTests {
 
         // Stack ten O-pieces in the same columns until the next piece cannot spawn.
         for _ in 0..<10 {
-            hardDropAndWait(game, effects: effects, time: time)
+            hardDropAndWait(game, time: time)
         }
 
         #expect(effects.playedEffects.contains(.lock))

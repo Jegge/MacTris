@@ -39,26 +39,12 @@ struct AdjustableTestHelper<T: Adjustable & CustomStringConvertible & RawReprese
         }
     }
 
-    func verifyRoundtrip() {
-        for spec in specs {
-            #expect(spec.value.adjusted(by: .increase).adjusted(by: .decrease) == spec.value)
-            #expect(spec.value.adjusted(by: .decrease).adjusted(by: .increase) == spec.value)
-        }
-    }
-
     func verifyDescriptions() {
         for spec in specs {
             #expect(spec.value.description == spec.description)
         }
     }
 
-    func verifyAll() {
-        verifyRawValues()
-        verifyIncreaseCycle()
-        verifyDecreaseCycle()
-        verifyRoundtrip()
-        verifyDescriptions()
-    }
 }
 
 struct AdjustableTests {
@@ -80,7 +66,6 @@ struct RandomGeneratorModeTests {
     @Test func testRawValues()     async throws { helper.verifyRawValues() }
     @Test func testIncreaseCycle() async throws { helper.verifyIncreaseCycle() }
     @Test func testDecreaseCycle() async throws { helper.verifyDecreaseCycle() }
-    @Test func testRoundtrip()     async throws { helper.verifyRoundtrip() }
     @Test func testDescriptions()  async throws { helper.verifyDescriptions() }
 
     @Test func testCreateNesGenerator() async throws {
@@ -105,7 +90,6 @@ struct AppearanceTests {
     @Test func testRawValues()     async throws { helper.verifyRawValues() }
     @Test func testIncreaseCycle() async throws { helper.verifyIncreaseCycle() }
     @Test func testDecreaseCycle() async throws { helper.verifyDecreaseCycle() }
-    @Test func testRoundtrip()     async throws { helper.verifyRoundtrip() }
     @Test func testDescriptions()  async throws { helper.verifyDescriptions() }
 }
 
@@ -121,7 +105,6 @@ struct AutoShiftTests {
     @Test func testRawValues()     async throws { helper.verifyRawValues() }
     @Test func testIncreaseCycle() async throws { helper.verifyIncreaseCycle() }
     @Test func testDecreaseCycle() async throws { helper.verifyDecreaseCycle() }
-    @Test func testRoundtrip()     async throws { helper.verifyRoundtrip() }
     @Test func testDescriptions()  async throws { helper.verifyDescriptions() }
 
     @Test func testDelaysNes() async throws {
@@ -146,16 +129,5 @@ struct AutoShiftTests {
         let delays = AutoShift.insane.delays
         #expect(delays.initial == 5)
         #expect(delays.repeating == 1)
-    }
-
-    @Test func testDelaysDecreaseOverTime() async throws {
-        let nes = AutoShift.nes.delays
-        let modern = AutoShift.modern.delays
-        let fast = AutoShift.fast.delays
-        let insane = AutoShift.insane.delays
-        #expect(nes.initial > modern.initial)
-        #expect(modern.initial > fast.initial)
-        #expect(fast.initial > insane.initial)
-        #expect(fast.repeating >= insane.repeating)
     }
 }

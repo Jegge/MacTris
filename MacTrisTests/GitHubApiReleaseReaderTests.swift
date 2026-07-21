@@ -12,17 +12,6 @@ import Foundation
 struct GitHubApiReleaseReaderTests {
     private let testUrl = URL(string: "https://example.com")!
 
-    private func createSession(tag: String, url: String) -> MockURLSession {
-        MockURLSession(string: """
-        {
-            "tag_name": "\(tag)",
-            "assets": [
-                { "browser_download_url": "\(url)" }
-            ]
-        }
-        """)
-    }
-
     @Test func testReadLatestValidRelease() async throws {
         let session = MockURLSession(string: """
             {
@@ -37,6 +26,21 @@ struct GitHubApiReleaseReaderTests {
         #expect(result != nil)
         #expect(result?.version == AppVersion(string: "1.23"))
         #expect(result?.downloadUrl.absoluteString == "https://example.com/MacTris-1.23.dmg")
+    }
+
+    @Test func testReadLatestReleaseRequestsLatestEndpoint() async throws {
+        let session = MockURLSession(string: """
+        {
+            "tag_name": "Release/v1.23",
+            "assets": []
+        }
+        """)
+        let baseUrl = URL(string: "https://example.com/repos/MacTris")!
+        let reader = GitHubApiReleaseReader(baseUrl: baseUrl, session: session)
+
+        _ = try await reader.readLatestRelease()
+
+        #expect(session.requestedURLs == [URL(string: "https://example.com/repos/MacTris/releases/latest")!])
     }
 
     @Test func testReadLatestMissingPrefix() async throws {
@@ -68,7 +72,7 @@ struct GitHubApiReleaseReaderTests {
     @Test func testReadLatestReleaseMissingAssetsThrows() async throws {
         let session = MockURLSession(string: """
         {
-            "tag": "Release/v1.23"
+            "tag_name": "Release/v1.23"
         }
         """)
         let reader = GitHubApiReleaseReader(baseUrl: testUrl, session: session)

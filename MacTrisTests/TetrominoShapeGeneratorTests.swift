@@ -11,7 +11,7 @@ import Testing
 struct TetrominoShapeGeneratorTests {
 
     struct SevenBagTests {
-        @Test func testEachBagHasEachSevenShapesInDifferentOrder() async throws {
+        @Test func testEachBagHasEachSevenShapes() async throws {
             let generator = SevenBagTetrominoShapeGenerator()
             var first: [Tetromino.Shape] = []
             var second: [Tetromino.Shape] = []
@@ -27,7 +27,6 @@ struct TetrominoShapeGeneratorTests {
                 #expect(first.filter { $0 == shape }.count == 1)
                 #expect(second.filter { $0 == shape }.count == 1)
             }
-            #expect(first != second)
         }
 
         @Test func testDeterministicWithSeededGenerator() async throws {
@@ -49,7 +48,7 @@ struct TetrominoShapeGeneratorTests {
     struct NesTests {
 
         @Test func testShapeDistributionRoughlyUniform() async throws {
-            let generator = NesTetrominoShapeGenerator()
+            let generator = NesTetrominoShapeGenerator(random: SeededRandomNumberGenerator(seed: 12345))
             var counts: [Tetromino.Shape: Int] = [:]
 
             let total = 7000

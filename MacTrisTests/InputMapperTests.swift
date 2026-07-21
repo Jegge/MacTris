@@ -118,6 +118,27 @@ struct InputMapperTests {
         #expect(mapper.keyboardBindings.first { $0.id == .softDrop }?.keyCode == KeyCode.x.rawValue)
     }
 
+    @Test func testKeyboardBindingsSetterPreservesOmittedBindings() async throws {
+        let mapper = InputMapper()
+        mapper.keyboardBindings = [
+            InputMapper.KeyBinding(keyCode: KeyCode.x.rawValue, id: .hardDrop)
+        ]
+
+        #expect(mapper.keyboardBindings.count == 6)
+        #expect(mapper.keyboardBindings.first { $0.id == .hardDrop }?.keyCode == KeyCode.x.rawValue)
+        #expect(mapper.keyboardBindings.first { $0.id == .softDrop }?.keyCode == KeyCode.arrowDown.rawValue)
+        #expect(mapper.keyboardBindings.first { $0.id == .rotateClockwise }?.keyCode == KeyCode.s.rawValue)
+    }
+
+    @Test func testKeyboardBindingsSetterPreservesDefaultsForEmptyConfiguration() async throws {
+        let mapper = InputMapper()
+        mapper.keyboardBindings = []
+
+        #expect(mapper.keyboardBindings.count == 6)
+        #expect(mapper.keyboardBindings.first { $0.id == .shiftLeft }?.keyCode == KeyCode.arrowLeft.rawValue)
+        #expect(mapper.keyboardBindings.first { $0.id == .hardDrop }?.keyCode == KeyCode.space.rawValue)
+    }
+
     @Test func testBindAlreadyBoundKeyReturnsFalse() async throws {
         let mapper = InputMapper()
         #expect(mapper.bind(keyCode: KeyCode.x.rawValue, id: .hardDrop))
@@ -230,6 +251,19 @@ struct InputMapperTranslateKeyboardTests {
         #expect(events[0].isDown == true)
         #expect(events[1].id == .shiftLeft)
         #expect(events[1].isDown == true)
+    }
+
+    @Test func testTranslateNavigationKeyAlsoBoundToGameplayAction() async throws {
+        let mapper = InputMapper()
+        #expect(mapper.bind(keyCode: KeyCode.arrowUp.rawValue, id: .hardDrop))
+
+        let events = mapper.translate(event: makeKeyEvent(with: .keyDown, keyCode: KeyCode.arrowUp.rawValue))
+
+        #expect(events.count == 2)
+        #expect(events[0].id == .up)
+        #expect(events[0].isDown)
+        #expect(events[1].id == .hardDrop)
+        #expect(events[1].isDown)
     }
 
     @Test func testTranslateKeyboardRespectsRepeat() async throws {
@@ -448,6 +482,45 @@ struct InputMapperTranslateGamepadTests {
         #expect(mapper.translate(gamepad: gamepad, element: gamepad.rightThumbstickButton).isEmpty)
         #expect(mapper.translate(gamepad: gamepad, element: gamepad.rightTrigger).isEmpty)
         #expect(mapper.translate(gamepad: gamepad, element: gamepad.rightShoulder).isEmpty)
-        #expect(mapper.translate(gamepad: gamepad, element: gamepad.rightThumbstickButton).isEmpty)
+    }
+}
+
+struct InputMapperTranslateMicroGamepadTests {
+    @Test func testTranslateDpad() async throws {
+        let mapper = InputMapper()
+        let gamepad = MockMicroGamepad(left: true, right: false, up: false, down: false, a: false, buttonXPressed: false, menu: false)
+        let events = mapper.translate(gamepad: gamepad, element: gamepad.dpad)
+
+        #expect(events.count == 7)
+        #expect(events[0] == InputEvent(id: .shiftLeft, isDown: true, source: .controller))
+        #expect(events[1] == InputEvent(id: .shiftRight, isDown: false, source: .controller))
+        #expect(events[2] == InputEvent(id: .softDrop, isDown: false, source: .controller))
+        #expect(events[3] == InputEvent(id: .left, isDown: true, source: .controller))
+        #expect(events[4] == InputEvent(id: .right, isDown: false, source: .controller))
+        #expect(events[5] == InputEvent(id: .down, isDown: false, source: .controller))
+        #expect(events[6] == InputEvent(id: .up, isDown: false, source: .controller))
+    }
+
+    @Test func testTranslateButtons() async throws {
+        let mapper = InputMapper()
+        let gamepad = MockMicroGamepad(left: false, right: false, up: false, down: false, a: true, buttonXPressed: true, menu: true)
+
+        let aEvents = mapper.translate(gamepad: gamepad, element: gamepad.buttonA)
+        #expect(aEvents == [InputEvent(id: .rotateCounterClockwise, isDown: true, source: .controller)])
+
+        let xEvents = mapper.translate(gamepad: gamepad, element: gamepad.buttonX)
+        #expect(xEvents == [
+            InputEvent(id: .rotateClockwise, isDown: true, source: .controller),
+            InputEvent(id: .select, isDown: true, source: .controller)
+        ])
+
+        let menuEvents = mapper.translate(gamepad: gamepad, element: gamepad.buttonMenu)
+        #expect(menuEvents == [InputEvent(id: .menu, isDown: true, source: .controller)])
+    }
+
+    @Test func testTranslateUnrelatedElementReturnsEmpty() async throws {
+        let mapper = InputMapper()
+        let gamepad = MockMicroGamepad(left: false, right: false, up: false, down: false, a: false, buttonXPressed: false, menu: false)
+        #expect(mapper.translate(gamepad: gamepad, element: MockButtonInput()).isEmpty)
     }
 }

@@ -60,3 +60,22 @@ class MockExtendedGamepad: GCExtendedGamepad {
     override var rightShoulder: GCControllerButtonInput { MockButtonInput() }
     override var rightThumbstickButton: GCControllerButtonInput { MockButtonInput() }
 }
+
+class MockMicroGamepad: GCMicroGamepad {
+    init(left: Bool, right: Bool, up: Bool, down: Bool, a: Bool, buttonXPressed: Bool, menu: Bool) {
+        self.mockDpad = MockDirectionPad(left: left, right: right, up: up, down: down)
+        self.mockButtonA = MockButtonInput(pressed: a)
+        self.mockButtonX = MockButtonInput(pressed: buttonXPressed)
+        self.mockButtonMenu = MockButtonInput(pressed: menu)
+    }
+
+    var mockDpad = MockDirectionPad(left: false, right: false, up: false, down: false)
+    var mockButtonA = MockButtonInput()
+    var mockButtonX = MockButtonInput()
+    var mockButtonMenu = MockButtonInput()
+
+    override var dpad: GCControllerDirectionPad { mockDpad }
+    override var buttonA: GCControllerButtonInput { mockButtonA }
+    override var buttonX: GCControllerButtonInput { mockButtonX }
+    override var buttonMenu: GCControllerButtonInput { mockButtonMenu }
+}

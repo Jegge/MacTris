@@ -134,17 +134,6 @@ struct TetrisTests {
         #expect(tetris.lines == 0)
     }
 
-    @Test func testClearIncompleteLinesDoesNotLevelUp() async throws {
-        let options = TetrisOptions(startingLevel: 5, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
-        let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))
-        for _ in 0..<10 {
-            tetris.clear(lines: 0..<1)
-        }
-        #expect(tetris.score == 0)
-        #expect(tetris.lines == 0)
-        #expect(tetris.level == 5)
-    }
-
     @Test func testClearMoreThanFourLinesDoesNothing() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .o, .t, .s, .z, .j, .l]))

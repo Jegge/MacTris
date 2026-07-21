@@ -27,8 +27,10 @@ class MockURLSession: URLSessionProtocol {
     }
 
     let result: Result<(Data, URLResponse), Error>
+    private(set) var requestedURLs: [URL] = []
 
     func data(from url: URL) async throws -> (Data, URLResponse) {
-        try result.get()
+        requestedURLs.append(url)
+        return try result.get()
     }
 }
