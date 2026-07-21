@@ -149,7 +149,8 @@ class Settings: SceneBase {
 
     override func keyDown(with event: NSEvent) {
         if let id = self.rebindId, let item = self.rebindItem {
-            // the menu key aborts binding the key
+            // the menu key aborts binding the key. This has to be checked here in keyDown instead of
+            // input(down:), since we have keyDown overriden and do not call super while binding a key
             if self.inputMapper?.translate(event: event).first(where: { $0.id == .menu }) != nil {
                 self.cancelRebind(item: item)
                 self.rebindId = nil

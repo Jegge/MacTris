@@ -219,6 +219,20 @@ struct InputMapperTranslateKeyboardTests {
         // swiftlint:disable:previous force_unwrapping
     }
 
+    private func makeFlagsChangedEvent(with keyCode: UInt16, modifierFlags: NSEvent.ModifierFlags) -> NSEvent {
+        NSEvent.keyEvent(with: .flagsChanged,
+                         location: .zero,
+                         modifierFlags: modifierFlags,
+                         timestamp: 0,
+                         windowNumber: 0,
+                         context: nil,
+                         characters: "",
+                         charactersIgnoringModifiers: "",
+                         isARepeat: false,
+                         keyCode: keyCode)!
+        // swiftlint:disable:previous force_unwrapping
+    }
+
     @Test func testTranslateBoundKeyDown() async throws {
         let mapper = InputMapper()
         #expect(mapper.bind(keyCode: KeyCode.x.rawValue, id: .hardDrop))
@@ -270,6 +284,32 @@ struct InputMapperTranslateKeyboardTests {
         let mapper = InputMapper()
         #expect(mapper.translate(event: makeKeyEvent(with: .keyDown, keyCode: KeyCode.space.rawValue, isARepeat: true)).first?.isARepeat == true)
         #expect(mapper.translate(event: makeKeyEvent(with: .keyDown, keyCode: KeyCode.space.rawValue, isARepeat: false)).first?.isARepeat == false)
+    }
+
+    @Test func testTranslateModifierKeyDown() async throws {
+        let mapper = InputMapper()
+        #expect(mapper.bind(keyCode: KeyCode.shift.rawValue, id: .hardDrop))
+
+        let events = mapper.translate(event: makeFlagsChangedEvent(with: KeyCode.shift.rawValue, modifierFlags: .shift))
+
+        #expect(events == [InputEvent(id: .hardDrop, isDown: true, source: .keyboard)])
+    }
+
+    @Test func testTranslateModifierKeyUp() async throws {
+        let mapper = InputMapper()
+        #expect(mapper.bind(keyCode: KeyCode.shift.rawValue, id: .hardDrop))
+
+        let events = mapper.translate(event: makeFlagsChangedEvent(with: KeyCode.shift.rawValue, modifierFlags: []))
+
+        #expect(events == [InputEvent(id: .hardDrop, isDown: false, source: .keyboard)])
+    }
+
+    @Test func testTranslateUnboundModifierEmpty() async throws {
+        let mapper = InputMapper()
+
+        let events = mapper.translate(event: makeFlagsChangedEvent(with: KeyCode.shift.rawValue, modifierFlags: .shift))
+
+        #expect(events.isEmpty)
     }
 
     @Test func testTranslateOtherEventTypeReturnsEmpty() async throws {

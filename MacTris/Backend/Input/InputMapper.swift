@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AppKit
 import GameController
 
 /// Maps keyboard key codes and game controller input to game actions (`InputEvent`).
@@ -48,6 +49,18 @@ class InputMapper {
     static let unmappableKeyCodes: [KeyCode] = [
         .escape,
         .return
+    ]
+
+    private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
+        (keyCode: .command, flag: .command),
+        (keyCode: .rightcommand, flag: .command),
+        (keyCode: .option, flag: .option),
+        (keyCode: .rightoption, flag: .option),
+        (keyCode: .shift, flag: .shift),
+        (keyCode: .rightshift, flag: .shift),
+        (keyCode: .control, flag: .control),
+        (keyCode: .rightcontrol, flag: .control),
+        (keyCode: .capslock, flag: .capsLock)
     ]
 
     /// The current mutable keyboard bindings. Setting this overwrites existing bindings. This method is considered unsafe and should only be used for persistence.
@@ -121,25 +134,32 @@ class InputMapper {
         return true
     }
 
+    private func translate(keyCode: UInt16, isDown: Bool, isARepeat: Bool = false) -> [InputEvent] {
+        self.keymap
+            .filter { $0.binding.keyCode == keyCode }
+            .map { InputEvent(id: $0.binding.id, isDown: isDown, source: .keyboard, isARepeat: isARepeat) }
+    }
+
     /// Translates a keyboard `NSEvent` into one or more `InputEvent` values.
     func translate(event: NSEvent) -> [InputEvent] {
-        var result: [InputEvent] = []
-
         switch event.type {
         case .keyDown:
-            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: true, source: .keyboard, isARepeat: event.isARepeat) }
+            return self.translate(keyCode: event.keyCode, isDown: true, isARepeat: event.isARepeat)
         case .keyUp:
-            result = self.keymap.filter { $0.binding.keyCode == event.keyCode }.map { InputEvent(id: $0.binding.id, isDown: false, source: .keyboard) }
+            return self.translate(keyCode: event.keyCode, isDown: false)
+        case .flagsChanged:
+            if let modifier = self.keyCodesToModifierFlags.first(where: { $0.keyCode.rawValue == event.keyCode }) {
+                return self.translate(keyCode: event.keyCode, isDown: event.modifierFlags.contains(modifier.flag))
+            }
         default:
             break
         }
 
-        return result
+        return []
     }
 
     /// Translates a game controller element change into one or more `InputEvent` values.
     func translate(gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
-
         if gamepad.dpad == element {
             return [
                 // the order is important: game events before menu events
@@ -182,6 +202,7 @@ class InputMapper {
         return []
     }
 
+    /// Translates a game controller element change into one or more `InputEvent` values.
     func translate(gamepad: GCMicroGamepad, element: GCControllerElement) -> [InputEvent] {
         if gamepad.dpad == element {
             return [
