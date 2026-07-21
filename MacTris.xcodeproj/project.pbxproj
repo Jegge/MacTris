@@ -31,7 +31,7 @@
 		D22901182B46B8D400A9F88E /* Korobeiniki.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */; };
 		D229011A2B46BB3B00A9F88E /* AudioFxPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901192B46BB3B00A9F88E /* AudioFxPlayer.swift */; };
 		D229011E2B46EA9500A9F88E /* KeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011D2B46EA9500A9F88E /* KeyCode.swift */; };
-		D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */; };
+		D2A000012F00000100000001 /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000002F00000100000001 /* GameSettings.swift */; };
 		D22901242B47D28400A9F88E /* Silver.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D22901232B47D28400A9F88E /* Silver.ttf */; };
 		D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22901262B4828A600A9F88E /* OSLog+Categories.swift */; };
 		D24356AE2EF6A87E004843D7 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24356AD2EF6A87A004843D7 /* Statistics.swift */; };
@@ -111,7 +111,7 @@
 		D22901172B46B8D400A9F88E /* Korobeiniki.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Korobeiniki.mp3; sourceTree = "<group>"; };
 		D22901192B46BB3B00A9F88E /* AudioFxPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFxPlayer.swift; sourceTree = "<group>"; };
 		D229011D2B46EA9500A9F88E /* KeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCode.swift; sourceTree = "<group>"; };
-		D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
+		D2A000002F00000100000001 /* GameSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettings.swift; sourceTree = "<group>"; };
 		D22901212B47346500A9F88E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D22901222B47346500A9F88E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D22901232B47D28400A9F88E /* Silver.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Silver.ttf; sourceTree = "<group>"; };
@@ -247,6 +247,7 @@
 				D26459AE30051B0B0027F35A /* Appearance.swift */,
 				D26459AC30051AF80027F35A /* RandomGeneratorMode.swift */,
 				D262DFCC2B4EBC3E00FDC801 /* SettingItem.swift */,
+				D2A000002F00000100000001 /* GameSettings.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -285,7 +286,6 @@
 				D22877BC3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift */,
 				D22877B83000B514005B36E2 /* SKLabelNode+Animation.swift */,
 				D22877BA3000B6CA005B36E2 /* SKNode+Animation.swift */,
-				D229011F2B47045700A9F88E /* UserDefaults+Settings.swift */,
 				D2D6EEE02B49DA25008143D9 /* UserDefaults+Codable.swift */,
 				D22901262B4828A600A9F88E /* OSLog+Categories.swift */,
 			);
@@ -567,7 +567,7 @@
 				D26459B3300529F10027F35A /* MusicPlayer.swift in Sources */,
 				D2728E392FFF688C0071BAD9 /* TetrisOptions.swift in Sources */,
 				D22877BD3000B7F1005B36E2 /* SKTileMapNode+Drawing.swift in Sources */,
-				D22901202B47045700A9F88E /* UserDefaults+Settings.swift in Sources */,
+				D2A000012F00000100000001 /* GameSettings.swift in Sources */,
 				D22901272B4828A600A9F88E /* OSLog+Categories.swift in Sources */,
 				D2FF08A42B43F65B00740390 /* Game.swift in Sources */,
 				D22900FB2B45876300A9F88E /* Settings.swift in Sources */,

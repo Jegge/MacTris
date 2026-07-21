@@ -21,6 +21,8 @@ class SceneBase: SKScene {
     var audioFxPlayer: AudioFxPlayer?
     /// The background music player.
     var musicPlayer: MusicPlayer?
+    /// Shared access to persisted game settings.
+    var gameSettings: GameSettings?
 
     private let keyCodesToModifierFlags: [(keyCode: KeyCode, flag: NSEvent.ModifierFlags)] = [
         (keyCode: .command, flag: .command),
@@ -162,6 +164,7 @@ class SceneBase: SKScene {
             newScene.inputMapper = self.inputMapper
             newScene.audioFxPlayer = self.audioFxPlayer
             newScene.musicPlayer = self.musicPlayer
+            newScene.gameSettings = self.gameSettings
             configureScene?(newScene)
             self.scene?.view?.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.1))
         } else {

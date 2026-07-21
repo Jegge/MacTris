@@ -58,7 +58,7 @@ class Menu: SceneBase {
             }
 
             if item == Item.play {
-                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level nr."), UserDefaults.standard.startLevel)
+                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level nr."), self.gameSettings?.startLevel ?? 0)
             }
         }
     }
@@ -92,12 +92,16 @@ class Menu: SceneBase {
 
     private func adjust(item: String, direction: AdjustDirection) -> Bool {
         if item == Item.play {
-            if direction == .increase && UserDefaults.standard.startLevel < Tetris.maxStartingLevel {
-                UserDefaults.standard.startLevel += 1
+            guard let gameSettings = self.gameSettings else {
+                return false
+            }
+
+            if direction == .increase && gameSettings.startLevel < Tetris.maxStartingLevel {
+                gameSettings.startLevel += 1
                 self.update()
                 return true
-            } else if direction == .decrease && UserDefaults.standard.startLevel > 0 {
-                UserDefaults.standard.startLevel -= 1
+            } else if direction == .decrease && gameSettings.startLevel > 0 {
+                gameSettings.startLevel -= 1
                 self.update()
                 return true
             }
@@ -154,7 +158,10 @@ class Menu: SceneBase {
 
     private func checkForUpdate() async -> URL? {
         do {
-            let reader = GitHubApiReleaseReader(baseUrl: UserDefaults.standard.updateCheckBaseUrl)
+            guard let gameSettings = self.gameSettings else {
+                return nil
+            }
+            let reader = GitHubApiReleaseReader(baseUrl: gameSettings.updateCheckBaseUrl)
             if let release = try await reader.readLatestRelease(), release.version > Bundle.main.version {
                 Logger.update.info("Update \(release.version, privacy: .public) available at \(release.downloadUrl.absoluteString, privacy: .public)")
                 return release.downloadUrl

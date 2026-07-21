@@ -69,7 +69,7 @@ class Settings: SceneBase {
         }
 
         if let bindings = self.inputMapper?.keyboardBindings {
-            UserDefaults.standard.keyboardBindings = bindings
+            self.gameSettings?.keyboardBindings = bindings
         }
 
         if let node = self.childNode(withName: "value\(item)") {
@@ -90,6 +90,10 @@ class Settings: SceneBase {
     override func didMove(to view: SKView) {
         super.didMove(to: view)
 
+        guard let gameSettings = self.gameSettings else {
+            return
+        }
+
         // A menu item XXX is constituted from a node named menuXXX (which acts as a bullet), a labelXXX and a valueXXX,
         // keybindings may have an additional column labeled controllerXXX.
         // The menuItems array contains the names of the menu items in order of the SpriteKit scene, whereas settingItems contain
@@ -98,13 +102,13 @@ class Settings: SceneBase {
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
 
         self.settingItems = [
-            VolumeSetting(identifier: "MusicVolume", target: self.musicPlayer, defaultsKey: UserDefaults.Key.musicVolume),
-            VolumeSetting(identifier: "FxVolume", target: self.audioFxPlayer, defaultsKey: UserDefaults.Key.fxVolume),
-            DisplaySetting(identifier: "DisplayMode", target: self.view?.window, defaultsKey: UserDefaults.Key.fullscreen),
+            VolumeSetting(identifier: "MusicVolume", target: self.musicPlayer, settings: gameSettings, keyPath: \.musicVolume),
+            VolumeSetting(identifier: "FxVolume", target: self.audioFxPlayer, settings: gameSettings, keyPath: \.fxVolume),
+            DisplaySetting(identifier: "DisplayMode", target: self.view?.window, settings: gameSettings, keyPath: \.fullscreen),
 
-            ToggleSetting(identifier: "Animations", defaultsKey: UserDefaults.Key.animations),
-            ToggleSetting(identifier: "WallKick", defaultsKey: UserDefaults.Key.wallKick),
-            ToggleSetting(identifier: "HardDrop", defaultsKey: UserDefaults.Key.hardDrop),
+            ToggleSetting(identifier: "Animations", settings: gameSettings, keyPath: \.animations),
+            ToggleSetting(identifier: "WallKick", settings: gameSettings, keyPath: \.wallKick),
+            ToggleSetting(identifier: "HardDrop", settings: gameSettings, keyPath: \.hardDrop),
 
             KeyBindingSetting(identifier: "KeyShiftLeft", target: .shiftLeft, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
             KeyBindingSetting(identifier: "KeyShiftRight", target: .shiftRight, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
@@ -113,9 +117,9 @@ class Settings: SceneBase {
             KeyBindingSetting(identifier: "KeySoftDrop", target: .softDrop, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
             KeyBindingSetting(identifier: "KeyHardDrop", target: .hardDrop, inputMapper: self.inputMapper, action: self.beginRebind(id:for:)),
 
-            ChoiceSetting<RandomGeneratorMode>(identifier: "RngMode", defaultsKey: UserDefaults.Key.randomGeneratorMode),
-            ChoiceSetting<AutoShift>(identifier: "AutoShift", defaultsKey: UserDefaults.Key.autoShift),
-            ChoiceSetting<Appearance>(identifier: "Appearance", defaultsKey: UserDefaults.Key.appearance),
+            ChoiceSetting<RandomGeneratorMode>(identifier: "RngMode", settings: gameSettings, keyPath: \.randomGeneratorMode),
+            ChoiceSetting<AutoShift>(identifier: "AutoShift", settings: gameSettings, keyPath: \.autoShift),
+            ChoiceSetting<Appearance>(identifier: "Appearance", settings: gameSettings, keyPath: \.appearance),
 
             ActionSetting(identifier: "Back") { [weak self] in
                 self?.transition(to: Menu.self)
@@ -134,12 +138,12 @@ class Settings: SceneBase {
     }
 
     override func didEnterFullScreen() {
-        UserDefaults.standard.fullscreen = true
+        self.gameSettings?.fullscreen = true
         self.update()
     }
 
     override func didExitFullScreen() {
-        UserDefaults.standard.fullscreen = false
+        self.gameSettings?.fullscreen = false
         self.update()
     }
 

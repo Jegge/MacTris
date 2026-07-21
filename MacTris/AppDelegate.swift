@@ -7,10 +7,6 @@
 
 import Cocoa
 
-/// The app delegate. Registers default UserDefaults values on launch.
+/// The app delegate.
 @main class AppDelegate: NSObject, NSApplicationDelegate {
-    override init() {
-        UserDefaults.standard.register()
-        super.init()
-    }
 }

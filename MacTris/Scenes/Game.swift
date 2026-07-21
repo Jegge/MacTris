@@ -18,8 +18,15 @@ enum GameState {
 /// The main gameplay scene. Manages the Tetris game loop, input routing, state
 /// transitions (running/paused/game over), and rendering the board and HUD.
 class Game: SceneBase {
+    private var settings: GameSettings {
+        guard let settings = self.gameSettings else {
+            fatalError("GameSettings must be injected before presenting Game")
+        }
+        return settings
+    }
+
     lazy var game: TetrisGame = {
-        TetrisGame(tetris: Tetris(options: UserDefaults.standard.tetrisOptions),
+        TetrisGame(tetris: Tetris(options: self.settings.tetrisOptions),
                    stabilizer: FrameRateStabilizer(desiredFps: 60),
                    effects: self)
     }()
@@ -29,7 +36,9 @@ class Game: SceneBase {
         (.running, .gameover),
         (.paused, .running)
     ])
-    let visualOptions: VisualOptions = UserDefaults.standard.visualOptions
+    var visualOptions: VisualOptions {
+        self.settings.visualOptions
+    }
 
     private var pauseNode: SKNode?
     private var gameOverNode: SKNode?

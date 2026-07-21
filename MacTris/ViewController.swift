@@ -17,34 +17,16 @@ class ViewController: NSViewController {
 
     private var observers: [NSObjectProtocol] = []
 
+    /// Shared persisted game settings.
+    let gameSettings = GameSettings(userDefaults: .standard)
     /// Shared input mapper bound to the user's keyboard preferences.
-    let inputMapper = InputMapper(keyboardBindings: UserDefaults.standard.keyboardBindings)
+    lazy var inputMapper = InputMapper(keyboardBindings: self.gameSettings.keyboardBindings)
     /// Shared sound effect player.
-    let audioFxPlayer = AudioFxPlayer(volume: UserDefaults.standard.fxVolume)
+    lazy var audioFxPlayer = AudioFxPlayer(volume: self.gameSettings.fxVolume)
     /// Shared background music player.
-    let musicPlayer = MusicPlayer(volume: UserDefaults.standard.musicVolume)
+    lazy var musicPlayer = MusicPlayer(volume: self.gameSettings.musicVolume)
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.musicPlayer.play(mp3: "Korobeiniki")
-
-        if let view = self.skView {
-            if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
-                scene.inputMapper = self.inputMapper
-                scene.audioFxPlayer = self.audioFxPlayer
-                scene.musicPlayer = self.musicPlayer
-                scene.scaleMode = .aspectFit
-                view.presentScene(scene)
-            }
-
-            view.ignoresSiblingOrder = true
-            view.preferredFramesPerSecond = 60
-            #if DEBUG
-            view.showsFPS = true
-            #endif
-        }
-
+    private func configureObservers() {
         self.observers = [
             NotificationCenter.default.addObserver(forName: Notification.Name.GCControllerDidConnect, object: nil, queue: .main) { [weak self] notification in
                 guard let controller = notification.object as? GCController else {
@@ -83,11 +65,36 @@ class ViewController: NSViewController {
         ]
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.musicPlayer.play(mp3: "Korobeiniki")
+
+        if let view = self.skView {
+            if let scene = SKScene(fileNamed: "Menu") as? SceneBase {
+                scene.inputMapper = self.inputMapper
+                scene.audioFxPlayer = self.audioFxPlayer
+                scene.musicPlayer = self.musicPlayer
+                scene.gameSettings = self.gameSettings
+                scene.scaleMode = .aspectFit
+                view.presentScene(scene)
+            }
+
+            view.ignoresSiblingOrder = true
+            view.preferredFramesPerSecond = 60
+            #if DEBUG
+            view.showsFPS = true
+            #endif
+        }
+
+        self.configureObservers()
+    }
+
     override func viewDidAppear() {
         super.viewDidAppear()
 
         if let view = self.skView {
-            if UserDefaults.standard.fullscreen != view.isInFullScreenMode {
+            if self.gameSettings.fullscreen != view.isInFullScreenMode {
                 view.window?.toggleFullScreen(nil)
             }
         }

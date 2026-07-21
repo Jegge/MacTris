@@ -31,93 +31,98 @@ extension SettingItem {
     }
 }
 
-/// A boolean toggle backed by a UserDefaults key.
+/// A boolean toggle backed by a GameSettings property.
 struct ToggleSetting: SettingItem {
     let identifier: String
-    let defaultsKey: String
+    let settings: GameSettings
+    let keyPath: ReferenceWritableKeyPath<GameSettings, Bool>
 
     var value: String {
-        UserDefaults.standard.bool(forKey: defaultsKey)
+        self.settings[keyPath: self.keyPath]
             ? NSLocalizedString("SettingGenericEnabled", comment: "Value, if a setting is enabled")
             : NSLocalizedString("SettingGenericDisabled", comment: "Value, if a setting is disabled")
     }
 
     func adjust(direction: AdjustDirection) -> Bool {
-        let current = UserDefaults.standard.bool(forKey: defaultsKey)
-        UserDefaults.standard.set(current.adjusted(by: direction), forKey: defaultsKey)
+        let current = self.settings[keyPath: self.keyPath]
+        self.settings[keyPath: self.keyPath] = current.adjusted(by: direction)
         return true
     }
 }
 
-/// An enum setting backed by a UserDefaults key, where the enum is `Adjustable` and `RawRepresentable<Int>`.
+/// An enum setting backed by a GameSettings property, where the enum is `Adjustable` and `RawRepresentable<Int>`.
 struct ChoiceSetting<T: Adjustable & CustomStringConvertible>: SettingItem where T: RawRepresentable, T.RawValue == Int {
     let identifier: String
-    let defaultsKey: String
+    let settings: GameSettings
+    let keyPath: ReferenceWritableKeyPath<GameSettings, T>
 
     var value: String {
-        T(rawValue: UserDefaults.standard.integer(forKey: defaultsKey))?.description ?? ""
+        self.settings[keyPath: self.keyPath].description
     }
 
     func adjust(direction: AdjustDirection) -> Bool {
-        guard let current = T(rawValue: UserDefaults.standard.integer(forKey: defaultsKey)) else {
-            return false
-        }
-        UserDefaults.standard.set(current.adjusted(by: direction).rawValue, forKey: defaultsKey)
+        let current = self.settings[keyPath: self.keyPath]
+        self.settings[keyPath: self.keyPath] = current.adjusted(by: direction)
         return true
     }
 }
 
-/// A volume setting that syncs between an audio player and UserDefaults.
+/// A volume setting that syncs between an audio player and GameSettings.
 struct VolumeSetting: SettingItem {
-    init(identifier: String, target: VolumeSettable?, defaultsKey: String) {
+    init(identifier: String,
+         target: VolumeSettable?,
+         settings: GameSettings,
+         keyPath: ReferenceWritableKeyPath<GameSettings, Int>) {
         self.identifier = identifier
         self.target = target
-        self.defaultsKey = defaultsKey
+        self.settings = settings
+        self.keyPath = keyPath
         self.percentFormatter.numberStyle = .percent
     }
 
     let identifier: String
     var target: VolumeSettable?
-    let defaultsKey: String
+    let settings: GameSettings
+    let keyPath: ReferenceWritableKeyPath<GameSettings, Int>
     let percentFormatter: NumberFormatter = NumberFormatter()
 
     var value: String {
-        self.target?.volume == 0
+        self.settings[keyPath: self.keyPath] == 0
             ? NSLocalizedString("SettingAudioOff", comment: "Value, if music volume or fx volume is 0")
-            : self.percentFormatter.string(from: NSNumber(value: Double(self.target?.volume ?? 0) / 100.0)) ?? ""
+            : self.percentFormatter.string(from: NSNumber(value: Double(self.settings[keyPath: self.keyPath]) / 100.0)) ?? ""
     }
 
     func adjust(direction: AdjustDirection) -> Bool {
-        let newVolume = min(100, max(0, (self.target?.volume ?? 0) + (direction == .increase ? 2 : -2)))
-        self.target?.volume = newVolume
-        UserDefaults.standard.set(newVolume, forKey: self.defaultsKey)
+        let currentVolume = self.settings[keyPath: self.keyPath]
+        self.settings[keyPath: self.keyPath] = currentVolume + (direction == .increase ? 2 : -2)
+        self.target?.volume = self.settings[keyPath: self.keyPath]
         return true
     }
 
     func select() -> Bool {
-        let volume = (((self.target?.volume ?? 0) / 10) * 10) + 10
-        let newVolume = volume > 100 ? 0 : volume
-        self.target?.volume = newVolume
-        UserDefaults.standard.set(newVolume, forKey: self.defaultsKey)
+        let volume = ((self.settings[keyPath: self.keyPath] / 10) * 10) + 10
+        self.settings[keyPath: self.keyPath] = volume > 100 ? 0 : volume
+        self.target?.volume = self.settings[keyPath: self.keyPath]
         return true
     }
 }
 
-/// A display setting that syncs between a window's display mode and UserDefaults.
+/// A display setting that syncs between a window's display mode and GameSettings.
 struct DisplaySetting: SettingItem {
     let identifier: String
     let target: NSWindow?
-    let defaultsKey: String
+    let settings: GameSettings
+    let keyPath: ReferenceWritableKeyPath<GameSettings, Bool>
 
     var value: String {
-        UserDefaults.standard.bool(forKey: defaultsKey)
+        self.settings[keyPath: self.keyPath]
             ? NSLocalizedString("SettingDisplayModeFullscreen", comment: "Value, if display mode is fullscreen")
             : NSLocalizedString("SettingDisplayModeWindow", comment: "Value, if display mode is window")
     }
 
     func adjust(direction: AdjustDirection) -> Bool {
-        let current = UserDefaults.standard.bool(forKey: self.defaultsKey)
-        UserDefaults.standard.set(current.adjusted(by: direction), forKey: defaultsKey)
+        let current = self.settings[keyPath: self.keyPath]
+        self.settings[keyPath: self.keyPath] = current.adjusted(by: direction)
         self.target?.toggleFullScreen(nil)
         return true
     }
