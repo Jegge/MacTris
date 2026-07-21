@@ -19,7 +19,7 @@ struct FrameRateStabilizer {
         self.frameTime = 1.0 / TimeInterval(self.desiredFps)
     }
 
-    /// The target frame rate. Minimum 1, maximum 120 FPS
+    /// The target frame rate. Minimum 1, maximum 120 FPS.
     let desiredFps: Int
     /// The duration of a single frame at the target FPS.
     let frameTime: TimeInterval
@@ -34,6 +34,7 @@ struct FrameRateStabilizer {
     /// closure is called at the configured frame rate, potentially multiple
     /// times per display frame if the real FPS is lower than desired.
     mutating func update(_ currentTime: TimeInterval, stableUpdate: (TimeInterval) -> Void) {
+        // The first call establishes the baseline and intentionally invokes no callback.
         let delta = self.lastUpdate > 0 ? currentTime - self.lastUpdate : 0
         self.lastUpdate = currentTime
         self.accumulator = min(self.accumulator + delta, self.frameTime * 5) // cap at 5 frames

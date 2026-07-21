@@ -94,10 +94,10 @@ class Settings: SceneBase {
             return
         }
 
-        // A menu item XXX is constituted from a node named menuXXX (which acts as a bullet), a labelXXX and a valueXXX,
-        // keybindings may have an additional column labeled controllerXXX.
-        // The menuItems array contains the names of the menu items in order of the SpriteKit scene, whereas settingItems contain
-        // the settings themselves. The connection is made by the identifier XXX
+        // Each menu item XXX consists of a node named menuXXX (a bullet), a labelXXX, and a valueXXX.
+        // Key-binding items may have an additional column named controllerXXX.
+        // menuItems contains the menu item names in SpriteKit scene order, while settingItems contains the settings.
+        // The two arrays are associated by the identifier XXX.
 
         self.menuItems = self.children.map { $0.name ?? "" }.filter { $0.hasPrefix("menu") }.map { String($0.dropFirst(4)) }
 
@@ -147,8 +147,8 @@ class Settings: SceneBase {
 
     override func keyDown(with event: NSEvent) {
         if let id = self.rebindId, let item = self.rebindItem {
-            // the menu key aborts binding the key. This has to be checked here in keyDown instead of
-            // input(down:), since we have keyDown overriden and do not call super while binding a key
+            // The Menu key aborts key binding. This must be checked here rather than in input(down:),
+            // because this override handles key events directly and does not call super while rebinding.
             if self.inputMapper?.translate(event: event).first(where: { $0.id == .menu }) != nil {
                 self.cancelRebind(item: item)
                 self.rebindId = nil

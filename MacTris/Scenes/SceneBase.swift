@@ -28,6 +28,7 @@ class SceneBase: SKScene {
         self.eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: eventFlagsChanged(event:))
     }
 
+    /// Translates modifier-key changes and forwards them to the scene's input handlers.
     func eventFlagsChanged(event: NSEvent) -> NSEvent {
         self.inputMapper?.translate(event: event).forEach { inputEvent in
             if inputEvent.isDown {
@@ -89,7 +90,7 @@ class SceneBase: SKScene {
     func input(up event: InputEvent) {
     }
 
-    /// Transitions to a new scene, passing along the input mapper, audio fx player,
+    /// Transitions to a new scene, passing along the input mapper, audio effects player,
     /// and music player. An optional configuration closure can customize the new scene before presentation.
     func transition<T: SceneBase>(to type: T.Type, configureScene: ((T) -> Void)? = nil) {
         let name = String(describing: T.self)

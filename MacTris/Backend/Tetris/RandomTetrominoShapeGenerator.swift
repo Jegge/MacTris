@@ -45,9 +45,9 @@ class NesTetrominoShapeGenerator: RandomTetrominoShapeGenerator {
     private var random: RandomNumberGenerator
     private var last: Tetromino.Shape?
 
-    // These are the weighted probabilities for each shape, depending on the previous shape.
-    // So if no previous shape is known, we use probabilities[nil] as table; if the previous shape was a .t for instance,
-    // we query the table probabilities[.t]. Effectively, this has to be read "if the previous shape was a .s, the probability for a .z is now 15.625%"
+    // These weighted probabilities depend on the previously drawn shape.
+    // If no previous shape is known, use the `probabilities[nil]` table; otherwise,
+    // use the table for that shape. For example, after `.s`, the probability of `.z` is 15.625%.
     private let probabilities: [Tetromino.Shape?: [(shape: Tetromino.Shape, probability: Int)]] = [
         nil: [ (.t, 14635), (.j, 14248), (.z, 14387), (.o, 14219), (.s, 14625), (.l, 13975), (.i, 13911) ],
          .t: [ (.t, 03125), (.j, 15625), (.z, 18750), (.o, 15625), (.s, 15625), (.l, 15625), (.i, 15625) ],

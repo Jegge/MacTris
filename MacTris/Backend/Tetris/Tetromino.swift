@@ -66,7 +66,7 @@ struct Tetromino {
             }
         }
 
-        /// Used to build the name of the tilegroup
+        /// Used to build the name of the tile group.
         var appearance: String {
             switch self {
             case .o: return "Yellow"

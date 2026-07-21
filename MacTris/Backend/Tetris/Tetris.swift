@@ -10,7 +10,8 @@ import OSLog
 /// The core Tetris game engine: holds the board state, handles piece movement,
 /// rotation, line clearing, scoring, and level progression.
 class Tetris {
-    /// A 2D grid where each cell either contains a tetromino shape or is empty.
+    /// A column-major two-dimensional grid where each cell either contains a tetromino shape or is empty.
+    /// Cells are accessed as `grid[column][row]`.
     typealias Grid = [[Tetromino.Shape?]]
 
     /// Flags used to describe what a collision check should consider.
@@ -112,7 +113,7 @@ class Tetris {
         return Range(uncheckedBounds: (start, end))
     }
 
-    /// The height of the top occupied cell.
+    /// The number of rows containing occupied cells in the stack.
     var stackHeight: Int {
         var result = 0
 
@@ -184,6 +185,8 @@ class Tetris {
             self.current = current.rotated(rotation)
             return true
         }
+        // When wall kicks are enabled, ignore wall collisions during the initial rotation,
+        // then shift the rotated piece back inside the board before the final collision check.
         if options.wallKick, var current = self.current, !self.collides(tetromino: current.rotated(rotation), with: [.floor, .piece]) {
             current = self.moveUntilClearFromWall(tetromino: current.rotated(rotation))
             if self.collides(tetromino: current, with: .all) {
@@ -244,7 +247,7 @@ class Tetris {
         guard lines.count >= 1, lines.count <= 4 else {
             return
         }
-        let baseScorePerLines = [40, 100, 300, 1200] // classic NES line scores
+        let baseScorePerLines = [40, 100, 300, 1200] // Classic NES line scores.
         let linesScore = baseScorePerLines[lines.count - 1] * (self.level + 1)
 
         self.score += linesScore
@@ -266,6 +269,8 @@ class Tetris {
         guard !lines.isEmpty, lines.lowerBound >= 0, lines.upperBound <= Tetris.numberOfRows else {
             return
         }
+        // Iterate past the top edge so rows above the cleared range are shifted down;
+        // out-of-bounds reads return nil.
         for row in lines.upperBound..<(Tetris.numberOfRows + lines.count) {
             for column in 0..<Tetris.numberOfColumns {
                 self[column, row - lines.count] = self[column, row]

@@ -58,7 +58,7 @@ class Menu: SceneBase {
             }
 
             if item == Item.play {
-                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level nr."), self.gameSettings?.startLevel ?? 0)
+                label.text = String(format: NSLocalizedString("MenuPlayLevelNr", comment: "Has a numeric argument for the level number."), self.gameSettings?.startLevel ?? 0)
             }
         }
     }

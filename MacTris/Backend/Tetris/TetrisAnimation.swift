@@ -9,7 +9,7 @@
 protocol TetrisAnimation {
     /// The current grid.
     var grid: Tetris.Grid { get }
-    /// Advance the animation to the next frame. Returns false if the animation is finished
+    /// Advances the animation to the next frame. Returns `false` if the animation is finished.
     func next() -> Bool
     /// Closure invoked when the animation reaches its final frame.
     var completion: (() -> Void)? { get }

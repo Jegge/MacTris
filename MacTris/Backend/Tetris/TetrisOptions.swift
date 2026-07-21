@@ -28,7 +28,8 @@ struct TetrisOptions {
     /// Frame-count constants used for timing in the game loop. A frame is 1/60 seconds long, at a fixed 60 fps rate.
     struct Frames {
         /// NES Tetris gravity table (29 levels).
-        /// Number of frames it takes for a tetromino to drop by one space per level. Higher levels always drop one space per frame.
+        /// Number of frames it takes a tetromino to drop by one space at each level.
+        /// Levels beyond the table use a one-frame interval.
         static let gravityPerLevel: [Int] = [ 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
         /// Number of frames it takes before a new tetromino spawns.
         static let spawn: Int = 16

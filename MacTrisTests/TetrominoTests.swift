@@ -53,7 +53,7 @@ struct TetrominoTests {
     @Test func testRotateCounterClockwise() async throws {
         let t = Tetromino(shape: .t, rotation: 0)
         let rotated = t.rotated(.counterClockwise)
-        // rotatedCounterClockwise increments: (0 + 1) % 4 = 1
+        // Counter-clockwise rotation advances the index: (0 + 1) % 4 = 1.
         #expect(rotated.rotation == 1)
         #expect(rotated.position.column == t.position.column)
         #expect(rotated.position.row == t.position.row)

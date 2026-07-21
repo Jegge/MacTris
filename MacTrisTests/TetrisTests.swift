@@ -210,25 +210,25 @@ struct TetrisTests {
 
     @Test func testClearLinesClearsRowShiftsDownAndScores() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
-        // Played order from the stub is index1, index0, index2.
+        // The stub yields shapes[0] as the current piece, shapes[1] as the next piece, and shapes[2] when spawning the third piece.
         // Two I pieces (1 cell tall) cover cols 0..7; an O at the far right covers cols 8..9.
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .i, .o]))
-        // first I: cols 0..3 at row 0
+        // First I: columns 0..3 at row 0.
         for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
-        // second I: cols 4..7 at row 0
+        // Second I: columns 4..7 at row 0.
         for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
-        // O: cols 8..9 at row 0 -> row 0 now complete
+        // O: columns 8..9 at row 0; row 0 is now complete.
         for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
 
         #expect(tetris.lowestCompletedLines == 0..<1)
         let linesBefore = tetris.lines
         let scoreBefore = tetris.score
-        // row 1 has O at cols 8..9
+        // Row 1 has O at columns 8..9.
         #expect(tetris.grid[8][1] == .o)
         #expect(tetris.grid[9][1] == .o)
 
@@ -238,13 +238,13 @@ struct TetrisTests {
         #expect(tetris.score == scoreBefore + 40)
         #expect(tetris.lowestCompletedLines == nil)
 
-        // old row 1 shifted down to row 0
+        // The old row 1 shifted down to row 0.
         #expect(tetris.grid[8][0] == .o)
         #expect(tetris.grid[9][0] == .o)
-        // old row 0 content is gone
+        // The old row 0 content is gone.
         #expect(tetris.grid[0][0] == nil)
         #expect(tetris.grid[4][0] == nil)
-        // old row 2 (empty) shifted to row 1
+        // The old row 2 (empty) shifted to row 1.
         #expect(tetris.grid[8][1] == nil)
     }
 
@@ -283,14 +283,14 @@ struct TetrisTests {
     @Test func testWallKickNotPossibleIfBlockedByOther() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: true, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.o, .o, .o, .o, .o, .i]))
-        // build a tower from o 1 space from the left
+        // Build a tower from O pieces one space from the left.
         for _ in 0..<5 {
             #expect(tetris.shift(.left))
             tetris.hardDrop()
             #expect(tetris.spawn())
         }
 
-        // drop a vertical the i inbetween the wall and the tower
+        // Drop the vertical I piece between the wall and the tower.
         #expect(tetris.rotate(.counterClockwise))
         for _ in 0..<4 {
             #expect(tetris.shift(.left))
@@ -361,20 +361,20 @@ struct TetrisTests {
     @Test func testClearTwoLinesScoresAndDropsRows() async throws {
         let options = TetrisOptions(startingLevel: 0, autoShift: .fast, randomGeneratorMode: .nes, wallKick: false, hardDrop: false)
         let tetris = Tetris(options: options, random: StubTetrominoShapeGenerator(shapes: [.i, .i, .o, .i, .i, .i]))
-        // init: current=.i(shapes[1]), next=.i(shapes[0]), genIndex=2
-        // piece 1 (.i): shift left 3x -> cols 0..3, row 0
+        // The stub yields shapes[0] as the current piece, shapes[1] as the next piece, and shapes[2] when spawning the third piece.
+        // Piece 1 (.i): shift left three times -> columns 0..3, row 0.
         for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
-        // piece 2 (.i): shift right 1x -> cols 4..7, row 0
+        // Piece 2 (.i): shift right once -> columns 4..7, row 0.
         for _ in 0..<1 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
-        // piece 3 (.o): shift right 4x -> cols 8..9, rows 0..1; row 0 complete
+        // Piece 3 (.o): shift right four times -> columns 8..9, rows 0..1; row 0 is complete.
         for _ in 0..<4 where tetris.shift(.right) {}
         tetris.hardDrop()
         #expect(tetris.spawn())
-        // piece 4 (.i): shift left 3x -> cols 0..3, row 1
+        // Piece 4 (.i): shift left three times -> columns 0..3, row 1.
         for _ in 0..<3 where tetris.shift(.left) {}
         tetris.hardDrop()
         #expect(tetris.spawn())

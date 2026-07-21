@@ -149,14 +149,14 @@ class TetrisGame {
 
     private func processFrame() {
         if let animation = self.animation {
-            // first play any special board animations
+            // First, play any special board animations.
             if animation.next() {
                 self.waitFramesForUpdate = TetrisOptions.Frames.animation
             } else {
                 self.animation = nil
             }
         } else if self.tetris.current == nil {
-            // then handle all actions if there is no tetromino in game
+            // Then, handle all actions if there is no tetromino in play.
             if let lines = self.tetris.lowestCompletedLines {
                 self.animation = DissolveLinesAnimation(grid: self.tetris.grid, lines: lines) { [weak self] in
                     self?.waitFramesForUpdate = self?.tetris.options.spawn(stackHeight: self?.tetris.stackHeight ?? 0) ?? 0
@@ -174,10 +174,10 @@ class TetrisGame {
                 self.waitFramesForUpdate = self.tetris.options.gravity(level: self.tetris.level)
             }
         } else if self.tetris.softDrop(manual: false) {
-            // otherwise, handle gravity
+            // Otherwise, apply gravity.
             self.waitFramesForUpdate = self.tetris.options.gravity(level: tetris.level)
         } else {
-            // softDrop returned false, that means that the tetromino is now locked
+            // `softDrop` returned `false`, so the tetromino is now locked.
             self.effects?.play(fx: .lock)
             self.waitFramesForUpdate = self.tetris.options.gravity(level: tetris.level)
         }

@@ -9,9 +9,9 @@ import SpriteKit
 import GameController
 import OSLog
 
-/// The main view controller. Sets up the SpriteKit view, initializes input
-/// mapping, audio, music, and observes controller connect/disconnect and
-/// full-screen events.
+/// The main view controller. Sets up the SpriteKit view, initializes the input
+/// mapper and audio players, and observes controller connection/disconnection
+/// and full-screen events.
 class ViewController: NSViewController {
     @IBOutlet var skView: SKView!
 
@@ -26,6 +26,7 @@ class ViewController: NSViewController {
     /// Shared background music player.
     lazy var musicPlayer = MusicPlayer(volume: self.gameSettings.musicVolume)
 
+    /// Delivers an app-level event to the currently presented scene.
     private func notifyCurrentScene(_ action: (SceneBase) -> Void) {
         guard let scene = self.skView?.scene as? SceneBase else {
             return

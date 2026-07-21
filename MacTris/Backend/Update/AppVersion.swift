@@ -5,7 +5,8 @@
 //  Created by Sebastian Boettcher on 13.07.26.
 //
 
-/// Represents a semantic version with major and minor components (e.g. "v1.3").
+/// Represents an application version with major and minor components.
+/// Additional patch components are accepted when parsing but ignored (e.g. "1.3.0" becomes "1.3").
 struct AppVersion: Equatable, Comparable, CustomStringConvertible {
     /// The major version number.
     let major: Int
@@ -17,7 +18,8 @@ struct AppVersion: Equatable, Comparable, CustomStringConvertible {
         self.major = major
         self.minor = minor
     }
-    /// Parses a version string such as `"1.3"` or `"1.3.0"`. Returns `nil` if the string is invalid.
+    /// Parses a version string such as `"1.3"` or `"1.3.0"`, ignoring any patch component.
+    /// Returns `nil` if the string is invalid.
     init?(string: any StringProtocol) {
         let parts = Array(string.split(separator: ".", omittingEmptySubsequences: false).map { String($0) })
 

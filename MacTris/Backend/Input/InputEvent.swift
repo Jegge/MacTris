@@ -4,7 +4,7 @@
 //
 //  Created by Sebastian Boettcher on 03.01.24.
 //
-/// Represents a single input event (key press or release) along with its
+/// Represents a single input event (key or button press or release) along with its
 /// source and whether it is a repeat.
 struct InputEvent: Equatable {
 

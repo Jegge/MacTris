@@ -14,7 +14,7 @@ protocol SettingItem {
     var identifier: String { get }
     /// The display value shown in the settings row.
     var value: String { get }
-    /// The controller button description, or `empty string` if not applicable.
+    /// The controller button description, or an empty string if not applicable.
     var controllerValue: String { get }
     /// Adjusts the setting in the given direction. Returns `true` if handled.
     func adjust(direction: AdjustDirection) -> Bool

@@ -30,6 +30,8 @@ class InputMapper {
     /// Placeholder string shown when a key code cannot be described.
     static let unknownCharacterDescription: String = "???"
 
+    // Navigation actions use fixed key codes, and some gameplay actions intentionally share those codes.
+    // Translating one key can therefore produce multiple input events.
     private var keymap: [(binding: KeyBinding, mutable: Bool)] = [
         (binding: KeyBinding(keyCode: KeyCode.arrowLeft.rawValue, id: .left), mutable: false),
         (binding: KeyBinding(keyCode: KeyCode.arrowRight.rawValue, id: .right), mutable: false),
@@ -63,7 +65,8 @@ class InputMapper {
         (keyCode: .capslock, flag: .capsLock)
     ]
 
-    /// The current mutable keyboard bindings. Setting this overwrites existing bindings. This method is considered unsafe and should only be used for persistence.
+    /// The current mutable keyboard bindings. Setting this applies persisted bindings while preserving
+    /// defaults for omitted actions. This setter is considered unsafe and should only be used for persistence.
     var keyboardBindings: [KeyBinding] {
         get {
             self.keymap.filter { $0.mutable }.map { $0.binding }
@@ -116,18 +119,18 @@ class InputMapper {
         return true
     }
 
-    /// Checks whether the given key code can be bound to the input action without conflicts.
+    /// Checks whether the given key code can be bound to the input action without conflicting with another mutable binding.
     func canBind(keyCode: UInt16, id: Input) -> Bool {
-        // check if it's a forbidden key
+        // Check whether the key code is forbidden.
         if InputMapper.unmappableKeyCodes.first(where: { $0.rawValue == keyCode}) != nil {
             return false
         }
 
-        // check if it's a mutable, bindable key
+        // Check whether the action has a mutable binding.
         if self.keymap.first(where: { $0.binding.id == id && $0.mutable }) == nil {
             return false
         }
-        // check if it's not already bound elsewhere
+        // Check whether another mutable action already uses the key code.
         if self.keymap.first(where: { $0.binding.keyCode == keyCode && $0.binding.id != id && $0.mutable }) != nil {
             return false
         }
@@ -162,7 +165,7 @@ class InputMapper {
     func translate(gamepad: GCExtendedGamepad, element: GCControllerElement) -> [InputEvent] {
         if gamepad.dpad == element {
             return [
-                // the order is important: game events before menu events
+                // The order is important: game events are processed before menu events.
                 InputEvent(id: .shiftLeft, isDown: gamepad.dpad.left.isPressed, source: .controller),
                 InputEvent(id: .shiftRight, isDown: gamepad.dpad.right.isPressed, source: .controller),
                 InputEvent(id: .softDrop, isDown: gamepad.dpad.down.isPressed, source: .controller),
@@ -181,7 +184,7 @@ class InputMapper {
 
         if gamepad.buttonB == element {
             return [
-                // the order is important: game events before menu events
+                // The order is important: game events are processed before menu events.
                 InputEvent(id: .rotateClockwise, isDown: gamepad.buttonB.isPressed, source: .controller),
                 InputEvent(id: .select, isDown: gamepad.buttonB.isPressed, source: .controller)
             ]
@@ -224,7 +227,7 @@ class InputMapper {
 
         if gamepad.buttonX == element {
             return [
-                // the order is important: game events before menu events
+                // The order is important: game events are processed before menu events.
                 InputEvent(id: .rotateClockwise, isDown: gamepad.buttonX.isPressed, source: .controller),
                 InputEvent(id: .select, isDown: gamepad.buttonX.isPressed, source: .controller)
             ]
